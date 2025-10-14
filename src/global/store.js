@@ -11,7 +11,6 @@ const persist = {
   storage,
   whitelist: ["user"],
 };
-console.log(storage);
 const persistedReducer = persistReducer(persist, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
