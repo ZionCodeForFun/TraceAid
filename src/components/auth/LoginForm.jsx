@@ -16,7 +16,9 @@ const LoginForm = () => {
     >
       <Form.Item
         name="email"
-        rules={[{ required: true, message: 'Please input your Email!' }]}
+        rules={[{ required: true, message: 'Please input your Email!' },
+          { type: "email", message: "Please enter a valid email address!" },
+        ]}
       >
         <Input prefix={<MailOutlined />} placeholder="Email" />
       </Form.Item>
