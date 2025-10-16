@@ -5,6 +5,7 @@ import SignUpForm from "./components/auth/SignUpForm";
 import ResetPassword from "./components/auth/ResetPassword";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import RouterError from "./components/common/RouterError";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
       </Routes>
+      <ToastContainer position="top,center" autoClose={2000} />
     </HashRouter>
   );
 };
