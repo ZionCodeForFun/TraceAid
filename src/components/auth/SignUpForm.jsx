@@ -3,14 +3,27 @@ import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex } from "antd";
 import { Container } from "../../style/SignUpFormStyle";
 import { Link, useNavigate } from "react-router-dom";
+import { signup } from "../../global/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const SignUpForm = () => {
+  const dispatch = useDispatch();
   const nav = useNavigate();
-  const [form] = Form.useForm();
-
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  const { loading, error } = useSelector((state) => state.auth);
+  console.log(signup);
+  const onFinish = async (values) => {
+    const result = await dispatch(signup(values));
+    if (signup.fulfilled.match(result)) {
+      toast.success(result.payload.message);
+      nav("/login");
+    } else if (signup.rejected.match(result)) {
+      toast.error(result.payload.message);
+    }
+    console.log("Received values of form: ", signup);
   };
+
+  const [form] = Form.useForm();
 
   return (
     <Container>
@@ -23,7 +36,6 @@ const SignUpForm = () => {
         className="wrapper"
       >
         <Form.Item
-        
           name="fullname"
           rules={[{ required: true, message: "Please input your full name!" }]}
         >
@@ -77,7 +89,7 @@ const SignUpForm = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button block type="primary" htmlType="submit" onClick={()=>nav('/Login')}>
+          <Button block type="primary" htmlType="submit">
             Sign Up
           </Button>
           or <Link to={"/LoginForm"}>Login now!</Link>
