@@ -3,27 +3,29 @@ import { signUpUser, loginUser } from "../api/AuthApi";
 
 export const signup = createAsyncThunk(
   "Auth/SignUp",
-  async (userData, { rejectedWithValue }) => {
+  async (userData, thunkAPI) => {
     try {
       const res = await signUpUser(userData);
       return res;
-    } catch (error) {
-      return rejectedWithValue(error?.response?.data);
+    } catch (err) {
+   
+      return thunkAPI.rejectWithValue(err?.message );
     }
   }
 );
 
 export const login = createAsyncThunk(
   "Auth/Login",
-  async (userData, { rejectedWithValue }) => {
+  async (userData, thunkAPI) => {
     try {
-      const res = loginUser(userData);
+      const res = await loginUser(userData);
       return res;
-    } catch (error) {
-      return rejectedWithValue(error?.response?.data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err?.message);
     }
   }
 );
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -32,6 +34,7 @@ const authSlice = createSlice({
     token: null,
     error: null,
     role: null,
+    message: "",
   },
   reducers: {
     logout: (state) => {
@@ -44,16 +47,19 @@ const authSlice = createSlice({
       .addCase(signup.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.message = "";
       })
       .addCase(signup.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user;
+
         state.token = action.payload.token;
         state.role = action.payload.role;
+        state.message = action.payload?.message;
       })
       .addCase(signup.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error =
+          action.payload || action.error?.message ;
       })
       .addCase(login.pending, (state) => {
         state.loading = true;
@@ -64,12 +70,14 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.role = action.payload.role;
+        state.message = action.payload.message;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload || action.error?.message ;
       });
   },
 });
+
 export const { logout } = authSlice.actions;
 export default authSlice.reducer;
