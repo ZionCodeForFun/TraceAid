@@ -8,8 +8,7 @@ export const signup = createAsyncThunk(
       const res = await signUpUser(userData);
       return res;
     } catch (err) {
-   
-      return thunkAPI.rejectWithValue(err?.message );
+      return thunkAPI.rejectWithValue(err?.message);
     }
   }
 );
@@ -34,12 +33,16 @@ const authSlice = createSlice({
     token: null,
     error: null,
     role: null,
-    message: "",
+    message: null,
   },
   reducers: {
     logout: (state) => {
       state.user = null;
       state.token = null;
+    },
+    resetStatus: (state) => {
+      state.message = null;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -47,7 +50,7 @@ const authSlice = createSlice({
       .addCase(signup.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.message = "";
+        state.message = null;
       })
       .addCase(signup.fulfilled, (state, action) => {
         state.loading = false;
@@ -58,9 +61,9 @@ const authSlice = createSlice({
       })
       .addCase(signup.rejected, (state, action) => {
         state.loading = false;
-        state.error =
-          action.payload || action.error?.message ;
+        state.error = action.payload || action.error?.message;
       })
+
       .addCase(login.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -74,10 +77,10 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || action.error?.message ;
+        state.error = action.payload || action.error?.message;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout,resetStatus } = authSlice.actions;
 export default authSlice.reducer;
