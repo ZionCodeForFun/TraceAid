@@ -1,68 +1,124 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex } from "antd";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../global/authSlice";
+import { Container } from "../../style/LoginStyle";
+import logo2 from "../../assets/logo2.png";
+import { FcGoogle } from "react-icons/fc";
+
 const LoginForm = () => {
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error, message } = useSelector((state) => state.auth);
 
   const onFinish = async (values) => {
-    const result = await dispatch(login(values));
-    if (login.fulfilled.match(result)) {
-      toast.success(result.payload.message);
-      nav("/login");
-    } else if (login.rejected.match(result)) {
-      toast.error(result.payload.message);
-    }
+    dispatch(login(values));
+
     console.log("Received values of form: ", values);
   };
+  useEffect(() => {
+    if (message) {
+      toast.success(message);
+      form.resetFields();
+      dispatch(resetStatus());
+      nav("/login");
+    }
 
-  const navigate = useNavigate();
+    if (error) {
+      toast.error(error);
+      dispatch(resetStatus());
+    }
+  }, [message, error]);
+
   return (
-    <Form
-      name="login"
-      initialValues={{ remember: true }}
-      style={{ maxWidth: 360 }}
-      onFinish={onFinish}
-    >
-      <Form.Item
-        name="email"
-        rules={[
-          { required: true, message: "Please input your Email!" },
-          { type: "email", message: "Please enter a valid email address!" },
-        ]}
+    <Container>
+      <Form
+        form={form}
+        name="login"
+        className="wrapper"
+        onFinish={onFinish}
+        layout="vertical"
+        requiredMark={false}
       >
-        <Input prefix={<MailOutlined />} placeholder="Email" />
-      </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[{ required: true, message: "Please input your Password!" }]}
-      >
-        <Input
-          prefix={<LockOutlined />}
-          type="password"
-          placeholder="Password"
-        />
-      </Form.Item>
-      <Form.Item>
-        <Flex justify="space-between" align="center">
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-          <a onClick={() => navigate("/ForgotPassword")}>Forgot password</a>
-        </Flex>
-      </Form.Item>
+        <img src={logo2} alt="logo" />
+        <div className="content_holder2">
+          <div className="title">
+            <h2>Log in</h2>
+            <p>Securely log in to your account.</p>
+          </div>
 
-      <Form.Item>
-        <Button block type="primary" htmlType="submit">
-          Log in
-        </Button>
-        or <Link to={"/SignUp"}>Sign up!</Link>
-      </Form.Item>
-    </Form>
+          <div>
+            <Button block type="primary" className="google_btn">
+              <FcGoogle />
+              Google
+            </Button>
+          </div>
+
+          <div className="line-text" plain>
+            or
+          </div>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Please input your Email!" },
+              { type: "email", message: "Please enter a valid email address!" },
+            ]}
+          >
+            <Input
+              prefix={<MailOutlined style={{ color: "#979696" }} />}
+              placeholder="Email"
+            />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
+            style={{ marginBottom: "2px" }}
+          >
+            <Input type="password" placeholder="Password" />
+          </Form.Item>
+          <Form.Item>
+            <Flex justify="space-between" align="center" color="#333333">
+              <a
+                onClick={() => navigate("/ForgotPassword")}
+                style={{ color: "#333333" }}
+              >
+                Forgot password
+              </a>
+            </Flex>
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              block
+              type="primary"
+              htmlType="submit"
+              className="login_btn"
+            >
+              Log in
+            </Button>
+          </Form.Item>
+        </div>
+        <div
+          style={{
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+           
+          }}
+        >
+          <h5  > Don’t have an account?</h5>{" "}
+          <Link to={"/individual"}>
+            <span style={{ color: " #c1e86e" , fontWeight: 700,}}>Sign Up</span>
+          </Link>
+        </div>
+      </Form>
+    </Container>
   );
 };
 

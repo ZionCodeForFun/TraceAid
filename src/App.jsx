@@ -6,18 +6,26 @@ import ResetPassword from "./components/auth/ResetPassword";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import RouterError from "./components/common/RouterError";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LoginForm from "./components/auth/LoginForm";
+import SignUpFormOrg from "./components/auth/SignUpFormOrg";
+import VerifyOtp from "./components/auth/VerifyOtp";
 
 const App = () => {
   return (
     <HashRouter>
       <Routes>
         <Route path="/*" element={<RouterError />} />
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/signUp" element={<SignUpForm />} />
+        <Route path="/f" element={<LandingPage />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/verify" element={<VerifyOtp />} />
+
+        <Route path="/" element={<SignUpForm />} />
+        <Route path="/organization" element={<SignUpFormOrg />} />
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
       </Routes>
-      <ToastContainer position="top,center" autoClose={2000} />
+      <ToastContainer position="top-center" autoClose={2000} />
     </HashRouter>
   );
 };
