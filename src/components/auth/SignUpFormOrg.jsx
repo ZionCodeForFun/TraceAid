@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Radio } from "antd";
 import { Container } from "../../style/SignUpFormStyle";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,9 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
+import { FiBriefcase } from "react-icons/fi";
 import { resetStatus } from "../../global/authSlice";
-
-const SignUpForm = () => {
+const SignUpFormOrg = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const { loading, error, message } = useSelector((state) => state.auth);
@@ -39,7 +39,6 @@ const SignUpForm = () => {
       <Form
         form={form}
         name="signup"
-      
         onFinish={onFinish}
         className="wrapper"
         requiredMark={false}
@@ -69,49 +68,38 @@ const SignUpForm = () => {
               { required: true, message: "Please select an account type!" },
             ]}
           >
-            <Radio.Group className="radio_holder">
+            <Radio.Group
+              className="radio_holder"
+              onChange={(e) => {
+                if (e.target.value === "individual") {
+                  nav("/individual");
+                }
+              }}
+            >
               <Radio className="radio" value="individual">
                 Individual
               </Radio>
-              <Radio
-                className="radio"
-                value="organization"
-                onClick={() => nav("/organization")}
-              >
+              <Radio className="radio" value="organization">
                 Organization
               </Radio>
             </Radio.Group>
           </Form.Item>
 
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Form.Item
-              label="First Name"
-              name="firstName"
-              rules={[
-                { required: true, message: "Please input your first name!" },
-              ]}
-              style={{ flex: 1 }}
-            >
-              <Input
-                prefix={<UserOutlined style={{ color: "#979696" }} />}
-                placeholder="First name"
-              />
-            </Form.Item>
-
-            <Form.Item
-              label="Last Name"
-              name="lastName"
-              rules={[
-                { required: true, message: "Please input your last name!" },
-              ]}
-              style={{ flex: 1 }}
-            >
-              <Input
-                prefix={<UserOutlined style={{ color: "#979696" }} />}
-                placeholder="Last name"
-              />
-            </Form.Item>
-          </div>
+          <Form.Item
+            label="Organization Name"
+            name="organization"
+            rules={[
+              {
+                required: true,
+                message: "Please input your organization name!",
+              },
+            ]}
+          >
+            <Input
+              prefix={<FiBriefcase style={{ color: "#979696" }} />}
+              placeholder="Enter organization name"
+            />
+          </Form.Item>
 
           <Form.Item
             label="Email"
@@ -207,7 +195,7 @@ const SignUpForm = () => {
         >
           <h5>Already have an account?</h5>
           <Link to={"/login"}>
-            <span  style={{ color: " #c1e86e" , fontWeight: 700,}}>Log In</span>
+            <span style={{ color: " #c1e86e", fontWeight: 700 }}>Log In</span>
           </Link>
         </div>
       </Form>
@@ -215,4 +203,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default SignUpFormOrg;
