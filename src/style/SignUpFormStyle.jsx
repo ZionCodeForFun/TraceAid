@@ -153,7 +153,7 @@ export const Container = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  @media screen and (min-width: 430px) and (max-width: 768px) {
     height: auto;
     padding: 30px 15px;
 
@@ -162,7 +162,9 @@ export const Container = styled.div`
       padding: 25px;
       border-radius: 30px;
 
-      .content_holder2 {
+      .content_holder {
+        min-width: 320px;
+
         .title h2 {
           font-size: 22px;
         }
@@ -182,49 +184,9 @@ export const Container = styled.div`
     }
   }
 
-  @media (max-width: 480px) {
-    height: auto;
-    padding: 20px 10px;
-
+  @media screen and (min-width: 600px) and (max-width: 900px) {
     .wrapper {
-      max-width: 85%;
-      padding: 20px;
-      border-radius: 20px;
-
-      img {
-        width: 80px;
-        height: 25px;
-      }
-
-      .content_holder2 {
-        .title h2 {
-          font-size: 20px;
-        }
-        .title p {
-          font-size: 12px;
-        }
-
-        .google_btn {
-          font-size: 13px;
-          height: 38px;
-        }
-
-        .radio_holder .radio {
-          font-size: 13px;
-          padding: 5px 8px;
-        }
-      }
-
-      .signup_btn {
-        font-size: 13px;
-        height: 36px;
-      }
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .wrapper {
-      width: 700px;
+      max-width: 700px;
       padding: 40px;
 
       .title h2 {
