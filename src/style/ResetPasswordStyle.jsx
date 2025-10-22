@@ -35,6 +35,7 @@ export const Container = styled.div`
       max-width: 90%;
       padding: 25px;
       border-radius: 30px;
+   
     }
 
     @media (max-width: 480px) {

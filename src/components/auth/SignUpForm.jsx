@@ -231,8 +231,9 @@ const SignUpForm = () => {
             alignItems: "center",
             gap: "10px",
             margin: "10px",
+            
           }}
-          
+          className="already"
         >
           <h5>Already have an account?</h5>
           <Link to={"/login"}>
