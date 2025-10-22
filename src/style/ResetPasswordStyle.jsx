@@ -9,8 +9,8 @@ export const Container = styled.div`
   font-family: "Inter", sans-serif;
   padding: 20px;
 
-  @media (max-width: 768px) {
-    height: auto;
+  @media screen and (max-width: 768px) {
+    min-height: 100vh;
     padding: 30px 15px;
   }
 
@@ -59,8 +59,7 @@ export const Container = styled.div`
       }
     }
 
-    .content_holder,
-    .content_holder2 {
+    .content_holder {
       display: flex;
       flex-direction: column;
       width: 100%;
