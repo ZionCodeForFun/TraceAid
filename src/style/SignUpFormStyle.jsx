@@ -168,12 +168,12 @@ export const Container = styled.div`
     padding: 30px 15px;
 
     .wrapper {
-      width: 90%;
+      width: 95%;
       padding: 25px;
       border-radius: 30px;
       height: max-content;
       .content_holder {
-        min-width: 270px;
+        min-width: 290px;
 
         .title h2 {
           font-size: 22px;
@@ -184,6 +184,7 @@ export const Container = styled.div`
       }
       .already {
         width: 100%;
+        justify-content: center;
       }
       .google_btn {
         font-size: 14px;
