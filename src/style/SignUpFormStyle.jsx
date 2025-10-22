@@ -20,7 +20,6 @@ export const Container = styled.div`
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
- 
     img {
       width: 100px;
       height: 30px;
@@ -54,9 +53,8 @@ export const Container = styled.div`
           color: var(--NeutralGrey4-Text);
         }
       }
-      .input{
-        &:hover{
-          
+      .input {
+        &:hover {
         }
       }
       .google_btn {
@@ -184,9 +182,12 @@ export const Container = styled.div`
           font-size: 13px;
         }
       }
-
+      .already {
+        width: 100%;
+      }
       .google_btn {
         font-size: 14px;
+        flex-wrap: nowrap;
       }
 
       .signup_btn {
