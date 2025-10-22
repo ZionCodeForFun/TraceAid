@@ -3,6 +3,7 @@ import { Form, Input, Button } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import { Container } from "../../style/ResetPasswordStyle";
 import logo2 from "../../assets/logo2.png";
+import { Link } from "react-router-dom";
 const ForgotPassword = () => {
   const [form] = Form.useForm();
   const onFinish = (values) => {
@@ -38,14 +39,14 @@ const ForgotPassword = () => {
               <Input prefix={<MailOutlined />} placeholder="Enter your email" />
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item   style={{ marginBottom: "5px" }}>
               <Button type="primary" htmlType="submit" block className="btn">
                 Send Verification Code
               </Button>
             </Form.Item>
           </div>
         </div>
-        <span>Go back</span>
+        <Link to={"/login"}><span  className="span">Go back</span></Link>
       </Form>
     </Container>
   );
