@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Radio } from "antd";
 import { Container } from "../../style/SignUpFormStyle";
@@ -9,9 +9,11 @@ import { toast } from "react-toastify";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
 import { resetStatus } from "../../global/authSlice";
+import { FiBriefcase } from "react-icons/fi";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
   const nav = useNavigate();
   const { loading, error, message } = useSelector((state) => state.auth);
   const [form] = Form.useForm();
@@ -39,28 +41,16 @@ const SignUpForm = () => {
       <Form
         form={form}
         name="signup"
-      
         onFinish={onFinish}
         className="wrapper"
         requiredMark={false}
         layout="vertical"
       >
         <img src={logo2} alt="logo" />
-        <div className="content_holder2">
+        <div className="content_holder">
           <div className="title">
             <h2>Sign Up Account</h2>
             <p>Enter your details or continue with your preferred option.</p>
-          </div>
-
-          <div>
-            <Button block type="primary" className="google_btn">
-              <FcGoogle />
-              Google
-            </Button>
-          </div>
-
-          <div className="line-text" plain>
-            or
           </div>
 
           <Form.Item
@@ -68,51 +58,68 @@ const SignUpForm = () => {
             rules={[
               { required: true, message: "Please select an account type!" },
             ]}
+            style={{ marginBottom: "10px" }}
           >
-            <Radio.Group className="radio_holder">
+            <Radio.Group
+              className="radio_holder"
+              onChange={(e) => setShow(e.target.value === "organization")}
+            >
               <Radio className="radio" value="individual">
                 Individual
               </Radio>
-              <Radio
-                className="radio"
-                value="organization"
-                onClick={() => nav("/organization")}
-              >
+              <Radio className="radio" value="organization">
                 Organization
               </Radio>
             </Radio.Group>
           </Form.Item>
-
-          <div style={{ display: "flex", gap: "10px" }}>
+          {show ? (
             <Form.Item
-              label="First Name"
-              name="firstName"
+              label="Organization Name"
+              name="organization"
               rules={[
-                { required: true, message: "Please input your first name!" },
+                {
+                  required: true,
+                  message: "Please input your organization name!",
+                },
               ]}
-              style={{ flex: 1 }}
+              style={{ marginBottom: "5px" }}
             >
               <Input
-                prefix={<UserOutlined style={{ color: "#979696" }} />}
-                placeholder="First name"
+                prefix={<FiBriefcase style={{ color: "#979696" }} />}
+                placeholder="Enter organization name"
               />
             </Form.Item>
+          ) : (
+            <div style={{ display: "flex", gap: "10px" }}>
+              <Form.Item
+                label="First Name"
+                name="firstName"
+                rules={[
+                  { required: true, message: "Please input your first name!" },
+                ]}
+                style={{ flex: 1, marginBottom: "5px" }}
+              >
+                <Input
+                  prefix={<UserOutlined style={{ color: "#979696" }} />}
+                  placeholder="First name"
+                />
+              </Form.Item>
 
-            <Form.Item
-              label="Last Name"
-              name="lastName"
-              rules={[
-                { required: true, message: "Please input your last name!" },
-              ]}
-              style={{ flex: 1 }}
-            >
-              <Input
-                prefix={<UserOutlined style={{ color: "#979696" }} />}
-                placeholder="Last name"
-              />
-            </Form.Item>
-          </div>
-
+              <Form.Item
+                label="Last Name"
+                name="lastName"
+                rules={[
+                  { required: true, message: "Please input your last name!" },
+                ]}
+                style={{ flex: 1, marginBottom: "5px" }}
+              >
+                <Input
+                  prefix={<UserOutlined style={{ color: "#979696" }} />}
+                  placeholder="Last name"
+                />
+              </Form.Item>
+            </div>
+          )}
           <Form.Item
             label="Email"
             name="email"
@@ -122,6 +129,7 @@ const SignUpForm = () => {
               { required: true, message: "Please input your email!" },
               { type: "email", message: "Please enter a valid email address!" },
             ]}
+            style={{ marginBottom: "5px" }}
           >
             <Input
               prefix={<MailOutlined style={{ color: "#979696" }} />}
@@ -140,6 +148,7 @@ const SignUpForm = () => {
                 message: "Password must be at least 8 characters long",
               },
             ]}
+            style={{ marginBottom: "5px" }}
           >
             <Input.Password placeholder="Password" />
           </Form.Item>
@@ -160,7 +169,7 @@ const SignUpForm = () => {
                 },
               }),
             ]}
-            style={{ marginBottom: "10px" }}
+            style={{ marginBottom: "5px" }}
           >
             <Input.Password placeholder="Confirm Password" />
           </Form.Item>
@@ -184,7 +193,7 @@ const SignUpForm = () => {
             </Checkbox>
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item style={{ marginBottom: "5px" }}>
             <Button
               className="signup_btn"
               block
@@ -195,19 +204,29 @@ const SignUpForm = () => {
               Sign Up
             </Button>
           </Form.Item>
-        </div>
 
+          <div className="line-text" plain>
+            or
+          </div>
+          <div>
+            <Button block type="primary" className="google_btn">
+              <FcGoogle />
+              Google
+            </Button>
+          </div>
+        </div>
         <div
           style={{
             textAlign: "center",
             display: "flex",
             alignItems: "center",
             gap: "10px",
+            margin:"10px"
           }}
         >
           <h5>Already have an account?</h5>
           <Link to={"/login"}>
-            <span  style={{ color: " #c1e86e" , fontWeight: 700,}}>Log In</span>
+            <span style={{ color: " #c1e86e", fontWeight: 700 }}>Log In</span>
           </Link>
         </div>
       </Form>

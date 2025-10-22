@@ -50,16 +50,6 @@ const LoginForm = () => {
             <p>Securely log in to your account.</p>
           </div>
 
-          <div>
-            <Button block type="primary" className="google_btn">
-              <FcGoogle />
-              Google
-            </Button>
-          </div>
-
-          <div className="line-text" plain>
-            or
-          </div>
           <Form.Item
             label="Email"
             name="email"
@@ -67,6 +57,7 @@ const LoginForm = () => {
               { required: true, message: "Please input your Email!" },
               { type: "email", message: "Please enter a valid email address!" },
             ]}
+            style={{ marginBottom: "5px" }}
           >
             <Input
               prefix={<MailOutlined style={{ color: "#979696" }} />}
@@ -81,10 +72,10 @@ const LoginForm = () => {
           >
             <Input type="password" placeholder="Password" />
           </Form.Item>
-          <Form.Item>
+          <Form.Item style={{ marginBottom: "5px" }}>
             <Flex justify="space-between" align="center" color="#333333">
               <a
-                onClick={() => navigate("/ForgotPassword")}
+                onClick={() => nav("/ForgotPassword")}
                 style={{ color: "#333333" }}
               >
                 Forgot password
@@ -92,7 +83,7 @@ const LoginForm = () => {
             </Flex>
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item style={{ marginBottom: "5px" }}>
             <Button
               block
               type="primary"
@@ -102,6 +93,15 @@ const LoginForm = () => {
               Log in
             </Button>
           </Form.Item>
+          <div className="line-text" plain>
+            or
+          </div>
+          <div>
+            <Button block type="primary" className="google_btn">
+              <FcGoogle />
+              Google
+            </Button>
+          </div>
         </div>
         <div
           style={{
@@ -109,12 +109,12 @@ const LoginForm = () => {
             display: "flex",
             alignItems: "center",
             gap: "10px",
-           
+            margin: "10px",
           }}
         >
-          <h5  > Don’t have an account?</h5>{" "}
-          <Link to={"/individual"}>
-            <span style={{ color: " #c1e86e" , fontWeight: 700,}}>Sign Up</span>
+          <h5> Don’t have an account?</h5>{" "}
+          <Link to={"/"}>
+            <span style={{ color: " #c1e86e", fontWeight: 700 }}>Sign Up</span>
           </Link>
         </div>
       </Form>

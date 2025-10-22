@@ -8,7 +8,6 @@ import RouterError from "./components/common/RouterError";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginForm from "./components/auth/LoginForm";
-import SignUpFormOrg from "./components/auth/SignUpFormOrg";
 import VerifyOtp from "./components/auth/VerifyOtp";
 
 const App = () => {
@@ -21,7 +20,7 @@ const App = () => {
         <Route path="/verify" element={<VerifyOtp />} />
 
         <Route path="/" element={<SignUpForm />} />
-        <Route path="/organization" element={<SignUpFormOrg />} />
+       
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
       </Routes>
