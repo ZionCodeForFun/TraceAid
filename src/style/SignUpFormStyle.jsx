@@ -44,7 +44,7 @@ export const Container = styled.div`
         h2 {
           color: var(--NeutralGrey4-Text);
           font-weight: 700;
-          font-style:bold;
+          font-style: bold;
           font-size: 30px;
         }
         p {
@@ -187,7 +187,7 @@ export const Container = styled.div`
     padding: 20px 10px;
 
     .wrapper {
-      max-width: 100%;
+      max-width: 85%;
       padding: 20px;
       border-radius: 20px;
 
