@@ -158,12 +158,12 @@ export const Container = styled.div`
     padding: 30px 15px;
 
     .wrapper {
-      max-width: 90%;
+      width: 85%;
       padding: 25px;
       border-radius: 30px;
 
       .content_holder {
-        min-width: 320px;
+        min-width: 270px;
 
         .title h2 {
           font-size: 22px;
