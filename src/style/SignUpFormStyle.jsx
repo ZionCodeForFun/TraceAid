@@ -8,18 +8,19 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   color: var(--NeutralGrey4-Text);
-  padding: 20px;
 
   .wrapper {
     background-color: var(--Neutral_Offwhite);
     max-width: 35%;
-
+    padding: 8px 30px;
     display: flex;
+    height: max-content;
     flex-direction: column;
     border-radius: 40px;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
+ 
     img {
       width: 100px;
       height: 30px;
@@ -30,8 +31,9 @@ export const Container = styled.div`
       display: flex;
       flex-direction: column;
       width: 100%;
-      margin-top: 2rem;
-      min-width: 400px;
+      margin-top: 0.3rem;
+      min-width: 420px;
+      height: 100%;
 
       .title {
         display: flex;
@@ -44,7 +46,7 @@ export const Container = styled.div`
         h2 {
           color: var(--NeutralGrey4-Text);
           font-weight: 700;
-          font-style:bold;
+          font-style: bold;
           font-size: 30px;
         }
         p {
@@ -52,12 +54,17 @@ export const Container = styled.div`
           color: var(--NeutralGrey4-Text);
         }
       }
-
+      .input{
+        &:hover{
+          
+        }
+      }
       .google_btn {
         background-color: white;
         border: 1px solid var(--NeutralGrey4-Text);
         color: var(--NeutralGrey4-Text);
         font-weight: bold;
+        height: 25px;
         &:hover {
           background-color: var(--Primary200);
         }
@@ -68,7 +75,7 @@ export const Container = styled.div`
         align-items: center;
         text-align: center;
         color: #555;
-        margin: 15px 0;
+        margin: 5px 0;
       }
 
       .line-text::before,
@@ -99,8 +106,8 @@ export const Container = styled.div`
           border-radius: 50%;
           background-color: var(--NeutralGrey4-Text);
           position: absolute;
-          top: 110%;
-          left: 110%;
+          top: 105%;
+          left: 108%;
           transform: translate(-50%, -50%) scale(0);
           transition: all 0.2s ease-in-out;
         }
@@ -119,6 +126,9 @@ export const Container = styled.div`
           width: 100%;
           border-radius: 7px;
           padding: 3px 10px;
+          height: 25px;
+          display: flex;
+          align-items: center;
           border: 1px solid #c2c1c1;
         }
       }
@@ -127,6 +137,8 @@ export const Container = styled.div`
         background-color: var(--NeutralBlack);
         color: var(--PrimaryBase);
         font-weight: bold;
+        padding: 0;
+        height: 25px;
         &:hover {
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
@@ -153,16 +165,18 @@ export const Container = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  @media screen and (max-width: 768px) {
     height: auto;
     padding: 30px 15px;
 
     .wrapper {
-      max-width: 90%;
+      width: 90%;
       padding: 25px;
       border-radius: 30px;
+      height: max-content;
+      .content_holder {
+        min-width: 270px;
 
-      .content_holder2 {
         .title h2 {
           font-size: 22px;
         }
@@ -182,49 +196,9 @@ export const Container = styled.div`
     }
   }
 
-  @media (max-width: 480px) {
-    height: auto;
-    padding: 20px 10px;
-
+  @media screen and (max-width: 1024px) {
     .wrapper {
-      max-width: 100%;
-      padding: 20px;
-      border-radius: 20px;
-
-      img {
-        width: 80px;
-        height: 25px;
-      }
-
-      .content_holder2 {
-        .title h2 {
-          font-size: 20px;
-        }
-        .title p {
-          font-size: 12px;
-        }
-
-        .google_btn {
-          font-size: 13px;
-          height: 38px;
-        }
-
-        .radio_holder .radio {
-          font-size: 13px;
-          padding: 5px 8px;
-        }
-      }
-
-      .signup_btn {
-        font-size: 13px;
-        height: 36px;
-      }
-    }
-  }
-
-  @media (min-width: 1200px) {
-    .wrapper {
-      width: 700px;
+      max-width: 700px;
       padding: 40px;
 
       .title h2 {

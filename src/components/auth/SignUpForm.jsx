@@ -45,6 +45,7 @@ const SignUpForm = () => {
         className="wrapper"
         requiredMark={false}
         layout="vertical"
+
       >
         <img src={logo2} alt="logo" />
         <div className="content_holder">
@@ -87,6 +88,7 @@ const SignUpForm = () => {
               <Input
                 prefix={<FiBriefcase style={{ color: "#979696" }} />}
                 placeholder="Enter organization name"
+                style={{ padding: "0 10px"}}
               />
             </Form.Item>
           ) : (
@@ -97,11 +99,13 @@ const SignUpForm = () => {
                 rules={[
                   { required: true, message: "Please input your first name!" },
                 ]}
-                style={{ flex: 1, marginBottom: "5px" }}
+                style={{ flex: 1, margin: "0" }}
               >
                 <Input
                   prefix={<UserOutlined style={{ color: "#979696" }} />}
                   placeholder="First name"
+                  style={{ padding: "0 10px" }}
+                  className="c"
                 />
               </Form.Item>
 
@@ -111,11 +115,12 @@ const SignUpForm = () => {
                 rules={[
                   { required: true, message: "Please input your last name!" },
                 ]}
-                style={{ flex: 1, marginBottom: "5px" }}
+                style={{ flex: 1, margin: "0" }}
               >
                 <Input
                   prefix={<UserOutlined style={{ color: "#979696" }} />}
                   placeholder="Last name"
+                  style={{ padding: "0 10px" }}
                 />
               </Form.Item>
             </div>
@@ -129,11 +134,12 @@ const SignUpForm = () => {
               { required: true, message: "Please input your email!" },
               { type: "email", message: "Please enter a valid email address!" },
             ]}
-            style={{ marginBottom: "5px" }}
+            style={{ margin: "0" }}
           >
             <Input
               prefix={<MailOutlined style={{ color: "#979696" }} />}
               placeholder="Email"
+              style={{ padding: "0 10px" }}
             />
           </Form.Item>
 
@@ -148,9 +154,9 @@ const SignUpForm = () => {
                 message: "Password must be at least 8 characters long",
               },
             ]}
-            style={{ marginBottom: "5px" }}
+            style={{ margin: "0" }}
           >
-            <Input.Password placeholder="Password" />
+            <Input.Password placeholder="Password" style={{ padding: "0 10px"}}/>
           </Form.Item>
 
           <Form.Item
@@ -169,9 +175,10 @@ const SignUpForm = () => {
                 },
               }),
             ]}
-            style={{ marginBottom: "5px" }}
+            style={{ margin: "0" }}
           >
-            <Input.Password placeholder="Confirm Password" />
+            <Input.Password placeholder="Confirm Password"
+              style={{ padding: "0 10px" }} />
           </Form.Item>
 
           <Form.Item
@@ -187,19 +194,21 @@ const SignUpForm = () => {
                       ),
               },
             ]}
+            style={{ margin: "2px" }}
           >
             <Checkbox className="custom-checkbox">
               I agree to the <a href="/terms">terms and conditions</a>
             </Checkbox>
           </Form.Item>
 
-          <Form.Item style={{ marginBottom: "5px" }}>
+          <Form.Item style={{ margin: "0" }}>
             <Button
               className="signup_btn"
               block
               type="primary"
               htmlType="submit"
               loading={loading}
+            
             >
               Sign Up
             </Button>
@@ -221,8 +230,9 @@ const SignUpForm = () => {
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            margin:"10px"
+            margin: "10px",
           }}
+          
         >
           <h5>Already have an account?</h5>
           <Link to={"/login"}>

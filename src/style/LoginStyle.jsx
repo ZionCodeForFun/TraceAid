@@ -34,6 +34,16 @@ export const Container = styled.div`
       border-radius: 20px;
     }
 
+    @media screen and (min-width: 600px) and (max-width: 900px) {
+      max-width: 700px;
+      padding: 40px;
+      height: max-content;
+
+      .title h2 {
+        font-size: 26px;
+      }
+    } 
+
     img {
       width: 100px;
       height: 30px;
