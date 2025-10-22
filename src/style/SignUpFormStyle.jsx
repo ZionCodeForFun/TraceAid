@@ -13,7 +13,7 @@ export const Container = styled.div`
   .wrapper {
     background-color: var(--Neutral_Offwhite);
     max-width: 35%;
-
+    padding: 30px;
     display: flex;
     flex-direction: column;
     border-radius: 40px;
@@ -31,7 +31,7 @@ export const Container = styled.div`
       flex-direction: column;
       width: 100%;
       margin-top: 2rem;
-      min-width: 400px;
+      min-width: 420px;
 
       .title {
         display: flex;
@@ -153,7 +153,7 @@ export const Container = styled.div`
     }
   }
 
-  @media screen and (min-width: 430px) and (max-width: 768px) {
+  @media screen and (max-width: 768px) {
     height: auto;
     padding: 30px 15px;
 
@@ -184,7 +184,7 @@ export const Container = styled.div`
     }
   }
 
-  @media screen and (min-width: 600px) and (max-width: 900px) {
+  @media screen and (max-width: 1024px) {
     .wrapper {
       max-width: 700px;
       padding: 40px;
