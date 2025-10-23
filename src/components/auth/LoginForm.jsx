@@ -7,7 +7,7 @@ import { login } from "../../global/authSlice";
 import { Container } from "../../style/LoginStyle";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
-
+ 
 const LoginForm = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();

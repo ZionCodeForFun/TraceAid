@@ -62,7 +62,7 @@ export const Container = styled.div`
         border: 1px solid var(--NeutralGrey4-Text);
         color: var(--NeutralGrey4-Text);
         font-weight: bold;
-        height: 25px;
+        height: 33px;
         &:hover {
           background-color: var(--Primary200);
         }
@@ -124,7 +124,7 @@ export const Container = styled.div`
           width: 100%;
           border-radius: 7px;
           padding: 3px 10px;
-          height: 25px;
+          height: 33px;
           display: flex;
           align-items: center;
           border: 1px solid #c2c1c1;
@@ -136,7 +136,7 @@ export const Container = styled.div`
         color: var(--PrimaryBase);
         font-weight: bold;
         padding: 0;
-        height: 25px;
+        height: 33px;
         &:hover {
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);

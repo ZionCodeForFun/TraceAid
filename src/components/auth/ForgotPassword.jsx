@@ -3,20 +3,17 @@ import { Form, Input, Button } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import { Container } from "../../style/ResetPasswordStyle";
 import logo2 from "../../assets/logo2.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const ForgotPassword = () => {
+  const nav = useNavigate();
   const [form] = Form.useForm();
   const onFinish = (values) => {
     console.log("Reset request:", values);
+    nav("/ResetPassword");
   };
   return (
     <Container>
-      <Form
-        form={form}
-        onFinish={onFinish}
-
-        className="wrapper"
-      >
+      <Form form={form} onFinish={onFinish} className="wrapper">
         <img src={logo2} alt="logo" />
         <div className="content_holder">
           <div className="title">
@@ -39,14 +36,16 @@ const ForgotPassword = () => {
               <Input prefix={<MailOutlined />} placeholder="Enter your email" />
             </Form.Item>
 
-            <Form.Item   style={{ marginBottom: "5px" }}>
+            <Form.Item style={{ marginBottom: "5px" }}>
               <Button type="primary" htmlType="submit" block className="btn">
                 Send Verification Code
               </Button>
             </Form.Item>
           </div>
         </div>
-        <Link to={"/login"}><span  className="span">Go back</span></Link>
+        <Link to={"/login"}>
+          <span className="span">Go back</span>
+        </Link>
       </Form>
     </Container>
   );
