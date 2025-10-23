@@ -15,7 +15,7 @@ const SignUpForm = () => {
   const nav = useNavigate();
   const { loading, error, message } = useSelector((state) => state.auth);
   const [form] = Form.useForm();
-  
+
   const [accountType, setAccountType] = useState("individual");
 
   const onFinish = (values) => {
@@ -45,6 +45,9 @@ const SignUpForm = () => {
         className="wrapper"
         requiredMark={false}
         layout="vertical"
+        labelCol={{
+          style: { marginTop: "5px", padding: "0", color: "#333" },
+        }}
         initialValues={{ accountType: "individual" }}
       >
         <img src={logo2} alt="logo" />
@@ -54,7 +57,6 @@ const SignUpForm = () => {
             <p>Enter your details or continue with your preferred option.</p>
           </div>
 
-         
           <Form.Item
             name="accountType"
             rules={[
@@ -64,7 +66,7 @@ const SignUpForm = () => {
           >
             <Radio.Group
               className="radio_holder"
-              onChange={(e) => setAccountType(e.target.value)} 
+              onChange={(e) => setAccountType(e.target.value)}
               value={accountType}
             >
               <Radio className="radio" value="individual">
@@ -76,7 +78,6 @@ const SignUpForm = () => {
             </Radio.Group>
           </Form.Item>
 
-        
           {accountType === "organization" ? (
             <Form.Item
               label="Organization Name"
@@ -92,7 +93,7 @@ const SignUpForm = () => {
               <Input
                 prefix={<FiBriefcase style={{ color: "#979696" }} />}
                 placeholder="Enter organization name"
-                style={{ padding: "0 10px" }}
+                // style={{ padding: "0 10px" }}
               />
             </Form.Item>
           ) : (
@@ -108,7 +109,7 @@ const SignUpForm = () => {
                 <Input
                   prefix={<UserOutlined style={{ color: "#979696" }} />}
                   placeholder="First name"
-                  style={{ padding: "0 10px" }}
+                  // style={{ padding: "" }}
                 />
               </Form.Item>
 
@@ -123,7 +124,7 @@ const SignUpForm = () => {
                 <Input
                   prefix={<UserOutlined style={{ color: "#979696" }} />}
                   placeholder="Last name"
-                  style={{ padding: "0 10px" }}
+                  // style={{ padding: "0 10px" }}
                 />
               </Form.Item>
             </div>
@@ -143,7 +144,7 @@ const SignUpForm = () => {
             <Input
               prefix={<MailOutlined style={{ color: "#979696" }} />}
               placeholder="Email"
-              style={{ padding: "0 10px" }}
+              // style={{ padding: "0 10px" }}
             />
           </Form.Item>
 
@@ -160,7 +161,10 @@ const SignUpForm = () => {
             ]}
             style={{ margin: "0" }}
           >
-            <Input.Password placeholder="Password" style={{ padding: "0 10px" }} />
+            <Input.Password
+              placeholder="Password"
+              // style={{ padding: "0 10px" }}
+            />
           </Form.Item>
 
           <Form.Item
@@ -183,7 +187,7 @@ const SignUpForm = () => {
           >
             <Input.Password
               placeholder="Confirm Password"
-              style={{ padding: "0 10px" }}
+              // style={{ padding: "0 10px" }}
             />
           </Form.Item>
 
@@ -221,7 +225,9 @@ const SignUpForm = () => {
 
           {accountType === "organization" ? null : (
             <>
-              <div className="line-text" plain>or</div>
+              <div className="line-text" plain>
+                or
+              </div>
               <Button block type="primary" className="google_btn">
                 <FcGoogle />
                 Google
