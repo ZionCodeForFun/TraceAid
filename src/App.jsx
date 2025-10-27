@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import SignUpForm from "./components/auth/SignUpForm";
@@ -13,21 +13,53 @@ import HowItWorks from "./pages/HowItWorks";
 import ExploreCampaign from "./pages/ExploreCampaign";
 import AboutPage from "./pages/AboutPage";
 import CampaignDetails from "./pages/CampaignDetails";
-
+import RoleModalLauncher from "./components/auth/RoleModalLauncher";
+import OrganizerDashboard from "./components/dashboard/organizerPage/OrganizerDashboard";
+import OverViewPage from "./components/dashboard/organizerPage/OverViewPage";
+import MyCampaigns from "./components/dashboard/organizerPage/myCampaignFiles/MyCampaigns";
+import Wallet from "./components/dashboard/organizerPage/walletFiles/Wallet";
+import Settings from "./components/dashboard/organizerPage/Setting/Settings";
+import PersonalInfo from "./components/dashboard/organizerPage/Setting/PersonalInfo";
+import KycVerify from "./components/dashboard/organizerPage/Setting/KycVerify";
+import Security from "./components/dashboard/organizerPage/Setting/Security";
+import PayoutDetails from "./components/dashboard/organizerPage/Setting/PayoutDetails";
+import Notification from "./components/dashboard/organizerPage/Setting/Notification";
+import RequestWithraw from "./components/dashboard/organizerPage/walletFiles/RequestWithraw";
+import CreateCampaign from "./components/dashboard/organizerPage/myCampaignFiles/CreateCampaign";
 const App = () => {
   return (
     <HashRouter>
       <Routes>
         <Route path="/*" element={<RouterError />} />
-        <Route path="/f" element={<LandingPage />} />
+        <Route path="/l" element={<LandingPage />} />
+          <Route path="/createcampaign" element={<CreateCampaign />} />
+        <Route path="/organizationdashboard" element={<OrganizerDashboard />}>
+          <Route path="" element={<OverViewPage />} />
+          <Route path="myCampaigns" element={<MyCampaigns />} />
+          <Route path="wallet" element={<Wallet />} >
+          <Route path="requestwithdraw" element={<RequestWithraw/>}/>
+          </Route>
+          <Route path="settings" element={<Settings />}>
+            <Route path="" element={<PersonalInfo />} />
+            <Route path="kycverify" element={<KycVerify />} />
+            <Route path="Security" element={<Security />} />
+            <Route path="PayoutDetails" element={<PayoutDetails />} />
+            <Route path="Notification" element={<Notification />} />
+          </Route>
+        </Route>
+
         <Route path="/login" element={<LoginForm />} />
+
+        <Route path="/" element={<RoleModalLauncher />} />
         <Route path="/verify" element={<VerifyOtp />} />
         <Route path="/howitworks" element={<HowItWorks />} />
         <Route path="/explore" element={<ExploreCampaign />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/campaigndetails" element={<CampaignDetails />} />
 
-        <Route path="/" element={<SignUpForm />} />
+
+        <Route path="/signup" element={<SignUpForm />} />
+
 
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />

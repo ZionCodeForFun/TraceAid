@@ -2,11 +2,13 @@ import React, { useState, useRef } from "react";
 import { Form, Input, Button, message } from "antd";
 import { Container } from "../../style/VerifyOtpStyle";
 import logo2 from "../../assets/logo2.png";
+import { useNavigate } from "react-router-dom";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState(Array(6).fill(""));
   const inputsRef = useRef([]);
-
+  const nav = useNavigate();
+  
   const handleChange = (e, index) => {
     const value = e.target.value;
     if (!/^\d*$/.test(value)) return;
@@ -40,15 +42,12 @@ const VerifyOtp = () => {
 
   return (
     <Container>
-      <form
-        onSubmit={handleSubmit}
-        className="wrapper"
-      >
+      <form onSubmit={handleSubmit} className="wrapper">
         <img src={logo2} alt="logo" />
 
         <div className="title">
-          <h2>Verify Account</h2>
-          <p>Enter your verification code</p>
+          <p className="sign">Verify Account</p>
+          <p className="text">Enter your verification code</p>
         </div>
 
         <div className="otp_inputs">
@@ -77,11 +76,16 @@ const VerifyOtp = () => {
           htmlType="submit"
           className="verify_btn"
           style={{ marginTop: "20px" }}
+          onClick={()=>nav('/organizationdashboard')}
         >
           Verify
         </Button>
 
-        <p className="goBack">Go back</p>
+
+        <p className="goBack" onClick={() => nav("/signup")}>
+          Go back
+        </p>
+
       </form>
     </Container>
   );

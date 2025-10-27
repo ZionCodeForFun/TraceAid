@@ -7,7 +7,7 @@ import { login } from "../../global/authSlice";
 import { Container } from "../../style/LoginStyle";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
- 
+
 const LoginForm = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -43,11 +43,13 @@ const LoginForm = () => {
         layout="vertical"
         requiredMark={false}
       >
-        <img src={logo2} alt="logo" />
-        <div className="content_holder2">
+        <div className="img_holder">
+          <img src={logo2} alt="logo" />
+        </div>
+        <div className="content_holder">
           <div className="title">
-            <h2>Log in</h2>
-            <p>Securely log in to your account.</p>
+            <p className="log">Log in</p>
+            <p className="text">Securely log in to your account.</p>
           </div>
 
           <Form.Item
@@ -57,31 +59,40 @@ const LoginForm = () => {
               { required: true, message: "Please input your Email!" },
               { type: "email", message: "Please enter a valid email address!" },
             ]}
-            style={{ marginBottom: "5px" }}
+            style={{ margin: "0", height: "71px" }}
           >
             <Input
-              prefix={<MailOutlined style={{ color: "#979696" }} />}
-              placeholder="Email"
+              prefix={<MailOutlined style={{ fontSize: "15px" }} />}
+              placeholder="example@gmail.com"
+              className="input"
             />
           </Form.Item>
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your Password!" }]}
-            style={{ marginBottom: "2px" }}
-          >
-            <Input type="password" placeholder="Password" />
-          </Form.Item>
-          <Form.Item style={{ marginBottom: "5px" }}>
-            <Flex justify="space-between" align="center" color="#333333">
-              <a
-                onClick={() => nav("/ForgotPassword")}
-                style={{ color: "#333333" }}
-              >
-                Forgot password
-              </a>
-            </Flex>
-          </Form.Item>
+          <div className="forgotpassword">
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                { required: true, message: "Please input your Password!" },
+              ]}
+              style={{ margin: "0", height: "71px" }}
+            >
+              <Input
+                type="password"
+                placeholder="Enter your password"
+                className="input"
+              />
+            </Form.Item>
+            <Form.Item>
+              <Flex justify="space-between" align="center" color="#333333">
+                <a
+                  onClick={() => nav("/ForgotPassword")}
+                  style={{ color: "#333333" }}
+                >
+                  Forgot password
+                </a>
+              </Flex>
+            </Form.Item>
+          </div>
 
           <Form.Item style={{ marginBottom: "5px" }}>
             <Button
@@ -93,29 +104,26 @@ const LoginForm = () => {
               Log in
             </Button>
           </Form.Item>
-          <div className="line-text" plain>
-            or
-          </div>
-          <div>
-            <Button block type="primary" className="google_btn">
-              <FcGoogle />
-              Google
-            </Button>
-          </div>
-        </div>
-        <div
-          style={{
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            margin: "10px",
-          }}
-        >
-          <h5> Don’t have an account?</h5>{" "}
-          <Link to={"/"}>
-            <span style={{ color: " #c1e86e", fontWeight: 700 }}>Sign Up</span>
-          </Link>
+          <footer className="footer">
+            <div className="line-text" plain>
+              or
+            </div>
+            <p>Continue with</p>
+            <div>
+              <Button block type="primary" className="google_btn">
+                <FcGoogle style={{fontSize:"20px"}} />
+                Google
+              </Button>
+            </div>
+            <div className="already">
+              <p> Don’t have an account?</p>{" "}
+              <Link to={"/"}>
+                <span style={{ color: " #c1e86e", fontWeight: 700 }}>
+                  Sign Up
+                </span>
+              </Link>
+            </div>
+          </footer>
         </div>
       </Form>
     </Container>

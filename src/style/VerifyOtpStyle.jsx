@@ -37,14 +37,18 @@ export const Container = styled.div`
       margin-bottom: 20px;
       gap: 5px;
 
-      h2 {
+      .sign {
         color: var(--NeutralGrey4-Text);
         font-weight: 700;
-        font-size: 24px;
+
+        font-size: 40px;
+        height: 48px;
       }
-      p {
-        font-size: 12px;
+      .text {
+        font-size: 16px;
         color: var(--NeutralGrey4-Text);
+        font-weight: 400;
+        height: 19px;
       }
     }
     .otp_inputs {
@@ -70,11 +74,13 @@ export const Container = styled.div`
     }
 
     .verify_btn {
-      padding: 0.1rem 0;
-      border: none;
-      width: 67%;
       background-color: var(--NeutralBlack);
       color: var(--PrimaryBase);
+      font-weight: 600;
+      font-size: 16px;
+      height: 43px;
+      border-radius: 8px;
+      width: 67%;
       &:hover {
         background-color: var(--PrimaryBase);
         color: var(--NeutralBlack);
@@ -82,14 +88,12 @@ export const Container = styled.div`
     }
 
     .goBack {
-      margin-top: 1rem;
-      color: #292828;
+        margin-top: 1rem;
       cursor: pointer;
-      font-size: 0.95rem;
-      span {
-        font-weight: bold;
-        color: #297e2a;
-      }
+      color: #3a4621;
+      font-size: 16px;
+      font-weight: 400;
+      border-bottom: 1px solid #3a4621;
     }
   }
 
