@@ -8,7 +8,8 @@ export const Container = styled.div`
 
   .wrapper {
     display: flex;
-    width: 95%;
+    max-width: 95%;
+    max-width: 1100px;
     height: 100%;
     flex-direction: column;
     justify-content: center;
@@ -139,6 +140,29 @@ export const Container = styled.div`
       width: 100%;
       border-radius: 10px;
       border: 0.5px solid #cccccc;
+      position: relative;
+      .details_pop {
+        width: 187px;
+        height: 144px;
+        background-color: #0a0a0a;
+        position: absolute;
+        top: 12%;
+        right: 8%;
+        border-radius: 6px;
+        border: 0.5px solid #c0c0c0;
+        padding: 20px;
+        background-color: #ffffff;
+        p {
+          font-size: 16px;
+          font-weight: 400;
+          color: #4d4d4d;
+          padding: 9px 0;
+          cursor: pointer;
+        }
+        .close_btn {
+          color: #df0f23;
+        }
+      }
     }
 
     .custom-table {

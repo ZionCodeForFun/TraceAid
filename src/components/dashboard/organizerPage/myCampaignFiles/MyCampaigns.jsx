@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container } from "../../../../style/MyCampaignsStyle";
 import InputField from "../../../common/InputField";
 import { HiOutlineDotsVertical } from "react-icons/hi";
@@ -6,9 +6,10 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { CiCircleAlert } from "react-icons/ci";
 import { FiFlag } from "react-icons/fi";
 import Button from "../../../common/Button";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const MyCampaigns = () => {
+  const [show, setShow] = useState(false);
   const nav = useNavigate();
 
   const data = [
@@ -121,7 +122,11 @@ const MyCampaigns = () => {
         </div>
 
         <div className="recent_text">
-          <InputField type="text" placeholder="search input" className="input" />
+          <InputField
+            type="text"
+            placeholder="search input"
+            className="input"
+          />
           <div className="dropdwn">
             <p>All Status</p>
             <i>
@@ -149,7 +154,8 @@ const MyCampaigns = () => {
                   <td className="details">{item.details}</td>
 
                   <td>
-                    ₦{item.raised.toLocaleString()}/₦{item.goal.toLocaleString()}
+                    ₦{item.raised.toLocaleString()}/₦
+                    {item.goal.toLocaleString()}
                   </td>
 
                   <td>{item.NumberOfDonr}</td>
@@ -169,11 +175,21 @@ const MyCampaigns = () => {
                     </span>
                   </td>
                   <td>{item.date}</td>
-                  <td className="icon">{item.icon}</td>
+                  <td className="icon" onClick={() => setShow(!show)}>
+                    {item.icon}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <Outlet />
+          {show && (
+            <div className="details_pop">
+              <p onClick={() => nav("camp_details_org")}>View Details</p>
+              <p>Share Campaign</p>
+              <p className="close_btn">Close Campaign</p>
+            </div>
+          )}
         </div>
       </article>
     </Container>

@@ -26,18 +26,21 @@ import PayoutDetails from "./components/dashboard/organizerPage/Setting/PayoutDe
 import Notification from "./components/dashboard/organizerPage/Setting/Notification";
 import RequestWithraw from "./components/dashboard/organizerPage/walletFiles/RequestWithraw";
 import CreateCampaign from "./components/dashboard/organizerPage/myCampaignFiles/CreateCampaign";
+import CampaignDetails4org from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org";
 const App = () => {
   return (
     <HashRouter>
       <Routes>
         <Route path="/*" element={<RouterError />} />
         <Route path="/l" element={<LandingPage />} />
-          <Route path="/createcampaign" element={<CreateCampaign />} />
+        <Route path="/createcampaign" element={<CreateCampaign />} />
         <Route path="/organizationdashboard" element={<OrganizerDashboard />}>
           <Route path="" element={<OverViewPage />} />
-          <Route path="myCampaigns" element={<MyCampaigns />} />
-          <Route path="wallet" element={<Wallet />} >
-          <Route path="requestwithdraw" element={<RequestWithraw/>}/>
+          <Route path="myCampaigns" element={<MyCampaigns />}>
+            <Route path="camp_details_org" element={<CampaignDetails4org />} />
+          </Route>
+          <Route path="wallet" element={<Wallet />}>
+            <Route path="requestwithdraw" element={<RequestWithraw />} />
           </Route>
           <Route path="settings" element={<Settings />}>
             <Route path="" element={<PersonalInfo />} />
@@ -57,9 +60,7 @@ const App = () => {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/campaigndetails" element={<CampaignDetails />} />
 
-
         <Route path="/signup" element={<SignUpForm />} />
-
 
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
