@@ -9,6 +9,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginForm from "./components/auth/LoginForm";
 import VerifyOtp from "./components/auth/VerifyOtp";
+import HowItWorks from "./pages/HowItWorks";
+import ExploreCampaign from "./pages/ExploreCampaign";
+import AboutPage from "./pages/AboutPage";
+import CampaignDetails from "./pages/CampaignDetails";
 import RoleModalLauncher from "./components/auth/RoleModalLauncher";
 import OrganizerDashboard from "./components/dashboard/organizerPage/OrganizerDashboard";
 import OverViewPage from "./components/dashboard/organizerPage/OverViewPage";
@@ -48,8 +52,14 @@ const App = () => {
 
         <Route path="/" element={<RoleModalLauncher />} />
         <Route path="/verify" element={<VerifyOtp />} />
+        <Route path="/howitworks" element={<HowItWorks />} />
+        <Route path="/explore" element={<ExploreCampaign />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/campaigndetails" element={<CampaignDetails />} />
+
 
         <Route path="/signup" element={<SignUpForm />} />
+
 
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
