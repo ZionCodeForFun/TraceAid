@@ -13,7 +13,7 @@ export const LandingContainer = styled.div`
 
 export const NavBar = styled.nav`
   width: 100%;
-  padding: 1.2rem 5%;
+  padding: 1rem 3%;
   display: flex;
   align-items: center;
   justify-content: space-between;

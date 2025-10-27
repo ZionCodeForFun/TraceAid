@@ -1,52 +1,52 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 import logoImg from "../assets/logo2.png";
+import { useNavigate } from "react-router-dom";
 
 const HeaderNav = () => {
+  const nav =useNavigate()
   return (
-   <NavBar>
-           <LeftSection>
-             <LogoContainer>
-               <img src={logoImg} alt="TraceAid Logo" />
-               <div className="divider"></div>
-             </LogoContainer>
-   
-             <NavLinks>
-               <li>Explore Campaigns</li>
-               <li>How it Works</li>
-               <li>Start a Campaign</li>
-             </NavLinks>
-           </LeftSection>
-   
-           <ButtonGroup>
-             <button className="login">Login</button>
-             <button className="create">Create an Account</button>
-           </ButtonGroup>
-         </NavBar>
+    <NavBar>
+      <LeftSection>
+        <LogoContainer onClick={()=>nav('/')}>
+          <img    src={logoImg} alt="TraceAid Logo" />
+          <div className="divider"></div>
+        </LogoContainer>
+
+        <NavLinks>
+
+          <li onClick={()=>nav('/explore')} >Explore Campaigns</li>
+          <li  onClick={()=>nav('/how_it_works')}>How it Works</li>
+          <li  onClick={()=>nav('/explore')}>Start a Campaign</li>
+        </NavLinks>
+      </LeftSection>
+
+      <ButtonGroup>
+        <button className="login" onClick={()=>nav('/login')}>Login</button>
+        <button className="create" onClick={()=>nav('/role_modal')}>Create an Account</button>
+      </ButtonGroup>
+    </NavBar>
   );
 };
 
 export default HeaderNav;
 
-
-
 export const NavBar = styled.nav`
   width: 100%;
-  padding: 1.2rem 5%;
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #f8f9fa;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
 `;
-
 
 export const LeftSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 2rem; 
+  gap: 2rem;
 `;
-
 
 export const LogoContainer = styled.div`
   display: flex;
@@ -61,7 +61,7 @@ export const LogoContainer = styled.div`
   span {
     font-size: 1.3rem;
     font-weight: 700;
-    color: #000000; 
+    color: #000000;
   }
 
   .divider {
@@ -71,7 +71,6 @@ export const LogoContainer = styled.div`
     margin-left: 0.8rem;
   }
 `;
-
 
 export const NavLinks = styled.ul`
   display: flex;
@@ -91,7 +90,6 @@ export const NavLinks = styled.ul`
     }
   }
 `;
-
 
 export const ButtonGroup = styled.div`
   display: flex;

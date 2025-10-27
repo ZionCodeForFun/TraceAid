@@ -26,12 +26,13 @@ import PayoutDetails from "./components/dashboard/organizerPage/Setting/PayoutDe
 import Notification from "./components/dashboard/organizerPage/Setting/Notification";
 import RequestWithraw from "./components/dashboard/organizerPage/walletFiles/RequestWithraw";
 import CreateCampaign from "./components/dashboard/organizerPage/myCampaignFiles/CreateCampaign";
+import RoleModal from "./components/auth/RoleModal";
 const App = () => {
   return (
     <HashRouter>
       <Routes>
         <Route path="/*" element={<RouterError />} />
-        <Route path="/l" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
           <Route path="/createcampaign" element={<CreateCampaign />} />
         <Route path="/organizationdashboard" element={<OrganizerDashboard />}>
           <Route path="" element={<OverViewPage />} />
@@ -49,13 +50,12 @@ const App = () => {
         </Route>
 
         <Route path="/login" element={<LoginForm />} />
-
-        <Route path="/" element={<RoleModalLauncher />} />
         <Route path="/verify" element={<VerifyOtp />} />
-        <Route path="/howitworks" element={<HowItWorks />} />
+        <Route path="/how_it_works" element={<HowItWorks />} />
         <Route path="/explore" element={<ExploreCampaign />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/campaigndetails" element={<CampaignDetails />} />
+        <Route path="/role_modal" element={<RoleModal />} />
+        <Route path="/campaign_details" element={<CampaignDetails />} />
 
 
         <Route path="/signup" element={<SignUpForm />} />

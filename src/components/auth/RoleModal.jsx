@@ -11,7 +11,6 @@ const RoleModal = ({ onClose }) => {
 
   const handleSelect = (type) => {
     dispatch(setAccountType(type));
-    onClose();
     navigate("/signup");
   };
   return (
