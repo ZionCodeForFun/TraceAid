@@ -13,7 +13,6 @@ import HowItWorks from "./pages/HowItWorks";
 import ExploreCampaign from "./pages/ExploreCampaign";
 import AboutPage from "./pages/AboutPage";
 import CampaignDetails from "./pages/CampaignDetails";
-import RoleModalLauncher from "./components/auth/RoleModalLauncher";
 import OrganizerDashboard from "./components/dashboard/organizerPage/OrganizerDashboard";
 import OverViewPage from "./components/dashboard/organizerPage/OverViewPage";
 import MyCampaigns from "./components/dashboard/organizerPage/myCampaignFiles/MyCampaigns";
@@ -32,7 +31,7 @@ const App = () => {
     <HashRouter>
       <Routes>
         <Route path="/*" element={<RouterError />} />
-        <Route path="/l" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
         <Route path="/organizationdashboard" element={<OrganizerDashboard />}>
           <Route path="" element={<OverViewPage />} />
@@ -52,10 +51,8 @@ const App = () => {
         </Route>
 
         <Route path="/login" element={<LoginForm />} />
-
-        <Route path="/" element={<RoleModalLauncher />} />
         <Route path="/verify" element={<VerifyOtp />} />
-        <Route path="/howitworks" element={<HowItWorks />} />
+        <Route path="/how_it_works" element={<HowItWorks />} />
         <Route path="/explore" element={<ExploreCampaign />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/campaigndetails" element={<CampaignDetails />} />

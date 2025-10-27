@@ -55,11 +55,13 @@ import ExploreIcon from "../assets/ExploreImg.png";
 import DonateIcon from "../assets/DonateImg.png";
 import TrackIcon from "../assets/TrackImg.png";
 import CelebrateIcon from "../assets/CelebrateImg.png";
+import HeaderNav from "./HeaderNav.jsx";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
   return (
     <LandingContainer>
-      <NavBar>
+      {/* <NavBar>
         <LeftSection>
           <LogoContainer>
             <img src={logoImg} alt="TraceAid Logo" />
@@ -77,7 +79,8 @@ const LandingPage = () => {
           <button className="login">Login</button>
           <button className="create">Create an Account</button>
         </ButtonGroup>
-      </NavBar>
+      </NavBar> */}
+      <HeaderNav />
 
       <HeroSection>
         <HeroOverlay>
