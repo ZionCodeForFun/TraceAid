@@ -9,6 +9,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoginForm from "./components/auth/LoginForm";
 import VerifyOtp from "./components/auth/VerifyOtp";
+import HowItWorks from "./pages/HowItWorks";
+import ExploreCampaign from "./pages/ExploreCampaign";
+import AboutPage from "./pages/AboutPage";
+import CampaignDetails from "./pages/CampaignDetails";
 
 const App = () => {
   return (
@@ -18,9 +22,13 @@ const App = () => {
         <Route path="/f" element={<LandingPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/verify" element={<VerifyOtp />} />
+        <Route path="/howitworks" element={<HowItWorks />} />
+        <Route path="/explore" element={<ExploreCampaign />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/campaigndetails" element={<CampaignDetails />} />
 
         <Route path="/" element={<SignUpForm />} />
-       
+
         <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
       </Routes>
