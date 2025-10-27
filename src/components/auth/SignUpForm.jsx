@@ -9,14 +9,13 @@ import { toast } from "react-toastify";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
 import { FiBriefcase } from "react-icons/fi";
-
+import { BsTelephone } from "react-icons/bs";
 const SignUpForm = () => {
   const dispatch = useDispatch();
+  const accountType = useSelector((state) => state.accountType.type);
   const nav = useNavigate();
   const { loading, error, message } = useSelector((state) => state.auth);
   const [form] = Form.useForm();
-
-  const [accountType, setAccountType] = useState("individual");
 
   const onFinish = (values) => {
     dispatch(signup(values));
@@ -48,35 +47,17 @@ const SignUpForm = () => {
         labelCol={{
           style: { marginTop: "5px", padding: "0", color: "#333" },
         }}
-        initialValues={{ accountType: "individual" }}
       >
-        <img src={logo2} alt="logo" />
+        <div className="img_holder">
+          <img src={logo2} alt="logo" />
+        </div>
         <div className="content_holder">
           <div className="title">
-            <h2>Sign Up Account</h2>
-            <p>Enter your details or continue with your preferred option.</p>
+            <p className="sign">Sign Up Account</p>
+            <p className="text">
+              Enter your details or continue with your preferred option.
+            </p>
           </div>
-
-          <Form.Item
-            name="accountType"
-            rules={[
-              { required: true, message: "Please select an account type!" },
-            ]}
-            style={{ marginBottom: "10px" }}
-          >
-            <Radio.Group
-              className="radio_holder"
-              onChange={(e) => setAccountType(e.target.value)}
-              value={accountType}
-            >
-              <Radio className="radio" value="individual">
-                Individual
-              </Radio>
-              <Radio className="radio" value="organization">
-                Organization
-              </Radio>
-            </Radio.Group>
-          </Form.Item>
 
           {accountType === "organization" ? (
             <Form.Item
@@ -88,16 +69,22 @@ const SignUpForm = () => {
                   message: "Please input your organization name!",
                 },
               ]}
-              style={{ marginBottom: "5px" }}
+              style={{ margin: "0", height: "71px" }}
             >
               <Input
-                prefix={<FiBriefcase style={{ color: "#979696" }} />}
+                prefix={<FiBriefcase style={{ fontSize: "15px" }} />}
                 placeholder="Enter organization name"
-                // style={{ padding: "0 10px" }}
+                className="input"
               />
             </Form.Item>
           ) : (
-            <div style={{ display: "flex", gap: "10px" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "20px",
+                height: "71px",
+              }}
+            >
               <Form.Item
                 label="First Name"
                 name="firstName"
@@ -107,9 +94,9 @@ const SignUpForm = () => {
                 style={{ flex: 1, margin: "0" }}
               >
                 <Input
-                  prefix={<UserOutlined style={{ color: "#979696" }} />}
-                  placeholder="First name"
-                  // style={{ padding: "" }}
+                  prefix={<UserOutlined style={{ fontSize: "15px" }} />}
+                  placeholder="John"
+                  className="input"
                 />
               </Form.Item>
 
@@ -122,9 +109,9 @@ const SignUpForm = () => {
                 style={{ flex: 1, margin: "0" }}
               >
                 <Input
-                  prefix={<UserOutlined style={{ color: "#979696" }} />}
-                  placeholder="Last name"
-                  // style={{ padding: "0 10px" }}
+                  prefix={<UserOutlined style={{ fontSize: "15px" }} />}
+                  placeholder="Doe"
+                  className="input"
                 />
               </Form.Item>
             </div>
@@ -139,12 +126,29 @@ const SignUpForm = () => {
               { required: true, message: "Please input your email!" },
               { type: "email", message: "Please enter a valid email address!" },
             ]}
-            style={{ margin: "0" }}
+            style={{ margin: "0", height: "71px" }}
           >
             <Input
-              prefix={<MailOutlined style={{ color: "#979696" }} />}
-              placeholder="Email"
-              // style={{ padding: "0 10px" }}
+              prefix={<MailOutlined style={{ fontSize: "15px" }} />}
+              placeholder="example@gmail.com"
+              className="input"
+            />
+          </Form.Item>
+          <Form.Item
+            label="Phone Number"
+            name="email"
+            validateTrigger="onBlur"
+            normalize={(value) => value?.trim()}
+            rules={[
+              { required: true, message: "Please input your Phone number!" },
+              { type: " number", message: "Please input  Number!" },
+            ]}
+            style={{ margin: "0", height: "71px" }}
+          >
+            <Input
+              prefix={<BsTelephone style={{ fontSize: "15px" }} />}
+              placeholder="+234 701 987 6543"
+              className="input"
             />
           </Form.Item>
 
@@ -159,11 +163,11 @@ const SignUpForm = () => {
                 message: "Password must be at least 8 characters long",
               },
             ]}
-            style={{ margin: "0" }}
+            style={{ margin: "0", height: "71px" }}
           >
             <Input.Password
-              placeholder="Password"
-              // style={{ padding: "0 10px" }}
+              placeholder="Enter your password"
+              className="input"
             />
           </Form.Item>
 
@@ -183,11 +187,11 @@ const SignUpForm = () => {
                 },
               }),
             ]}
-            style={{ margin: "0" }}
+            style={{ margin: "0", height: "71px" }}
           >
             <Input.Password
-              placeholder="Confirm Password"
-              // style={{ padding: "0 10px" }}
+              placeholder="Re-enter your password"
+              className="input"
             />
           </Form.Item>
 
@@ -204,7 +208,6 @@ const SignUpForm = () => {
                       ),
               },
             ]}
-            style={{ margin: "2px" }}
           >
             <Checkbox className="custom-checkbox">
               I agree to the <a href="/terms">terms and conditions</a>
@@ -218,38 +221,30 @@ const SignUpForm = () => {
               type="primary"
               htmlType="submit"
               loading={loading}
+              onClick={() => nav("/verify")}
             >
               Sign Up
             </Button>
           </Form.Item>
 
           {accountType === "organization" ? null : (
-            <>
+            <div className="google_holder">
               <div className="line-text" plain>
                 or
               </div>
+              <p>Continue with</p>
               <Button block type="primary" className="google_btn">
-                <FcGoogle />
+                <FcGoogle style={{ fontSize: "20px" }} />
                 Google
               </Button>
-            </>
+            </div>
           )}
-        </div>
-
-        <div
-          style={{
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            margin: "10px",
-          }}
-          className="already"
-        >
-          <h5>Already have an account?</h5>
-          <Link to={"/login"}>
-            <span style={{ color: "#c1e86e", fontWeight: 700 }}>Log In</span>
-          </Link>
+          <div className="already">
+            <p>Already have an account?</p>
+            <Link to={"/login"}>
+              <span style={{ color: "#c1e86e", fontWeight: 700 }}>Log In</span>
+            </Link>
+          </div>
         </div>
       </Form>
     </Container>

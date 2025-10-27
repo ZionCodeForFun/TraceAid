@@ -3,16 +3,21 @@
   margin: 0;
   box-sizing: border-box;
 
- 
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
-
-
 
 :root {
   --NeutralBlack: #1a1a1a;
   --Neutral_Offwhite: #f8f9fa;
+  --Neutral_Grey1:#C0C0C0;
   --NeutralGrey4-Text: #333333;
   --PrimaryBase: #c1e86e;
   --Primary200: #e0f4b7;
+  --Primary700: #617437;
+  --sidebarBg: #f4f4f4;
+  --Accent_Red: #df0f23;
+  --content_1bg: #f4edff;
+  --content_2bg: #ebf5ff;
+  --content_3bg: #e8fff9;
+  --content_4bg: #fff7ec;
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, Input, Button, message } from "antd";
-import { LockOutlined } from "@ant-design/icons";
 import { Container } from "../../style/ResetPasswordStyle";
 import logo2 from "../../assets/logo2.png";
 const ResetPassword = () => {
@@ -15,10 +14,10 @@ const ResetPassword = () => {
     <Container>
       <Form form={form} name="reset" onFinish={onFinish} className="wrapper">
         <img src={logo2} alt="logo" />
-        <div className="content_holder2">
+        <div className="content_holder">
           <div className="title">
-            <h2>Reset Password</h2>
-            <p>Enter your new password</p>
+            <p className="sign">Reset Password</p>
+            <p className="text">Enter your new password</p>
           </div>
           <div className="input_holder">
             <p className="text">Enter you New Password</p>
@@ -34,7 +33,7 @@ const ResetPassword = () => {
               ]}
               hasFeedback
             >
-              <Input.Password placeholder="Enter your password" />
+              <Input.Password placeholder="Enter your password" className="input"/>
             </Form.Item>
             <p className="text">Confirm New Password</p>
 
@@ -55,7 +54,7 @@ const ResetPassword = () => {
                 }),
               ]}
             >
-              <Input.Password placeholder="Re-enter your password" />
+              <Input.Password placeholder="Re-enter your password" className="input"/>
             </Form.Item>
 
             <Form.Item>

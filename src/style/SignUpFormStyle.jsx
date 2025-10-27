@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  max-width: 100%;
-  min-height: 100vh;
+  width: 100%;
+  height: 1160px;
   background-color: transparent;
   display: flex;
   justify-content: center;
@@ -10,133 +10,123 @@ export const Container = styled.div`
   color: var(--NeutralGrey4-Text);
 
   .wrapper {
-    background-color: var(--Neutral_Offwhite);
-    max-width: 35%;
-    padding: 8px 30px;
+    width: 665px;
+    padding: 70px;
+
     display: flex;
-    height: max-content;
+    height: 1100px;
     flex-direction: column;
+    background-color: var(--Neutral_Offwhite);
     border-radius: 40px;
     align-items: center;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border: 0.5px solid var(--Neutral_Grey1);
+    .img_holder {
+      width: 100%;
+      height: 71px;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 25px;
 
-    img {
-      width: 100px;
-      height: 30px;
-      object-fit: contain;
+      img {
+        object-fit: cover;
+        height: 29px;
+      }
     }
 
     .content_holder {
       display: flex;
       flex-direction: column;
       width: 100%;
-      margin-top: 0.3rem;
-      min-width: 420px;
+      gap: 20px;
+      justify-content: center;
       height: 100%;
+      .input {
+        height: 48px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--Neutral_Grey1);
+      }
 
       .title {
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: 525px;
+        height: 75px;
+        gap: 8px;
         text-align: center;
-        height: max-content;
+
         margin-bottom: 20px;
 
-        h2 {
+        .sign {
           color: var(--NeutralGrey4-Text);
           font-weight: 700;
-          font-style: bold;
-          font-size: 30px;
+
+          font-size: 40px;
+          height: 48px;
         }
-        p {
-          font-size: 12px;
+        .text {
+          font-size: 16px;
           color: var(--NeutralGrey4-Text);
+          font-weight: 400;
+          height: 19px;
         }
       }
-      .input {
-        &:hover {
-        }
-      }
-      .google_btn {
-        background-color: white;
-        border: 1px solid var(--NeutralGrey4-Text);
-        color: var(--NeutralGrey4-Text);
-        font-weight: bold;
-        height: 33px;
-        &:hover {
-          background-color: var(--Primary200);
-        }
-      }
-
-      .line-text {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        color: #555;
-        margin: 5px 0;
-      }
-
-      .line-text::before,
-      .line-text::after {
-        content: "";
-        flex: 1;
-        margin: 0 5px 0 5px;
-        border-bottom: 1px solid #aaa;
-      }
-
-      .radio_holder {
+   
+      .google_holder {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        align-items: center;
+        height: 150px;
+        gap: 34px;
+        width: 100%;
 
-        .ant-radio-inner {
-          border-radius: 50%;
-          border: 2px solid var(--NeutralGrey4-Text);
-          width: 18px;
-          height: 18px;
+        .google_btn {
           background-color: white;
+          border: 2px solid var(--Primary700);          color: var(--NeutralGrey4-Text);
+          font-size: 16px;
+          font-weight: 600;
+
+          padding: 12px 30px;
+          height: 44px;
+          &:hover {
+            background-color: var(--Primary200);
+          }
         }
 
-        .ant-radio-inner::after {
-          content: "";
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background-color: var(--NeutralGrey4-Text);
-          position: absolute;
-          top: 105%;
-          left: 108%;
-          transform: translate(-50%, -50%) scale(0);
-          transition: all 0.2s ease-in-out;
-        }
-
-        .ant-radio-checked .ant-radio-inner::after {
-          transform: translate(-50%, -50%) scale(1);
-        }
-
-        .ant-radio-checked .ant-radio-inner {
-          background-color: white;
-          border-color: var(--NeutralGrey4-Text);
-        }
-
-        .radio {
-          background-color: white;
-          width: 100%;
-          border-radius: 7px;
-          padding: 3px 10px;
-          height: 33px;
+        .line-text {
           display: flex;
           align-items: center;
-          border: 1px solid #c2c1c1;
+          text-align: center;
+          color: #555;
+          margin: 5px 0;
+          gap: 7px;
+          font-weight: 400;
+          font-size: 16px;
+          width: 525px;
+        }
+
+        .line-text::before,
+        .line-text::after {
+          content: "";
+          flex: 1;
+
+          border-bottom: 1px solid #c0c0c0;
+          background-color: #333;
+        }
+        p {
+          font-weight: 400;
+          font-size: 16px;
         }
       }
 
       .signup_btn {
         background-color: var(--NeutralBlack);
         color: var(--PrimaryBase);
-        font-weight: bold;
-        padding: 0;
-        height: 33px;
+        font-weight: 600;
+        font-size: 16px;
+        height: 43px;
+        border-radius: 8px;
         &:hover {
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
@@ -152,12 +142,30 @@ export const Container = styled.div`
         }
 
         .ant-checkbox-inner {
-          border-color: var(--NeutralGrey4-Text);
+          border-color: #c0c0c0;
         }
 
         .ant-checkbox-checked .ant-checkbox-inner {
           background-color: var(--NeutralBlack);
           border-color: var(--NeutralGrey4-Text);
+        }
+      }
+      .already {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: center;
+        margin-top: 34px;
+        height: 19px;
+        gap: 6px;
+        p {
+          font-size: 16px;
+          font-weight: 400;
+        }
+        span {
+          font-size: 16px;
+          font-weight: 500;
+          color: var(--Primary700);
         }
       }
     }

@@ -29,13 +29,12 @@ export const Container = styled.div`
     flex-direction: column;
     border-radius: 40px;
     align-items: center;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border: 0.5px solid var(--Neutral_Grey1);
 
     @media (max-width: 768px) {
       max-width: 90%;
       padding: 25px;
       border-radius: 30px;
-   
     }
 
     @media (max-width: 480px) {
@@ -72,11 +71,13 @@ export const Container = styled.div`
         text-align: center;
         height: max-content;
         margin-bottom: 20px;
-
-        h2 {
+ 
+        .sign {
           color: var(--NeutralGrey4-Text);
           font-weight: 700;
-          font-size: 24px;
+
+          font-size: 40px;
+          height: 48px;
 
           @media (max-width: 768px) {
             font-size: 22px;
@@ -91,9 +92,11 @@ export const Container = styled.div`
           }
         }
 
-        p {
-          font-size: 12px;
+        .text {
+          font-size: 16px;
           color: var(--NeutralGrey4-Text);
+          font-weight: 400;
+          height: 19px;
 
           @media (max-width: 768px) {
             font-size: 11px;
@@ -117,12 +120,22 @@ export const Container = styled.div`
             font-size: 10px;
           }
         }
+         .input {
+        height: 48px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--Neutral_Grey1);
+      }
       }
 
       .btn {
         background-color: var(--NeutralBlack);
         color: var(--PrimaryBase);
-
+        font-weight: 600;
+        font-size: 16px;
+        height: 43px;
+        border-radius: 8px;
         &:hover {
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
@@ -141,7 +154,10 @@ export const Container = styled.div`
 
     .span {
       cursor: pointer;
-      color: var(--NeutralGrey4-Text);
+      color: #3a4621;
+      font-size: 16px;
+      font-weight: 400;
+      border-bottom: 1px solid #3a4621;
     }
   }
 `;

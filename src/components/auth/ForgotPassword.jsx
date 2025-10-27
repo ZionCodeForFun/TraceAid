@@ -17,8 +17,8 @@ const ForgotPassword = () => {
         <img src={logo2} alt="logo" />
         <div className="content_holder">
           <div className="title">
-            <h2>Forgot Password?</h2>
-            <p>Enter your email to reset your password</p>
+            <p className="sign">Forgot Password?</p>
+            <p className="text">Enter your email to reset your password</p>
           </div>
           <div className="input_holder">
             <p className="text">Email</p>
@@ -33,7 +33,16 @@ const ForgotPassword = () => {
               ]}
               className="input_wrapper"
             >
-              <Input prefix={<MailOutlined />} placeholder="Enter your email" />
+              <Input
+                prefix={<MailOutlined />}
+                placeholder="Enter your email"
+                style={{
+                  fontSize: "16px",
+                  height: "48px",
+                  fontWeight: 400,
+                  color: "#C0C0C0",
+                }}
+              />
             </Form.Item>
 
             <Form.Item style={{ marginBottom: "5px" }}>
