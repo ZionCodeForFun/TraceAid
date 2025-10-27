@@ -28,12 +28,12 @@ const App = () => {
       <Routes>
         <Route path="/*" element={<RouterError />} />
         <Route path="/l" element={<LandingPage />} />
-        <Route path="/createcampaign" element={<CreateCampaign />} />
+          <Route path="/createcampaign" element={<CreateCampaign />} />
         <Route path="/organizationdashboard" element={<OrganizerDashboard />}>
           <Route path="" element={<OverViewPage />} />
           <Route path="myCampaigns" element={<MyCampaigns />} />
-          <Route path="wallet" element={<Wallet />}>
-            <Route path="requestwithdraw" element={<RequestWithraw />} />
+          <Route path="wallet" element={<Wallet />} >
+          <Route path="requestwithdraw" element={<RequestWithraw/>}/>
           </Route>
           <Route path="settings" element={<Settings />}>
             <Route path="" element={<PersonalInfo />} />

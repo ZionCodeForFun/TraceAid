@@ -63,7 +63,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px;
-
+  background-color: white;
   .wrapper {
     width: 35%;
     height: 600px;
@@ -162,7 +162,7 @@ const Container = styled.div`
         margin-top: 34px;
         height: 19px;
         gap: 6px;
-    
+
         p {
           font-size: 16px;
           font-weight: 400;
