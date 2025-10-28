@@ -22,19 +22,28 @@ import PayoutDetails from "./components/dashboard/organizerPage/Setting/PayoutDe
 import Notification from "./components/dashboard/organizerPage/Setting/Notification";
 import RequestWithraw from "./components/dashboard/organizerPage/walletFiles/RequestWithraw";
 import CreateCampaign from "./components/dashboard/organizerPage/myCampaignFiles/CreateCampaign";
+// import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
+// import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
+
 const App = () => {
   return (
     <HashRouter>
       <Routes>
         <Route path="/*" element={<RouterError />} />
-        <Route path="/l" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
+
+        {/* <Route path="/Admin" element={<AdminDashboard />}>
+          <Route path="" element={<DashboardManagement />} />
+        </Route> */}
+
         <Route path="/organizationdashboard" element={<OrganizerDashboard />}>
           <Route path="" element={<OverViewPage />} />
           <Route path="myCampaigns" element={<MyCampaigns />} />
           <Route path="wallet" element={<Wallet />}>
             <Route path="requestwithdraw" element={<RequestWithraw />} />
           </Route>
+
           <Route path="settings" element={<Settings />}>
             <Route path="" element={<PersonalInfo />} />
             <Route path="kycverify" element={<KycVerify />} />
