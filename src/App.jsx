@@ -27,6 +27,8 @@ import Notification from "./components/dashboard/organizerPage/Setting/Notificat
 import RequestWithraw from "./components/dashboard/organizerPage/walletFiles/RequestWithraw";
 import CreateCampaign from "./components/dashboard/organizerPage/myCampaignFiles/CreateCampaign";
 import RoleModal from "./components/auth/RoleModal";
+import MyDonations from "./pages/MyDonations";
+import SavedCampaign from "./pages/SavedCampaign";
 const App = () => {
   return (
     <HashRouter>
@@ -56,6 +58,8 @@ const App = () => {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/role_modal" element={<RoleModal />} />
         <Route path="/campaign_details" element={<CampaignDetails />} />
+        <Route path="/my_donations" element={<MyDonations />} />
+        <Route path="/saved_campaigns" element={<SavedCampaign/>} />
 
 
         <Route path="/signup" element={<SignUpForm />} />

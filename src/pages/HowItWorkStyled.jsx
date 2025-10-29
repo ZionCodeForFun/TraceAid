@@ -6,6 +6,8 @@ export const HowitworksContainer = styled.div`
   align-items: center;
   width: 100%;
   background: #ffffff;
+  margin-top: 5rem;
+  gap: 2rem;
 `;
 
 export const StepSection = styled.section`

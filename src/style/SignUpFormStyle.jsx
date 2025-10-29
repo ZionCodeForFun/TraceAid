@@ -10,11 +10,11 @@ export const Container = styled.div`
   color: var(--NeutralGrey4-Text);
 
   .wrapper {
-    width: 665px;
+    width: 500px;
     padding: 70px;
 
     display: flex;
-    height: 1100px;
+    height: 800px;
     flex-direction: column;
     background-color: var(--Neutral_Offwhite);
     border-radius: 40px;
