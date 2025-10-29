@@ -73,6 +73,7 @@ export const Container = styled.div`
   .wrapper {
     display: flex;
     width: 90%;
+    max-width: 1100px;
     height: 100%;
     gap: 60px;
     padding-top: 45px;
