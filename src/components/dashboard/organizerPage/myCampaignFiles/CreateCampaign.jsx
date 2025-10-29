@@ -1,270 +1,318 @@
-//This is the second create campaign
-
-import React from "react";
+import React, { useState } from "react";
+import InputField from "../../../common/InputField";
+import Button from "../../../common/Button";
+import { GoPaperclip } from "react-icons/go";
+import { IoCloseSharp } from "react-icons/io5";
 import styled from "styled-components";
-import { FiInfo } from "react-icons/fi";
-import { MdAttachFile } from "react-icons/md";
-import { IoIosAdd } from "react-icons/io";
+import { CiCircleAlert } from "react-icons/ci";
+import { toast } from "react-toastify";
 
-const CreateCampaign = () => {
+const CreateCampaign = ({ onClose }) => {
+  const [fileName, setFileName] = useState("");
+  const [agreed, setAgreed] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFileName(file ? file.name : "");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!agreed) {
+      setError(true);
+      toast.error("You must agree to the Terms and Conditions");
+      return;
+    }
+
+    toast.success("Campaign created successfully!");
+    onClose(true);
+  };
+
   return (
     <Container>
-      <Header>
-        <h1>Create a Campaign</h1>
-        <p>Enter your details to continue</p>
-      </Header>
+      <aside className="right">
+        <div className="title">
+          <p className="bigtext">Create a Campaign</p>
+          <p className="smalltext">Enter your details to continue</p>
+        </div>
 
-      <Form>
-        <FormGroup>
-          <label>Campaign Title</label>
-          <input type="text" placeholder="Enter campaign title" />
-        </FormGroup>
-
-        <FormGroup>
-          <label>Campaign Description</label>
-          <textarea placeholder="Describe your campaign"></textarea>
-        </FormGroup>
-
-        <FormGroup>
-          <label>Total Campaign Goal Amount</label>
-          <input type="number" placeholder="Enter your total goal amount" />
-        </FormGroup>
-
-        <FormGroup>
-          <label>Category (Health, Education, Community, etc.)</label>
-          <select>
-            <option value="">category</option>
-            <option value="Health">Health</option>
-            <option value="Education">Education</option>
-            <option value="Community">Community</option>
-            <option value="Environment">Environment</option>
-          </select>
-        </FormGroup>
-
-        <FormGroup>
-          <label>Campaign Cover Image/Video</label>
-          <FileUpload>
-            <LeftSection>
-              <MdAttachFile
-                style={{
-                  fontSize: "20px",
-                  color: "#6fc36a",
-                  transform: "rotate(45deg)",
-                }}
-              />
-              <span>File upload</span>
-            </LeftSection>
-            <Buttoned>Choose file</Buttoned>
-          </FileUpload>
-        </FormGroup>
-
-        <FormGroup>
-          <label>Campaign Duration</label>
-          <input type="text" placeholder="Campaign duration" />
-        </FormGroup>
-
-        <MilestoneSection>
-          <div className="milestone-holder">
-            <h3>Milestone 1</h3>
-            <span>
-              <select></select>
-            </span>
+        <form className="input_holder" onSubmit={handleSubmit}>
+          <div className="name_holder">
+            <label>Campaign Title</label>
+            <InputField type="text" placeholder="Enter campaign title" />
           </div>
-          <h4>
-            <span>
-              <IoIosAdd color="#000000" fontWeight={900} size={13} /> Add
-              Milestones
-            </span>
-          </h4>
-        </MilestoneSection>
 
-        <SubmitBtn>Submit</SubmitBtn>
-      </Form>
+          <div className="name_holder">
+            <label>Campaign Description</label>
+            <InputField type="text" placeholder="Describe your campaign" />
+          </div>
+
+          <div className="name_holder">
+            <label>Total Campaign Goal Amount</label>
+            <InputField
+              type="text"
+              placeholder="Enter your total goal amount"
+            />
+          </div>
+
+          <div className="name_holder">
+            <label>Category (Health, Education, Community, etc.)</label>
+            <InputField type="text" placeholder="Category" />
+          </div>
+
+          <div className="name_holder">
+            <label>Campaign Cover Image/Video</label>
+
+            <input
+              type="file"
+              id="file-upload"
+              accept="image/*,video/*"
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />
+
+            <InputField
+              type="text"
+              placeholder={fileName ? fileName : "Upload campaign cover"}
+              readOnly
+            />
+            <i>
+              <GoPaperclip />
+            </i>
+            <p
+              className="choose_file"
+              onClick={() => document.getElementById("file-upload").click()}
+            >
+              Choose file
+            </p>
+
+            <div className="name_holder">
+              <label>Campaign Duration</label>
+              <InputField type="text" placeholder="Campaign duration" />
+            </div>
+          </div>
+
+          <div className="alrt_holder">
+            <p>Add Milestone</p>
+            <div className="alrt">
+              <CiCircleAlert className="alrt_icon" />
+              <p>Define your project milestones here.</p>
+            </div>
+          </div>
+
+          <div className="check">
+            <input
+              type="checkbox"
+              id="terms"
+              checked={agreed}
+              onChange={(e) => {
+                setAgreed(e.target.checked);
+                setError(false);
+
+              }}
+            />
+            <label htmlFor="terms">I agree to the Terms and Conditions</label>
+            {error && (
+              <p style={{ color: "#e50914", fontSize: "12px" }}>
+                You must agree before continuing
+              </p>
+            )}
+          </div>
+
+          <div className="btn_holder">
+            <Button text="Create Campaign" className="btn" type="submit" />
+          </div>
+
+          <IoCloseSharp onClick={() => onClose()} className="btn_close" />
+        </form>
+      </aside>
     </Container>
   );
 };
 
 export default CreateCampaign;
-
 const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
   width: 100%;
-  max-width: 650px;
-  margin: 50px auto;
-  padding: 20px;
-  font-family: "Inter", sans-serif;
-  color: #222;
-`;
 
-const Header = styled.div`
-  text-align: center;
-  margin-bottom: 30px;
-
-  h1 {
-    font-size: 40px;
-    font-weight: 700;
-    color: #333333;
-  }
-
-  p {
-    color: #666;
-    font-size: 16px;
-    font-weight: 400;
-    margin-top: 4px;
-  }
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-`;
-
-const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-
-  label {
-    font-size: 0.85rem;
-    color: #444;
-  }
-
-  input,
-  textarea,
-  select {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    outline: none;
-    color: #333333;
-
-    &:focus {
-      border-color: #6fc36a;
-      box-shadow: 0 0 5px rgba(111, 195, 106, 0.5);
-    }
-  }
-
-  textarea {
-    resize: none;
-  }
-`;
-const FileUpload = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 10px 14px;
-  font-size: 0.9rem;
-  cursor: pointer;
-
-  &:focus {
-    border-color: #6fc36a;
-    box-shadow: 0 0 5px rgba(111, 195, 106, 0.5);
-  }
-`;
-
-const LeftSection = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  span {
-    color: #777;
-  }
-`;
-
-const Buttoned = styled.button`
-  background: transparent;
-  border: none;
-  color: #6fc36a;
-  font-weight: 500;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-    color: #56a957;
-  }
-`;
-
-const MilestoneSection = styled.div`
-  border-radius: 6px;
-  padding: 10px 12px;
-  color: #444;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  .milestone-holder {
+  .right {
+    width: 650px;
+    height: 1000px;
+    padding: 40px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 15px;
-    padding-top: 5px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #ddd;
+    gap: 20px;
+    border-radius: 40px;
+    background: #fff;
 
-    h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
+    .title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .bigtext {
+        color: var(--NeutralGrey4-Text);
+        font-size: 40px;
+        font-weight: 700;
+        padding-top: 40px;
+      }
+      .smalltext {
+        color: var(--NeutralGrey4-Text);
+        font-size: 16px;
+        font-weight: 400;
+      }
     }
 
-    select {
-      border: none;
-      cursor: pointer;
+    .input_holder {
+      width: 90%;
+      height: max-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      position: relative;
+      gap: 19px;
+
+      .name_holder {
+        display: flex;
+        flex-direction: column;
+        height: 71px;
+        position: relative;
+        gap: 5px;
+
+        label {
+          font-size: 14px;
+          font-weight: 400;
+          color: var(--NeutralGrey4-Text);
+        }
+
+        input {
+          width: 100%;
+          padding: 10px 35px;
+          border-radius: 12px;
+          border: 1px solid var(--Neutral_Grey1);
+          outline: none;
+          color: #8d8d8d;
+          height: 48px;
+          font-size: 16px;
+        }
+
+        i {
+          position: absolute;
+          top: 52%;
+          left: 2%;
+          color: #8d8d8d;
+          font-size: 20px;
+        }
+
+        .choose_file {
+          position: absolute;
+          top: 50%;
+          right: 4%;
+          color: var(--PrimaryBase);
+          font-weight: 400;
+          font-size: 16px;
+          cursor: pointer;
+        }
+      }
+
+      .btn_close {
+        position: absolute;
+        top: -37%;
+        right: 4%;
+        cursor: pointer;
+        font-size: 24px;
+        color: #8d8d8d;
+      }
     }
-  }
 
-  h4 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    color: #000;
-    width: fit-content;
-    position: relative;
-    gap: 6px;
-    cursor: pointer;
+    .alrt_holder {
+      height: 80px;
+      display: flex;
+      flex-direction: column;
+      margin-top: 100px;
+      .alrt {
+        display: flex;
+        font-size: 12px;
+        color: #4d4d4d;
+        gap: 8px;
+        align-items: center;
+        margin-top: 5px;
 
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: #000;
+        .alrt_icon {
+          font-size: 17px;
+        }
+
+        &.error {
+          color: #e50914;
+        }
+      }
     }
-  }
 
-  p {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.8rem;
-    color: #666;
-    margin-top: 4px;
-  }
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 15px;
+      font-size: 14px;
+      color: var(--NeutralGrey4-Text);
 
-  svg {
-    color: #6fc36a;
-  }
-`;
+      input[type="checkbox"] {
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--NeutralGrey4-Text);
+        border-radius: 4px;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s ease;
+      }
 
-const SubmitBtn = styled.button`
-  background: #1a1a1a;
-  color: #a8e38b;
-  padding: 12px 0;
-  margin-top: 10px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.2s;
+      input[type="checkbox"]:checked {
+        background-color: var(--PrimaryBase);
+        border-color: var(--PrimaryBase);
+        transform: scale(1.1);
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+      }
 
-  &:hover {
-    opacity: 0.9;
+      input[type="checkbox"]:checked::after {
+        content: "✔";
+        color: #fff;
+        font-size: 12px;
+        position: absolute;
+        top: -1px;
+        left: 3px;
+      }
+
+      label {
+        cursor: pointer;
+        user-select: none;
+      }
+    }
+
+    .btn_holder {
+      display: flex;
+      height: 43px;
+      justify-content: space-between;
+
+      .btn {
+        height: 100%;
+        width: 100%;
+        border-radius: 8px;
+        background-color: var(--NeutralBlack);
+        color: var(--PrimaryBase);
+        font-size: 16px;
+        font-weight: 600;
+
+        &:hover {
+          background-color: var(--PrimaryBase);
+          color: var(--NeutralBlack);
+        }
+      }
+    }
   }
 `;
