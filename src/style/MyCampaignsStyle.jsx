@@ -141,28 +141,6 @@ export const Container = styled.div`
       border-radius: 10px;
       border: 0.5px solid #cccccc;
       position: relative;
-      .details_pop {
-        width: 187px;
-        height: 144px;
-        background-color: #0a0a0a;
-        position: absolute;
-        top: 12%;
-        right: 8%;
-        border-radius: 6px;
-        border: 0.5px solid #c0c0c0;
-        padding: 20px;
-        background-color: #ffffff;
-        p {
-          font-size: 16px;
-          font-weight: 400;
-          color: #4d4d4d;
-          padding: 9px 0;
-          cursor: pointer;
-        }
-        .close_btn {
-          color: #df0f23;
-        }
-      }
     }
 
     .custom-table {
@@ -208,7 +186,7 @@ export const Container = styled.div`
 
       padding-left: 12px;
     }
-
+    
     .milestone {
       padding: 6px 10px;
       border-radius: 8px;
@@ -217,21 +195,29 @@ export const Container = styled.div`
       text-transform: capitalize;
       width: max-content;
     }
-
-    /* Milestone color reacts to campaign status
-    .completed .milestone {
-      background-color: #e8fff1;
-      color: #0b8b2f;
+    .details_pop {
+      width: 187px;
+      height: 144px;
+      background-color: #0a0a0a;
+      position: absolute;
+      top: 12%;
+      right: 8%;
+      border-radius: 6px;
+      border: 0.5px solid #c0c0c0;
+      padding: 20px;
+      background-color: #ffffff;
+      p {
+        font-size: 16px;
+        font-weight: 400;
+        color: #4d4d4d;
+        padding: 9px 0;
+        cursor: pointer;
+      }
+      .close_btn {
+        color: #df0f23;
+      }
     }
 
-    .ongoing .milestone {
-      background-color: #fff6e5;
-      color: #d68102;
-    }
-
-    .pending .milestone {
-      background-color: #fce8e6;
-      color: #d93025;
-    } */
+   
   }
 `;

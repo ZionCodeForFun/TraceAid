@@ -25,7 +25,11 @@ import PayoutDetails from "./components/dashboard/organizerPage/Setting/PayoutDe
 import Notification from "./components/dashboard/organizerPage/Setting/Notification";
 import RequestWithraw from "./components/dashboard/organizerPage/walletFiles/RequestWithraw";
 import CreateCampaign from "./components/dashboard/organizerPage/myCampaignFiles/CreateCampaign";
-import CampaignDetails4org from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org";
+import CampaignDetails4org_ongoing from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org_ongoing";
+import RoleModal from "./components/auth/RoleModal";
+import CampaignDetails4org_pending from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org_pending";
+import CampaignDetails4org_completed from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org_completed";
+import UpdateMilestone from "./components/dashboard/organizerPage/myCampaignFiles/UpdateMilestone";
 const App = () => {
   return (
     <HashRouter>
@@ -36,7 +40,18 @@ const App = () => {
         <Route path="/organizationdashboard" element={<OrganizerDashboard />}>
           <Route path="" element={<OverViewPage />} />
           <Route path="myCampaigns" element={<MyCampaigns />}>
-            <Route path="camp_details_org" element={<CampaignDetails4org />} />
+            <Route
+              path="camp_details_ongoing"
+              element={<CampaignDetails4org_ongoing />}
+            />
+            <Route
+              path="camp_details_pending"
+              element={<CampaignDetails4org_pending />}
+            />
+            <Route
+              path="camp_details_completed"
+              element={<CampaignDetails4org_completed />}
+            />
           </Route>
           <Route path="wallet" element={<Wallet />}>
             <Route path="requestwithdraw" element={<RequestWithraw />} />
@@ -56,7 +71,7 @@ const App = () => {
         <Route path="/explore" element={<ExploreCampaign />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/campaigndetails" element={<CampaignDetails />} />
-
+        <Route path="/role_modal" element={<RoleModal />} />
         <Route path="/signup" element={<SignUpForm />} />
 
         <Route path="/ResetPassword" element={<ResetPassword />} />
