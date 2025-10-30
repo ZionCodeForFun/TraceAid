@@ -47,19 +47,7 @@ const SignUpForm = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (message) {
-  //     toast.success(message);
-  //     form.resetFields();
-  //     dispatch(resetStatus());
-  //     nav("/verify");
-  //   }
-
-  //   if (error) {
-  //     toast.error(error);
-  //     dispatch(resetStatus());
-  //   }
-  // }, [message, error]);
+  
 
   return (
     <Container>
