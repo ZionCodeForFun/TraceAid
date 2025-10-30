@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { Container } from "../../style/VerifyOtpStyle";
 import logo2 from "../../assets/logo2.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../global/authSlice";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
@@ -18,6 +18,9 @@ const VerifyOtp = () => {
   const dispatch = useDispatch();
   const { email } = useParams();
   const [loading, setLoading] = useState(false);
+
+  const role = useSelector((state) => state.auth.role);
+  console.log(role);
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -57,9 +60,13 @@ const VerifyOtp = () => {
     }
 
     try {
-      console.log("Sending verification data:", { email, otp: code });
+      // console.log("Sending verification data:", { email, otp: code });
       const response = await axios.post(
-        "https://traceaid.onrender.com/donor/api/v1/verify-otp",
+        `${
+          role === "fundraiser"
+            ? import.meta.env.VITE_BaseUrl2
+            : import.meta.env.VITE_BaseUrl
+        }/${role === "fundraiser" ? "verify" : "verify-otp"}`,
         { email, otp: code }
       );
 
@@ -89,7 +96,11 @@ const VerifyOtp = () => {
   const resendOtp = async () => {
     try {
       const response = await axios.post(
-        "https://traceaid.onrender.com/donor/api/v1/resend-otp",
+        `${
+          role === "fundraiser"
+            ? import.meta.env.VITE_BaseUrl2
+            : import.meta.env.VITE_BaseUrl
+        }/resend-otp`,
         { email }
       );
       if (response.data?.statusCode === true) {

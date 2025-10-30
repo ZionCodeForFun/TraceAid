@@ -10,6 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FiBriefcase } from "react-icons/fi";
 import { BsTelephone } from "react-icons/bs";
 import axios from "axios";
+import { setRole } from "../../global/authSlice";
 const SignUpForm = () => {
   const dispatch = useDispatch();
   const accountType = useSelector((state) => state.accountType.type);
@@ -17,24 +18,34 @@ const SignUpForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
+  console.log("account type", accountType);
+
   const onFinish = async (values) => {
     try {
       setLoading(true);
       const res = await axios.post(
-        import.meta.env.VITE_BaseUrl + "/register",
+        `${
+          accountType === "organization"
+            ? import.meta.env.VITE_BaseUrl2
+            : import.meta.env.VITE_BaseUrl
+        }/register`,
         values
       );
       toast.success(res?.data?.message || "Registration successful");
       form.resetFields();
-      nav(`/verify/${res?.data?.data?.user?.email}`);
+      console.log(res);
+      dispatch(setRole(res?.data?.data?.user?.role || res?.data?.data?.role));
+      nav(`/verify/${res?.data?.data?.user?.email || res?.data?.data?.email}`);
     } catch (err) {
       console.log(err);
-      toast.error(err?.response?.data?.message || "Registration failed");
+      toast.error(err?.response?.data?.data?.message || "Registration failed");
       setLoading(false);
     } finally {
       setLoading(false);
     }
   };
+
+  
 
   return (
     <Container>
@@ -63,7 +74,7 @@ const SignUpForm = () => {
           {accountType === "organization" ? (
             <Form.Item
               label="Organization Name"
-              name="organization"
+              name="organizationName"
               rules={[
                 {
                   required: true,
@@ -211,7 +222,7 @@ const SignUpForm = () => {
             ]}
           >
             <Checkbox className="custom-checkbox">
-              I agree to the <a href="/terms">terms and conditions</a>
+              I agree to the <Link to="/terms">terms and conditions</Link>
             </Checkbox>
           </Form.Item>
 
