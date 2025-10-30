@@ -121,4 +121,4 @@ const KycVerify = () => {
   );
 };
 
-export default KycVerify;
+export default KycVerify; 

@@ -88,12 +88,78 @@ export const Container = styled.div`
     }
 
     .goBack {
-        margin-top: 1rem;
+      margin-top: 1rem;
       cursor: pointer;
       color: #3a4621;
       font-size: 16px;
       font-weight: 400;
       border-bottom: 1px solid #3a4621;
+    }
+    .holder {
+      height: 90vh;
+      width: 100%;
+      top: 20%;
+      left: 0%;
+      z-index: 9999;
+      position: fixed;
+      background-color: rgb(192, 192, 192, 0.3);
+      .reciept_holder {
+        display: flex;
+        width: 512px;
+        height: 318px;
+        flex-direction: column;
+        background-color: white;
+        align-items: center;
+        padding: 20px;
+        top: 12%;
+        left: 30%;
+        z-index: 9999;
+        position: absolute;
+        gap: 17px;
+        border-radius: 8px;
+        .content-holder {
+          width: 462px;
+          height: 164px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+          text-align: center;
+          i {
+            height: 64px;
+            width: 64px;
+            background-color: black;
+            font-size: 32px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00a63e;
+            background-color: #dcfce7;
+          }
+          .bigtext {
+            font-size: 18px;
+            font-weight: 700;
+          }
+          .small {
+            font-size: 14px;
+            font-weight: 400;
+          }
+        }
+        .close_btn {
+          background-color: var(--NeutralBlack);
+          color: var(--PrimaryBase);
+          font-weight: 600;
+          font-size: 16px;
+          height: 43px;
+          border-radius: 8px;
+          width: 67%;
+          &:hover {
+            background-color: var(--PrimaryBase);
+            color: var(--NeutralBlack);
+          }
+        }
+      }
     }
   }
 

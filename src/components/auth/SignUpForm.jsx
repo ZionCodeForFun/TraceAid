@@ -10,6 +10,7 @@ import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
 import { FiBriefcase } from "react-icons/fi";
 import { BsTelephone } from "react-icons/bs";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 const SignUpForm = () => {
   const dispatch = useDispatch();
   const accountType = useSelector((state) => state.accountType.type);
@@ -26,7 +27,8 @@ const SignUpForm = () => {
       toast.success(message);
       form.resetFields();
       dispatch(resetStatus());
-      nav("/login");
+
+      nav("/verifyotp", { state: { otpSent: true } });
     }
 
     if (error) {
@@ -246,6 +248,7 @@ const SignUpForm = () => {
             </Link>
           </div>
         </div>
+       
       </Form>
     </Container>
   );

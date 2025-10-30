@@ -6,7 +6,7 @@ import { FiSettings } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import { Layout, Menu, theme } from "antd";
 import { Container } from "../../../style/OrganizerDashboardStyle";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo2.png";
 import Header from "./Header";
 const { Content, Sider } = Layout;
@@ -44,6 +44,7 @@ const items = [
   },
 ];
 const OrganizerDashboard = () => {
+  const nav = useNavigate()
   const location = useLocation();
   const selectedKey =
     items.find(
@@ -66,7 +67,7 @@ const OrganizerDashboard = () => {
         >
           <div className="logo">
             {" "}
-            <img src={logo} alt="logo" />
+            <img src={logo} alt="logo" onClick={()=>nav("/")} />
           </div>
           <Menu
             className="content_holder"

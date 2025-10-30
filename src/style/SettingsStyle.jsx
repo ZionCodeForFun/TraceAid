@@ -29,7 +29,7 @@ export const Container = styled.div`
         width: 18px;
         height: 18px;
         cursor: pointer;
-          accent-color: var(--NeutralBlack); 
+        accent-color: var(--NeutralBlack);
       }
     }
 
@@ -104,7 +104,7 @@ export const Container = styled.div`
           width: 100px;
           border-radius: 500px;
           background-color: #d9d9d9;
-          img{
+          img {
             width: 100%;
             height: 100%;
             object-fit: contain;
@@ -220,11 +220,12 @@ export const Container = styled.div`
           }
           .choose_file {
             position: absolute;
-            top: -76%;
+            top: 50%;
             right: 4%;
             color: var(--PrimaryBase);
             font-weight: 400;
             font-size: 16px;
+            cursor: pointer;
           }
         }
       }
