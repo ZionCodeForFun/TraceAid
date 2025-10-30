@@ -184,18 +184,18 @@ const Container = styled.div`
         align-items: center;
         font-weight: 700;
         font-size: 18px;
-        color: white; /* default text color for filled */
+        color: white;
 
         &.filled {
           background-color: var(--PrimaryBase);
           border-color: var(--PrimaryBase);
-          color: white; /* checkmark color */
+          color: white;
         }
 
         &.empty {
           background-color: #fff;
           border-color: var(--Neutral_Grey1);
-          color: transparent; /* no text */
+          color: transparent; 
         }
       }
     }

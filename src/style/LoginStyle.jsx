@@ -2,176 +2,149 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: 913px;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
   color: var(--NeutralGrey4-Text);
-  .wrapper .ant-form-item {
-  }
+  background-color: transparent;
 
   .wrapper .ant-form-item-label {
     padding: 0 !important;
     margin-bottom: 2px;
   }
+
   .wrapper {
-    width: 665px;
-    padding: 70px;
+    width: 480px; /* reduced from 665px */
+    padding: 40px; /* reduced from 70px */
     display: flex;
-    height: 850px;
-    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     background-color: var(--Neutral_Offwhite);
-    border-radius: 40px;
+    border-radius: 28px; /* smoother corners */
     border: 0.5px solid var(--Neutral_Grey1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    height: auto; /* removed fixed 850px */
+
     .img_holder {
       width: 100%;
-      height: 75px;
+      height: 60px; /* reduced from 75px */
       display: flex;
       justify-content: center;
       align-items: center;
 
       img {
-        object-fit: cover;
-        height: 29px;
-        width: fit-content;
-      }
-    }
-
-    @media (max-width: 768px) {
-      width: 70%;
-      height: auto;
-      border-radius: 25px;
-    }
-
-    @media (max-width: 480px) {
-      width: 95%;
-      height: auto;
-      padding: 15px;
-      border-radius: 20px;
-    }
-
-    @media screen and (min-width: 600px) and (max-width: 900px) {
-      max-width: 700px;
-      padding: 40px;
-      height: max-content;
-
-      .title .sign {
-        font-size: 26px;
+        object-fit: contain;
+        height: 26px; /* smaller logo */
+        width: auto;
       }
     }
 
     img {
-      width: 100px;
-      height: 30px;
+      width: 90px;
+      height: 28px;
       object-fit: contain;
-      margin-bottom: 20px;
-
-      @media (max-width: 480px) {
-        width: 80px;
-        height: 25px;
-      }
+      margin-bottom: 15px;
     }
 
     .content_holder {
       display: flex;
       flex-direction: column;
       width: 100%;
-      height: 690px;
-      gap: 20px;
+      height: auto;
+      gap: 16px;
+
       .input {
-        height: 48px;
-        border-radius: 12px;
-        font-size: 16px;
-        font-weight: 400;
-        color: var(--Neutral_Grey1);
+        height: 42px;
+        border-radius: 10px;
+        font-size: 14px;
       }
+
       .forgotpassword a:hover {
         font-weight: bold;
       }
+
       .title {
-        gap: 8px;
+        gap: 6px;
         display: flex;
         flex-direction: column;
         width: 100%;
         text-align: center;
-        height: max-content;
-        margin-bottom: 20px;
-        height: 71px;
-        .log {
-          color: var(--NeutralGrey4-Text);
-          font-weight: 700;
+        margin-bottom: 15px;
 
-          font-size: 40px;
-          height: 48px;
+        .log {
+          font-size: 28px; /* reduced from 40px */
+          font-weight: 700;
+          color: var(--NeutralGrey4-Text);
 
           @media (max-width: 768px) {
-            font-size: 20px;
+            font-size: 22px;
           }
-
           @media (max-width: 480px) {
             font-size: 18px;
           }
         }
 
         .text {
-          font-size: 16px;
+          font-size: 14px; 
           color: var(--NeutralGrey4-Text);
           font-weight: 400;
-          height: 19px;
 
           @media (max-width: 480px) {
             font-size: 11px;
           }
         }
-
-        @media (max-width: 480px) {
-          margin-bottom: 15px;
-        }
       }
+
       .footer {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
-        height: 203px;
-        gap: 34px;
+        gap: 24px; 
+        margin-top: 10px;
 
         .google_btn {
           background-color: white;
           border: 2px solid var(--Primary700);
           color: var(--NeutralGrey4-Text);
-          font-size: 16px;
+          font-size: 14px; /* reduced */
           font-weight: 600;
-          padding: 12px 30px;
-          height: 44px;
-          width: 525px;
+          padding: 10px 20px;
+          height: 42px;
+          width: 400px;
+     
+          border-radius: 10px;
+          transition: all 0.3s ease;
+
           &:hover {
             background-color: var(--Primary200);
+          }
 
-            @media (max-width: 768px) {
-              font-size: 13px;
-            }
+          @media (max-width: 768px) {
+            font-size: 13px;
+          }
 
-            @media (max-width: 480px) {
-              font-size: 12px;
-              padding: 8px 10px;
-            }
+          @media (max-width: 480px) {
+            font-size: 12px;
+            padding: 8px 10px;
           }
         }
+
         .line-text {
           display: flex;
           align-items: center;
+          justify-content: center;
           text-align: center;
           color: #555;
           margin: 5px 0;
           gap: 7px;
           font-weight: 400;
-          font-size: 16px;
-          width: 525px;
+          font-size: 14px; 
+          width: 100%;
+          max-width: 400px;
 
           @media (max-width: 480px) {
             font-size: 11px;
@@ -186,32 +159,35 @@ export const Container = styled.div`
             border-bottom: 1px solid #aaa;
           }
         }
+
         .already {
           display: flex;
           align-items: center;
-          width: 100%;
           justify-content: center;
-          margin-top: 34px;
-          height: 19px;
+          width: 100%;
+          margin-top: 20px;
           gap: 6px;
           p {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 400;
           }
           span {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
             color: var(--Primary700);
           }
         }
       }
+
       .login_btn {
         background-color: var(--NeutralBlack);
         color: var(--PrimaryBase);
         font-weight: 600;
-        font-size: 16px;
-        height: 43px;
+        font-size: 15px;
+        height: 42px;
         border-radius: 8px;
+        transition: all 0.3s ease;
+
         &:hover {
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
@@ -230,6 +206,7 @@ export const Container = styled.div`
       .custom-checkbox {
         color: #333;
         font-weight: 500;
+        font-size: 14px;
 
         a {
           color: var(--NeutralBlack);
@@ -247,6 +224,27 @@ export const Container = styled.div`
         @media (max-width: 480px) {
           font-size: 12px;
         }
+      }
+    }
+
+    
+    @media (max-width: 768px) {
+      width: 85%;
+      padding: 25px;
+      border-radius: 20px;
+    }
+
+    @media (max-width: 480px) {
+      width: 95%;
+      padding: 15px;
+      border-radius: 18px;
+    }
+
+    @media screen and (min-width: 600px) and (max-width: 900px) {
+      max-width: 600px;
+      padding: 35px;
+      .title .log {
+        font-size: 24px;
       }
     }
   }

@@ -3,23 +3,17 @@ import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Radio } from "antd";
 import { Container } from "../../style/SignUpFormStyle";
 import { Link, useNavigate } from "react-router-dom";
-// import { signup, resetStatus } from "../../global/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
 import { FiBriefcase } from "react-icons/fi";
 import { BsTelephone } from "react-icons/bs";
-<<<<<<< HEAD
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-=======
 import axios from "axios";
->>>>>>> ab204babfbca9ece44ed27b2bddd0cc816235561
 const SignUpForm = () => {
   const dispatch = useDispatch();
   const accountType = useSelector((state) => state.accountType.type);
   const nav = useNavigate();
-  // const { loading, error, message } = useSelector((state) => state.auth);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
@@ -41,31 +35,6 @@ const SignUpForm = () => {
       setLoading(false);
     }
   };
-
-<<<<<<< HEAD
-  useEffect(() => {
-    if (message) {
-      toast.success(message);
-      form.resetFields();
-      dispatch(resetStatus());
-
-      nav("/verifyotp", { state: { otpSent: true } });
-    }
-=======
-  // useEffect(() => {
-  //   if (message) {
-  //     toast.success(message);
-  //     form.resetFields();
-  //     dispatch(resetStatus());
-  //     nav("/verify");
-  //   }
->>>>>>> ab204babfbca9ece44ed27b2bddd0cc816235561
-
-  //   if (error) {
-  //     toast.error(error);
-  //     dispatch(resetStatus());
-  //   }
-  // }, [message, error]);
 
   return (
     <Container>
@@ -253,7 +222,6 @@ const SignUpForm = () => {
               type="primary"
               htmlType="submit"
               loading={loading}
-              // onClick={() => nav("/verify")}
             >
               {loading ? "Signing Up..." : "Sign Up"}
             </Button>
@@ -278,7 +246,6 @@ const SignUpForm = () => {
             </Link>
           </div>
         </div>
-       
       </Form>
     </Container>
   );

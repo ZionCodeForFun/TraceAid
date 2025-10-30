@@ -20,15 +20,10 @@ const KycVerification1 = () => {
     setFileName(file ? file.name : "");
   };
 
-
-
   return (
     <Container>
       <div className="goback">
-        <div
-          className="icon_holder"
-          onClick={() => nav("/signup")}
-        >
+        <div className="icon_holder" onClick={() => nav("/signup")}>
           <IoArrowBackOutline className="iconn" />
           <p>Go back</p>
         </div>
@@ -48,7 +43,7 @@ const KycVerification1 = () => {
           <div className="dot filled"></div>
         </div>
 
-        <form className="input_holder" >
+        <form className="input_holder">
           <p className="big">Fill your KYC details</p>
 
           <div className="name_holder">

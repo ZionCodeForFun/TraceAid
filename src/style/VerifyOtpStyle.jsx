@@ -106,15 +106,14 @@ export const Container = styled.div`
     }
     .otpResend {
       text-decoration: underline;
-      /* width: 80%; */
+    
       text-align: center;
-      /* margin-top: 1rem; */
+   
       cursor: pointer;
       color: #3a4621;
-      /* display: flex; */
-      /* flex-direction: column; */
+   
       gap: 5px;
-      /* align-items: center; */
+    
     }
     .holder {
       height: 90vh;

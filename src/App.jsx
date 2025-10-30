@@ -29,6 +29,14 @@ import CampaignDetails4org_ongoing from "./components/dashboard/organizerPage/my
 import RoleModal from "./components/auth/RoleModal";
 import CampaignDetails4org_pending from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org_pending";
 import CampaignDetails4org_completed from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org_completed";
+import TermsAndConditions from "./components/common/Terms&Con";
+import KycVerification1 from "./components/auth/KycVerification1";
+import KycVerification2 from "./components/auth/KycVerification2";
+import AdminLogin from "./components/auth/adminAuth/AdminLogin";
+import AdminRegister from "./components/auth/adminAuth/AdminRegister";
+import AdminForgotPassword from "./components/auth/adminAuth/AdminForgotPassword";
+import AdminRequestPassword from "./components/auth/adminAuth/AdminRequestPassword";
+import AdminVerifyOTP from "./components/auth/AdminVerifyOtp";
 const App = () => {
   return (
     <HashRouter>
@@ -65,9 +73,19 @@ const App = () => {
             <Route path="Notification" element={<Notification />} />
           </Route>
         </Route>
+          
+        <Route path="/admin_register" element={<AdminRegister />} />
+        <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
+        <Route path="/admin_login" element={<AdminLogin />} />
+        <Route path="/admin_login" element={<AdminLogin />} />
+        <Route path="/admin_Forgot_Password" element={<AdminForgotPassword/>} />
+        <Route path="/admin_request_Password" element={<AdminRequestPassword/>} />
+
 
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/verify" element={<VerifyOtp />} />
+        <Route path="/verify_kyc1" element={<KycVerification1 />} />
+        <Route path="/verify_kyc2" element={<KycVerification2 />} />
+        <Route path="/verify/:email" element={<VerifyOtp />} />
         <Route path="/how_it_works" element={<HowItWorks />} />
         <Route path="/explore" element={<ExploreCampaign />} />
         <Route path="/about" element={<AboutPage />} />
