@@ -7,6 +7,7 @@ export const AboutPageSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 4rem;
 `;
 
 export const AboutIntro = styled.div`

@@ -4,12 +4,29 @@ import { MailOutlined } from "@ant-design/icons";
 import { Container } from "../../style/ResetPasswordStyle";
 import logo2 from "../../assets/logo2.png";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 const ForgotPassword = () => {
   const nav = useNavigate();
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log("Reset request:", values);
-    nav("/ResetPassword");
+  const [loading, setLoading] = React.useState(false);
+
+  const onFinish = async (values) => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        import.meta.env.VITE_BaseUrl + "/forgot-password",
+        values
+      );
+      toast.success("Verification code sent to your email!");
+      nav("/login");
+    } catch (error) {
+      setLoading(false);
+      console.error("Error sending verification code:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to send verification code."
+      );
+    }
   };
   return (
     <Container>
@@ -46,8 +63,14 @@ const ForgotPassword = () => {
             </Form.Item>
 
             <Form.Item style={{ marginBottom: "5px" }}>
-              <Button type="primary" htmlType="submit" block className="btn">
-                Send Verification Code
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
+                className="btn"
+                loading={loading}
+              >
+                {loading ? "Sending..." : "Send Verification Code"}
               </Button>
             </Form.Item>
           </div>

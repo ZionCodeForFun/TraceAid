@@ -8,7 +8,11 @@ import {
   ProgressBar,
 } from "./CampaignDataStyled.jsx";
 
+import { useNavigate } from "react-router-dom";
+
 const CampaignData = () => {
+
+  const nav = useNavigate();
   return (
     <Container>
       <Header>
@@ -48,7 +52,7 @@ const CampaignData = () => {
                 />
               </ProgressBar>
 
-              <button>Donate Now</button>
+              <button onClick={() => nav("/campaign_details")}>Donate Now</button>
             </div>
           </Card>
         ))}

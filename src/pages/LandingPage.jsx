@@ -57,8 +57,11 @@ import TrackIcon from "../assets/TrackImg.png";
 import CelebrateIcon from "../assets/CelebrateImg.png";
 import HeaderNav from "./HeaderNav.jsx";
 import { useNavigate } from "react-router-dom";
+import Footer from "./Footer.jsx";
 
 const LandingPage = () => {
+
+  const nav = useNavigate();
   return (
     <LandingContainer>
       {/* <NavBar>
@@ -225,7 +228,7 @@ const LandingPage = () => {
             See, manage, and grow your impact, all from one simple dashboard
             that brings every campaign detail together in one clear view.
           </p>
-          <button>Get Started</button>
+          <button onClick={() => nav("/role_modal")}>Get Started</button>
         </FundraisingContent>
 
         <FundraisingImage>
@@ -250,14 +253,14 @@ const LandingPage = () => {
             <h3>Be Part of our Donors and Fundraisers with over</h3>
             <CommunityStat>20,000</CommunityStat>
             <p>People from across Nigeria</p>
-            <CommunityButton>Get Started</CommunityButton>
+            <CommunityButton onClick={()=> nav("/role_modal")}>Get Started</CommunityButton>
           </CommunityContent>
           <img src={Img3} alt="Community Image 3" />
           <img src={Img4} alt="Community Image 4" />
         </CommunityGrid>
       </CommunitySection>
 
-      <FooterContainer>
+      {/* <FooterContainer>
         <FooterContent>
           <FooterLogo>
             <img src={FooterImg} alt="TraceAid Logo" />
@@ -303,7 +306,9 @@ const LandingPage = () => {
         <FooterCopyright>
           © 2025 TraceAid | All rights reserved.
         </FooterCopyright>
-      </FooterContainer>
+      </FooterContainer> */}
+
+      <Footer />
     </LandingContainer>
   );
 };

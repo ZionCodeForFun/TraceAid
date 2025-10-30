@@ -8,6 +8,7 @@ export const LandingContainer = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 80px;
 `;
 
 
@@ -119,12 +120,13 @@ export const HeroSection = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 80px;
 `;
 
 export const HeroOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55); /* dark overlay for readability */
+  background: rgba(0, 0, 0, 0.55); 
   display: flex;
   justify-content: center;
   align-items: center;
