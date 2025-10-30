@@ -9,11 +9,17 @@ const ResetPassword = () => {
   const [loading, setLoading] = React.useState(false);
   const { token, id } = useParams();
 
+  const role = "donor";
+
   const onFinish = async (values) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        import.meta.env.VITE_BaseUrl + `/reset-password/${token}/${id}`,
+       `${
+          role === "organization"
+            ? import.meta.env.VITE_BaseUrl2
+            : import.meta.env.VITE_BaseUrl
+        }/reset-password/${token}/${id}`,
         values
       );
       message.success("Password has been reset successfully!");

@@ -28,9 +28,8 @@ const LoginForm = () => {
       );
       const data = response.data;
       toast.success("Login successful!");
-      // dispatch(setUser(data));
-      console.log(data);
-      // nav("/");
+      dispatch(setUser(data?.data?.login));
+      nav("/");
     } catch (error) {
       setLoading(false);
       console.error("Login error:", error);

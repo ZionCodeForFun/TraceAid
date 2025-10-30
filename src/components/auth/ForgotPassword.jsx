@@ -11,11 +11,17 @@ const ForgotPassword = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = React.useState(false);
 
+  const role = "donor";
+
   const onFinish = async (values) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        import.meta.env.VITE_BaseUrl + "/forgot-password",
+        `${
+          role === "organization"
+            ? import.meta.env.VITE_BaseUrl2
+            : import.meta.env.VITE_BaseUrl
+        }/forgot-password`,
         values
       );
       toast.success("Verification code sent to your email!");
