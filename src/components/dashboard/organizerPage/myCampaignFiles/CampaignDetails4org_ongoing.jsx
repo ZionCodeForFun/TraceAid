@@ -42,7 +42,6 @@ const CampaignDetails4org_ongoing = () => {
     fetchDonors();
   }, []);
 
-  // fallback data if user opens page directly
   const title =
     campaign?.details ||
     "Provide Solar Lights for Students Studying After Dark";

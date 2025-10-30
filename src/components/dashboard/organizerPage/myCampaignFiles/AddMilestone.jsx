@@ -6,126 +6,154 @@ import { IoCloseSharp } from "react-icons/io5";
 import styled from "styled-components";
 import { CiCircleAlert } from "react-icons/ci";
 import { toast } from "react-toastify";
+import ReactDOM from "react-dom";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
-const createcampaign = ({ onClose, campaign }) => {
-  const [fileCount, setFileCount] = useState(0);
-  const [error, setError] = useState(false);
+const AddMilestone = ({ onClose, campaign }) => {
+  const nav = useNavigate();
+  const [state, setState] = useState({
+    fileCount: 0,
+    error: false,
+    title: "",
+    amount: "",
+    duration: "",
+    description: "",
+    showSuccess: false,
+  });
 
-  const handleFileChange = (e) => {
-    const files = e.target.files;
-    setFileCount(files.length);
-    setError(files.length < 5);
-  };
+  const {
+    fileCount,
+    error,
+    title,
+    amount,
+    duration,
+    description,
+    showSuccess,
+  } = state;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (fileCount < 5) {
-      setError(true);
+
+    if (!title.trim()) {
+      setState((prev) => ({ ...prev, error: true }));
       return;
     }
-    toast.success("saved successuflleful");
-    onClose(true);
+
+    toast.success("Milestone saved successfully");
+    setState((prev) => ({ ...prev, showSuccess: true }));
   };
 
-  return (
+  return ReactDOM.createPortal(
     <Container>
       <aside className="right">
         <div className="title">
-          <p>Milestone Update</p>
+          <p className="bigtext">Milestone Update</p>
+          <p className="smalltext">Milestone 1</p>
         </div>
 
         <form className="input_holder" onSubmit={handleSubmit}>
           <div className="name_holder">
             <label>Milestone Title</label>
-            <InputField type="text" placeholder="Stationaries" />
-          </div>
-          <div className="name_holder">
-            <label>Milestone Title</label>
-            <InputField type="text" placeholder="Stationaries" />
-          </div>
-          <div className="name_holder">
-            <label>Milestone Title</label>
-            <InputField type="text" placeholder="Stationaries" />
-          </div>
-          <div className="name_holder">
-            <label>Milestone Title</label>
-            <InputField type="text" placeholder="Stationaries" />
-          </div>
-          <div className="name_holder">
-            <label>Milestone Title</label>
-            <InputField type="text" placeholder="Stationaries" />
-          </div>
-
-          <div className="name_holder">
-            <label>Document Upload</label>
-
-            <input
-              type="file"
-              id="file-upload"
-              multiple
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-            />
-
             <InputField
               type="text"
-              placeholder={`${
-                fileCount > 0
-                  ? `${fileCount} file${fileCount > 1 ? "s" : ""} selected`
-                  : "File upload"
-              }`}
-              readOnly
+              placeholder="Stationaries"
+              value={title}
+              onChange={(e) =>
+                setState((prev) => ({
+                  ...prev,
+                  title: e.target.value,
+                  error: false,
+                }))
+              }
             />
-            <i>
-              <GoPaperclip />
-            </i>
-            <p
-              className="choose_file"
-              onClick={() => document.getElementById("file-upload").click()}
-            >
-              Choose file
-            </p>
+          </div>
 
-            <div className={`alrt ${error ? "error" : ""}`}>
-              <CiCircleAlert className="alrt_icon" />
-              <p>
-                {error
-                  ? "Upload at least 5 proof evidence files!"
-                  : "Minimum of 5 proof evidence upload"}
-              </p>
-            </div>
+          <div className="name_holder">
+            <label>Amount</label>
+            <InputField
+              type="text"
+              placeholder="Enter amount"
+              value={amount}
+              onChange={(e) =>
+                setState((prev) => ({ ...prev, amount: e.target.value }))
+              }
+            />
+          </div>
+
+          <div className="name_holder">
+            <label>Duration (Date)</label>
+            <InputField
+              type="text"
+              placeholder="Enter your duration date"
+              value={duration}
+              onChange={(e) =>
+                setState((prev) => ({ ...prev, duration: e.target.value }))
+              }
+            />
+          </div>
+
+          <div className="name_holder">
+            <label>Description</label>
+            <InputField
+              type="text"
+              placeholder="Description"
+              value={description}
+              onChange={(e) =>
+                setState((prev) => ({ ...prev, description: e.target.value }))
+              }
+            />
           </div>
 
           <div className="btn_holder">
-            <Button text="Save Milestone" className="btn" type="submit" />
+            <Button text="Save Milestones" className="btn" type="submit" />
           </div>
 
-          <IoCloseSharp onClick={() => onClose()} className="btn_close" />
+          <IoCloseSharp onClick={() => onClose(false)} className="btn_close" />
         </form>
+        {showSuccess && (
+          <div className="holder">
+            <div className="reciept_holder">
+              <div className="content-holder">
+                <i>
+                  <IoMdCheckmarkCircleOutline />
+                </i>
+                <p className="bigtext">Milestone Submitted</p>
+                <p className="smalltext">
+                  Milestone achievement have been submitted for verification
+                </p>
+              </div>
+              <Button
+                onClick={() => nav("/organizationdashboard/")}
+                text="Close"
+                className="close_btn"
+              />
+            </div>
+          </div>
+        )}
       </aside>
-    </Container>
+    </Container>,
+    document.body
   );
 };
 
-export default createcampaign;
+export default AddMilestone;
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   background-color: rgb(141, 141, 141, 0.5);
-
-  width: 100%;
   position: fixed;
-  top: 0;
-  left: 0%;
+  top: 0%;
+  width: 100%;
   z-index: 9999;
 
   .right {
     width: 650px;
-    height: 100%;
-    padding: 40px;
+    height: max-content;
+    padding: 20px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -134,16 +162,27 @@ const Container = styled.div`
     border: 1px solid var(--Neutral_Grey1);
     background-color: var(--Neutral_Offwhite);
 
-    .title p {
-      color: var(--NeutralGrey4-Text);
-      font-size: 40px;
-      font-weight: 700;
-      padding-top: 40px;
+    .title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 20px;
+
+      .bigtext {
+        color: var(--NeutralGrey4-Text);
+        font-size: 40px;
+        font-weight: 700;
+      }
+      .smalltext {
+        color: var(--NeutralGrey4-Text);
+        font-size: 14px;
+        font-weight: 400;
+      }
     }
 
     .input_holder {
       width: 90%;
-      height: 80%;
+      height: max-content;
       display: flex;
       flex-direction: column;
       justify-content: end;
@@ -191,29 +230,12 @@ const Container = styled.div`
           font-size: 16px;
           cursor: pointer;
         }
-
-        .alrt {
-          display: flex;
-          font-size: 12px;
-          color: #4d4d4d;
-          gap: 8px;
-          align-items: center;
-          margin-top: 5px;
-
-          .alrt_icon {
-            font-size: 17px;
-          }
-
-          &.error {
-            color: #e50914;
-          }
-        }
       }
 
       .btn_close {
         position: absolute;
-        top: -37%;
-        right: 4%;
+        top: -27%;
+        right: 2%;
         cursor: pointer;
         font-size: 24px;
         color: #8d8d8d;
@@ -238,6 +260,71 @@ const Container = styled.div`
         &:hover {
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
+        }
+      }
+    }
+    .holder {
+      height: 90vh;
+      width: 100%;
+      top: 20%;
+      left: 0%;
+      z-index: 9999;
+      position: fixed;
+      background-color: rgb(192, 192, 192, 0.3);
+      .reciept_holder {
+        display: flex;
+        width: 512px;
+        height: 318px;
+        flex-direction: column;
+        background-color: white;
+        align-items: center;
+        padding: 20px;
+        top: 12%;
+        left: 30%;
+        z-index: 9999;
+        position: absolute;
+        border-radius: 8px;
+        .content-holder {
+          width: 462px;
+          height: 164px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+          text-align: center;
+          i {
+            height: 64px;
+            width: 64px;
+            background-color: black;
+            font-size: 32px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00a63e;
+            background-color: #dcfce7;
+          }
+          .bigtext {
+            font-size: 18px;
+            font-weight: 700;
+          }
+          .small {
+            font-size: 14px;
+            font-weight: 400;
+          }
+        }
+        .close_btn {
+          height: 36px;
+          width: 133px;
+          border: 1px solid var(--Neutral_Grey1);
+          color: #0a0a0a;
+          font-size: 14px;
+          margin-top: 20px;
+          background-color: white;
+          font-weight: 400;
+          font-family: Arial, Helvetica, sans-serif;
+          border-radius: 8px;
+          cursor: pointer;
         }
       }
     }

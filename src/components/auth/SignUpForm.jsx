@@ -3,7 +3,6 @@ import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Radio } from "antd";
 import { Container } from "../../style/SignUpFormStyle";
 import { Link, useNavigate } from "react-router-dom";
-// import { signup, resetStatus } from "../../global/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import logo2 from "../../assets/logo2.png";
@@ -16,7 +15,6 @@ const SignUpForm = () => {
   const dispatch = useDispatch();
   const accountType = useSelector((state) => state.accountType.type);
   const nav = useNavigate();
-  // const { loading, error, message } = useSelector((state) => state.auth);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
@@ -235,7 +233,6 @@ const SignUpForm = () => {
               type="primary"
               htmlType="submit"
               loading={loading}
-              // onClick={() => nav("/verify")}
             >
               {loading ? "Signing Up..." : "Sign Up"}
             </Button>

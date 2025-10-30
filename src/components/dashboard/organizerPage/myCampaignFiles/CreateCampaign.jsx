@@ -2,41 +2,75 @@ import React, { useState } from "react";
 import InputField from "../../../common/InputField";
 import Button from "../../../common/Button";
 import { GoPaperclip } from "react-icons/go";
-import { IoCloseSharp } from "react-icons/io5";
+import { IoArrowBackOutline, IoCloseSharp } from "react-icons/io5";
 import styled from "styled-components";
 import { CiCircleAlert } from "react-icons/ci";
 import { toast } from "react-toastify";
+import AddMilestone from "./AddMilestone";
+import { IoIosArrowDown, IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const CreateCampaign = ({ onClose }) => {
-  const [fileName, setFileName] = useState("");
-  const [agreed, setAgreed] = useState(false);
-  const [error, setError] = useState(false);
+  const [state, setState] = useState({
+    fileName: "",
+    agreed: false,
+    error: false,
+    show: false,
+    showreciept: false,
+    showaddmilestone: false,
+    milestones: [],
+    showMilestoneDetails: null,
+  });
+
+  const nav = useNavigate();
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setFileName(file ? file.name : "");
+    setState((prev) => ({ ...prev, fileName: file ? file.name : "" }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!agreed) {
-      setError(true);
+    if (!state.agreed) {
+      setState((prev) => ({ ...prev, error: true }));
       toast.error("You must agree to the Terms and Conditions");
       return;
     }
 
     toast.success("Campaign created successfully!");
-    onClose(true);
   };
+
+  const toggle = (key) => {
+    setState((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const {
+    fileName,
+    agreed,
+    error,
+    show,
+    showreciept,
+    showaddmilestone,
+    milestones,
+    showMilestoneDetails,
+  } = state;
 
   return (
     <Container>
+      <div className="goback">
+        <div
+          className="icon_holder"
+          onClick={() => nav("/organizationdashboard/myCampaigns")}
+        >
+          <IoArrowBackOutline className="iconn" />
+          <p>Go back</p>
+        </div>
+      </div>
       <aside className="right">
         <div className="title">
           <p className="bigtext">Create a Campaign</p>
           <p className="smalltext">Enter your details to continue</p>
         </div>
-
         <form className="input_holder" onSubmit={handleSubmit}>
           <div className="name_holder">
             <label>Campaign Title</label>
@@ -57,8 +91,20 @@ const CreateCampaign = ({ onClose }) => {
           </div>
 
           <div className="name_holder">
-            <label>Category (Health, Education, Community, etc.)</label>
-            <InputField type="text" placeholder="Category" />
+            <label>Category</label>
+            <div className="custom_select">
+              <select required>
+                <option value="">Select a category</option>
+                <option value="Health">Education</option>
+                <option value="Education">Community Development</option>
+                <option value="Community">Agriculture & Food Security</option>
+                <option value="Environment">Community Development</option>
+                <option value="Technology">Women & Youth Empowerment</option>
+                <option value="Charity">Innovation & Technology</option>
+                <option value="Emergency Relief">Emergency Relief</option>
+              </select>
+              <IoIosArrowDown className="menu_i" />
+            </div>
           </div>
 
           <div className="name_holder">
@@ -87,62 +133,220 @@ const CreateCampaign = ({ onClose }) => {
               Choose file
             </p>
 
-            <div className="name_holder">
+            <div className="name_holder" style={{ marginBottom: "15px" }}>
               <label>Campaign Duration</label>
               <InputField type="text" placeholder="Campaign duration" />
             </div>
           </div>
 
-          <div className="alrt_holder">
-            <p>Add Milestone</p>
-            <div className="alrt">
-              <CiCircleAlert className="alrt_icon" />
-              <p>Define your project milestones here.</p>
+          {milestones.length === 0 && (
+            <div className="alrt_holder">
+              <p
+                onClick={() =>
+                  setState((p) => ({ ...p, showaddmilestone: true }))
+                }
+                className="add"
+              >
+                + Add Milestone
+              </p>
+              <div className="alrt">
+                <CiCircleAlert className="alrt_icon" />
+                <p className="define">Define your project milestones here.</p>
+              </div>
             </div>
-          </div>
+          )}
+
+          {milestones.length > 0 &&
+            milestones.map((milestone, index) => (
+              <div
+                key={index}
+                className={`milestone_dropdown ${
+                  showMilestoneDetails === index ? "expanded" : ""
+                }`}
+              >
+                <div
+                  className="milestone_title"
+                  onClick={() =>
+                    setState((prev) => ({
+                      ...prev,
+                      showMilestoneDetails:
+                        prev.showMilestoneDetails === index ? null : index,
+                    }))
+                  }
+                >
+                  <p>Milestone {index + 1}</p>
+                  <IoIosArrowDown
+                    className={`arrow ${
+                      showMilestoneDetails === index ? "rotated" : ""
+                    }`}
+                  />
+                </div>
+
+                {showMilestoneDetails === index && (
+                  <div className="milestone_content">
+                    <p
+                      style={{
+                        fontWeight: 500,
+                        fontSize: "16px",
+                        color: "#4D4D4D",
+                      }}
+                    >
+                      {milestone.title}
+                    </p>
+                    <p
+                      style={{
+                        marginTop: 8,
+                        fontWeight: 500,
+                        fontSize: "16px",
+                        color: "#0A9C57",
+                      }}
+                    >
+                      {milestone.amount}
+                    </p>
+                    <p
+                      style={{
+                        fontWeight: 400,
+                        fontSize: "16px",
+                        color: "#4D4D4D",
+                      }}
+                    >
+                      {milestone.description}
+                    </p>
+                    <p
+                      style={{
+                        marginTop: 8,
+                        fontWeight: 500,
+                        fontSize: "16px",
+                        color: "#0A9C57",
+                      }}
+                    >
+                      {milestone.duration}
+                    </p>
+                    <p
+                      style={{
+                        fontWeight: 400,
+                        fontSize: "16px",
+                        color: "#4D4D4D",
+                      }}
+                    >
+                      {milestone.description}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
+
+          {show && (
+            <div className="sec_add">
+              <p
+                onClick={() =>
+                  setState((p) => ({ ...p, showaddmilestone: true }))
+                }
+                className="add"
+              >
+                + Add Another Milestone
+              </p>
+            </div>
+          )}
 
           <div className="check">
             <input
               type="checkbox"
               id="terms"
               checked={agreed}
-              onChange={(e) => {
-                setAgreed(e.target.checked);
-                setError(false);
-
-              }}
+              onChange={(e) =>
+                setState((prev) => ({
+                  ...prev,
+                  agreed: e.target.checked,
+                  error: false,
+                }))
+              }
             />
-            <label htmlFor="terms">I agree to the Terms and Conditions</label>
+            <label onClick={() => nav("/termsandcon")} htmlFor="terms">
+              I agree to the Terms and Conditions
+            </label>
             {error && (
-              <p style={{ color: "#e50914", fontSize: "12px" }}>
+              <p
+                style={{
+                  color: "#e50914",
+                  fontSize: "12px",
+                  cursor: "pointer",
+                }}
+              >
                 You must agree before continuing
               </p>
             )}
           </div>
 
           <div className="btn_holder">
-            <Button text="Create Campaign" className="btn" type="submit" />
+            <Button
+              text="Create Campaign"
+              onClick={() => setState((p) => ({ ...p, showreciept: true }))}
+              className="btn"
+              type="submit"
+            />
           </div>
 
           <IoCloseSharp onClick={() => onClose()} className="btn_close" />
         </form>
+
+        {showaddmilestone && (
+          <AddMilestone
+            onClose={(saved, data) => {
+              setState((prev) => ({
+                ...prev,
+                showaddmilestone: false,
+                ...(saved && data
+                  ? {
+                      milestones: [...prev.milestones, data],
+                      show: true,
+                    }
+                  : {}),
+              }));
+            }}
+          />
+        )}
+
+        {showreciept && (
+          <div className="holder">
+            <div className="reciept_holder">
+              <div className="content-holder">
+                <i>
+                  <IoMdCheckmarkCircleOutline />
+                </i>
+                <p className="bigtext">Campaign Submitted Successfully!</p>
+                <p className="smalltext">
+                  Your campaign is now under review. Once <br /> verified, it’ll
+                  go live and start receiving <br /> donations.
+                </p>
+              </div>
+              <Button
+                onClick={() => nav("/organizationdashboard")}
+                text="Go to dashboard"
+                className="close_btn"
+              />
+            </div>
+          </div>
+        )}
       </aside>
     </Container>
   );
 };
 
 export default CreateCampaign;
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   height: 100%;
 
   width: 100%;
 
   .right {
     width: 650px;
-    height: 1000px;
+    height: 900px;
     padding: 40px;
     display: flex;
     flex-direction: column;
@@ -150,6 +354,7 @@ const Container = styled.div`
     gap: 20px;
     border-radius: 40px;
     background: #fff;
+    position: relative;
 
     .title {
       display: flex;
@@ -183,6 +388,55 @@ const Container = styled.div`
         height: 71px;
         position: relative;
         gap: 5px;
+        .custom_select {
+          position: relative;
+          width: 100%;
+        }
+
+        .custom_select select {
+          width: 100%;
+          padding: 10px 35px;
+          border-radius: 12px;
+          border: 1px solid var(--Neutral_Grey1);
+          outline: none;
+          color: #333;
+          height: 48px;
+          font-size: 16px;
+          background-color: #f9f9f9;
+          appearance: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .custom_select select:hover {
+          background-color: #efefef;
+        }
+
+        .custom_select select:focus {
+          background-color: #fff;
+          box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom_select option {
+          color: #333;
+          background-color: #fff;
+          padding: 10px;
+        }
+
+        .custom_select option:hover {
+          background-color: var(--PrimaryBase);
+          color: #fff;
+        }
+
+        .custom_select .menu_i {
+          position: absolute;
+          top: 50%;
+          right: 12px;
+          transform: translateY(-50%);
+          color: #8d8d8d;
+          font-size: 20px;
+          pointer-events: none;
+        }
 
         label {
           font-size: 14px;
@@ -199,6 +453,14 @@ const Container = styled.div`
           color: #8d8d8d;
           height: 48px;
           font-size: 16px;
+        }
+        .menu_i {
+          position: absolute;
+          top: 52%;
+          right: 2%;
+          color: #8d8d8d;
+          font-size: 20px;
+          cursor: pointer;
         }
 
         i {
@@ -230,11 +492,77 @@ const Container = styled.div`
       }
     }
 
+    .sec_add {
+      border-bottom: 1px solid #333333;
+      width: 200px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .milestone_dropdown {
+      width: 100%;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      margin-top: 12px;
+      background: #fff;
+      position: relative;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      margin-top: 100px;
+      max-height: 55px;
+      cursor: pointer;
+
+      &.expanded {
+        max-height: 300px;
+      }
+
+      .milestone_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+        font-size: 16px;
+        padding: 12px 16px;
+      }
+
+      .arrow {
+        transition: transform 0.3s ease;
+      }
+
+      .arrow.rotated {
+        transform: rotate(180deg);
+      }
+
+      .milestone_content {
+        padding: 12px 16px;
+        border-top: 1px solid #e0e0e0;
+        animation: fadeIn 0.3s ease;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .alrt_holder {
-      height: 80px;
+      gap: 5px;
       display: flex;
       flex-direction: column;
       margin-top: 100px;
+      .add {
+        border-bottom: 1px solid #333333;
+        width: 136px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+      }
       .alrt {
         display: flex;
         font-size: 12px;
@@ -312,6 +640,100 @@ const Container = styled.div`
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
         }
+      }
+    }
+    .holder {
+      height: 90vh;
+      width: 100%;
+      top: 0%;
+      left: 0%;
+      z-index: 9999;
+      position: fixed;
+      background-color: rgb(192, 192, 192, 0.3);
+      .reciept_holder {
+        display: flex;
+        width: 448px;
+        height: 383px;
+        flex-direction: column;
+        background-color: white;
+        align-items: center;
+        padding: 40px;
+        top: 12%;
+        left: 30%;
+        z-index: 9999;
+        position: absolute;
+        border-radius: 8px;
+        gap: 20px;
+
+        .content-holder {
+          width: 462px;
+          height: 200px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+          text-align: center;
+          i {
+            height: 64px;
+            width: 64px;
+            background-color: black;
+            font-size: 32px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00a63e;
+            background-color: #dcfce7;
+          }
+          .bigtext {
+            font-size: 18px;
+            font-weight: 700;
+          }
+          .small {
+            font-size: 14px;
+            font-weight: 400;
+            width: 104px;
+            height: 55px;
+            text-align: center;
+          }
+        }
+        .close_btn {
+          height: 36px;
+          width: 300px;
+          border: 1px solid var(--Neutral_Grey1);
+          color: #0a0a0a;
+          font-size: 16px;
+          margin-top: 20px;
+          background-color: var(--NeutralBlack);
+          color: var(--PrimaryBase);
+          font-weight: 600;
+          font-family: Arial, Helvetica, sans-serif;
+          border-radius: 8px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .goback {
+    height: 20px;
+    width: 80%;
+    padding-top: 70px;
+
+    .icon_holder {
+      display: flex;
+      margin-left: 70px;
+      gap: 16px;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+
+      .iconn {
+        font-size: 20px;
+        cursor: pointer;
+      }
+      p {
+        font-size: 16px;
+        font-weight: 400;
       }
     }
   }

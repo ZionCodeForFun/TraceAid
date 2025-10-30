@@ -7,9 +7,12 @@ import logo2 from "../../assets/logo2.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../global/authSlice";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState(Array(6).fill(""));
+  const [showSuccess,setshowSuccess] = useState(false)
+
   const inputsRef = useRef([]);
   const nav = useNavigate();
   const dispatch = useDispatch();
@@ -70,10 +73,11 @@ const VerifyOtp = () => {
       console.log("Verification response:", response.data);
 
       if (response.data?.statusCode === true) {
+        setshowSuccess(true)
         toast.success(response.data.message || "Email verification successful");
         dispatch(setUser(response.data.user));
         setTimeout(() => {
-          nav("/");
+          nav("/verify_kyc1");
         }, 1500);
       } else {
         toast.error(response.data.message || "Invalid or expired OTP");
@@ -143,7 +147,6 @@ const VerifyOtp = () => {
     <Container>
       <form onSubmit={handleSubmit} className="wrapper">
         <img src={logo2} alt="logo" />
-
         <div className="title">
           <p className="sign">Verify Account</p>
           <p className="text">Enter your verification code</p>
@@ -176,7 +179,6 @@ const VerifyOtp = () => {
           className="verify_btn"
           style={{ marginTop: "20px" }}
           loading={loading}
-          // onClick={()=>nav('/organizationdashboard')}
         >
           {loading ? "Verifying..." : "Verify"}
         </Button>
@@ -187,6 +189,25 @@ const VerifyOtp = () => {
         <p className="goBack" onClick={() => nav("/signup")}>
           Go back
         </p>
+        {showSuccess && (
+          <div className="holder">
+            <div className="reciept_holder">
+              <div className="content-holder">
+                <i>
+                  <IoMdCheckmarkCircleOutline />
+                </i>
+                <p className="bigtext">Verification successful</p>
+                <p className="smalltext">
+                  Your email have been verified and your account have <br />{" "}
+                  been account created
+                </p>
+              </div>
+              <Button onClick={() => nav("/verify_kyc1")} className="close_btn">
+                Proceed to KYC
+              </Button>
+            </div>
+          </div>
+        )}
       </form>
     </Container>
   );

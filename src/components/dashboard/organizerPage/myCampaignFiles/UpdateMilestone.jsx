@@ -86,6 +86,7 @@ const UpdateMilestone = ({ onClose, campaign }) => {
 
           <IoCloseSharp onClick={() => onClose()} className="btn_close" />
         </form>
+        
       </aside>
     </Container>
   );
