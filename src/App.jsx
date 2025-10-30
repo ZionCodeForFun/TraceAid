@@ -27,13 +27,8 @@ import RequestWithraw from "./components/dashboard/organizerPage/walletFiles/Req
 import CreateCampaign from "./components/dashboard/organizerPage/myCampaignFiles/CreateCampaign";
 import CampaignDetails4org_ongoing from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org_ongoing";
 import RoleModal from "./components/auth/RoleModal";
-import ProtectedRoute from "./components/common/ProtectedRoute";
-import AdminDashboard from "./components/dashboard/AdminDashboard";
 import CampaignDetails4org_pending from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org_pending";
 import CampaignDetails4org_completed from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org_completed";
-import TermsAndConditions from "./components/common/Terms&Con";
-import KycVerification1 from "./components/auth/KycVerification1";
-import KycVerification2 from "./components/auth/KycVerification2";
 const App = () => {
   return (
     <HashRouter>
@@ -73,24 +68,14 @@ const App = () => {
 
         <Route path="/login" element={<LoginForm />} />
         <Route path="/verify" element={<VerifyOtp />} />
-        <Route path="/verify_kyc1" element={<KycVerification1 />} />
-        <Route path="/verify_kyc2" element={<KycVerification2 />} />
         <Route path="/how_it_works" element={<HowItWorks />} />
         <Route path="/explore" element={<ExploreCampaign />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/campaigndetails" element={<CampaignDetails />} />
         <Route path="/role_modal" element={<RoleModal />} />
-        <Route
-          path="/admindashboard"
-          element={
-            <ProtectedRoute allowedRole={"admin"}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
         <Route path="/signup" element={<SignUpForm />} />
 
-        <Route path="/ResetPassword" element={<ResetPassword />} />
+        <Route path="/ResetPassword/:token/:id" element={<ResetPassword />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
       </Routes>
       <ToastContainer position="top-center" autoClose={2000} />

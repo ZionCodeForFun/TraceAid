@@ -1,14 +1,29 @@
-import React from "react";
+import React, { use } from "react";
 import { Form, Input, Button, message } from "antd";
 import { Container } from "../../style/ResetPasswordStyle";
 import logo2 from "../../assets/logo2.png";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 const ResetPassword = () => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = React.useState(false);
+  const { token, id } = useParams();
 
-  const onFinish = (values) => {
-    console.log("New password:", values.password);
-    message.success("Password reset successful!");
-    form.resetFields();
+  const onFinish = async (values) => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        import.meta.env.VITE_BaseUrl + `/reset-password/${token}/${id}`,
+        values
+      );
+      message.success("Password has been reset successfully!");
+    } catch (error) {
+      setLoading(false);
+      console.error("Error resetting password:", error);
+      message.error(
+        error.response?.data?.message || "Failed to reset password."
+      );
+    }
   };
   return (
     <Container>
@@ -33,7 +48,10 @@ const ResetPassword = () => {
               ]}
               hasFeedback
             >
-              <Input.Password placeholder="Enter your password" className="input"/>
+              <Input.Password
+                placeholder="Enter your password"
+                className="input"
+              />
             </Form.Item>
             <p className="text">Confirm New Password</p>
 
@@ -54,7 +72,10 @@ const ResetPassword = () => {
                 }),
               ]}
             >
-              <Input.Password placeholder="Re-enter your password" className="input"/>
+              <Input.Password
+                placeholder="Re-enter your password"
+                className="input"
+              />
             </Form.Item>
 
             <Form.Item>

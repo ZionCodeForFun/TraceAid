@@ -94,6 +94,27 @@ export const Container = styled.div`
       font-size: 16px;
       font-weight: 400;
       border-bottom: 1px solid #3a4621;
+      text-decoration: none;
+    }
+
+    .otpResendHolder {
+      margin-top: 1rem;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+    .otpResend {
+      text-decoration: underline;
+      /* width: 80%; */
+      text-align: center;
+      /* margin-top: 1rem; */
+      cursor: pointer;
+      color: #3a4621;
+      /* display: flex; */
+      /* flex-direction: column; */
+      gap: 5px;
+      /* align-items: center; */
     }
     .holder {
       height: 90vh;

@@ -6,6 +6,7 @@ export const ExploreCampaignSection = styled.section`
   background: #ffffff;
   display: flex;
   flex-direction: column;
+  margin-top: 4rem;
 `;
 
 export const ExploreHeader = styled.div`
