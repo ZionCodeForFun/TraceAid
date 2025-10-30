@@ -87,6 +87,10 @@ const HeaderNav = () => {
                 <AiOutlineGift className="icon" />
                 My Donations
               </li>
+              <li onClick={() => nav("/organization_dashboard")}>
+                <AiOutlineGift className="icon" />
+                Fundraiser Dashboard
+              </li>
               <li onClick={() => nav("/saved_campaigns")}>
                 <CiBookmark className="icon" />
                 Saved Campaigns

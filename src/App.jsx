@@ -38,7 +38,7 @@ const App = () => {
         <Route path="/*" element={<RouterError />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
-        <Route path="/organizationdashboard" element={<OrganizerDashboard />}>
+        <Route path="/organization_dashboard" element={<OrganizerDashboard />}>
           <Route path="" element={<OverViewPage />} />
           <Route path="myCampaigns" element={<MyCampaigns />}>
             <Route
