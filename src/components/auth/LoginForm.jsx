@@ -1,37 +1,55 @@
 import React, { useEffect } from "react";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex } from "antd";
+import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../global/authSlice";
+import { resetStatus } from "../../global/authSlice";
 import { Container } from "../../style/LoginStyle";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
+import { setUser } from "../../global/authSlice";
 
 const LoginForm = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const { loading, error, message } = useSelector((state) => state.auth);
+  // const { loading, error, message } = useSelector((state) => state.auth);
+  const [loading, setLoading] = React.useState(false);
 
   const onFinish = async (values) => {
-    dispatch(login(values));
-
-    console.log("Received values of form: ", values);
+    // localStorage.setItem("userEmail", values.email);
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        import.meta.env.VITE_BaseUrl + "/login",
+        values
+      );
+      const data = response.data;
+      toast.success("Login successful!");
+      // dispatch(setUser(data));
+      console.log(data);
+      // nav("/");
+    } catch (error) {
+      setLoading(false);
+      console.error("Login error:", error);
+      toast.error(error.response?.data?.message || "Login failed.");
+    }
   };
-  useEffect(() => {
-    if (message) {
-      toast.success(message);
-      form.resetFields();
-      dispatch(resetStatus());
-      nav("/login");
-    }
+  // useEffect(() => {
+  //   if (message) {
+  //     toast.success(message);
+  //     form.resetFields();
+  //     dispatch(resetStatus());
+  //     nav("/explore");
+  //   }
 
-    if (error) {
-      toast.error(error);
-      dispatch(resetStatus());
-    }
-  }, [message, error]);
+  //   if (error) {
+  //     toast.error(error);
+  //     dispatch(resetStatus());
+  //   }
+  // }, [message, error]);
 
   return (
     <Container>
@@ -100,8 +118,9 @@ const LoginForm = () => {
               type="primary"
               htmlType="submit"
               className="login_btn"
+              loading={loading}
             >
-              Log in
+              {loading ? "Logging in..." : "Log in"}
             </Button>
           </Form.Item>
           <footer className="footer">
@@ -111,13 +130,13 @@ const LoginForm = () => {
             <p>Continue with</p>
             <div>
               <Button block type="primary" className="google_btn">
-                <FcGoogle style={{fontSize:"20px"}} />
+                <FcGoogle style={{ fontSize: "20px" }} />
                 Google
               </Button>
             </div>
             <div className="already">
               <p> Don’t have an account?</p>{" "}
-              <Link to={"/"}>
+              <Link to={"/role_modal"}>
                 <span style={{ color: " #c1e86e", fontWeight: 700 }}>
                   Sign Up
                 </span>

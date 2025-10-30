@@ -67,7 +67,7 @@ const App = () => {
         </Route>
 
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/verify" element={<VerifyOtp />} />
+        <Route path="/verify/:email" element={<VerifyOtp />} />
         <Route path="/how_it_works" element={<HowItWorks />} />
         <Route path="/explore" element={<ExploreCampaign />} />
         <Route path="/about" element={<AboutPage />} />
@@ -75,12 +75,11 @@ const App = () => {
         <Route path="/role_modal" element={<RoleModal />} />
         <Route path="/campaign_details" element={<CampaignDetails />} />
         <Route path="/my_donations" element={<MyDonations />} />
-        <Route path="/saved_campaigns" element={<SavedCampaign/>} />
-
+        <Route path="/saved_campaigns" element={<SavedCampaign />} />
 
         <Route path="/signup" element={<SignUpForm />} />
 
-        <Route path="/ResetPassword" element={<ResetPassword />} />
+        <Route path="/ResetPassword/:token/:id" element={<ResetPassword />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
       </Routes>
       <ToastContainer position="top-center" autoClose={2000} />

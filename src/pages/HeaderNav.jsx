@@ -10,8 +10,7 @@ import { CiBookmark } from "react-icons/ci";
 import { CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
 
-
-const getInitials = (name = "") => {
+const getInitials = (name = "Omesiete Emeka") => {
   const split = name.trim().split(" ");
   const first = split[0]?.charAt(0).toUpperCase() || "";
   const last = split[1]?.charAt(0).toUpperCase() || "";
@@ -22,9 +21,8 @@ const HeaderNav = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
 
-  // const { user } = useSelector((state) => state.auth);
-  const user = null;
-
+  const user = useSelector((state) => state.auth.user);
+  console.log("this is user", user);
   const [openDropdown, setOpenDropdown] = useState(false);
 
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
@@ -35,7 +33,7 @@ const HeaderNav = () => {
     nav("/");
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     const handleScroll = () => {
       const navbar = document.querySelector("nav");
       if (window.scrollY > 20) {
@@ -76,8 +74,8 @@ const HeaderNav = () => {
           <div className="initials">{getInitials(user?.name)}</div>
 
           <div className="info">
-            <h4>{user?.name}</h4>
-            <p>{user?.email}</p>
+            <h4>Omesiete Emeka</h4>
+            <p>omesietemicheal@gmail.com</p>
           </div>
 
           <RiArrowDropDownLine
@@ -87,13 +85,16 @@ const HeaderNav = () => {
             <DropdownMenu>
               <li onClick={() => nav("/my_donations")}>
                 <AiOutlineGift className="icon" />
-                My Donations</li>
+                My Donations
+              </li>
               <li onClick={() => nav("/saved_campaigns")}>
-                <CiBookmark  className="icon" />
-                Saved Campaigns</li>
+                <CiBookmark className="icon" />
+                Saved Campaigns
+              </li>
               <li onClick={() => nav("/explore")}>
-                <CiSettings  className="icon" />
-                My Account Settings</li>
+                <CiSettings className="icon" />
+                My Account Settings
+              </li>
               <li onClick={logoutUser} className="logout">
                 <MdOutlineLogout className="icon" />
                 Logout
@@ -269,34 +270,34 @@ export const DropdownMenu = styled.ul`
   height: 200px;
   background: #fff;
   border-radius: 8px;
-  padding: 0.7rem 0;
+  padding: 0.9rem 1.2rem;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.12);
   list-style: none;
   z-index: 100;
+  border: 1px solid #c0c0c0;
 
   li {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem; 
-  margin-bottom: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 1.3rem;
 
+    .icon {
+      font-size: 1.1rem;
+      color: #3b7a57;
+      transition: color 0.3s ease;
+    }
 
-  .icon {
-    font-size: 1.1rem;
-    color: #3b7a57;
-    transition: color 0.3s ease;
+    &:hover .icon {
+      color: #000;
+    }
   }
 
-  &:hover .icon {
-    color: #000;
+  .logout .icon {
+    color: #b30000;
   }
-}
 
-.logout .icon {
-  color: #b30000;
-}
-
-.logout:hover .icon {
-  color: #7a0000;
-}
+  .logout:hover .icon {
+    color: #7a0000;
+  }
 `;

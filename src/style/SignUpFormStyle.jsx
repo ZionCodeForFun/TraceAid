@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: 1160px;
+  height: 100%;
   background-color: transparent;
   display: flex;
   justify-content: center;
@@ -10,11 +10,11 @@ export const Container = styled.div`
   color: var(--NeutralGrey4-Text);
 
   .wrapper {
-    width: 500px;
+    width: 665px;
     padding: 70px;
 
     display: flex;
-    height: 800px;
+    height: 1100px;
     flex-direction: column;
     background-color: var(--Neutral_Offwhite);
     border-radius: 40px;

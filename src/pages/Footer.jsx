@@ -4,7 +4,11 @@ import { RiTwitterXLine } from "react-icons/ri";
 import styled from 'styled-components';
 import  FooterImg from "../assets/logo1.png";
 
+import { useNavigate } from 'react-router-dom';
+
 const Footer = () => {
+
+  const nav = useNavigate();
   return (
    <FooterContainer>
              <FooterContent>
@@ -37,7 +41,7 @@ const Footer = () => {
                <FooterColumn>
                  <h4>Company</h4>
                  <ul>
-                   <li>About</li>
+                   <li onClick={()=> nav("/about")}>About</li>
                    <li>Blog</li>
                    <li>Terms & Conditions</li>
                    <li>Contact Us</li>
