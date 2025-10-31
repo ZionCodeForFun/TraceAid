@@ -65,6 +65,7 @@ const App = () => {
           <Route path="wallet" element={<Wallet />}>
             <Route path="requestwithdraw" element={<RequestWithraw />} />
           </Route>
+
           <Route path="settings" element={<Settings />}>
             <Route path="" element={<PersonalInfo />} />
             <Route path="kycverify" element={<KycVerify />} />
