@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { BsExclamationCircle } from "react-icons/bs";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { CiHome } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 
 const RouterError = () => {
+  const nav = useNavigate();
 
-  
   return (
     <NotFound>
       <div className="NotFoundContainer">
@@ -48,11 +49,11 @@ const RouterError = () => {
         </article>
 
         <section className="button-holder">
-          <button className="GoBack-btn">
+          <button className="GoBack-btn" onClick={() => nav(-1)}>
             <IoMdArrowRoundBack size={14} color="##0A0A0A" />
             Go Back
           </button>
-          <button className="HomePage-btn2">
+          <button className="HomePage-btn2" onClick={() => nav("/")}>
             <CiHome size={17} color="##030213" />
             Back To HomePage
           </button>

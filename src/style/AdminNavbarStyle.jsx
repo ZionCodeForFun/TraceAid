@@ -11,7 +11,7 @@ export const NavbarWrapper = styled.div`
 export const NavbarContainer = styled.div`
   width: 1400px;
   height: 46px;
-  background-color: #ECECF0;
+  background-color: #ececf0;
   border-radius: 14px;
   display: flex;
   justify-content: space-around;
@@ -30,23 +30,12 @@ export const NavItem = styled.div`
   justify-content: space-between;
   gap: 8px;
   padding: 8px 16px;
-  background-color: white; 
+  background-color: ${({ $active }) => ($active ? "#000" : "#fff")};
   border-radius: 3px;
+  color: ${({ $active }) => ($active ? "#a7c95e" : "#222")};
   cursor: pointer;
 
   &:hover {
-    background-color: #E1E3EB;
+    background-color: #e1e3eb;
   }
-  .icon {
-    font-size: 16px;
-    color: ${({ $active }) => ($active ? "#6B7D43" : "#6B7280")};
-  }
-
-  .text {
-    font-size: 14px;
-    color: ${({ $active }) => ($active ? "#111827" : "#6B7280")};
-    font-weight: ${({ $active }) => ($active ? "500" : "400")};
-  }
-
-
 `;

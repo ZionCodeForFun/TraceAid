@@ -22,20 +22,25 @@ import PayoutDetails from "./components/dashboard/organizerPage/Setting/PayoutDe
 import Notification from "./components/dashboard/organizerPage/Setting/Notification";
 import RequestWithraw from "./components/dashboard/organizerPage/walletFiles/RequestWithraw";
 import CreateCampaign from "./components/dashboard/organizerPage/myCampaignFiles/CreateCampaign";
-// import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
-// import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
+import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
+import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
+import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
+import AdminVerification from "./components/dashboard/adminDashboard/AdminVerification";
+
 
 const App = () => {
   return (
     <HashRouter>
       <Routes>
         <Route path="/*" element={<RouterError />} />
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/d" element={<LandingPage />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
 
-        {/* <Route path="/Admin" element={<AdminDashboard />}>
+        <Route path="/Admin" element={<AdminDashboard />}>
           <Route path="" element={<DashboardManagement />} />
-        </Route> */}
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="verification" element={<AdminVerification />} />
+        </Route>
 
         <Route path="/organizationdashboard" element={<OrganizerDashboard />}>
           <Route path="" element={<OverViewPage />} />

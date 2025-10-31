@@ -16,12 +16,12 @@ import { FaUsers, FaFileAlt, FaIdCard } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
 const menuItems = [
-  { name: "Dashboard", icon: <MdDashboard />, path: "/DashboardManagement" },
-  { name: "Users", icon: <FaUsers />, path: "/adminDashboard/users" },
+  { name: "Dashboard", icon: <MdDashboard />, path: "/Admin" },
+  { name: "Users", icon: <FaUsers />, path: "/Admin/users" },
   {
     name: "Verification",
     icon: <MdVerifiedUser />,
-    path: "/adminDashboard/verification",
+    path: "/admin/verification",
   },
   {
     name: "Campaigns",
@@ -49,8 +49,8 @@ const AdminNavbar = () => {
           return (
             <StyledLink to={item.path} key={item.name}>
               <NavItem $active={isActive}>
-                <span className="icon">{item.icon}</span>
-                <span className="text">{item.name}</span>
+                <span>{item.icon}</span>
+                <span>{item.name}</span>
               </NavItem>
             </StyledLink>
           );

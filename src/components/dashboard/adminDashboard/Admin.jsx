@@ -2,7 +2,9 @@ import React from "react";
 import AdminHeader from "./AdminHeader";
 import AdminNavbar from "./AdminNavbar";
 import DashboardManagement from "./DashboardManagement";
+import AdminUsers from "./AdminUsers";
 import styled from "styled-components";
+import { Outlet } from "react-router-dom";
 
 const AdminDashboard = () => {
   return (
@@ -16,7 +18,7 @@ const AdminDashboard = () => {
       </NavbarWrapper>
 
       <MainContent>
-        <DashboardManagement />
+        <Outlet />
       </MainContent>
     </DashboardWrapper>
   );
@@ -24,15 +26,15 @@ const AdminDashboard = () => {
 
 export default AdminDashboard;
 
-
 const DashboardWrapper = styled.div`
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: max-content;
   background-color: #f9fafb;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px; 
+  gap: 30px;
 `;
 
 const AdminHeaderWrapper = styled.div`
@@ -53,11 +55,12 @@ const NavbarWrapper = styled.div`
 `;
 
 const MainContent = styled.div`
-  width: 1240px;
+  width: 1250px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
   gap: 32px;
-  min-height: 1154px;
+  height: auto;
+  min-height: max-content;
 `;
