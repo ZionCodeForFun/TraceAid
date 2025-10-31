@@ -60,7 +60,7 @@ const CreateCampaign = ({ onClose }) => {
       <div className="goback">
         <div
           className="icon_holder"
-          onClick={() => nav("/organizationdashboard/myCampaigns")}
+          onClick={() => nav("/organization/myCampaigns")}
         >
           <IoArrowBackOutline className="iconn" />
           <p>Go back</p>
@@ -321,7 +321,7 @@ const CreateCampaign = ({ onClose }) => {
                 </p>
               </div>
               <Button
-                onClick={() => nav("/organizationdashboard")}
+                onClick={() => nav("/organization")}
                 text="Go to dashboard"
                 className="close_btn"
               />

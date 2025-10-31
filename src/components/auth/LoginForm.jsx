@@ -1,45 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Flex } from "antd";
+import { Button, Form, Input, Flex, Checkbox } from "antd";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { resetStatus, setRole } from "../../global/authSlice";
 import { Container } from "../../style/LoginStyle";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { setUser } from "../../global/authSlice";
+import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isOrganization, setIsOrganization] = useState(false);
 
   const onFinish = async (values) => {
-    setLoading(true);
     try {
-      const response = await axios.post(
-        import.meta.env.VITE_BaseUrl + "/login",
-        values
-      );
-      const data = response.data;
-      toast.success("Login successful!");
-      dispatch(setUser(data?.data?.login));
-      nav("/");
-    } catch (error) {
-      setLoading(false);
-      console.error("Login error:", error);
-      toast.error(error.response?.data?.message || "Login failed.");
-    }
-  };
+      setLoading(true);
 
-  const handleCheckboxChange = (e) => {
-    if (e.target.checked) {
-      setRole("fundraiser");
-    } else {
-      setRole("donor");
+      const baseUrl = isOrganization
+        ? import.meta.env.VITE_BaseUrl2
+        : import.meta.env.VITE_BaseUrl;
+
+      const response = await axios.post(`${baseUrl}/login`, values);
+      const data = response?.data?.data?.login;
+
+      console.log("zion login:", data);
+
+      if (!data) {
+        toast.error("Invalid response from server.");
+        return;
+      }
+
+      toast.success("Login successful!");
+      dispatch(setUser(data));
+
+      const role = data?.role?.toLowerCase();
+      if (role === "fundraiser" || role === "organization") {
+        nav("/organization");
+      } else if (role === "donor") {
+        nav("/");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      toast.error(err?.response?.data?.message || "Login failed.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,6 +65,7 @@ const LoginForm = () => {
         <div className="img_holder">
           <img src={logo2} alt="logo" />
         </div>
+
         <div className="content_holder">
           <div className="title">
             <p className="log">Log in</p>
@@ -78,33 +88,39 @@ const LoginForm = () => {
             />
             
           </Form.Item>
-          <div className="forgotpassword">
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                { required: true, message: "Please input your Password!" },
-              ]}
-              style={{ margin: "0", height: "71px" }}
+
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
+            style={{ margin: "0", height: "71px" }}
+          >
+            <Input.Password
+              prefix={<LockOutlined style={{ fontSize: "15px" }} />}
+              placeholder="Enter your password"
+              className="input"
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <Checkbox
+              checked={isOrganization}
+              onChange={(e) => setIsOrganization(e.target.checked)}
             >
-              <Input
-                type="password"
-                placeholder="Enter your password"
-                className="input"
-              />
-            </Form.Item>
-            <Checkbox className="login-as-org" onClick={handleCheckboxChangegitbn}>Login as Organization</Checkbox>
-            <Form.Item>
-              <Flex justify="space-between" align="center" color="#333333">
-                <a
-                  onClick={() => nav("/ForgotPassword")}
-                  style={{ color: "#333333" }}
-                >
-                  Forgot password
-                </a>
-              </Flex>
-            </Form.Item>
-          </div>
+              Login as Organization
+            </Checkbox>
+          </Form.Item>
+
+          <Form.Item>
+            <Flex justify="space-between" align="center" color="#333333">
+              <a
+                onClick={() => nav("/ForgotPassword")}
+                style={{ color: "#333333" }}
+              >
+                Forgot password
+              </a>
+            </Flex>
+          </Form.Item>
 
           <Form.Item style={{ marginBottom: "5px" }}>
             <Button
@@ -117,26 +133,28 @@ const LoginForm = () => {
               {loading ? "Logging in..." : "Log in"}
             </Button>
           </Form.Item>
-          <footer className="footer">
-            <div className="line-text" plain>
-              or
-            </div>
-            <p>Continue with</p>
-            <div>
-              <Button block type="primary" className="google_btn">
-                <FcGoogle style={{ fontSize: "20px" }} />
-                Google
-              </Button>
-            </div>
-            <div className="already">
-              <p> Don’t have an account?</p>{" "}
-              <Link to={"/role_modal"}>
-                <span style={{ color: " #c1e86e", fontWeight: 700 }}>
-                  Sign Up
-                </span>
-              </Link>
-            </div>
-          </footer>
+
+          {!isOrganization && (
+            <footer className="footer">
+              <div className="line-text" plain>
+                or
+              </div>
+              <p>Continue with</p>
+              <div>
+                <Button block type="primary" className="google_btn">
+                  <FcGoogle style={{ fontSize: "20px" }} />
+                  Google
+                </Button>
+              </div>
+            </footer>
+          )}
+
+          <div className="already">
+            <p>Don’t have an account?</p>{" "}
+            <Link to={"/role_modal"}>
+              <span style={{ color: "#c1e86e", fontWeight: 700 }}>Sign Up</span>
+            </Link>
+          </div>
         </div>
       </Form>
     </Container>

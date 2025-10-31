@@ -46,7 +46,7 @@ const App = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/termsandcon" element={<TermsAndConditions />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
-        <Route path="/organization_dashboard" element={<OrganizerDashboard />}>
+        <Route path="/organization" element={<OrganizerDashboard />}>
           <Route path="" element={<OverViewPage />} />
           <Route path="myCampaigns" element={<MyCampaigns />}>
             <Route

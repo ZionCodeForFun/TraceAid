@@ -167,6 +167,7 @@ export const Container = styled.div`
           width: 100%;
           margin-top: 20px;
           gap: 6px;
+          background-color:blue;
           p {
             font-size: 14px;
             font-weight: 400;
