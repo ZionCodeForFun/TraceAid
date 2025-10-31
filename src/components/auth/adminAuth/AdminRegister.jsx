@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-// import { setAuthenticated, setUser } from "../../global/authSlice";
+import axios from "axios";
+import { setAdmin } from "../../../global/adminAuthSlice";
 
 const AdminRegister = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +24,6 @@ const AdminRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const { firstName, lastName, email, password, confirmPassword } = formData;
 
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
@@ -37,25 +37,26 @@ const AdminRegister = () => {
     }
 
     setLoading(true);
-
     try {
-      const adminData = {
-        id: Date.now(),
-        firstName,
-        lastName,
-        email,
-        role: "admin",
-        token: "fake_admin_token_123",
-      };
+      const res = await axios.post(
+        `${import.meta.env.VITE_BaseUrl_Admin}/register`,
+        formData
+      );
 
-      dispatch(setAuthenticated(true));
-      dispatch(setUser(adminData));
+      const data = res?.data?.data?.admin || res?.data?.data;
+        console.log("Admin registration data:", data);
+      if (!data) {
+        toast.error("Invalid server response!");
+        return;
+      }
 
-      toast.success(`Welcome, ${firstName}! `);
+      dispatch(setAdmin({ ...data, role: "admin" }));
+
+      toast.success(`Welcome, ${firstName}!`);
       navigate("/admin_verify_otp");
     } catch (error) {
       console.error(error);
-      toast.error("Registration failed!");
+      toast.error(error.response?.data?.message || "Registration failed!");
     } finally {
       setLoading(false);
     }
@@ -106,13 +107,14 @@ const AdminRegister = () => {
             onChange={handleChange}
             required
           />
+
           <Button type="submit" disabled={loading}>
             {loading ? "Registering..." : "Register"}
           </Button>
         </form>
 
         <Text>
-          Already have an account?
+          Already have an account?{" "}
           <LinkText onClick={() => navigate("/admin_login")}>Login</LinkText>
         </Text>
       </FormWrapper>
