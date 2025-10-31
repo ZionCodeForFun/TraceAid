@@ -33,7 +33,7 @@ const App = () => {
     <HashRouter>
       <Routes>
         <Route path="/*" element={<RouterError />} />
-        <Route path="/d" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
 
         <Route path="/Admin" element={<AdminDashboard />}>
