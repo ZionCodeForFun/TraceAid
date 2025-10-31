@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-import { Form, Input, Button, message } from "antd";
+import { Input, Button } from "antd";
 import { toast } from "react-toastify";
 import { Container } from "../../style/VerifyOtpStyle";
 import logo2 from "../../assets/logo2.png";
@@ -11,16 +11,15 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState(Array(6).fill(""));
-  const [showSuccess,setshowSuccess] = useState(false)
+  const [showSuccessOrg, setShowSuccessOrg] = useState(false);
+  const [showSuccessIndi, setShowSuccessIndi] = useState(false);
 
   const inputsRef = useRef([]);
   const nav = useNavigate();
   const dispatch = useDispatch();
   const { email } = useParams();
   const [loading, setLoading] = useState(false);
-
   const role = useSelector((state) => state.auth.role);
-  console.log(role);
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -60,7 +59,6 @@ const VerifyOtp = () => {
     }
 
     try {
-      // console.log("Sending verification data:", { email, otp: code });
       const response = await axios.post(
         `${
           role === "fundraiser"
@@ -70,26 +68,29 @@ const VerifyOtp = () => {
         { email, otp: code }
       );
 
-      console.log("Verification response:", response.data);
-
       if (response.data?.statusCode === true) {
-        setshowSuccess(true)
         toast.success(response.data.message || "Email verification successful");
         dispatch(setUser(response.data.user));
-        setTimeout(() => {
-          nav("/verify_kyc1");
-        }, 1500);
+
+        if (role === "fundraiser") {
+          setShowSuccessOrg(true);
+        } else {
+          setShowSuccessIndi(true);
+          setTimeout(() => {
+            nav("/");
+          }, 2000);
+        }
       } else {
         toast.error(response.data.message || "Invalid or expired OTP");
       }
     } catch (error) {
       console.error("Verification error:", error.response || error);
-      setLoading(false);
       const serverMessage =
         error?.response?.data?.message ||
         "Something went wrong, please try again";
-
       toast.error(serverMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -131,7 +132,7 @@ const VerifyOtp = () => {
     if (counter > 0) {
       return (
         <p className="timer">
-          Resend OTP in 00:{counter < 10 ? `0${counter}` : counter}{" "}
+          Resend OTP in 00:{counter < 10 ? `0${counter}` : counter}
         </p>
       );
     } else {
@@ -189,7 +190,8 @@ const VerifyOtp = () => {
         <p className="goBack" onClick={() => nav("/signup")}>
           Go back
         </p>
-        {showSuccess && (
+
+        {showSuccessOrg && (
           <div className="holder">
             <div className="reciept_holder">
               <div className="content-holder">
@@ -198,13 +200,33 @@ const VerifyOtp = () => {
                 </i>
                 <p className="bigtext">Verification successful</p>
                 <p className="smalltext">
-                  Your email have been verified and your account have <br />{" "}
-                  been account created
+                  Your email has been verified and your organization account
+                  created successfully.
                 </p>
               </div>
-              <Button onClick={() => nav("/verify_kyc1")} className="close_btn">
+              <Button
+                onClick={() => nav("/verify_kyc1")}
+                className="close_btn"
+              >
                 Proceed to KYC
               </Button>
+            </div>
+          </div>
+        )}
+
+    
+        {showSuccessIndi && (
+          <div className="holder">
+            <div className="reciept_holder">
+              <div className="content-holder">
+                <i>
+                  <IoMdCheckmarkCircleOutline />
+                </i>
+                <p className="bigtext">Verification successful</p>
+                <p className="smalltext">
+                  Your email has been verified and your account has been created.
+                </p>
+              </div>
             </div>
           </div>
         )}
