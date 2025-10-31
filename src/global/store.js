@@ -3,9 +3,10 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authSlice from "./authSlice";
 import accountType from "../global/accountTypeSlice";
+import adminAuthSlice from "./adminAuthSlice";
 const rootReducer = combineReducers({
   auth: authSlice,
- 
+  adminAuth: adminAuthSlice,
   accountType: accountType,
 });
 const persist = {
