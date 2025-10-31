@@ -9,42 +9,55 @@ import { AiOutlineGift } from "react-icons/ai";
 import { CiBookmark } from "react-icons/ci";
 import { CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
-
-const getInitials = (name = "Omesiete Emeka") => {
-  const split = name.trim().split(" ");
-  const first = split[0]?.charAt(0).toUpperCase() || "";
-  const last = split[1]?.charAt(0).toUpperCase() || "";
-  return `${first}${last}`;
-};
+import axios from "axios";
 
 const HeaderNav = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth);
   console.log("this is user", user);
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [fetchedUser, setFetchedUser] = useState(null);
 
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
+
+  console.log(fetchedUser);
+  // console.log(import.meta.env.VITE_BaseUrl);
+
+  useEffect(() => {
+    if (!user?.user?._id) return;
+    const getUserData = async () => {
+      try {
+        const response = await axios.get(
+          `${
+            user.role === "donor"
+              ? import.meta.env.VITE_BaseUrl
+              : import.meta.env.VITE_BaseUrl2
+          }/user/${user?.user?._id}`
+        );
+        console.log("Getting", response);
+        setFetchedUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    getUserData();
+  }, [user?.user?._id]);
+
+  // const getInitials = (name = fetchedUser?.name) => {
+  //   const split = name.trim().split(" ");
+  //   const first = split[0]?.charAt(0).toUpperCase() || "";
+  //   const last = split[1]?.charAt(0).toUpperCase() || "";
+  //   return `${first}${last}`;
+  // };
 
   const logoutUser = () => {
     dispatch(logout());
     setOpenDropdown(false);
     nav("/");
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const navbar = document.querySelector("nav");
-      if (window.scrollY > 20) {
-        navbar.classList.add("scrolled");
-      } else {
-        navbar.classList.remove("scrolled");
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  console.log("This Is ", user?.user?._id);
   return (
     <NavBar>
       <LeftSection>
@@ -71,11 +84,11 @@ const HeaderNav = () => {
         </ButtonGroup>
       ) : (
         <ProfileWrapper onClick={toggleDropdown}>
-          <div className="initials">{getInitials(user?.name)}</div>
+          {/* <div className="initials">{getInitials(user?.name)}</div> */}
 
           <div className="info">
-            <h4>Omesiete Emeka</h4>
-            <p>omesietemicheal@gmail.com</p>
+            <h4>{user?.name}</h4>
+            <p>{user?.email}</p>
           </div>
 
           <RiArrowDropDownLine

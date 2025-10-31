@@ -25,7 +25,7 @@ const ForgotPassword = () => {
         values
       );
       toast.success("Verification code sent to your email!");
-      nav("/login");
+      nav("/reset-password/:token/:id");
     } catch (error) {
       setLoading(false);
       console.error("Error sending verification code:", error);
@@ -76,7 +76,7 @@ const ForgotPassword = () => {
                 className="btn"
                 loading={loading}
               >
-                {loading ? "Sending..." : "Send Verification Code"}
+                {loading ? "Sending..." : "Send Verification link"}
               </Button>
             </Form.Item>
           </div>

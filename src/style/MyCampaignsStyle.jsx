@@ -5,11 +5,12 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
+  /* background-color: #8402e3; */
 
   .wrapper {
     display: flex;
-    max-width: 95%;
-    max-width: 1100px;
+   
+    max-width: 900px;
     height: 100%;
     flex-direction: column;
     justify-content: center;
@@ -169,7 +170,7 @@ export const Container = styled.div`
       border-bottom: 1px solid #e5e7eb;
       color: #4d4d4d;
       font-size: 16px;
-      padding-left: 12px;
+      padding-left: 15px;
     }
 
     .custom-table th {
