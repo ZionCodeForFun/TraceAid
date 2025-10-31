@@ -9,12 +9,9 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const KycVerification2 = () => {
-
   const [showReceipt, setShowReceipt] = useState(false);
 
   const nav = useNavigate();
-
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,10 +22,7 @@ const KycVerification2 = () => {
   return (
     <Container>
       <div className="goback">
-        <div
-          className="icon_holder"
-          onClick={() => nav("/verify_kyc1")}
-        >
+        <div className="icon_holder" onClick={() => nav("/verify_kyc1")}>
           <IoArrowBackOutline className="iconn" />
           <p>Go back</p>
         </div>
@@ -102,7 +96,7 @@ const KycVerification2 = () => {
                 className="close_btn"
                 text=" Start a Campaign"
               ></Button>
-              <p className="home" onClick={() => nav("/")}>
+              <p className="home" onClick={() => nav("/organization")}>
                 Go Home
               </p>
             </div>
@@ -195,7 +189,7 @@ const Container = styled.div`
         &.empty {
           background-color: #fff;
           border-color: var(--Neutral_Grey1);
-          color: transparent; 
+          color: transparent;
         }
       }
     }

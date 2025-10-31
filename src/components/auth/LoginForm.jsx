@@ -40,7 +40,7 @@ const LoginForm = () => {
 
       const role = data?.role?.toLowerCase();
       if (role === "fundraiser" || role === "organization") {
-        nav("/organization");
+        nav("/");
       } else if (role === "donor") {
         nav("/");
       }
@@ -86,6 +86,7 @@ const LoginForm = () => {
               placeholder="example@gmail.com"
               className="input"
             />
+            
           </Form.Item>
 
           <Form.Item

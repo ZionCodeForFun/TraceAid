@@ -236,6 +236,7 @@ const Container = styled.div`
   line-height: 1.6;
   article{
        padding: 70px;
+       margin-top: 2rem;
 
    }
   h2 {
