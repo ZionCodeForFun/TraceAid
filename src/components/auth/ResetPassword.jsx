@@ -23,6 +23,7 @@ const ResetPassword = () => {
         values
       );
       message.success("Password has been reset successfully!");
+      nav("/login")
     } catch (error) {
       setLoading(false);
       console.error("Error resetting password:", error);
