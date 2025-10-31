@@ -140,11 +140,16 @@ const Container = styled.div`
         padding-left: 15px;
         cursor: pointer;
         transition: 0.3s ease;
+        &:hover {
+          background-color: var(--NeutralBlack);
+          color: var(--PrimaryBase);
+        }
       }
 
       .select1 {
         background-color: #f7f6f6;
         color: var(--NeutralGrey4-Text);
+
       }
       .select2 {
         background-color: #f7f6f6;
