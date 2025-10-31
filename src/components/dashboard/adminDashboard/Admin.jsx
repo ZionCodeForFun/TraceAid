@@ -1,8 +1,7 @@
 import React from "react";
 import AdminHeader from "./AdminHeader";
 import AdminNavbar from "./AdminNavbar";
-import DashboardManagement from "./DashboardManagement";
-import AdminUsers from "./AdminUsers";
+
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 
