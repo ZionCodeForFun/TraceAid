@@ -22,8 +22,10 @@ const ResetPassword = () => {
         }/reset-password/${token}/${id}`,
         values
       );
+      
       message.success("Password has been reset successfully!");
-      nav("/login");
+      nav("/login")
+      console.log("Password reset response:", response);
     } catch (error) {
       setLoading(false);
       console.error("Error resetting password:", error);

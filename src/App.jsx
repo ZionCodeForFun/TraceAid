@@ -45,6 +45,7 @@ const App = () => {
 
         <Route path="/" element={<LandingPage />} />
         <Route path="/termsandcon" element={<TermsAndConditions />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/createcampaign" element={<CreateCampaign />} />
         <Route path="/organization" element={<OrganizerDashboard />}>
           <Route path="" element={<OverViewPage />} />
@@ -65,6 +66,7 @@ const App = () => {
           <Route path="wallet" element={<Wallet />}>
             <Route path="requestwithdraw" element={<RequestWithraw />} />
           </Route>
+
           <Route path="settings" element={<Settings />}>
             <Route path="" element={<PersonalInfo />} />
             <Route path="kycverify" element={<KycVerify />} />
