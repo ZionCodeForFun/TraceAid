@@ -4,7 +4,7 @@ import { Button, Checkbox, Form, Input, Flex } from "antd";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { resetStatus } from "../../global/authSlice";
+import { resetStatus, setRole } from "../../global/authSlice";
 import { Container } from "../../style/LoginStyle";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
@@ -15,11 +15,9 @@ const LoginForm = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const nav = useNavigate();
-  // const { loading, error, message } = useSelector((state) => state.auth);
   const [loading, setLoading] = React.useState(false);
 
   const onFinish = async (values) => {
-    // localStorage.setItem("userEmail", values.email);
     setLoading(true);
     try {
       const response = await axios.post(
@@ -36,19 +34,14 @@ const LoginForm = () => {
       toast.error(error.response?.data?.message || "Login failed.");
     }
   };
-  // useEffect(() => {
-  //   if (message) {
-  //     toast.success(message);
-  //     form.resetFields();
-  //     dispatch(resetStatus());
-  //     nav("/explore");
-  //   }
 
-  //   if (error) {
-  //     toast.error(error);
-  //     dispatch(resetStatus());
-  //   }
-  // }, [message, error]);
+  const handleCheckboxChange = (e) => {
+    if (e.target.checked) {
+      setRole("fundraiser");
+    } else {
+      setRole("donor");
+    }
+  };
 
   return (
     <Container>
@@ -83,6 +76,7 @@ const LoginForm = () => {
               placeholder="example@gmail.com"
               className="input"
             />
+            
           </Form.Item>
           <div className="forgotpassword">
             <Form.Item
@@ -99,6 +93,7 @@ const LoginForm = () => {
                 className="input"
               />
             </Form.Item>
+            <Checkbox className="login-as-org" onClick={handleCheckboxChangegitbn}>Login as Organization</Checkbox>
             <Form.Item>
               <Flex justify="space-between" align="center" color="#333333">
                 <a

@@ -124,7 +124,7 @@ const AddMilestone = ({ onClose, campaign }) => {
                 </p>
               </div>
               <Button
-                onClick={() => nav("/organizationdashboard/")}
+                onClick={() => nav("/organization_dashboard")}
                 text="Close"
                 className="close_btn"
               />
