@@ -93,7 +93,7 @@ const App = () => {
         <Route path="/role_modal" element={<RoleModal />} />
         <Route path="/signup" element={<SignUpForm />} />
 
-        <Route path="/ResetPassword/:token/:id" element={<ResetPassword />} />
+        <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
       </Routes>
       <ToastContainer position="top-center" autoClose={2000} />
