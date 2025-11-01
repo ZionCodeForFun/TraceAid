@@ -37,14 +37,18 @@ export const Container = styled.div`
       margin-bottom: 20px;
       gap: 5px;
 
-      h2 {
+      .sign {
         color: var(--NeutralGrey4-Text);
         font-weight: 700;
-        font-size: 24px;
+
+        font-size: 40px;
+        height: 48px;
       }
-      p {
-        font-size: 12px;
+      .text {
+        font-size: 16px;
         color: var(--NeutralGrey4-Text);
+        font-weight: 400;
+        height: 19px;
       }
     }
     .otp_inputs {
@@ -70,11 +74,13 @@ export const Container = styled.div`
     }
 
     .verify_btn {
-      padding: 0.1rem 0;
-      border: none;
-      width: 67%;
       background-color: var(--NeutralBlack);
       color: var(--PrimaryBase);
+      font-weight: 600;
+      font-size: 16px;
+      height: 43px;
+      border-radius: 8px;
+      width: 67%;
       &:hover {
         background-color: var(--PrimaryBase);
         color: var(--NeutralBlack);
@@ -83,12 +89,96 @@ export const Container = styled.div`
 
     .goBack {
       margin-top: 1rem;
-      color: #292828;
       cursor: pointer;
-      font-size: 0.95rem;
-      span {
-        font-weight: bold;
-        color: #297e2a;
+      color: #3a4621;
+      font-size: 16px;
+      font-weight: 400;
+      border-bottom: 1px solid #3a4621;
+      text-decoration: none;
+    }
+
+    .otpResendHolder {
+      margin-top: 1rem;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+    .otpResend {
+      text-decoration: underline;
+    
+      text-align: center;
+   
+      cursor: pointer;
+      color: #3a4621;
+   
+      gap: 5px;
+    
+    }
+    .holder {
+      height: 90vh;
+      width: 100%;
+      top: 20%;
+      left: 0%;
+      z-index: 9999;
+      position: fixed;
+      background-color: rgb(192, 192, 192, 0.3);
+      .reciept_holder {
+        display: flex;
+        width: 512px;
+        height: 318px;
+        flex-direction: column;
+        background-color: white;
+        align-items: center;
+        padding: 20px;
+        top: 12%;
+        left: 30%;
+        z-index: 9999;
+        position: absolute;
+        gap: 17px;
+        border-radius: 8px;
+        .content-holder {
+          width: 462px;
+          height: 164px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+          text-align: center;
+          i {
+            height: 64px;
+            width: 64px;
+            background-color: black;
+            font-size: 32px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00a63e;
+            background-color: #dcfce7;
+          }
+          .bigtext {
+            font-size: 18px;
+            font-weight: 700;
+          }
+          .small {
+            font-size: 14px;
+            font-weight: 400;
+          }
+        }
+        .close_btn {
+          background-color: var(--NeutralBlack);
+          color: var(--PrimaryBase);
+          font-weight: 600;
+          font-size: 16px;
+          height: 43px;
+          border-radius: 8px;
+          width: 67%;
+          &:hover {
+            background-color: var(--PrimaryBase);
+            color: var(--NeutralBlack);
+          }
+        }
       }
     }
   }

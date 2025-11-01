@@ -3,25 +3,46 @@ import { Form, Input, Button } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import { Container } from "../../style/ResetPasswordStyle";
 import logo2 from "../../assets/logo2.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 const ForgotPassword = () => {
+  const nav = useNavigate();
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log("Reset request:", values);
+  const [loading, setLoading] = React.useState(false);
+
+  const role = "donor";
+
+  const onFinish = async (values) => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${
+          role === "organization"
+            ? import.meta.env.VITE_BaseUrl2
+            : import.meta.env.VITE_BaseUrl
+        }/forgot-password`,
+        values
+      );
+      toast.success("Verification code sent to your email!");
+      nav("/reset-password/:token/:id");
+     
+    } catch (error) {
+      setLoading(false);
+      console.error("Error sending verification code:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to send verification code."
+      );
+    }
   };
   return (
     <Container>
-      <Form
-        form={form}
-        onFinish={onFinish}
-
-        className="wrapper"
-      >
+      <Form form={form} onFinish={onFinish} className="wrapper">
         <img src={logo2} alt="logo" />
         <div className="content_holder">
           <div className="title">
-            <h2>Forgot Password?</h2>
-            <p>Enter your email to reset your password</p>
+            <p className="sign">Forgot Password?</p>
+            <p className="text">Enter your email to reset your password</p>
           </div>
           <div className="input_holder">
             <p className="text">Email</p>
@@ -36,17 +57,34 @@ const ForgotPassword = () => {
               ]}
               className="input_wrapper"
             >
-              <Input prefix={<MailOutlined />} placeholder="Enter your email" />
+              <Input
+                prefix={<MailOutlined />}
+                placeholder="Enter your email"
+                style={{
+                  fontSize: "16px",
+                  height: "48px",
+                  fontWeight: 400,
+                  color: "#C0C0C0",
+                }}
+              />
             </Form.Item>
 
-            <Form.Item   style={{ marginBottom: "5px" }}>
-              <Button type="primary" htmlType="submit" block className="btn">
-                Send Verification Code
+            <Form.Item style={{ marginBottom: "5px" }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
+                className="btn"
+                loading={loading}
+              >
+                {loading ? "Sending..." : "Send Verification Link"}
               </Button>
             </Form.Item>
           </div>
         </div>
-        <Link to={"/login"}><span  className="span">Go back</span></Link>
+        <Link to={"/login"}>
+          <span className="span">Go back</span>
+        </Link>
       </Form>
     </Container>
   );

@@ -1,209 +1,166 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  max-width: 100%;
+  width: 100%;
   min-height: 100vh;
   background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
   color: var(--NeutralGrey4-Text);
+  padding: 40px 20px;
 
   .wrapper {
-    background-color: var(--Neutral_Offwhite);
-    max-width: 35%;
-    padding: 8px 30px;
+    width: 480px;
+    padding: 40px;
     display: flex;
-    height: max-content;
     flex-direction: column;
-    border-radius: 40px;
     align-items: center;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    background-color: var(--Neutral_Offwhite);
+    border-radius: 24px;
+    border: 0.5px solid var(--Neutral_Grey1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    gap: 20px;
+  }
 
- 
+  .img_holder {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+
     img {
-      width: 100px;
-      height: 30px;
+      height: 26px;
       object-fit: contain;
     }
+  }
 
-    .content_holder {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      margin-top: 0.3rem;
-      min-width: 420px;
-      height: 100%;
+  .content_holder {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 
-      .title {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        text-align: center;
-        height: max-content;
-        margin-bottom: 20px;
+    .title {
+      text-align: center;
+      margin-bottom: 10px;
 
-        h2 {
-          color: var(--NeutralGrey4-Text);
-          font-weight: 700;
-          font-style: bold;
-          font-size: 30px;
-        }
-        p {
-          font-size: 12px;
-          color: var(--NeutralGrey4-Text);
-        }
+      .sign {
+        color: var(--NeutralGrey4-Text);
+        font-weight: 700;
+        font-size: 28px;
       }
-      .input{
-        &:hover{
-          
-        }
+
+      .text {
+        font-size: 14px;
+        color: var(--NeutralGrey4-Text);
       }
+    }
+
+    .input {
+      height: 42px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .signup_btn {
+      background-color: var(--NeutralBlack);
+      color: var(--PrimaryBase);
+      font-weight: 600;
+      font-size: 16px;
+      height: 43px;
+      border-radius: 8px;
+      &:hover {
+        background-color: var(--PrimaryBase);
+        color: var(--NeutralBlack);
+      }
+    }
+
+    .google_holder {
+      gap: 20px;
       .google_btn {
         background-color: white;
-        border: 1px solid var(--NeutralGrey4-Text);
+        border: 2px solid var(--Primary700);
         color: var(--NeutralGrey4-Text);
-        font-weight: bold;
-        height: 25px;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 12px 30px;
+        height: 44px;
         &:hover {
           background-color: var(--Primary200);
         }
       }
-
       .line-text {
         display: flex;
         align-items: center;
         text-align: center;
         color: #555;
         margin: 5px 0;
+        gap: 7px;
+        font-weight: 400;
+        font-size: 16px;
+        width: 400px;
       }
-
       .line-text::before,
       .line-text::after {
         content: "";
         flex: 1;
-        margin: 0 5px 0 5px;
-        border-bottom: 1px solid #aaa;
+        border-bottom: 1px solid #c0c0c0;
+        background-color: #333;
       }
-
-      .radio_holder {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        .ant-radio-inner {
-          border-radius: 50%;
-          border: 2px solid var(--NeutralGrey4-Text);
-          width: 18px;
-          height: 18px;
-          background-color: white;
-        }
-
-        .ant-radio-inner::after {
-          content: "";
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background-color: var(--NeutralGrey4-Text);
-          position: absolute;
-          top: 105%;
-          left: 108%;
-          transform: translate(-50%, -50%) scale(0);
-          transition: all 0.2s ease-in-out;
-        }
-
-        .ant-radio-checked .ant-radio-inner::after {
-          transform: translate(-50%, -50%) scale(1);
-        }
-
-        .ant-radio-checked .ant-radio-inner {
-          background-color: white;
-          border-color: var(--NeutralGrey4-Text);
-        }
-
-        .radio {
-          background-color: white;
-          width: 100%;
-          border-radius: 7px;
-          padding: 3px 10px;
-          height: 25px;
-          display: flex;
-          align-items: center;
-          border: 1px solid #c2c1c1;
-        }
+      p {
+        font-weight: 400;
+        font-size: 16px;
       }
-
-      .signup_btn {
+    }
+    .custom-checkbox {
+      color: #333;
+      font-weight: 500;
+      a {
+        color: var(--NeutralBlack);
+      }
+      .ant-checkbox-inner {
+        border-color: #c0c0c0;
+      }
+      .ant-checkbox-checked .ant-checkbox-inner {
         background-color: var(--NeutralBlack);
-        color: var(--PrimaryBase);
-        font-weight: bold;
-        padding: 0;
-        height: 25px;
-        &:hover {
-          background-color: var(--PrimaryBase);
-          color: var(--NeutralBlack);
-        }
+        border-color: var(--NeutralGrey4-Text);
       }
-
-      .custom-checkbox {
-        color: #333;
-        font-weight: 500;
-
-        a {
-          color: var(--NeutralBlack);
-        }
-
-        .ant-checkbox-inner {
-          border-color: var(--NeutralGrey4-Text);
-        }
-
-        .ant-checkbox-checked .ant-checkbox-inner {
-          background-color: var(--NeutralBlack);
-          border-color: var(--NeutralGrey4-Text);
-        }
+    }
+    .already {
+      font-size: 14px;
+      margin-top: 20px;
+      display: flex;
+      gap: 8px;
+      p {
+        font-size: 14px;
+      }
+      span {
+        font-size: 14px;
       }
     }
   }
 
   @media screen and (max-width: 768px) {
-    height: auto;
-    padding: 30px 15px;
-
     .wrapper {
-      width: 90%;
+      width: 95%;
       padding: 25px;
-      border-radius: 30px;
-      height: max-content;
-      .content_holder {
-        min-width: 270px;
-
-        .title h2 {
-          font-size: 22px;
-        }
-        .title p {
-          font-size: 13px;
-        }
-      }
-
-      .google_btn {
-        font-size: 14px;
-      }
-
-      .signup_btn {
-        font-size: 14px;
-        height: 38px;
-      }
+      border-radius: 20px;
     }
-  }
 
-  @media screen and (max-width: 1024px) {
-    .wrapper {
-      max-width: 700px;
-      padding: 40px;
+    .content_holder .title .sign {
+      font-size: 22px;
+    }
 
-      .title h2 {
-        font-size: 26px;
-      }
+    .content_holder .title .text {
+      font-size: 13px;
+    }
+
+    .input,
+    .signup_btn,
+    .google_btn {
+      height: 38px;
+      font-size: 13px;
     }
   }
 `;

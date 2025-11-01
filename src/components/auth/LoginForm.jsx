@@ -1,37 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Flex } from "antd";
+import { Button, Form, Input, Flex, Checkbox } from "antd";
+import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../global/authSlice";
 import { Container } from "../../style/LoginStyle";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
+import { setUser } from "../../global/authSlice";
+import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const { loading, error, message } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(false);
+  const [isOrganization, setIsOrganization] = useState(false);
 
   const onFinish = async (values) => {
-    dispatch(login(values));
+    try {
+      setLoading(true);
 
-    console.log("Received values of form: ", values);
+      const baseUrl = isOrganization
+        ? import.meta.env.VITE_BaseUrl2
+        : import.meta.env.VITE_BaseUrl;
+
+      const response = await axios.post(`${baseUrl}/login`, values);
+      const data = response?.data?.data?.login;
+
+      console.log("zion login:", data);
+
+      if (!data) {
+        toast.error("Invalid response from server.");
+        return;
+      }
+
+      toast.success("Login successful!");
+      dispatch(setUser(data));
+
+      const role = data?.role?.toLowerCase();
+      if (role === "fundraiser" || role === "organization") {
+        nav("/");
+      } else if (role === "donor") {
+        nav("/");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      toast.error(err?.response?.data?.message || "Login failed.");
+    } finally {
+      setLoading(false);
+    }
   };
-  useEffect(() => {
-    if (message) {
-      toast.success(message);
-      form.resetFields();
-      dispatch(resetStatus());
-      nav("/login");
-    }
-
-    if (error) {
-      toast.error(error);
-      dispatch(resetStatus());
-    }
-  }, [message, error]);
 
   return (
     <Container>
@@ -43,11 +62,14 @@ const LoginForm = () => {
         layout="vertical"
         requiredMark={false}
       >
-        <img src={logo2} alt="logo" />
-        <div className="content_holder2">
+        <div className="img_holder">
+          <img src={logo2} alt="logo" />
+        </div>
+
+        <div className="content_holder">
           <div className="title">
-            <h2>Log in</h2>
-            <p>Securely log in to your account.</p>
+            <p className="log">Log in</p>
+            <p className="text">Securely log in to your account.</p>
           </div>
 
           <Form.Item
@@ -57,22 +79,39 @@ const LoginForm = () => {
               { required: true, message: "Please input your Email!" },
               { type: "email", message: "Please enter a valid email address!" },
             ]}
-            style={{ marginBottom: "5px" }}
+            style={{ margin: "0", height: "71px" }}
           >
             <Input
-              prefix={<MailOutlined style={{ color: "#979696" }} />}
-              placeholder="Email"
+              prefix={<MailOutlined style={{ fontSize: "15px" }} />}
+              placeholder="example@gmail.com"
+              className="input"
             />
+            
           </Form.Item>
+
           <Form.Item
             label="Password"
             name="password"
             rules={[{ required: true, message: "Please input your Password!" }]}
-            style={{ marginBottom: "2px" }}
+            style={{ margin: "0", height: "71px" }}
           >
-            <Input type="password" placeholder="Password" />
+            <Input.Password
+              prefix={<LockOutlined style={{ fontSize: "15px" }} />}
+              placeholder="Enter your password"
+              className="input"
+            />
           </Form.Item>
-          <Form.Item style={{ marginBottom: "5px" }}>
+
+          <Form.Item>
+            <Checkbox
+              checked={isOrganization}
+              onChange={(e) => setIsOrganization(e.target.checked)}
+            >
+              Login as Organization
+            </Checkbox>
+          </Form.Item>
+
+          <Form.Item>
             <Flex justify="space-between" align="center" color="#333333">
               <a
                 onClick={() => nav("/ForgotPassword")}
@@ -89,33 +128,33 @@ const LoginForm = () => {
               type="primary"
               htmlType="submit"
               className="login_btn"
+              loading={loading}
             >
-              Log in
+              {loading ? "Logging in..." : "Log in"}
             </Button>
           </Form.Item>
-          <div className="line-text" plain>
-            or
+
+          {!isOrganization && (
+            <footer className="footer">
+              <div className="line-text" plain>
+                or
+              </div>
+              <p>Continue with</p>
+              <div>
+                <Button block type="primary" className="google_btn">
+                  <FcGoogle style={{ fontSize: "20px" }} />
+                  Google
+                </Button>
+              </div>
+            </footer>
+          )}
+
+          <div className="already">
+            <p>Don’t have an account?</p>{" "}
+            <Link to={"/role_modal"}>
+              <span style={{ color: "#c1e86e", fontWeight: 700 }}>Sign Up</span>
+            </Link>
           </div>
-          <div>
-            <Button block type="primary" className="google_btn">
-              <FcGoogle />
-              Google
-            </Button>
-          </div>
-        </div>
-        <div
-          style={{
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            margin: "10px",
-          }}
-        >
-          <h5> Don’t have an account?</h5>{" "}
-          <Link to={"/"}>
-            <span style={{ color: " #c1e86e", fontWeight: 700 }}>Sign Up</span>
-          </Link>
         </div>
       </Form>
     </Container>
