@@ -16,13 +16,13 @@ const HeaderNav = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth);
-  console.log("this is user", user);
+  // console.log("this is user", user);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [fetchedUser, setFetchedUser] = useState(null);
 
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
 
-  console.log(fetchedUser);
+  console.log("this is user", user);
   // console.log(import.meta.env.VITE_BaseUrl);
 
   useEffect(() => {
@@ -31,13 +31,13 @@ const HeaderNav = () => {
       try {
         const response = await axios.get(
           `${
-            user.role === "donor"
+            user?.user?.role === "donor"
               ? import.meta.env.VITE_BaseUrl
               : import.meta.env.VITE_BaseUrl2
           }/user/${user?.user?._id}`
         );
-        console.log("Getting", response);
-        setFetchedUser(response.data);
+        // console.log("Getting", response.data.data);
+        setFetchedUser(response?.data?.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -45,19 +45,35 @@ const HeaderNav = () => {
     getUserData();
   }, [user?.user?._id]);
 
-  // const getInitials = (name = fetchedUser?.name) => {
-  //   const split = name.trim().split(" ");
-  //   const first = split[0]?.charAt(0).toUpperCase() || "";
-  //   const last = split[1]?.charAt(0).toUpperCase() || "";
-  //   return `${first}${last}`;
-  // };
+
+  const getInitials = (name) => {
+    if (!name || typeof name !== "string") return "";
+
+    const parts = name.trim().split(" ").filter(Boolean);
+
+    if (parts.length === 0) return "";
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+
+    const first = parts[0].charAt(0).toUpperCase();
+    const last = parts[parts.length - 1].charAt(0).toUpperCase();
+    return `${first}${last}`;
+  };
+  const fullName =
+    fetchedUser?.firstName && fetchedUser?.lastName
+      ? `${fetchedUser.firstName} ${fetchedUser.lastName}`
+      : "";
 
   const logoutUser = () => {
     dispatch(logout());
     setOpenDropdown(false);
-    nav("/");
   };
-  console.log("This Is ", user?.user?._id);
+
+  useEffect(() => {
+    if (!user?.token && !user?.user) {
+      nav("/");
+    }
+  }, [user?.token, user?.user]);
+
   return (
     <NavBar>
       <LeftSection>
@@ -73,7 +89,7 @@ const HeaderNav = () => {
         </NavLinks>
       </LeftSection>
 
-      {!user ? (
+      {!user.user ? (
         <ButtonGroup>
           <button className="login" onClick={() => nav("/login")}>
             Login
@@ -84,11 +100,13 @@ const HeaderNav = () => {
         </ButtonGroup>
       ) : (
         <ProfileWrapper onClick={toggleDropdown}>
-          {/* <div className="initials">{getInitials(user?.name)}</div> */}
+          <div className="initials">
+            {getInitials(fullName || fetchedUser?.organizationName)}
+          </div>
 
           <div className="info">
-            <h4>{user?.name}</h4>
-            <p>{user?.email}</p>
+            <h4>{fullName || fetchedUser?.organizationName}</h4>
+            <p>{fetchedUser?.email}</p>
           </div>
 
           <RiArrowDropDownLine
@@ -96,14 +114,19 @@ const HeaderNav = () => {
           />
           {openDropdown && (
             <DropdownMenu>
-              <li onClick={() => nav("/my_donations")}>
-                <AiOutlineGift className="icon" />
-                My Donations
-              </li>
-              <li onClick={() => nav("/organization_dashboard")}>
-                <AiOutlineGift className="icon" />
-                Fundraiser Dashboard
-              </li>
+              {user.user.role === "donor" && (
+                <li onClick={() => nav("/my_donations")}>
+                  <AiOutlineGift className="icon" />
+                  My Donations
+                </li>
+              )}
+
+              {user.user.role === "fundraiser" && (
+                <li onClick={() => nav("/organization")}>
+                  <AiOutlineGift className="icon" />
+                  Fundraiser Dashboard
+                </li>
+              )}
               <li onClick={() => nav("/saved_campaigns")}>
                 <CiBookmark className="icon" />
                 Saved Campaigns

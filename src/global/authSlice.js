@@ -13,10 +13,10 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
+      state.role = null;
     },
     resetStatus: (state) => {
-      state.message = null;
-      state.error = null;
+      state.role = null;
     },
     setRole: (state, action) => {
       state.role = action.payload;
