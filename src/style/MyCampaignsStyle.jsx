@@ -147,7 +147,7 @@ export const Container = styled.div`
       width: 100%;
       border-collapse: collapse;
       color: #1f2937;
-
+  min-width: 600px;
       .details {
         width: 280px;
         padding-right: 15px;

@@ -22,7 +22,21 @@ const CreateCampaign = ({ onClose }) => {
     showMilestoneDetails: null,
   });
 
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    goalAmount: "",
+    category: "",
+    duration: "",
+  });
+
   const nav = useNavigate();
+
+  // Handle change for all form inputs
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -31,6 +45,15 @@ const CreateCampaign = ({ onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const { title, description, goalAmount, category, duration } = formData;
+
+    // Validation
+    if (!title || !description || !goalAmount || !category || !duration) {
+      toast.error("Please fill in all fields before continuing.");
+      return;
+    }
+
     if (!state.agreed) {
       setState((prev) => ({ ...prev, error: true }));
       toast.error("You must agree to the Terms and Conditions");
@@ -38,6 +61,7 @@ const CreateCampaign = ({ onClose }) => {
     }
 
     toast.success("Campaign created successfully!");
+    setState((prev) => ({ ...prev, showreciept: true }));
   };
 
   const toggle = (key) => {
@@ -74,33 +98,61 @@ const CreateCampaign = ({ onClose }) => {
         <form className="input_holder" onSubmit={handleSubmit}>
           <div className="name_holder">
             <label>Campaign Title</label>
-            <InputField type="text" placeholder="Enter campaign title" />
+            <InputField
+              name="title"
+              type="text"
+              placeholder="Enter campaign title"
+              value={formData.title}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="name_holder">
             <label>Campaign Description</label>
-            <InputField type="text" placeholder="Describe your campaign" />
+            <InputField
+              name="description"
+              type="text"
+              placeholder="Describe your campaign"
+              value={formData.description}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="name_holder">
             <label>Total Campaign Goal Amount</label>
             <InputField
+              name="goalAmount"
               type="text"
               placeholder="Enter your total goal amount"
+              value={formData.goalAmount}
+              onChange={handleChange}
             />
           </div>
 
           <div className="name_holder">
             <label>Category</label>
             <div className="custom_select">
-              <select required>
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                required
+              >
                 <option value="">Select a category</option>
-                <option value="Health">Education</option>
-                <option value="Education">Community Development</option>
-                <option value="Community">Agriculture & Food Security</option>
-                <option value="Environment">Community Development</option>
-                <option value="Technology">Women & Youth Empowerment</option>
-                <option value="Charity">Innovation & Technology</option>
+                <option value="Education">Education</option>
+                <option value="Community Development">
+                  Community Development
+                </option>
+                <option value="Agriculture & Food Security">
+                  Agriculture & Food Security
+                </option>
+                <option value="Environment">Environment</option>
+                <option value="Women & Youth Empowerment">
+                  Women & Youth Empowerment
+                </option>
+                <option value="Innovation & Technology">
+                  Innovation & Technology
+                </option>
                 <option value="Emergency Relief">Emergency Relief</option>
               </select>
               <IoIosArrowDown className="menu_i" />
@@ -135,7 +187,13 @@ const CreateCampaign = ({ onClose }) => {
 
             <div className="name_holder" style={{ marginBottom: "15px" }}>
               <label>Campaign Duration</label>
-              <InputField type="text" placeholder="Campaign duration" />
+              <InputField
+                name="duration"
+                type="text"
+                placeholder="Campaign duration"
+                value={formData.duration}
+                onChange={handleChange}
+              />
             </div>
           </div>
 
@@ -222,15 +280,6 @@ const CreateCampaign = ({ onClose }) => {
                     >
                       {milestone.duration}
                     </p>
-                    <p
-                      style={{
-                        fontWeight: 400,
-                        fontSize: "16px",
-                        color: "#4D4D4D",
-                      }}
-                    >
-                      {milestone.description}
-                    </p>
                   </div>
                 )}
               </div>
@@ -279,12 +328,7 @@ const CreateCampaign = ({ onClose }) => {
           </div>
 
           <div className="btn_holder">
-            <Button
-              text="Create Campaign"
-              onClick={() => setState((p) => ({ ...p, showreciept: true }))}
-              className="btn"
-              type="submit"
-            />
+            <Button text="Create Campaign" className="btn" type="submit" />
           </div>
 
           <IoCloseSharp onClick={() => onClose()} className="btn_close" />
@@ -388,6 +432,7 @@ const Container = styled.div`
         height: 71px;
         position: relative;
         gap: 5px;
+      
         .custom_select {
           position: relative;
           width: 100%;

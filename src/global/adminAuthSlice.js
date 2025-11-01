@@ -1,4 +1,3 @@
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const adminAuthSlice = createSlice({
@@ -6,18 +5,25 @@ const adminAuthSlice = createSlice({
   initialState: {
     admin: null,
     token: null,
+    email: null,
     error: null,
     message: null,
   },
   reducers: {
     setAdmin: (state, action) => {
-      state.admin = action.payload;
-      state.token = action.payload?.token;
+      const payload = action.payload;
+      state.admin = payload;
+      state.token = payload?.token || null;
+      state.email = payload?.email || payload?.admin?.email || null; 
+     
     },
+
     logoutAdmin: (state) => {
       state.admin = null;
       state.token = null;
+      state.email = null;
     },
+
     resetAdminStatus: (state) => {
       state.error = null;
       state.message = null;
