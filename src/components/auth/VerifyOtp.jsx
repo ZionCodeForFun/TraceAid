@@ -6,7 +6,7 @@ import { Container } from "../../style/VerifyOtpStyle";
 import logo2 from "../../assets/logo2.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../global/authSlice";
+import { setUser, setToken } from "../../global/authSlice";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const VerifyOtp = () => {
@@ -68,9 +68,12 @@ const VerifyOtp = () => {
         { email, otp: code }
       );
 
+      console.log("VERIFY OTP RESPONSE:", response.data);
+
       if (response.data?.statusCode === true) {
         toast.success(response.data.message || "Email verification successful");
-        dispatch(setUser(response.data.user));
+        dispatch(setUser(response.data.data._user));
+        dispatch(setToken(response.data.data.token));
 
         if (role === "fundraiser") {
           setShowSuccessOrg(true);

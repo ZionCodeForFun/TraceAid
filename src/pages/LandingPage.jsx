@@ -1,15 +1,8 @@
 import React from "react";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
-import { RiTwitterXLine } from "react-icons/ri";
 import { IoSearch } from "react-icons/io5";
 
 import {
   LandingContainer,
-  NavBar,
-  LogoContainer,
-  LeftSection,
-  NavLinks,
-  ButtonGroup,
   HeroSection,
   HeroOverlay,
   HeroContent,
@@ -30,21 +23,13 @@ import {
   CommunityContent,
   CommunityStat,
   CommunityButton,
-  FooterContainer,
-  FooterContent,
-  FooterLogo,
-  SocialIcons,
-  FooterColumn,
-  FooterCopyright,
 } from "./LandingPageStyled.jsx";
 
 import CampaignData from "./CampaignData.jsx";
-import logoImg from "../assets/logo2.png";
 import Img1 from "../assets/Rectangle 10.png";
 import Img2 from "../assets/Rectangle 11.png";
 import Img3 from "../assets/Rectangle 9.png";
 import Img4 from "../assets/Rectangle 12.png";
-import FooterImg from "../assets/logo1.png";
 import heroImggg from "../assets/Dashview.png";
 import DividerLineImg from "../assets/ToplineImg.png";
 
@@ -58,31 +43,22 @@ import CelebrateIcon from "../assets/CelebrateImg.png";
 import HeaderNav from "./HeaderNav.jsx";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer.jsx";
+import { useSelector } from "react-redux";
 
 const LandingPage = () => {
 
   const nav = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+
+  const handleGetStarted = () => {
+    if (user) {
+      nav("/explore");
+    } else {
+      nav("/role_modal");
+    }
+  };
   return (
     <LandingContainer>
-      {/* <NavBar>
-        <LeftSection>
-          <LogoContainer>
-            <img src={logoImg} alt="TraceAid Logo" />
-            <div className="divider"></div>
-          </LogoContainer>
-
-          <NavLinks>
-            <li>Explore Campaigns</li>
-            <li>How it Works</li>
-            <li>Start a Campaign</li>
-          </NavLinks>
-        </LeftSection>
-
-        <ButtonGroup>
-          <button className="login">Login</button>
-          <button className="create">Create an Account</button>
-        </ButtonGroup>
-      </NavBar> */}
       <HeaderNav />
 
       <HeroSection>
@@ -228,7 +204,7 @@ const LandingPage = () => {
             See, manage, and grow your impact, all from one simple dashboard
             that brings every campaign detail together in one clear view.
           </p>
-          <button onClick={() => nav("/role_modal")}>Get Started</button>
+          <button onClick={handleGetStarted}>Give a Donation</button>
         </FundraisingContent>
 
         <FundraisingImage>
@@ -253,60 +229,12 @@ const LandingPage = () => {
             <h3>Be Part of our Donors and Fundraisers with over</h3>
             <CommunityStat>20,000</CommunityStat>
             <p>People from across Nigeria</p>
-            <CommunityButton onClick={()=> nav("/role_modal")}>Get Started</CommunityButton>
+            <CommunityButton onClick={handleGetStarted}>Get Started</CommunityButton>
           </CommunityContent>
           <img src={Img3} alt="Community Image 3" />
           <img src={Img4} alt="Community Image 4" />
         </CommunityGrid>
       </CommunitySection>
-
-      {/* <FooterContainer>
-        <FooterContent>
-          <FooterLogo>
-            <img src={FooterImg} alt="TraceAid Logo" />
-            <h3>Join our Community</h3>
-            <p>
-              Get exclusive updates from the TraceAid community, explore <br />
-              the social impact landscape across Africa and beyond.
-            </p>
-            <SocialIcons>
-              <a href="#" aria-label="Facebook">
-                <FaFacebook />
-              </a>
-              <a href="#" aria-label="Instagram">
-                <FaInstagram />
-              </a>
-              <a href="#" aria-label="Twitter">
-                <RiTwitterXLine />
-              </a>
-            </SocialIcons>
-          </FooterLogo>
-
-          <FooterColumn>
-            <h4>Product</h4>
-            <ul>
-              <li>For Individuals</li>
-              <li>For Organizations</li>
-              <li>Pricing</li>
-              <li>Explore Campaigns</li>
-            </ul>
-          </FooterColumn>
-
-          <FooterColumn>
-            <h4>Company</h4>
-            <ul>
-              <li>About</li>
-              <li>Blog</li>
-              <li>Terms & Conditions</li>
-              <li>Contact Us</li>
-            </ul>
-          </FooterColumn>
-        </FooterContent>
-
-        <FooterCopyright>
-          © 2025 TraceAid | All rights reserved.
-        </FooterCopyright>
-      </FooterContainer> */}
 
       <Footer />
     </LandingContainer>
@@ -315,140 +243,3 @@ const LandingPage = () => {
 
 export default LandingPage;
 
-// import React from "react";
-// import { FaFacebook, FaInstagram} from "react-icons/fa";
-// import { RiTwitterXLine } from "react-icons/ri";
-
-// import {
-//   LandingContainer,
-//   NavBar,
-//   LogoContainer,
-//   LeftSection,
-//   NavLinks,
-//   ButtonGroup,
-//   HeroSection,
-//   TransparencySection,
-//   TransparentImage,
-//   TraceaidSection,
-//   TraceaidImage,
-//   CommunitySection,
-//   CommunityGrid,
-//   CommunityContent,
-//   CommunityStat,
-//   CommunityButton,
-//   FooterContainer,
-//   FooterContent,
-//   FooterLogo,
-//   SocialIcons,
-//   FooterColumn,
-//   FooterCopyright,
-// } from "./LandingPageStyled.jsx";
-// import CampaignData from "./CampaignData.jsx";
-// import logoImg from "../assets/logo2.png";
-// import TransparencyImage from "../assets/Frame2.png";
-// import Traceaidpicture from "../assets/Frame3.png";
-// import Img1 from "../assets/Rectangle 10.png";
-// import Img2 from "../assets/Rectangle 11.png";
-// import Img3 from "../assets/Rectangle 9.png";
-// import Img4 from "../assets/Rectangle 12.png";
-// import  FooterImg from "../assets/logo1.png"
-
-// const LandingPage = () => {
-//   return (
-//     <LandingContainer>
-//       <NavBar>
-//         <LeftSection>
-//           <LogoContainer>
-//             <img src={logoImg} alt="TraceAid Logo" />
-//             <div className="divider"></div>
-//           </LogoContainer>
-
-//           <NavLinks>
-//             <li>Explore Campaigns</li>
-//             <li>How it Works</li>
-//             <li>Start a Campaign</li>
-//           </NavLinks>
-//         </LeftSection>
-
-//         <ButtonGroup>
-//           <button className="login">Login</button>
-//           <button className="create">Create an Account</button>
-//         </ButtonGroup>
-//       </NavBar>
-
-//       <HeroSection />
-
-//       <CampaignData />
-
-//       <TransparencySection>
-//         <TransparentImage
-//           src={TransparencyImage} alt="Transparency Illustration" />
-//       </TransparencySection>
-
-//       <TraceaidSection>
-//         <TraceaidImage
-//           src={Traceaidpicture} alt="TraceAid Illustration" />
-//       </TraceaidSection>
-
-//       <CommunitySection>
-//         <CommunityGrid>
-//           <img src={Img1} alt="Community Image 1" />
-//           <img src={Img2} alt="Community Image 2" />
-//           <CommunityContent>
-//             <h3>Be Part of our Donors and Fundraisers with over</h3>
-//             <CommunityStat>20,000</CommunityStat>
-//             <p>People from across Nigeria</p>
-//             <CommunityButton>Get Started</CommunityButton>
-//           </CommunityContent>
-//           <img src={Img3} alt="Community Image 3" />
-//           <img src={Img4} alt="Community Image 4" />
-//           </CommunityGrid>
-//         </CommunitySection>
-
-//         <FooterContainer>
-//           <FooterContent>
-//             <FooterLogo>
-//               <img src={FooterImg} alt="TraceAid Logo" />
-//               <h3>Join our Community</h3>
-//               <p>Get exclusive updates from the TraceAid community,explore <br />
-//               the social impact landscape across Africa and beyond.</p>
-//               <SocialIcons>
-//                 <a href="#" aria-label="Facebook">
-//                   <FaFacebook />
-//                 </a>
-//                 <a href="#" aria-label="Instagram">
-//                   <FaInstagram />
-//                 </a>
-//                 <a href="#" aria-label="Twitter">
-//                   <RiTwitterXLine />
-//                 </a>
-//               </SocialIcons>
-//             </FooterLogo>
-//             <FooterColumn>
-//               <h4>Product</h4>
-//               <ul>
-//                 <li>For Individuals</li>
-//                 <li>For Organizations</li>
-//                 <li>Pricing</li>
-//                 <li>Explore Campaigns</li>
-//               </ul>
-//             </FooterColumn>
-//             <FooterColumn>
-//               <h4>Company</h4>
-//               <ul>
-//                 <li>About</li>
-//                 <li>Blog</li>
-//                 <li>Terms & Conditions</li>
-//                 <li>Contact Us</li>
-//               </ul>
-//             </FooterColumn>
-//         </FooterContent>
-
-//         <FooterCopyright>© 2025 TraceAid|All rights reserved.</FooterCopyright>
-//         </FooterContainer>
-
-//     </LandingContainer>
-//   );
-// };
-
-// export default LandingPage;
