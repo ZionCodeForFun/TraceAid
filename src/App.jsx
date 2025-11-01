@@ -37,11 +37,19 @@ import AdminRegister from "./components/auth/adminAuth/AdminRegister";
 import AdminForgotPassword from "./components/auth/adminAuth/AdminForgotPassword";
 import AdminRequestPassword from "./components/auth/adminAuth/AdminRequestPassword";
 import AdminVerifyOTP from "./components/auth/AdminVerifyOtp";
+import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
+import AdminHeader from "./components/dashboard/adminDashboard/AdminHeader";
+import AdminNavbar from "./components/dashboard/adminDashboard/AdminNavbar";
+import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
+import AdminVerification from "./components/dashboard/adminDashboard/AdminVerification";
+import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
+import FundsDisbursementModal from "./components/dashboard/adminDashboard/Pop1";
 
 const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<FundsDisbursementModal />} />
+      <Route path="/d" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />
       <Route path="/createcampaign" element={<CreateCampaign />} />
 
@@ -83,7 +91,13 @@ const App = () => (
         path="/admin-request-password/:token/:id"
         element={<AdminRequestPassword />}
       />
-
+      <Route path="/d" element={<AdminDashboard />}>
+        <Route path="campaigns" element={<AdminHeader />} />
+        <Route path="verification" element={<AdminNavbar />} />
+        <Route path="users" element={<AdminUsers />} />
+        <Route path="verification" element={<AdminVerification />} />
+        <Route path="notifications" element={<DashboardManagement />} />
+      </Route>
       <Route path="/login" element={<LoginForm />} />
       <Route path="/verify_kyc1" element={<KycVerification1 />} />
       <Route path="/verify_kyc2" element={<KycVerification2 />} />

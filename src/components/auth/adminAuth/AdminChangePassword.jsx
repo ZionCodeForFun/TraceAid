@@ -1,50 +1,55 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-const ResetPassword = () => {
+import { useNavigate } from "react-router-dom";
+
+const AdminChangePassword = () => {
   const [formData, setFormData] = useState({
+    currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { token, id } = useParams();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { newPassword, confirmPassword } = formData;
+    const { currentPassword, newPassword, confirmPassword } = formData;
 
-    if (!newPassword || !confirmPassword) {
+    if (!currentPassword || !newPassword || !confirmPassword) {
       toast.error("Please fill in all fields");
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      toast.error("Passwords do not match");
+      toast.error("New passwords do not match");
       return;
     }
 
     setLoading(true);
-
     try {
+  
+
       const res = await axios.put(
-        `${
-          import.meta.env.VITE_BaseUrl_Admin
-        }/admin-reset-password/${token}/${id}`,
-        formData
+        `${import.meta.env.VITE_BaseUrl_Admin}/admin-change-password`,
+        { currentPassword, newPassword },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      console.log(res.data?.data?.message);
+
       toast.success(res.data?.message);
-      navigate("/admin_login");
+      navigate("/admin_dashboard"); 
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.message);
+      toast.error(error.response?.data?.message );
     } finally {
       setLoading(false);
     }
@@ -53,12 +58,16 @@ const ResetPassword = () => {
   return (
     <Container>
       <FormWrapper>
-        <h2>Reset Password</h2>
-        <p className="subtitle">
-          Enter your new password below to complete the reset process.
-        </p>
-
+        <h2>Change Password</h2>
         <form onSubmit={handleSubmit}>
+          <Input
+            type="password"
+            name="currentPassword"
+            placeholder="Current Password"
+            value={formData.currentPassword}
+            onChange={handleChange}
+            required
+          />
           <Input
             type="password"
             name="newPassword"
@@ -75,21 +84,17 @@ const ResetPassword = () => {
             onChange={handleChange}
             required
           />
-
           <Button type="submit" disabled={loading}>
-            {loading ? "Resetting..." : "Reset Password"}
+            {loading ? "Updating..." : "Update Password"}
           </Button>
         </form>
-
-        <BackText onClick={() => navigate("/admin_login")}>
-          Back to Login
-        </BackText>
       </FormWrapper>
     </Container>
   );
 };
 
-export default ResetPassword;
+export default AdminChangePassword;
+
 
 const Container = styled.div`
   height: 100vh;
@@ -111,12 +116,6 @@ const FormWrapper = styled.div`
   h2 {
     margin-bottom: 1rem;
     color: #222;
-  }
-
-  .subtitle {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 1.5rem;
   }
 `;
 
@@ -140,7 +139,6 @@ const Button = styled.button`
   font-size: 1rem;
   cursor: pointer;
   font-weight: 600;
-  margin-bottom: 1rem;
 
   &:hover {
     color: var(--NeutralBlack);
@@ -150,17 +148,5 @@ const Button = styled.button`
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-  }
-`;
-
-const BackText = styled.p`
-  font-size: 0.9rem;
-  color: var(--PrimaryBase);
-  cursor: pointer;
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: var(--NeutralBlack);
-    text-decoration: underline;
   }
 `;
