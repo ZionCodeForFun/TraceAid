@@ -42,8 +42,8 @@ const MyCampaigns = () => {
     {
       id: 1,
       details: "Stationery for the children of Makoko Nursery School",
-      raised: 5000000,
-      goal: 5000000,
+      raised: 5000,
+      goal: 50000,
       NumberOfDonr: 252,
       status: "Ongoing",
       milestone: "Upload",
@@ -53,8 +53,8 @@ const MyCampaigns = () => {
     {
       id: 2,
       details: "Food for All",
-      raised: 5000000,
-      goal: 5000000,
+      raised: 5000,
+      goal: 50000,
       NumberOfDonr: 252,
       status: "Completed",
       milestone: "Upload",
@@ -64,8 +64,8 @@ const MyCampaigns = () => {
     {
       id: 3,
       details: "Medical Supplies for Makoko",
-      raised: 5000000,
-      goal: 5000000,
+      raised: 5000,
+      goal: 50000,
       NumberOfDonr: 174,
       status: "Completed",
       milestone: "Upload",
@@ -75,8 +75,8 @@ const MyCampaigns = () => {
     {
       id: 4,
       details: "Medical Supplies for Makoko",
-      raised: 5000000,
-      goal: 5000000,
+      raised: 5000,
+      goal: 50000,
       NumberOfDonr: 174,
       status: "Pending",
       milestone: "Upload",
@@ -86,8 +86,8 @@ const MyCampaigns = () => {
     {
       id: 5,
       details: "Medical Supplies for Makoko",
-      raised: 5000000,
-      goal: 5000000,
+      raised: 5000,
+      goal: 50000,
       NumberOfDonr: 174,
       status: "completed",
       milestone: "Done",
@@ -229,7 +229,7 @@ const MyCampaigns = () => {
                   <tr>
                     <th>Campaigns</th>
                     <th>Progress</th>
-                    <th>No of Donors</th>
+                    <th style={{width:100, paddingLeft:"12px"}}>No of Donors</th>
                     <th>Status</th>
                     <th>MileStones</th>
                     <th>Deadline</th>
