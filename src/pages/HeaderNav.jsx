@@ -22,8 +22,7 @@ const HeaderNav = () => {
 
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
 
-  console.log("this is user", user);
-  // console.log(import.meta.env.VITE_BaseUrl);
+  // console.log("this is user", user);
 
   useEffect(() => {
     if (!user?.user?._id) return;
@@ -67,12 +66,6 @@ const HeaderNav = () => {
     dispatch(logout());
     setOpenDropdown(false);
   };
-
-  useEffect(() => {
-    if (!user?.token && !user?.user) {
-      nav("/");
-    }
-  }, [user?.token, user?.user]);
 
   return (
     <NavBar>
