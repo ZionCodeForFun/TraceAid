@@ -78,9 +78,9 @@ const App = () => (
       <Route path="/admin_register" element={<AdminRegister />} />
       <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
       <Route path="/admin_login" element={<AdminLogin />} />
-      <Route path="/admin_forgot_password" element={<AdminForgotPassword />} />
+      <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
       <Route
-        path="/admin_request_password"
+        path="/admin-request-password/:token/:id"
         element={<AdminRequestPassword />}
       />
 
