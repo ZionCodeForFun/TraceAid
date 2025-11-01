@@ -79,7 +79,7 @@ const App = () => {
         <Route path="/admin_register" element={<AdminRegister />} />
         <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
         <Route path="/admin_login" element={<AdminLogin />} />
-        <Route path="/admin_login" element={<AdminLogin />} />
+        {/* <Route path="/admin_login" element={<AdminLogin />} /> */}
         <Route path="/admin_Forgot_Password" element={<AdminForgotPassword/>} />
         <Route path="/admin_request_Password" element={<AdminRequestPassword/>} />
 
