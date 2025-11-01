@@ -4,15 +4,17 @@ import storage from "redux-persist/lib/storage";
 import authSlice from "./authSlice";
 import accountType from "../global/accountTypeSlice";
 import adminAuthSlice from "./adminAuthSlice";
+import kycSlice from "./kycSlice";
 const rootReducer = combineReducers({
   auth: authSlice,
   adminAuth: adminAuthSlice,
   accountType: accountType,
+  kyc: kycSlice,
 });
 const persist = {
   key: "root",
   storage,
-  whitelist: [, "auth"],
+  whitelist: ["auth"],
 };
 const persistedReducer = persistReducer(persist, rootReducer);
 export const store = configureStore({

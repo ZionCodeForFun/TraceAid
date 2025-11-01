@@ -37,6 +37,9 @@ import AdminRegister from "./components/auth/adminAuth/AdminRegister";
 import AdminForgotPassword from "./components/auth/adminAuth/AdminForgotPassword";
 import AdminRequestPassword from "./components/auth/adminAuth/AdminRequestPassword";
 import AdminVerifyOTP from "./components/auth/AdminVerifyOtp";
+import MyDonations from "./pages/MyDonations";
+import SavedCampaign from "./pages/SavedCampaign";
+
 
 const App = () => (
   <BrowserRouter>
@@ -93,8 +96,10 @@ const App = () => (
       <Route path="/how_it_works" element={<HowItWorks />} />
       <Route path="/explore" element={<ExploreCampaign />} />
       <Route path="/about" element={<AboutPage />} />
-      <Route path="/campaigndetails" element={<CampaignDetails />} />
+      <Route path="/campaign_details" element={<CampaignDetails />} />
       <Route path="/role_modal" element={<RoleModal />} />
+      <Route path="/my_donations" element={<MyDonations />} />
+      <Route path="/saved_campaigns" element={<SavedCampaign />} />
 
       <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
