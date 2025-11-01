@@ -55,7 +55,7 @@ const OrganizerDashboard = () => {
     <Container>
       <Layout className="wrapper">
         <Sider
-          width={280}
+          width={220}
           breakpoint="lg"
           onBreakpoint={(broken) => {
             console.log(broken);

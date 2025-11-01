@@ -87,7 +87,7 @@ const HeaderNav = () => {
                 <AiOutlineGift className="icon" />
                 My Donations
               </li>
-              <li onClick={() => nav("/organization_dashboard")}>
+              <li onClick={() => nav("/organization")}>
                 <AiOutlineGift className="icon" />
                 Fundraiser Dashboard
               </li>

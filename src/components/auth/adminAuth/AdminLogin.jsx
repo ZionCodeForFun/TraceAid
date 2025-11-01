@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { toast } from "react-toastify";
-// import { setAuthenticated, setUser } from "../../global/authSlice";
+import axios from "axios";
+import { setAdmin } from "../../../global/adminAuthSlice";
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -20,29 +21,18 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      if (
-        formData.email === "admin@example.com" &&
-        formData.password === "admin123"
-      ) {
-        const adminData = {
-          id: 1,
-          name: "Super Admin",
-          email: formData.email,
-          role: "admin",
-          token: "admin_token_123",
-        };
-
-        dispatch(setAuthenticated(true));
-        dispatch(setUser(adminData));
-
-        toast.success("Welcome back, Admin!");
-        navigate("/admin/dashboard");
-      } else {
-        toast.error("Invalid admin credentials");
-      }
+      const res = await axios.post(
+        `${import.meta.env.VITE_BaseUrl_Admin}/login`,
+        formData
+      );
+      const data = res.data?.data;
+    
+      toast.success(res.data?.message);
+      dispatch(setAdmin(data));
+      navigate("/admin");
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong!");
+      toast.error(error.response?.data?.message);
     } finally {
       setLoading(false);
     }

@@ -72,10 +72,11 @@ export const Container = styled.div`
 
   .wrapper {
     display: flex;
-    width: 90%;
-    max-width: 1100px;
+    width: 100%; 
+    max-width: 1200px; 
+    flex-wrap: nowrap; 
     height: 100%;
-    gap: 60px;
+
     padding-top: 45px;
 
     .left {
@@ -83,13 +84,13 @@ export const Container = styled.div`
 
       height: 730px;
       border-radius: 10px;
-      padding: 21px 0;
+      padding: 21px 0 ;
       background-color: var(--Neutral_Offwhite);
       border: 0.5px solid var(--Neutral_Grey1);
       display: flex;
       flex-direction: column;
       align-items: center;
-
+    
       .top_profile {
         display: flex;
         flex-direction: column;

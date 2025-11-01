@@ -37,8 +37,8 @@ const Settings = () => {
             {infor.map((item) => {
               const itemFullPath =
                 item.path === ""
-                  ? "/organizationdashboard/settings"
-                  : `/organizationdashboard/settings/${item.path.toLowerCase()}`;
+                  ? "/organization/settings"
+                  : `/organization/settings/${item.path.toLowerCase()}`;
 
               const isActive = currentPath === itemFullPath;
 

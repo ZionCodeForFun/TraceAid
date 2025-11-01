@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const AdminForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -18,13 +19,14 @@ const AdminForgotPassword = () => {
         return;
       }
 
-      setTimeout(() => {
-        toast.success("Password reset link sent to your email!");
+      const res = await axios.post(`${import.meta.env.VITE_BaseUrl_Admin}/forgot-password`,{email})
+        console.log(res) 
+        toast.success(res.data?.message);
         navigate("/admin_request_Password");
-      }, 1500);
+      ;
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong, please try again.");
+      toast.error(error.response?.data.message);
     } finally {
       setLoading(false);
     }
@@ -50,7 +52,7 @@ const AdminForgotPassword = () => {
           </Button>
         </form>
 
-        <BackText onClick={() => navigate("/admin/login")}>
+        <BackText onClick={() => navigate("/admin_login")}>
           Back to Login
         </BackText>
       </FormWrapper>

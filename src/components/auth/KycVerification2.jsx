@@ -9,12 +9,33 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const KycVerification2 = () => {
-  const [showReceipt, setShowReceipt] = useState(false);
+  const [formData, setFormData] = useState({
+    accountName: "",
+    accountNumber: "",
+    bankName: "",
+  });
 
+  const [showReceipt, setShowReceipt] = useState(false);
   const nav = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+   
+    const emptyFields = Object.entries(formData).filter(
+      ([key, value]) => !value.trim()
+    );
+
+    if (emptyFields.length > 0) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
     toast.success("KYC details submitted successfully!");
     setShowReceipt(true);
   };
@@ -48,10 +69,13 @@ const KycVerification2 = () => {
           <p className="big">Fill your Bank details</p>
 
           <div className="name_holder">
-            <label>Bank Account Name </label>
+            <label>Bank Account Name</label>
             <InputField
               type="text"
+              name="accountName"
+              value={formData.accountName}
               placeholder="Enter your bank account name"
+              onChange={handleChange}
             />
           </div>
 
@@ -59,22 +83,35 @@ const KycVerification2 = () => {
             <label>Bank Account Number</label>
             <InputField
               type="text"
+              name="accountNumber"
+              value={formData.accountNumber}
               placeholder="Enter your bank account number"
+              onChange={handleChange}
             />
           </div>
 
           <div className="name_holder">
             <label>Bank Name</label>
-            <InputField type="text" placeholder="Enter your bank name " />
+            <InputField
+              type="text"
+              name="bankName"
+              value={formData.bankName}
+              placeholder="Enter your bank name"
+              onChange={handleChange}
+            />
           </div>
 
           <div className="btn_holder">
-            <Button text="Back" type="submit" className="btn1" />
+            <Button
+              text="Back"
+              type="button"
+              className="btn1"
+              onClick={() => nav("/verify_kyc1")}
+            />
             <Button
               text="Submit"
               type="submit"
               className="btn2"
-              onClick={handleSubmit}
             />
           </div>
         </form>
@@ -88,14 +125,14 @@ const KycVerification2 = () => {
                 </i>
                 <p className="bigtext">Fundraiser account created</p>
                 <p className="smalltext">
-                  Your fundraiser account have been created successfully
+                  Your fundraiser account has been created successfully
                 </p>
               </div>
               <Button
                 onClick={() => nav("/createcampaign")}
                 className="close_btn"
-                text=" Start a Campaign"
-              ></Button>
+                text="Start a Campaign"
+              />
               <p className="home" onClick={() => nav("/organization")}>
                 Go Home
               </p>
@@ -108,6 +145,7 @@ const KycVerification2 = () => {
 };
 
 export default KycVerification2;
+
 
 const Container = styled.div`
   display: flex;
