@@ -22,7 +22,7 @@ const AdminForgotPassword = () => {
       const res = await axios.post(`${import.meta.env.VITE_BaseUrl_Admin}/forgot-password`,{email})
         console.log(res) 
         toast.success(res.data?.message);
-        navigate("/admin_request_Password");
+        navigate("/admin-reset-Password/:token/:id");
       ;
     } catch (error) {
       console.error(error);

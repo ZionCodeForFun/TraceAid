@@ -34,7 +34,7 @@ const ResetPassword = () => {
     try {
       setTimeout(() => {
         toast.success("Password reset successful! Please log in.");
-        navigate("/admin/login");
+        navigate("/admin_login");
       }, 1500);
     } catch (error) {
       console.error(error);
@@ -75,7 +75,7 @@ const ResetPassword = () => {
           </Button>
         </form>
 
-        <BackText onClick={() => navigate("/adminlogin")}>
+        <BackText onClick={() => navigate("/admin_login")}>
            Back to Login
         </BackText>
       </FormWrapper>

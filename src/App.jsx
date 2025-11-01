@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import SignUpForm from "./components/auth/SignUpForm";
 import ResetPassword from "./components/auth/ResetPassword";
@@ -39,13 +39,11 @@ import AdminRequestPassword from "./components/auth/adminAuth/AdminRequestPasswo
 import AdminVerifyOTP from "./components/auth/AdminVerifyOtp";
 const App = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
-        <Route path="/*" element={<RouterError />} />
-
         <Route path="/" element={<LandingPage />} />
         <Route path="/termsandcon" element={<TermsAndConditions />} />
-        <Route path="/" element={<LandingPage />} />
+
         <Route path="/createcampaign" element={<CreateCampaign />} />
         <Route path="/organization" element={<OrganizerDashboard />}>
           <Route path="" element={<OverViewPage />} />
@@ -75,14 +73,19 @@ const App = () => {
             <Route path="Notification" element={<Notification />} />
           </Route>
         </Route>
-          
+
         <Route path="/admin_register" element={<AdminRegister />} />
         <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
         <Route path="/admin_login" element={<AdminLogin />} />
-        {/* <Route path="/admin_login" element={<AdminLogin />} /> */}
-        <Route path="/admin_Forgot_Password" element={<AdminForgotPassword/>} />
-        <Route path="/admin_request_Password" element={<AdminRequestPassword/>} />
 
+        <Route
+          path="/admin-forgot-password"
+          element={<AdminForgotPassword />}
+        />
+        <Route
+          path="/admin-reset-password/:token/:id"
+          element={<AdminRequestPassword />}
+        />
 
         <Route path="/login" element={<LoginForm />} />
         <Route path="/verify_kyc1" element={<KycVerification1 />} />
@@ -97,9 +100,10 @@ const App = () => {
 
         <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/*" element={<RouterError />} />
       </Routes>
       <ToastContainer position="top-center" autoClose={2000} />
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 

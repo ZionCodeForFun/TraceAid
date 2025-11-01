@@ -59,7 +59,7 @@ const AdminLogin = () => {
             onChange={handleChange}
             required
           />
-          <ForgotText onClick={() => navigate("/admin_Forgot_Password")}>
+          <ForgotText onClick={() => navigate("/admin-forgot-password")}>
             Forgot Password?
           </ForgotText>
           <Button type="submit" disabled={loading}>
