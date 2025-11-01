@@ -37,11 +37,16 @@ import AdminRegister from "./components/auth/adminAuth/AdminRegister";
 import AdminForgotPassword from "./components/auth/adminAuth/AdminForgotPassword";
 import AdminRequestPassword from "./components/auth/adminAuth/AdminRequestPassword";
 import AdminVerifyOTP from "./components/auth/AdminVerifyOtp";
+import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
+import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
+import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
+import AdminVerification from "./components/dashboard/adminDashboard/AdminVerification";
+
 
 const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/k" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />
       <Route path="/createcampaign" element={<CreateCampaign />} />
 
@@ -83,6 +88,12 @@ const App = () => (
         path="/admin-request-password/:token/:id"
         element={<AdminRequestPassword />}
       />
+
+        <Route path="/" element={<AdminDashboard />}>
+          <Route path="admin" element={<DashboardManagement />} />
+          <Route path="admin/users" element={<AdminUsers />} />
+          <Route path="admin/verification" element={<AdminVerification />} />
+        </Route>
 
       <Route path="/login" element={<LoginForm />} />
       <Route path="/verify_kyc1" element={<KycVerification1 />} />
