@@ -1,43 +1,98 @@
 import React, { useState } from "react";
 import InputField from "../common/InputField";
 import Button from "../common/Button";
-import { GoPaperclip } from "react-icons/go";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { saveKycStep2, clearKyc } from "../../global/kycSlice";
 
 const KycVerification2 = () => {
+  const dispatch = useDispatch();
+  const nav = useNavigate();
+
+  const { step1 } = useSelector((state) => state.kyc || {});
+  const { user, token } = useSelector((state) => state.auth || {});
+
+  const [loading, setLoading] = useState(false);
+  const [showReceipt, setShowReceipt] = useState(false);
+
   const [formData, setFormData] = useState({
-    accountName: "",
-    accountNumber: "",
+    bankAccountName: "",
+    bankAccountNumber: "",
     bankName: "",
   });
 
-  const [showReceipt, setShowReceipt] = useState(false);
-  const nav = useNavigate();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "bankAccountNumber") {
+      const digitsOnly = value.replace(/\D/g, "");
+      return setFormData((prev) => ({ ...prev, [name]: digitsOnly }));
+    }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-   
-    const emptyFields = Object.entries(formData).filter(
-      ([key, value]) => !value.trim()
-    );
-
-    if (emptyFields.length > 0) {
-      toast.error("Please fill in all fields.");
+    if (
+      !step1?.organizationName ||
+      !step1?.registrationNumber ||
+      !step1?.registrationCertificate ||
+      !step1?.authorizedRepresentativeFullName ||
+      !step1?.authorizedRepresentativeId ||
+      !step1?.organizationAddress
+    ) {
+      toast.error("KYC Step 1 is incomplete. Please go back and fill all fields.");
       return;
     }
 
-    toast.success("KYC details submitted successfully!");
-    setShowReceipt(true);
+    if (!formData.bankAccountName || !formData.bankAccountNumber || !formData.bankName) {
+      toast.error("Please fill all fields.");
+      return;
+    }
+
+    dispatch(saveKycStep2(formData));
+
+    const fd = new FormData();
+    fd.append("organizationName", step1.organizationName);
+    fd.append("organizationType", step1.organizationType);
+    fd.append("registrationNumber", step1.registrationNumber);
+    fd.append("registrationCertificate", step1.registrationCertificate);
+    fd.append("authorizedRepresentativeFullName", step1.authorizedRepresentativeFullName);
+    fd.append("authorizedRepresentativeId", step1.authorizedRepresentativeId);
+    fd.append("organizationAddress", step1.organizationAddress);
+
+    fd.append("bankAccountName", formData.bankAccountName);
+    fd.append("bankAccountNumber", formData.bankAccountNumber);
+    fd.append("bankName", formData.bankName);
+
+    try {
+      setLoading(true);
+
+      await axios.post(import.meta.env.VITE_BaseUrl3, fd, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setLoading(false);
+      toast.success("KYC submitted successfully!");
+      setShowReceipt(true);
+    } catch (err) {
+      setLoading(false);
+      const msg = err?.response?.data?.message || "Failed to submit KYC.";
+      toast.error(msg);
+      console.error("KYC Submit Error:", err?.response || err);
+    }
+  };
+
+  const handleStartCampaign = () => {
+    dispatch(clearKyc());
+    nav("/createcampaign");
   };
 
   return (
@@ -59,9 +114,7 @@ const KycVerification2 = () => {
 
         <div className="progress-bar">
           <div className="line"></div>
-          <div className="dot filled">
-            <span>✓</span>
-          </div>
+          <div className="dot filled"><span>✓</span></div>
           <div className="dot empty"></div>
         </div>
 
@@ -72,8 +125,8 @@ const KycVerification2 = () => {
             <label>Bank Account Name</label>
             <InputField
               type="text"
-              name="accountName"
-              value={formData.accountName}
+              name="bankAccountName"
+              value={formData.bankAccountName}
               placeholder="Enter your bank account name"
               onChange={handleChange}
             />
@@ -83,9 +136,10 @@ const KycVerification2 = () => {
             <label>Bank Account Number</label>
             <InputField
               type="text"
-              name="accountNumber"
-              value={formData.accountNumber}
+              name="bankAccountNumber"
+              value={formData.bankAccountNumber}
               placeholder="Enter your bank account number"
+              maxLength="10"
               onChange={handleChange}
             />
           </div>
@@ -109,9 +163,10 @@ const KycVerification2 = () => {
               onClick={() => nav("/verify_kyc1")}
             />
             <Button
-              text="Submit"
+              text={loading ? "Submitting..." : "Submit"}
               type="submit"
               className="btn2"
+              disabled={loading}
             />
           </div>
         </form>
@@ -120,16 +175,14 @@ const KycVerification2 = () => {
           <div className="holder">
             <div className="reciept_holder">
               <div className="content-holder">
-                <i>
-                  <IoMdCheckmarkCircleOutline />
-                </i>
+                <i><IoMdCheckmarkCircleOutline /></i>
                 <p className="bigtext">Fundraiser account created</p>
                 <p className="smalltext">
                   Your fundraiser account has been created successfully
                 </p>
               </div>
               <Button
-                onClick={() => nav("/createcampaign")}
+                onClick={handleStartCampaign}
                 className="close_btn"
                 text="Start a Campaign"
               />
@@ -145,6 +198,7 @@ const KycVerification2 = () => {
 };
 
 export default KycVerification2;
+
 
 
 const Container = styled.div`
