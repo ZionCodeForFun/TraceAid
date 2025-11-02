@@ -41,6 +41,7 @@ import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
 import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
 import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
 import AdminVerification from "./components/dashboard/adminDashboard/AdminVerification";
+import AdminCampaignManagement from "./components/dashboard/adminDashboard/AdminCampaignManagement";
 
 
 const App = () => (
@@ -89,10 +90,11 @@ const App = () => (
         element={<AdminRequestPassword />}
       />
 
-        <Route path="/" element={<AdminDashboard />}>
+        <Route path="" element={<AdminDashboard />}>
           <Route path="/admin" element={<DashboardManagement />} />
           <Route path="admin/users" element={<AdminUsers />} />
           <Route path="admin/verification" element={<AdminVerification />} />
+          <Route path="admin/campaigns" element={<AdminCampaignManagement />} />
         </Route>
 
       <Route path="/login" element={<LoginForm />} />

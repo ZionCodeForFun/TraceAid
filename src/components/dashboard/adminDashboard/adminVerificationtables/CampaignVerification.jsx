@@ -24,7 +24,7 @@ const Campaign = () => {
       NGO: "Green Earth NGO",
       CreatedDate: "2024-10-14",
       Goal: "₦75,000",
-      Status: "Approved",
+      Status: "pending",
     },
     {
       CampaignName: "Save the climate",
