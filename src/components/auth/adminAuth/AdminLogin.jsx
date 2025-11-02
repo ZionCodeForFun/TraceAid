@@ -26,12 +26,16 @@ const AdminLogin = () => {
         formData
       );
       const data = res.data?.data;
-    
+      console.log(data);
       toast.success(res.data?.message);
-      dispatch(setAdmin(data));
+      dispatch(
+        setAdmin({
+          ...data.login,
+          token: data.login.token,
+        })
+      );
       navigate("/admin");
     } catch (error) {
-      console.error(error);
       toast.error(error.response?.data?.message);
     } finally {
       setLoading(false);

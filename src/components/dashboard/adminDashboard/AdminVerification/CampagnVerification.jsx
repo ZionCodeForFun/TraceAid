@@ -16,9 +16,9 @@ import {
   Goal,
   Status,
   Actions,
-} from "../../../style/AdminVerificationStyle.jsx";
+} from "../../../../style/AdminVerificationStyle.jsx";
 
-const AdminVerification = () => {
+const CampagnVerification = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeSection, setActiveSection] = useState("Campaign Verification");
 
@@ -83,28 +83,6 @@ const AdminVerification = () => {
 
   return (
     <AdminVerificationContainer>
-
-      <AdminVerificationTitle>
-        {sections.map((section) => (
-          <button
-            key={section}
-            onClick={() => handleSectionClick(section)}
-            style={{
-              padding: "6px 12px",
-              marginRight: "8px",
-              border: "none",
-              borderRadius: "20px",
-              background: activeSection === section ? "#7AA62D" : "transparent",
-              color: activeSection === section ? "#FFFFFF" : "#333",
-              fontWeight: activeSection === section ? "600" : "400",
-              cursor: "pointer",
-            }}
-          >
-            {section}
-          </button>
-        ))}
-      </AdminVerificationTitle>
-
       <AdminVerificationContent>
         <AdminVerificationTop>
           <h2>{activeSection}</h2>
@@ -185,4 +163,4 @@ const AdminVerification = () => {
   );
 };
 
-export default AdminVerification;
+export default CampagnVerification;
