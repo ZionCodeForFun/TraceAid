@@ -6,74 +6,16 @@ import {
   AdminVerificationContainer,
   AdminVerificationTop,
   AdminVerificationItem,
-  TableContainer,
-  Header,
-  HeaderItem,
-  Row,
-  CampaignName,
-  NGO,
-  CreatedDate,
-  Goal,
-  Status,
-  Actions,
-} from "../../../../style/AdminVerificationStyle.jsx";
+} from "../../../style/AdminVerificationStyle";
+
+
+import Campaign from "./adminVerificationtables/CampaignVerification.jsx";
+import Milestone from "./adminVerificationtables/MilestoneVerification.jsx";
+import FundsDisbursement from "./adminVerificationtables/FundsDisbursement.jsx";
 
 const CampagnVerification = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeSection, setActiveSection] = useState("Campaign Verification");
-
-  const users = [
-    {
-      CampaignName: "Education for all",
-      NGO: "Slum2Africa",
-      CreatedDate: "2024-10-10",
-      Goal: "₦5,000,000",
-      status: "Approved",
-      Actions: "View",
-    },
-    {
-      CampaignName: "Light up a village",
-      NGO: "Solar Nigeria",
-      CreatedDate: "2024-10-12",
-      Goal: "₦30,000",
-      status: "Pending",
-      Actions: "View",
-    },
-    {
-      CampaignName: "Save the climate",
-      NGO: "Green Earth NGO",
-      CreatedDate: "2024-10-14",
-      Goal: "₦75,000",
-      status: "Approved",
-      Actions: "View",
-    },
-    {
-      CampaignName: "Pad a girl",
-      NGO: "Faith Kaiye foundation",
-      CreatedDate: "2024-10-08",
-      Goal: "₦40,000",
-      status: "Approved",
-      Actions: "View",
-    },
-    {
-      CampaignName: "Medical Aid Campaign",
-      NGO: "Child Care Foundation",
-      CreatedDate: "2024-10-15",
-      Goal: "₦60,000",
-      status: "Approved",
-      Actions: "View",
-    },
-  ];
-
-  const filteredUsers = users.filter((user) =>
-    Object.values(user).some((val) =>
-      String(val).toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
-
-  const handleSectionClick = (section) => {
-    setActiveSection(section);
-  };
 
   const sections = [
     "Campaign Verification",
@@ -81,8 +23,37 @@ const CampagnVerification = () => {
     "Funds Disbursement",
   ];
 
+  const handleSectionClick = (section) => {
+    setActiveSection(section);
+  };
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case "Campaign Verification":
+        return <Campaign searchTerm={searchTerm} />;
+      case "Milestone Verification":
+        return <Milestone searchTerm={searchTerm} />;
+      case "Funds Disbursement":
+        return <FundsDisbursement searchTerm={searchTerm} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <AdminVerificationContainer>
+      <AdminVerificationTitle>
+        {sections.map((section) => (
+          <button
+            key={section}
+            onClick={() => handleSectionClick(section)}
+            className={activeSection === section ? "active" : ""}
+          >
+            {section}
+          </button>
+        ))}
+      </AdminVerificationTitle>
+
       <AdminVerificationContent>
         <AdminVerificationTop>
           <h2>{activeSection}</h2>
@@ -127,37 +98,7 @@ const CampagnVerification = () => {
           </div>
         </div>
 
-        <AdminVerificationItem>
-          <TableContainer>
-            <Header>
-              <HeaderItem>Campaign Name</HeaderItem>
-              <HeaderItem>NGO</HeaderItem>
-              <HeaderItem>Created Date</HeaderItem>
-              <HeaderItem>Goal</HeaderItem>
-              <HeaderItem>Status</HeaderItem>
-              <HeaderItem>Actions</HeaderItem>
-            </Header>
-
-            {filteredUsers.length > 0 ? (
-              filteredUsers.map((user, index) => (
-                <Row key={index}>
-                  <CampaignName>{user.CampaignName}</CampaignName>
-                  <NGO>{user.NGO}</NGO>
-                  <CreatedDate>{user.CreatedDate}</CreatedDate>
-                  <Goal>{user.Goal}</Goal>
-                  <Status active={user.status === "Approved"}>
-                    {user.status}
-                  </Status>
-                  <Actions>{user.Actions}</Actions>
-                </Row>
-              ))
-            ) : (
-              <Row>
-                <Name>No campaigns found.</Name>
-              </Row>
-            )}
-          </TableContainer>
-        </AdminVerificationItem>
+        <AdminVerificationItem>{renderSection()}</AdminVerificationItem>
       </AdminVerificationContent>
     </AdminVerificationContainer>
   );

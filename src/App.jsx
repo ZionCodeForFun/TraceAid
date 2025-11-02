@@ -87,6 +87,21 @@ const App = () => (
         </Route>
       </Route>
 
+      <Route path="/admin_register" element={<AdminRegister />} />
+      <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
+      <Route path="/admin_login" element={<AdminLogin />} />
+      <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
+      <Route
+        path="/admin-request-password/:token/:id"
+        element={<AdminRequestPassword />}
+      />
+
+        <Route path="/" element={<AdminDashboard />}>
+          <Route path="/admin" element={<DashboardManagement />} />
+          <Route path="admin/users" element={<AdminUsers />} />
+          <Route path="admin/verification" element={<AdminVerification />} />
+        </Route>
+
       <Route path="/login" element={<LoginForm />} />
       <Route path="/verify_kyc1" element={<KycVerification1 />} />
       <Route path="/verify_kyc2" element={<KycVerification2 />} />
