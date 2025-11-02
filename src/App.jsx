@@ -90,7 +90,7 @@ const App = () => (
       />
 
         <Route path="/" element={<AdminDashboard />}>
-          <Route path="admin" element={<DashboardManagement />} />
+          <Route path="/admin" element={<DashboardManagement />} />
           <Route path="admin/users" element={<AdminUsers />} />
           <Route path="admin/verification" element={<AdminVerification />} />
         </Route>
