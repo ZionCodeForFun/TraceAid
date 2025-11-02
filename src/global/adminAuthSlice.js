@@ -9,13 +9,14 @@ const adminAuthSlice = createSlice({
     error: null,
     message: null,
   },
+
   reducers: {
     setAdmin: (state, action) => {
       const payload = action.payload;
       state.admin = payload;
       state.token = payload?.token || null;
-      state.email = payload?.email || payload?.admin?.email || null; 
-     
+      state.email = payload?.email || null;
+
     },
 
     logoutAdmin: (state) => {

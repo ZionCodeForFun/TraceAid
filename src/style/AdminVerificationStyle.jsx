@@ -35,12 +35,12 @@ export const AdminVerificationTitle = styled.h2`
     color: #333;
 
     &.active {
-      background-color: #7aa62d;
+      background-color: #67940B;
       color: #fff;
     }
 
     &:hover {
-      background-color: #7aa62d;
+      background-color: #66940bce;
       color: #fff;
     }
   }
@@ -123,16 +123,26 @@ export const TableContainer = styled.div`
   > * {
     width: 100%;
   }
-`;
-
-export const Header = styled.div`
+  `;
+  
+  export const Header = styled.div`
   display: grid;
-  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr; 
+  grid-template-columns: 1.5fr 1.5fr 1.4fr 1.3fr 0.8fr 0.5fr 0.4fr; 
   font-weight: 600;
   color: #222;
   border-bottom: 1px solid #e5e5e5;
   padding: 12px 20px;
-`;
+  `;
+
+export const CampaignHeader = styled.div`
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr 0fr; 
+  font-weight: 600;
+  color: #222;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 12px 20px;
+  margin-left: 8px;
+  `;
 
 export const HeaderItem = styled.span`
   font-size: 14px;
@@ -143,13 +153,30 @@ export const HeaderItem = styled.span`
 
 export const Row = styled.div`
   display: grid;
-  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr; 
+  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr 0.6fr; 
   align-items: center;
   color: #2f2f2f;
   font-size: 15px;
   border-bottom: 1px solid #e5e5e5;
   padding: 12px 20px;
   width: 100%;
+`;
+export const CampaignRow = styled.div`
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr 0fr; 
+  align-items: center;
+  color: #2f2f2f;
+  font-size: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 12px 20px;
+  width: 100%;
+`;
+export const Cell = styled.div`
+  flex: 1;
+  text-align: left;
+  /* padding: 10px; */
+  font-size: 14px;
+  color: #333;
 `;
 
 export const CampaignName = styled.span`
@@ -181,6 +208,7 @@ export const Status = styled.span`
   font-size: 13px;
   font-weight: 500;
   padding: 7px 6px;
+  margin-right: 20px;
   border-radius: 12px;
   text-align: center;
 `;

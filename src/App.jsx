@@ -40,11 +40,17 @@ import AdminVerifyOTP from "./components/auth/AdminVerifyOtp";
 import MyDonations from "./pages/MyDonations";
 import SavedCampaign from "./pages/SavedCampaign";
 
+import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
+import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
+import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
+
+import AdminVerification from "./components/dashboard/adminDashboard/AdminVerication";
 
 const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+     
+      <Route path="/k" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />
       <Route path="/createcampaign" element={<CreateCampaign />} />
 
@@ -78,15 +84,6 @@ const App = () => (
         </Route>
       </Route>
 
-      <Route path="/admin_register" element={<AdminRegister />} />
-      <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
-      <Route path="/admin_login" element={<AdminLogin />} />
-      <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
-      <Route
-        path="/admin-request-password/:token/:id"
-        element={<AdminRequestPassword />}
-      />
-
       <Route path="/login" element={<LoginForm />} />
       <Route path="/verify_kyc1" element={<KycVerification1 />} />
       <Route path="/verify_kyc2" element={<KycVerification2 />} />
@@ -103,6 +100,23 @@ const App = () => (
 
       <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
+
+      {/* ADMIN ROUTES AND PAGES BELOW, DON'T ADD ROUTES THATS NOT ADMIN'S */}
+      <Route path="/admin_register" element={<AdminRegister />} />
+      <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
+      <Route path="/" element={<AdminLogin />} />
+      <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
+      <Route
+        path="/admin-request-password/:token/:id"
+        element={<AdminRequestPassword />}
+      />
+
+      <Route path="/admin" element={<AdminDashboard />}>
+        <Route path="" element={<DashboardManagement />} />
+        <Route path="admin/users" element={<AdminUsers />} />
+        <Route path="admin/verification" element={<AdminVerification />} />
+      </Route>
+      {/* ADD ADMINS ROUTES BEWTWEEN, NO OTHER ROUTES FOR CLARIITY */}
 
       <Route path="*" element={<RouterError />} />
     </Routes>

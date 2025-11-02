@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import axios from "axios";
+import { useParams } from "react-router-dom";
 const ResetPassword = () => {
   const [formData, setFormData] = useState({
     newPassword: "",
@@ -10,7 +11,7 @@ const ResetPassword = () => {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const { token, id } = useParams();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -32,13 +33,18 @@ const ResetPassword = () => {
     setLoading(true);
 
     try {
-      setTimeout(() => {
-        toast.success("Password reset successful! Please log in.");
-        navigate("/admin_login");
-      }, 1500);
+      const res = await axios.put(
+        `${
+          import.meta.env.VITE_BaseUrl_Admin
+        }/admin-reset-password/${token}/${id}`,
+        formData
+      );
+      console.log(res.data?.data?.message);
+      toast.success(res.data?.message);
+      navigate("/admin_login");
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong, please try again.");
+      toast.error(error.response?.data?.message);
     } finally {
       setLoading(false);
     }
@@ -76,7 +82,7 @@ const ResetPassword = () => {
         </form>
 
         <BackText onClick={() => navigate("/admin_login")}>
-           Back to Login
+          Back to Login
         </BackText>
       </FormWrapper>
     </Container>
@@ -84,7 +90,6 @@ const ResetPassword = () => {
 };
 
 export default ResetPassword;
-
 
 const Container = styled.div`
   height: 100vh;

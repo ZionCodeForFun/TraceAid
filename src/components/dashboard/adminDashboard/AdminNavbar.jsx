@@ -16,17 +16,17 @@ import { FaUsers, FaFileAlt, FaIdCard } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
 const menuItems = [
-  { name: "Dashboard", icon: <MdDashboard />, path: "/Admin" },
-  { name: "Users", icon: <FaUsers />, path: "/Admin/users" },
+  { name: "Dashboard", icon: <MdDashboard />, path: "" },
+  { name: "Users", icon: <FaUsers />, path: "admin/users" },
   {
     name: "Verification",
     icon: <MdVerifiedUser />,
-    path: "/admin/verification",
+    path: "admin/verification",
   },
   {
-    name: "Campaigns",
+    name: "Campaverificationigns",
     icon: <MdCampaign />,
-    path: "/adminDashboard/campaigns",
+    path: "campaigns",
   },
   { name: "Reports", icon: <FaFileAlt />, path: "/adminDashboard/reports" },
   { name: "KYC", icon: <FaIdCard />, path: "/adminDashboard/kyc" },
@@ -34,7 +34,7 @@ const menuItems = [
   {
     name: "Notifications",
     icon: <MdNotifications />,
-    path: "/adminDashboard/notifications",
+    path: "notifications",
   },
 ];
 
