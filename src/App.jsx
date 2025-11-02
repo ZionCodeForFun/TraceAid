@@ -41,11 +41,14 @@ import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
 import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
 import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
 import AdminVerification from "./components/dashboard/adminDashboard/AdminVerification";
-
+import CampaignDetailsPendingModal from "./components/dashboard/adminDashboard/modal/CampaignDetailsPendingModal";
+import CampaignDetailsAprovedModal from "./components/dashboard/adminDashboard/modal/CampaignDetailsAprovedModal";
 
 const App = () => (
   <BrowserRouter>
     <Routes>
+      <Route path="/" element={<CampaignDetailsAprovedModal />} />
+      <Route path="/s" element={<CampaignDetailsPendingModal />} />
       <Route path="/k" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />
       <Route path="/createcampaign" element={<CreateCampaign />} />
@@ -89,11 +92,11 @@ const App = () => (
         element={<AdminRequestPassword />}
       />
 
-        <Route path="/" element={<AdminDashboard />}>
-          <Route path="admin" element={<DashboardManagement />} />
-          <Route path="admin/users" element={<AdminUsers />} />
-          <Route path="admin/verification" element={<AdminVerification />} />
-        </Route>
+      <Route path="/s" element={<AdminDashboard />}>
+        <Route path="" element={<DashboardManagement />} />
+        <Route path="admin/users" element={<AdminUsers />} />
+        <Route path="admin/verification" element={<AdminVerification />} />
+      </Route>
 
       <Route path="/login" element={<LoginForm />} />
       <Route path="/verify_kyc1" element={<KycVerification1 />} />

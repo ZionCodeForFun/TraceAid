@@ -17,11 +17,11 @@ import { useLocation } from "react-router-dom";
 
 const menuItems = [
   { name: "Dashboard", icon: <MdDashboard />, path: "" },
-  { name: "Users", icon: <FaUsers />, path: "users" },
+  { name: "Users", icon: <FaUsers />, path: "admin/users" },
   {
     name: "Verification",
     icon: <MdVerifiedUser />,
-    path: "verification",
+    path: "admin/verification",
   },
   {
     name: "Campaigns",
