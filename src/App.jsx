@@ -50,7 +50,7 @@ const App = () => (
   <BrowserRouter>
     <Routes>
      
-      <Route path="/k" element={<LandingPage />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />
       <Route path="/createcampaign" element={<CreateCampaign />} />
 
@@ -104,7 +104,7 @@ const App = () => (
       {/* ADMIN ROUTES AND PAGES BELOW, DON'T ADD ROUTES THATS NOT ADMIN'S */}
       <Route path="/admin_register" element={<AdminRegister />} />
       <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
-      <Route path="/" element={<AdminLogin />} />
+      <Route path="/f" element={<AdminLogin />} />
       <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
       <Route
         path="/admin-request-password/:token/:id"
