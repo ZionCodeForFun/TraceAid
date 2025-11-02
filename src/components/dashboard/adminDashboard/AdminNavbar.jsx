@@ -24,7 +24,7 @@ const menuItems = [
     path: "admin/verification",
   },
   {
-    name: "Campaigns",
+    name: "Campaverificationigns",
     icon: <MdCampaign />,
     path: "campaigns",
   },

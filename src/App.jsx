@@ -43,16 +43,13 @@ import SavedCampaign from "./pages/SavedCampaign";
 import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
 import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
 import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
-import CampagnVerification from "./components/dashboard/adminDashboard/AdminVerification/CampagnVerification";
-import CampaignDetailsPendingModal from "./components/dashboard/adminDashboard/modal/CampaignDetailsPendingModal";
-import CampaignDetailsAprovedModal from "./components/dashboard/adminDashboard/modal/CampaignDetailsAprovedModal";
-import Verification from "./components/dashboard/adminDashboard/AdminVerification/Verification";
+
+import AdminVerification from "./components/dashboard/adminDashboard/AdminVerication";
 
 const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/t" element={<CampaignDetailsAprovedModal />} />
-      <Route path="/s" element={<CampaignDetailsPendingModal />} />
+     
       <Route path="/k" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />
       <Route path="/createcampaign" element={<CreateCampaign />} />
@@ -117,9 +114,7 @@ const App = () => (
       <Route path="/admin" element={<AdminDashboard />}>
         <Route path="" element={<DashboardManagement />} />
         <Route path="admin/users" element={<AdminUsers />} />
-        <Route path="admin/verification" element={<Verification />}>
-          <Route path="" element={<CampagnVerification />} />
-        </Route>
+        <Route path="admin/verification" element={<AdminVerification />} />
       </Route>
       {/* ADD ADMINS ROUTES BEWTWEEN, NO OTHER ROUTES FOR CLARIITY */}
 
