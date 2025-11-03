@@ -104,7 +104,7 @@ const App = () => (
       {/* ADMIN ROUTES AND PAGES BELOW, DON'T ADD ROUTES THATS NOT ADMIN'S */}
       <Route path="/admin_register" element={<AdminRegister />} />
       <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
-      <Route path="/f" element={<AdminLogin />} />
+      <Route path="/d" element={<AdminLogin />} />
       <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
       <Route
         path="/admin-request-password/:token/:id"
@@ -113,8 +113,8 @@ const App = () => (
 
       <Route path="/admin" element={<AdminDashboard />}>
         <Route path="" element={<DashboardManagement />} />
-        <Route path="admin/users" element={<AdminUsers />} />
-        <Route path="admin/verification" element={<AdminVerification />} />
+        <Route path="users" element={<AdminUsers />} />
+        <Route path="verification" element={<AdminVerification />} />
       </Route>
       {/* ADD ADMINS ROUTES BEWTWEEN, NO OTHER ROUTES FOR CLARIITY */}
 

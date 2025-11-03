@@ -2,17 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { X } from "lucide-react";
 
-const CampaignDetailsModal = () => {
+const CampaignDetailsModal = ({ campaign, onClose }) => {
+  if (!campaign) return null;
+
   return (
     <Overlay>
       <Container>
-        {/* Header */}
         <Header>
           <div>
             <Title>Campaign Details</Title>
             <Subtitle>Review campaign information and make a decision</Subtitle>
           </div>
-          <CloseBtn>
+          <CloseBtn onClick={onClose}>
             <X size={18} strokeWidth={2} />
           </CloseBtn>
         </Header>
@@ -21,41 +22,41 @@ const CampaignDetailsModal = () => {
           <DetailsGrid>
             <DetailItem>
               <DetailLabel>Campaign Name</DetailLabel>
-              <DetailValue>Education for All</DetailValue>
+              <DetailValue>{campaign.CampaignName}</DetailValue>
             </DetailItem>
             <DetailItem>
               <DetailLabel>Goal Amount</DetailLabel>
-              <DetailValue>₦5,000,000</DetailValue>
+              <DetailValue>{campaign.Goal}</DetailValue>
             </DetailItem>
             <DetailItem>
               <DetailLabel>Deadline</DetailLabel>
-              <DetailValue>2025-12-31</DetailValue>
+              <DetailValue>{campaign.Deadline}</DetailValue>
             </DetailItem>
             <DetailItem>
               <DetailLabel>Created Date</DetailLabel>
-              <DetailValue>2025-10-10</DetailValue>
+              <DetailValue>{campaign.CreatedDate}</DetailValue>
             </DetailItem>
           </DetailsGrid>
 
           <Section>
             <SectionTitle>Description</SectionTitle>
-            <Description>
-              Stationery for the children of Makoko Nursery School.
-            </Description>
+            <Description>{campaign.Description}</Description>
           </Section>
 
           <NGOSection>
             <SectionTitle>NGO Information</SectionTitle>
             <NGORow>
-              <NGOName>Slum2Africa</NGOName>
+              <NGOName>{campaign.NGO}</NGOName>
             </NGORow>
           </NGOSection>
         </Body>
 
         <Footer>
-          <StatusBadge className="approved">Approved</StatusBadge>
+          <StatusBadge className={campaign.Status.toLowerCase()}>
+            {campaign.Status}
+          </StatusBadge>
 
-          <CloseButton>Close</CloseButton>
+          <CloseButton onClick={onClose}>Close</CloseButton>
         </Footer>
       </Container>
     </Overlay>
@@ -199,8 +200,8 @@ const StatusBadge = styled.span`
   margin-top: -4px;
 
   &.approved {
-    background-color: #67940B;
-    color: #FFFFFF;
+    background-color: #67940b;
+    color: #ffffff;
   }
 `;
 
