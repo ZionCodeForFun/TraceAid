@@ -43,11 +43,8 @@ import SavedCampaign from "./pages/SavedCampaign";
 import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
 import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
 import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
-<<<<<<< HEAD
-=======
 import AdminVerification from "./components/dashboard/adminDashboard/AdminVerification";
 import AdminCampaignManagement from "./components/dashboard/adminDashboard/AdminCampaignManagement";
->>>>>>> f749ec111548756970faa9fc27882156234091c1
 
 import AdminVerification from "./components/dashboard/adminDashboard/AdminVerication";
 
