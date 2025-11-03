@@ -4,78 +4,57 @@ import { X, Check, Slash } from "lucide-react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
-const CampaignDetailsPendingModal = () => {
+const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
   return (
     <Overlay>
       <Container>
-       
         <Header>
           <div>
             <Title>Campaign Details</Title>
             <Subtitle>Review campaign information and make a decision</Subtitle>
           </div>
-          <CloseBtn>
+          <CloseBtn onClick={onClose}>
             <X size={18} strokeWidth={2} />
           </CloseBtn>
         </Header>
 
-       
         <Body>
           <Grid>
             <Detail>
               <Label>Campaign Name</Label>
-              <Value>Light Up a Village</Value>
+              <Value>{campaign.CampaignName}</Value>
             </Detail>
             <Detail>
               <Label>Goal Amount</Label>
-              <Value>₦30,000</Value>
-            </Detail>
-            <Detail>
-              <Label>Deadline</Label>
-              <Value>2025-10-30</Value>
+              <Value>{campaign.Goal}</Value>
             </Detail>
             <Detail>
               <Label>Created Date</Label>
-              <Value>2025-10-12</Value>
+              <Value>{campaign.CreatedDate}</Value>
+            </Detail>
+            <Detail>
+              <Label>Status</Label>
+              <Value>{campaign.Status}</Value>
             </Detail>
           </Grid>
-
-          <Section>
-            <SectionTitle>Description</SectionTitle>
-            <Desc>
-              Focused on providing solar-powered lighting to rural Nigerian
-              communities without access to electricity. This initiative aims to
-              provide safe, sustainable light sources to areas where kerosene
-              lamps are the primary and dangerous alternative.
-            </Desc>
-          </Section>
 
           <NGOSection>
             <SectionTitle>NGO Information</SectionTitle>
             <NGOInfo>
-              <NGOName>Solar Nigeria</NGOName>
+              <NGOName>{campaign.NGO}</NGOName>
               <Badge className="status-pending">Pending</Badge>
             </NGOInfo>
           </NGOSection>
         </Body>
 
-      
         <Footer>
           <RejectBtn>
-            <IoCloseCircleOutline
-              size={16}
-              className="icon"
-              strokeWidth={2.5}
-            />
+            <IoCloseCircleOutline size={16} className="icon" />
             Reject
           </RejectBtn>
 
           <ApproveBtn>
-            <IoMdCheckmarkCircleOutline
-              size={16}
-              className="icon"
-              strokeWidth={3}
-            />
+            <IoMdCheckmarkCircleOutline size={16} className="icon" />
             Approve
           </ApproveBtn>
         </Footer>
@@ -85,8 +64,6 @@ const CampaignDetailsPendingModal = () => {
 };
 
 export default CampaignDetailsPendingModal;
-
-
 
 const Overlay = styled.div`
   position: fixed;
@@ -104,7 +81,7 @@ const Container = styled.div`
   border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   width: 500px;
-  height: 600px;
+  height: 527px;
   display: flex;
   flex-direction: column;
   overflow: hidden;

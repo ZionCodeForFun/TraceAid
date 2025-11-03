@@ -8,7 +8,7 @@ export const Container = styled.div`
 
   .wrapper {
     display: flex;
-    width: 90%;
+    width: 95%;
     height: 100%;
     flex-direction: column;
     justify-content: center;
