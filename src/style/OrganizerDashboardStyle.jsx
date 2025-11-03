@@ -43,8 +43,9 @@ export const Container = styled.div`
         flex-direction: column;
         width: 100%;
         max-width: 1200px;
-        height: 100%;
+        height: 80%;
         gap: 20px;
+        
         .menu {
           height: 73px;
           display: flex;

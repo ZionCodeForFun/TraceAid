@@ -43,15 +43,12 @@ import SavedCampaign from "./pages/SavedCampaign";
 import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
 import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
 import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
-import AdminVerification from "./components/dashboard/adminDashboard/AdminVerification";
 import AdminCampaignManagement from "./components/dashboard/adminDashboard/AdminCampaignManagement";
-
 import AdminVerification from "./components/dashboard/adminDashboard/AdminVerication";
 
 const App = () => (
   <BrowserRouter>
     <Routes>
-     
       <Route path="/" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />
       <Route path="/createcampaign" element={<CreateCampaign />} />
@@ -95,12 +92,11 @@ const App = () => (
         element={<AdminRequestPassword />}
       />
 
-        <Route path="" element={<AdminDashboard />}>
-          <Route path="/admin" element={<DashboardManagement />} />
-          <Route path="admin/users" element={<AdminUsers />} />
-          <Route path="admin/verification" element={<AdminVerification />} />
-          <Route path="admin/campaigns" element={<AdminCampaignManagement />} />
-        </Route>
+      {/* <Route path="" element={<AdminDashboard />}>
+        <Route path="/admin" element={<DashboardManagement />} />
+        <Route path="admin/users" element={<AdminUsers />} />
+        <Route path="admin/verification" element={<AdminVerification />} />
+      </Route> */}
 
       <Route path="/login" element={<LoginForm />} />
       <Route path="/verify_kyc1" element={<KycVerification1 />} />
@@ -122,7 +118,7 @@ const App = () => (
       {/* ADMIN ROUTES AND PAGES BELOW, DON'T ADD ROUTES THATS NOT ADMIN'S */}
       <Route path="/admin_register" element={<AdminRegister />} />
       <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
-      <Route path="/d" element={<AdminLogin />} />
+      <Route path="/asmin_login" element={<AdminLogin />} />
       <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
       <Route
         path="/admin-request-password/:token/:id"
@@ -133,6 +129,7 @@ const App = () => (
         <Route path="" element={<DashboardManagement />} />
         <Route path="users" element={<AdminUsers />} />
         <Route path="verification" element={<AdminVerification />} />
+        <Route path="campaigns" element={<AdminCampaignManagement />} />
       </Route>
       {/* ADD ADMINS ROUTES BEWTWEEN, NO OTHER ROUTES FOR CLARIITY */}
 

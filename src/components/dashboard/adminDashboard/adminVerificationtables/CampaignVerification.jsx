@@ -33,7 +33,7 @@ const Campaign = () => {
       NGO: "Green Earth NGO",
       CreatedDate: "2024-10-14",
       Goal: "₦75,000",
-      Status: "pending",
+      Status: "Pending",
     },
     {
       CampaignName: "Save the climate",
@@ -77,9 +77,7 @@ const Campaign = () => {
             <Cell>{item.NGO}</Cell>
             <Cell>{item.CreatedDate}</Cell>
             <Cell>{item.Goal}</Cell>
-            <Status active={item.Status === "Approved"}>
-              {item.Status}
-            </Status>
+            <Status active={item.Status === "Approved"}>{item.Status}</Status>
             <Actions
               onClick={() => handleView(item)}
               style={{
