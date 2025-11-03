@@ -126,8 +126,8 @@ const App = () => (
         <Route path="users" element={<AdminUsers />} />
         <Route path="verification" element={<AdminVerification />} />
         <Route path="campaigns" element={<AdminCampaignManagement />} />
-        <Route path="admin/reports" element={<ReportDashboard />} />
-        <Route path="admin/Kyc" element={<AdminKyc />} />
+        <Route path="reports" element={<ReportDashboard />} />
+        <Route path="Kyc" element={<AdminKyc />} />
       </Route>
       {/* ADD ADMINS ROUTES BEWTWEEN, NO OTHER ROUTES FOR CLARIITY */}
 
