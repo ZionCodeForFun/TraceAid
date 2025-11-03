@@ -39,6 +39,7 @@ import AdminRequestPassword from "./components/auth/adminAuth/AdminRequestPasswo
 import AdminVerifyOTP from "./components/auth/AdminVerifyOtp";
 import MyDonations from "./pages/MyDonations";
 import SavedCampaign from "./pages/SavedCampaign";
+import ProfileSettings from "./pages/ProfileSettings";
 
 
 const App = () => (
@@ -100,6 +101,7 @@ const App = () => (
       <Route path="/role_modal" element={<RoleModal />} />
       <Route path="/my_donations" element={<MyDonations />} />
       <Route path="/saved_campaigns" element={<SavedCampaign />} />
+      <Route path="/profile_settings" element={<ProfileSettings />} />
 
       <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
