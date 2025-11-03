@@ -1,15 +1,16 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import prf from "../../../assets/profile.png";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const location = useLocation();
+  const { user } = useSelector((state) => state.auth);
 
   const getHeaderText = (pathname) => {
     const p = (pathname || "").toLowerCase();
 
-    if (p === "" || p === "") {
+    if (p === "/organization" || p === "/organization/dashboard") {
       return {
         title: "Welcome Back",
         subtitle: "Quick overview of your campaigns performance",
@@ -44,7 +45,18 @@ const Header = () => {
     };
   };
 
-  const { title, subtitle } = getHeaderText(location.pathname) || {};
+  const { title, subtitle } = getHeaderText(location.pathname);
+
+  const getInitials = (orgName) => {
+    if (!orgName) return "";
+    const parts = orgName.trim().split(" ");
+    return parts.length > 1
+      ? parts[0][0].toUpperCase() + parts[1][0].toUpperCase()
+      : parts[0][0].toUpperCase();
+  };
+
+  const orgName = user?.organizationName;
+  const initials = getInitials(orgName);
 
   return (
     <Container>
@@ -55,11 +67,18 @@ const Header = () => {
         </div>
         <div className="left">
           <div className="profile_holder">
-            <img src={prf} alt="profile pic" />
+            {user?.profilePicture?.imageUrl ? (
+              <img
+                src={`${user.profilePicture.imageUrl}?t=${Date.now()}`}
+                alt="profile pic"
+              />
+            ) : (
+              <div className="initials">{initials}</div>
+            )}
           </div>
           <div className="name_holder">
-            <p className="name">Slum2School</p>
-            <p className="email">admin@donate.com</p>
+            <p className="name">{orgName}</p>
+            <p className="email">{user?.email}</p>
           </div>
         </div>
       </article>
@@ -121,6 +140,18 @@ const Container = styled.div`
           height: 100%;
           object-fit: contain;
         }
+        .initials {
+          width: 50px;
+          height: 50px;
+          background-color: #354f25;
+          color: #ffffff;
+          font-size: 0.95rem;
+          font-weight: 700;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
       }
 
       .name_holder {
