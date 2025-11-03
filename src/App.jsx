@@ -41,6 +41,13 @@ import MyDonations from "./pages/MyDonations";
 import SavedCampaign from "./pages/SavedCampaign";
 import ProfileSettings from "./pages/ProfileSettings";
 
+import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
+import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
+import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
+import AdminCampaignManagement from "./components/dashboard/adminDashboard/AdminCampaignManagement";
+import AdminVerification from "./components/dashboard/adminDashboard/AdminVerication";
+import ReportDashboard from "./components/dashboard/adminDashboard/ReportDashboard";
+import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc";
 
 const App = () => (
   <BrowserRouter>
@@ -105,6 +112,26 @@ const App = () => (
 
       <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
+
+      {/* ADMIN ROUTES AND PAGES BELOW, DON'T ADD ROUTES THATS NOT ADMIN'S */}
+      <Route path="/admin_register" element={<AdminRegister />} />
+      <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
+      <Route path="/asmin_login" element={<AdminLogin />} />
+      <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
+      <Route
+        path="/admin-request-password/:token/:id"
+        element={<AdminRequestPassword />}
+      />
+
+      <Route path="/admin" element={<AdminDashboard />}>
+        <Route path="" element={<DashboardManagement />} />
+        <Route path="users" element={<AdminUsers />} />
+        <Route path="verification" element={<AdminVerification />} />
+        <Route path="campaigns" element={<AdminCampaignManagement />} />
+        <Route path="reports" element={<ReportDashboard />} />
+        <Route path="Kyc" element={<AdminKyc />} />
+      </Route>
+      {/* ADD ADMINS ROUTES BEWTWEEN, NO OTHER ROUTES FOR CLARIITY */}
 
       <Route path="*" element={<RouterError />} />
     </Routes>

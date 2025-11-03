@@ -35,12 +35,12 @@ export const AdminVerificationTitle = styled.h2`
     color: #333;
 
     &.active {
-      background-color: #7aa62d;
+      background-color: #67940B;
       color: #fff;
     }
 
     &:hover {
-      background-color: #7aa62d;
+      background-color: #9fd434ce;
       color: #fff;
     }
   }
@@ -104,6 +104,84 @@ export const AdminVerificationTop = styled.div`
     color: #90909b;
   }
 `;
+export const AdminVerificationInput = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 20px;
+
+  
+  .input-info {
+    width: 100%;
+    display: flex;
+    align-content: center;
+    gap: 20px;
+    padding: 0.5rem;
+
+    .input-section {
+      height: 36px;
+      width: 95%;
+      display: flex;
+      align-content: center;
+      justify-content: center;
+
+      .holder {
+        display: flex;
+        align-items: center;
+        background-color: #f3f3f5;
+        width: 100%;
+        height: 100%;
+        padding: 0 0.75rem;
+        border-radius: 8px;
+        gap: 10px;
+        cursor: pointer;
+
+        .logo {
+          color: #717182;
+          display: flex;
+          align-items: center;
+        }
+
+        input {
+          cursor: pointer;
+          width: 100%;
+          border: none;
+          background: transparent;
+          color: #717182;
+          font-size: 14px;
+          outline: none;
+        }
+      }
+    }
+
+    .status-info {
+      height: 36px;
+      width: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #f3f3f5;
+      padding: 0.75rem;
+      border-radius: 8px;
+      gap: 10px;
+      cursor: pointer;
+
+      .all-stat {
+        font-size: 14px;
+        color: #717182;
+        font-weight: 400;
+      }
+
+      .all-drop select {
+        border: none;
+        outline: none;
+        cursor: pointer;
+        color: #717182;
+        background: transparent;
+      }
+    }
+  }
+
+  `;
 
 export const AdminVerificationItem = styled.div`
   height: auto;
@@ -123,16 +201,16 @@ export const TableContainer = styled.div`
   > * {
     width: 100%;
   }
-`;
-
-export const Header = styled.div`
+  `;
+export const CampaignHeader = styled.div`
   display: grid;
-  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr; 
+  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr 0fr; 
   font-weight: 600;
   color: #222;
   border-bottom: 1px solid #e5e5e5;
   padding: 12px 20px;
-`;
+  margin-left: 8px;
+  `;
 
 export const HeaderItem = styled.span`
   font-size: 14px;
@@ -140,16 +218,40 @@ export const HeaderItem = styled.span`
   min-width: max-content;
   color: #333333;
 `;
+export const Header = styled.div`
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr 0.6fr;
+  font-weight: 600;
+  color: #222;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 12px 20px;
+`;
 
 export const Row = styled.div`
   display: grid;
-  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr; 
+  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr 0.6fr;
   align-items: center;
   color: #2f2f2f;
   font-size: 15px;
   border-bottom: 1px solid #e5e5e5;
   padding: 12px 20px;
   width: 100%;
+`;
+export const CampaignRow = styled.div`
+  display: grid;
+  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr 0fr; 
+  align-items: center;
+  color: #2f2f2f;
+  font-size: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 12px 20px;
+  width: 100%;
+`;
+export const Cell = styled.div`
+  flex: 1;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
 `;
 
 export const CampaignName = styled.span`
@@ -181,6 +283,35 @@ export const Status = styled.span`
   font-size: 13px;
   font-weight: 500;
   padding: 7px 6px;
+  margin-right: 20px;
+  border-radius: 12px;
+  text-align: center;
+`;
+// export const MilestoneStatus = styled.span`
+//   background-color: ${({ active }) => (active ? "#000000" : "#e5e5e5")};
+//   color: ${({ active }) => (active ?  "#f3f3f3" : "#000000")};
+//   text-transform: lowercase;
+//   font-size: 13px;
+//   font-weight: 500;
+//   padding: 7px 6px;
+//   margin-right: 20px;
+//   border-radius: 12px;
+//   text-align: center;
+// `;
+export const MilestoneFundsStatus = styled.span`
+  background-color: ${({ status }) =>
+    status === "approved"
+      ? "#7aa62d" 
+      : status === "rejected"
+      ? "#ff0004b9"
+      : "#e5e5e5"};
+  color: ${({ status }) =>
+    status === "approved" || status === "rejected" ? "#fff" : "#000"};
+  text-transform: capitalize;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 12px;
+  margin-right: 20px;
   border-radius: 12px;
   text-align: center;
 `;
@@ -200,4 +331,14 @@ export const Actions = styled.button`
     background-color: #e5e5e5;
     color: #000000;
   }
+`;
+export const Evidence = styled.div`
+  color: black;
+  font-size: 12px; 
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  justify-content: start;
+  align-content: center;
+  padding-left: 30px;
 `;
