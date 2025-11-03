@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
@@ -39,6 +39,7 @@ export const AdminCampaignInput = styled.div`
   display: flex;
   gap: 20px;
 
+  
   .campaign-info {
     width: 100%;
     display: flex;
@@ -110,7 +111,8 @@ export const AdminCampaignInput = styled.div`
       }
     }
   }
-`;
+
+  `;
 
 export const StatusFilter = styled.div`
   select {
@@ -133,17 +135,33 @@ export const Table = styled.div`
 
 export const TableHeader = styled.div`
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr 1fr 1.5fr 1.1fr 1fr;
+  grid-template-columns: 2fr 2fr 2fr 1.5fr 1.5fr 1.1fr ;
   padding: 12px 20px;
   font-weight: 600;
   color: #222;
   background-color: transparent;
   border-bottom: 1px solid #ececf0;
-`;
+
+  span:nth-last-child(2) {
+margin-left: 20px;
+}
+  span:nth-last-child(1) {
+margin-left: 20px;
+}
+ span:nth-last-child(5) {
+margin-left: 20px;
+}
+ span:nth-last-child(4) {
+margin-left: 30px;
+}
+ span:nth-last-child(3) {
+margin-left: 30px;
+}
+  `;
 
 export const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr 1fr 1.5fr 1.1fr 1fr;
+  grid-template-columns: 2fr 2fr 2fr 1fr 1.5fr 0.9fr ;
   align-items: center;
   padding: 12px 20px;
   border-bottom: 1px solid #ececf0;
@@ -153,12 +171,16 @@ export const TableRow = styled.div`
   &:last-child {
     border-bottom: none;
   }
-  & > div:nth-child(3) {
-    margin-right: 45px;
+    & > div:nth-child(3) {
+    margin-right: 45px; 
   }
-  span:nth-last-child(2) {
+    span:nth-last-child(2) {
+    margin-right: 80px;
+  }
+    span:nth-last-child(3) {
     margin-right: 40px;
   }
+
 `;
 
 export const NGOName = styled.span`
@@ -166,45 +188,23 @@ export const NGOName = styled.span`
   font-weight: 500;
 `;
 
-export const ProgressCell = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-export const ProgressBar = styled.div`
-  flex: 1;
-  height: 8px;
-  border-radius: 8px;
-  background: #e5e5e5;
-  overflow: hidden;
-`;
-
-export const ProgressFill = styled.div`
-  width: ${({ value }) => value}%;
-  height: 100%;
-  border-radius: 8px;
-  background-color: ${({ status }) =>
-    status === "completed"
-      ? "#4b7e1f"
-      : status === "active"
-      ? "#ffea00"
-      : status === "paused"
-      ? "#ff0000"
-      : "#e5e5e5"};
-`;
-
 export const StatusTag = styled.span`
   background-color: ${({ status }) =>
-    status === "active"
-      ? "#ffea00"
-      : status === "completed"
+    status === "verified"
       ? "#4b7e1f"
-      : status === "paused"
-      ? "#dfe1e6"
+      : status === "pending"
+      ? "#f3f3f3"
+      : status === "rejected"
+      ? "#ff0000c5"
       : "#f3f3f3"};
   color: ${({ status }) =>
-    status === "completed" ? "#fff" : status === "active" ? "#000" : "#555"};
+    status === "verified"
+      ? "#fff"
+      : status === "pending"
+      ? "#000"
+      : status === "rejected"
+      ? "#fff"
+      : "#555"};
   font-weight: 500;
   font-size: 13px;
   padding: 6px 6px;
@@ -235,3 +235,7 @@ export const ActionButton = styled.button`
     font-size: 16px;
   }
 `;
+
+
+
+

@@ -2,9 +2,11 @@ import React from "react";
 import {
   DashboardContainer,
   InnerContainer,
+  StatIconContainer,
   StatsGrid,
   StatCard,
   StatTitle,
+  StatHeader,
   StatValue,
   StatChange,
   ChartsContainer,
@@ -15,8 +17,6 @@ import {
   ActivityInfo,
   ActivityType,
   ProfileHolder,
-  StatHeader,
-  StatIconContainer,
 } from "../../../style/DashboardManagementStyle";
 
 import { TbCurrencyNaira } from "react-icons/tb";

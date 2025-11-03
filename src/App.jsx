@@ -45,6 +45,8 @@ import DashboardManagement from "./components/dashboard/adminDashboard/Dashboard
 import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
 import AdminCampaignManagement from "./components/dashboard/adminDashboard/AdminCampaignManagement";
 import AdminVerification from "./components/dashboard/adminDashboard/AdminVerication";
+import ReportDashboard from "./components/dashboard/adminDashboard/ReportDashboard";
+import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc";
 
 const App = () => (
   <BrowserRouter>
@@ -92,12 +94,6 @@ const App = () => (
         element={<AdminRequestPassword />}
       />
 
-      {/* <Route path="" element={<AdminDashboard />}>
-        <Route path="/admin" element={<DashboardManagement />} />
-        <Route path="admin/users" element={<AdminUsers />} />
-        <Route path="admin/verification" element={<AdminVerification />} />
-      </Route> */}
-
       <Route path="/login" element={<LoginForm />} />
       <Route path="/verify_kyc1" element={<KycVerification1 />} />
       <Route path="/verify_kyc2" element={<KycVerification2 />} />
@@ -130,6 +126,8 @@ const App = () => (
         <Route path="users" element={<AdminUsers />} />
         <Route path="verification" element={<AdminVerification />} />
         <Route path="campaigns" element={<AdminCampaignManagement />} />
+        <Route path="admin/reports" element={<ReportDashboard />} />
+        <Route path="admin/Kyc" element={<AdminKyc />} />
       </Route>
       {/* ADD ADMINS ROUTES BEWTWEEN, NO OTHER ROUTES FOR CLARIITY */}
 
