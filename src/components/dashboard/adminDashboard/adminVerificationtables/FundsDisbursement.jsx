@@ -1,5 +1,6 @@
 import React from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { LuImage } from "react-icons/lu";
 import {
   TableContainer,
   Header,
@@ -22,12 +23,36 @@ const FundsDisbursement = () => {
       MilestoneFundsStatus: "pending",
     },
     {
-      campaign: "Education for all",
-      subCampaign: "Phase 2: ",
-      ngo: "Hope Foundation",
-      amount: "₦20,000",
-      submitted: "Oct 20, 2025",
+      campaign: "Education for All",
+      subCampaign: "Phase 2: Equipment Purchase",
+      ngo: "Education First",
+      amount: "₦15,000",
+      submitted: "2025-10-17",
+      MilestoneFundsStatus: "pending",
+    },
+    {
+      campaign: "Animal Shelter Expansion",
+      subCampaign: "Phase 1: Foundation & Structure",
+      ngo: "Pet Rescue",
+      amount: "₦18,000",
+      submitted: "2025-10-19",
+      MilestoneFundsStatus: "pending",
+    },
+    {
+      campaign: "Books For Bright Future",
+      subCampaign: "Phase 3: Providing Books",
+      ngo: "Teach Reach Foundation",
+      amount: "₦30,000",
+      submitted: "2025-10-16",
       MilestoneFundsStatus: "approved",
+    },
+    {
+      campaign: "Medical Aid Campaign",
+      subCampaign: "Phase 1:Medical Supply Procurement",
+      ngo: "Child Care Foundation",
+      amount: "₦22,000",
+      submitted: "2025-10-14",
+      MilestoneFundsStatus: "rejected",
     },
   ];
 
@@ -60,7 +85,7 @@ const FundsDisbursement = () => {
 
           <Cell>{item.ngo}</Cell>
           <Cell>{item.amount}</Cell>
-          <Evidence>5/5</Evidence>
+          <Evidence><LuImage/>5/5</Evidence>
           <Cell>{item.submitted}</Cell>
           <MilestoneFundsStatus status={item.MilestoneFundsStatus}>
             {item.MilestoneFundsStatus}

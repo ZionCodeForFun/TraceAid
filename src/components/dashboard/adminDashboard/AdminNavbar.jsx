@@ -28,8 +28,8 @@ const menuItems = [
     icon: <MdCampaign />,
     path: "/admin/campaigns",
   },
-  { name: "Reports", icon: <FaFileAlt />, path: "/adminDashboard/reports" },
-  { name: "KYC", icon: <FaIdCard />, path: "/adminDashboard/kyc" },
+  { name: "Reports", icon: <FaFileAlt />, path: "/admin/reports" },
+  { name: "KYC", icon: <FaIdCard />, path: "/admin/kyc" },
   { name: "Settings", icon: <MdSettings />, path: "/adminDashboard/settings" },
   {
     name: "Notifications",

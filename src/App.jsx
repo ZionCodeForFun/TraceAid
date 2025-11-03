@@ -42,6 +42,9 @@ import DashboardManagement from "./components/dashboard/adminDashboard/Dashboard
 import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
 import AdminVerification from "./components/dashboard/adminDashboard/AdminVerification";
 import AdminCampaignManagement from "./components/dashboard/adminDashboard/AdminCampaignManagement";
+import ReportDashboard from "./components/dashboard/adminDashboard/ReportDashboard";
+import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc"
+
 
 
 const App = () => (
@@ -95,6 +98,8 @@ const App = () => (
           <Route path="admin/users" element={<AdminUsers />} />
           <Route path="admin/verification" element={<AdminVerification />} />
           <Route path="admin/campaigns" element={<AdminCampaignManagement />} />
+          <Route path="admin/reports" element={<ReportDashboard />} />
+          <Route path="admin/Kyc" element={<AdminKyc/>}/>
         </Route>
 
       <Route path="/login" element={<LoginForm />} />
