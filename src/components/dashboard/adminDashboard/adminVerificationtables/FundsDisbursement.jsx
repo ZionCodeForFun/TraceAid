@@ -6,27 +6,28 @@ import {
   HeaderItem,
   Row,
   Cell,
-  Status,
+  Evidence,
+  MilestoneFundsStatus,
   Actions,
 } from "../../../../style/AdminVerificationStyle";
 
 const FundsDisbursement = () => {
   const funds = [
     {
-      campaign: "Save the Children",
+      campaign: "Clean water Initiative",
+      subCampaign: "Phase 1: Well Construction",
       ngo: "Hope Foundation",
-      amount: "₦3,000,000",
-      evidence: "Uploaded",
-      submitted: "Oct 20, 2025",
-      status: "Approved",
+      amount: "₦20,000",
+      submitted: "2025-10-18",
+      MilestoneFundsStatus: "pending",
     },
     {
-      campaign: "Clean Water Project",
-      ngo: "Blue Earth",
-      amount: "₦1,200,000",
-      evidence: "Pending",
-      submitted: "Oct 28, 2025",
-      status: "Pending",
+      campaign: "Education for all",
+      subCampaign: "Phase 2: ",
+      ngo: "Hope Foundation",
+      amount: "₦20,000",
+      submitted: "Oct 20, 2025",
+      MilestoneFundsStatus: "approved",
     },
   ];
 
@@ -44,16 +45,28 @@ const FundsDisbursement = () => {
 
       {funds.map((item, index) => (
         <Row key={index} columns={7}>
-          <Cell>{item.campaign}</Cell>
+          <Cell>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "4px" }}
+            >
+              <span style={{ fontWeight: "600", color: "#333" }}>
+                {item.campaign}
+              </span>
+              <span style={{ fontSize: "12px", color: "#90909b" }}>
+                {item.subCampaign}
+              </span>
+            </div>
+          </Cell>
+
           <Cell>{item.ngo}</Cell>
           <Cell>{item.amount}</Cell>
-          <Cell>{item.evidence}</Cell>
+          <Evidence>5/5</Evidence>
           <Cell>{item.submitted}</Cell>
-          <Status active={item.status === "Approved"}>
-            {item.status}
-          </Status>
+          <MilestoneFundsStatus status={item.MilestoneFundsStatus}>
+            {item.MilestoneFundsStatus}
+          </MilestoneFundsStatus>
           <Actions>
-            <MdOutlineRemoveRedEye />
+            <MdOutlineRemoveRedEye /> View
           </Actions>
         </Row>
       ))}

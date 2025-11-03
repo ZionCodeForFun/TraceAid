@@ -29,6 +29,11 @@ const Campaign = () => {
       CreatedDate: "2024-10-12",
       Goal: "₦30,000",
       Status: "Pending",
+      CampaignName: "Light Up a village",
+      NGO: "Green Earth NGO",
+      CreatedDate: "2024-10-14",
+      Goal: "₦75,000",
+      Status: "pending",
     },
     {
       CampaignName: "Save the climate",

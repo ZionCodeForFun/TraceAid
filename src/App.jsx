@@ -43,6 +43,11 @@ import SavedCampaign from "./pages/SavedCampaign";
 import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
 import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
 import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
+<<<<<<< HEAD
+=======
+import AdminVerification from "./components/dashboard/adminDashboard/AdminVerification";
+import AdminCampaignManagement from "./components/dashboard/adminDashboard/AdminCampaignManagement";
+>>>>>>> f749ec111548756970faa9fc27882156234091c1
 
 import AdminVerification from "./components/dashboard/adminDashboard/AdminVerication";
 
@@ -83,6 +88,22 @@ const App = () => (
           <Route path="notification" element={<Notification />} />
         </Route>
       </Route>
+
+      <Route path="/admin_register" element={<AdminRegister />} />
+      <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
+      <Route path="/admin_login" element={<AdminLogin />} />
+      <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
+      <Route
+        path="/admin-request-password/:token/:id"
+        element={<AdminRequestPassword />}
+      />
+
+        <Route path="" element={<AdminDashboard />}>
+          <Route path="/admin" element={<DashboardManagement />} />
+          <Route path="admin/users" element={<AdminUsers />} />
+          <Route path="admin/verification" element={<AdminVerification />} />
+          <Route path="admin/campaigns" element={<AdminCampaignManagement />} />
+        </Route>
 
       <Route path="/login" element={<LoginForm />} />
       <Route path="/verify_kyc1" element={<KycVerification1 />} />

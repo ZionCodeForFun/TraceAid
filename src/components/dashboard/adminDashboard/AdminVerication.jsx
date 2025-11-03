@@ -5,9 +5,13 @@ import {
   AdminVerificationContent,
   AdminVerificationContainer,
   AdminVerificationTop,
+  AdminVerificationInput,
   AdminVerificationItem,
 } from "../../../style/AdminVerificationStyle";
 
+import { TbFileCheck } from "react-icons/tb";
+import { FiTarget } from "react-icons/fi";
+import { LuWallet } from "react-icons/lu";
 
 import Campaign from "./adminVerificationtables/CampaignVerification.jsx";
 import Milestone from "./adminVerificationtables/MilestoneVerification.jsx";
@@ -18,9 +22,18 @@ const AdminVerification = () => {
   const [activeSection, setActiveSection] = useState("Campaign Verification");
 
   const sections = [
-    "Campaign Verification",
-    "Milestone Verification",
-    "Funds Disbursement",
+    {
+      name: "Campaign Verification",
+      icon: <TbFileCheck size={18} />,
+    },
+    {
+      name: "Milestone Verification",
+      icon: <FiTarget size={18} />,
+    },
+    {
+      name: "Funds Disbursement",
+      icon: <LuWallet size={18} />,
+    },
   ];
 
   const handleSectionClick = (section) => {
@@ -43,13 +56,24 @@ const AdminVerification = () => {
   return (
     <AdminVerificationContainer>
       <AdminVerificationTitle>
-        {sections.map((section) => (
+        {sections.map(({ name, icon }) => (
           <button
-            key={section}
-            onClick={() => handleSectionClick(section)}
-            className={activeSection === section ? "active" : ""}
+            key={name}
+            onClick={() => handleSectionClick(name)}
+            className={activeSection === name ? "active" : ""}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.4rem",
+              padding: "0.4rem 0.5rem",
+              borderRadius: "30px",
+              border: "none",
+              cursor: "pointer",
+              fontWeight: activeSection === name ? "600" : "500",
+            }}
           >
-            {section}
+            {icon}
+            {name}
           </button>
         ))}
       </AdminVerificationTitle>
@@ -59,45 +83,30 @@ const AdminVerification = () => {
           <h2>{activeSection}</h2>
           <p>Review and approve {activeSection.toLowerCase()}</p>
         </AdminVerificationTop>
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            gap: "0.5rem",
-            backgroundColor: "#f9fafb",
-            marginBottom: "1rem",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              backgroundColor: "#F3F3F5",
-              borderRadius: "10px",
-              padding: "0.6rem 0.8rem",
-              width: "90%",
-            }}
-          >
-            <CiSearch size={18} color="#777" />
+        <AdminVerificationInput>
+              <div className="input-info">
+        <section className="input-section">
+          <div className="holder">
+            <div className="logo">
+              <CiSearch size={18} />
+            </div>
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Search campaigns, users, NGOs..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{
-                border: "none",
-                outline: "none",
-                flex: 1,
-                backgroundColor: "#F3F3F5",
-                paddingLeft: "0.4rem",
-                fontSize: "14px",
-              }}
             />
           </div>
-        </div>
+        </section>
 
+        <section className="status-info">
+          <div className="all-stat">All Status</div>
+          <div className="all-drop">
+            <select></select>
+          </div>
+        </section>
+      </div>
+</AdminVerificationInput>
         <AdminVerificationItem>{renderSection()}</AdminVerificationItem>
       </AdminVerificationContent>
     </AdminVerificationContainer>
