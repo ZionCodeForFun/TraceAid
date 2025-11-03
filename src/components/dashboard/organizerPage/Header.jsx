@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 
 const Header = () => {
   const location = useLocation();
-  const { user } = useSelector((state) => state.auth);
+  const  user  = useSelector((state) => state.auth);
+
 
   const getHeaderText = (pathname) => {
     const p = (pathname || "").toLowerCase();

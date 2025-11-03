@@ -10,7 +10,7 @@ import { CiBookmark, CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
 import axios from "axios";
 
-  const HeaderNav = () => {
+const HeaderNav = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
 
@@ -21,58 +21,57 @@ import axios from "axios";
 
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
 
-  
-useEffect(() => {
-  if (!auth?.user?._id) return; 
+  console.log("userData", userData);
 
-  
-  if (
-    userData?.firstName &&
-    userData?.lastName &&
-    (userData?.profilePicture || userData?.profilePicture === null)
-  ) {
-    return;
-  }
+  useEffect(() => {
+    if (!auth?.user?._id) return;
 
-  const storedToken = auth.token;
-  if (!storedToken) return;
-
-  const getUserData = async () => {
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BaseUrl}/user/${auth.user._id}`,
-        {
-          headers: { Authorization: `Bearer ${storedToken}` },
-        }
-      );
-      dispatch(setUser(res.data.data));
-    } catch (error) {
-      console.error("Error fetching user data:", error);
+    if (
+      userData?.firstName &&
+      userData?.lastName &&
+      (userData?.profilePicture || userData?.profilePicture === null)
+    ) {
+      return;
     }
+
+    const storedToken = auth.token;
+    if (!storedToken) return;
+
+    const getUserData = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BaseUrl}/user/${auth.user._id}`,
+          {
+            headers: { Authorization: `Bearer ${storedToken}` },
+          }
+        );
+        dispatch(setUser(res.data.data));
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    getUserData();
+  }, [auth?.user?._id, auth?.token]);
+
+  const getInitials = (value) => {
+    if (!value) return "";
+
+    const parts = value.trim().split(" ").filter(Boolean);
+
+    if (parts.length === 1) return parts[0][0].toUpperCase();
+
+    return parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase();
   };
 
-  getUserData();
-}, [auth?.user?._id]);
+  const fullName =
+    userData?.firstName && userData?.lastName
+      ? `${userData.firstName} ${userData.lastName}`
+      : userData?.organizationName || null;
 
-
-const getInitials = (value) => {
-  if (!value) return "";
-
-  const parts = value.trim().split(" ").filter(Boolean);
-
-  if (parts.length === 1) return parts[0][0].toUpperCase();
-
-  return parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase();
-};
-
-const fullName =
-  userData?.firstName && userData?.lastName
-    ? `${userData.firstName} ${userData.lastName}`
-    : userData?.organizationName || null;
-
-const initials = fullName
-  ? getInitials(fullName)                
-  : getInitials(userData?.email);
+  const initials = fullName
+    ? getInitials(fullName)
+    : getInitials(userData?.email);
 
   const logoutUser = () => {
     dispatch(logout());
@@ -96,8 +95,12 @@ const initials = fullName
 
       {!userData ? (
         <ButtonGroup>
-          <button className="login" onClick={() => nav("/login")}>Login</button>
-          <button className="create" onClick={() => nav("/role_modal")}>Create an Account</button>
+          <button className="login" onClick={() => nav("/login")}>
+            Login
+          </button>
+          <button className="create" onClick={() => nav("/role_modal")}>
+            Create an Account
+          </button>
         </ButtonGroup>
       ) : (
         <ProfileWrapper onClick={toggleDropdown}>
@@ -116,7 +119,9 @@ const initials = fullName
             <p>{userData?.email}</p>
           </div>
 
-          <RiArrowDropDownLine className={`arrow ${openDropdown ? "rotate" : ""}`} />
+          <RiArrowDropDownLine
+            className={`arrow ${openDropdown ? "rotate" : ""}`}
+          />
 
           {openDropdown && (
             <DropdownMenu>
@@ -152,7 +157,6 @@ const initials = fullName
 };
 
 export default HeaderNav;
-
 
 export const NavBar = styled.nav`
   width: 100%;

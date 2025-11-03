@@ -10,7 +10,8 @@ import { FcGoogle } from "react-icons/fc";
 import { FiBriefcase } from "react-icons/fi";
 import { BsTelephone } from "react-icons/bs";
 import axios from "axios";
-import { setRole } from "../../global/authSlice";
+import { setRole, setUser } from "../../global/authSlice";
+
 const SignUpForm = () => {
   const dispatch = useDispatch();
   const accountType = useSelector((state) => state.accountType.type);
@@ -33,7 +34,8 @@ const SignUpForm = () => {
       );
       toast.success(res?.data?.message || "Registration successful");
       form.resetFields();
-      console.log(res);
+      console.log(res?.data?.data?.user);
+      dispatch(setUser(res?.data?.data?.user));
       dispatch(setRole(res?.data?.data?.user?.role || res?.data?.data?.role));
       nav(`/verify/${res?.data?.data?.user?.email || res?.data?.data?.email}`);
     } catch (err) {
@@ -44,8 +46,6 @@ const SignUpForm = () => {
       setLoading(false);
     }
   };
-
-  
 
   return (
     <Container>
