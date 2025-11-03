@@ -219,6 +219,25 @@ export const HeroIcons = styled.div`
   }
 `;
 
+export const ApiSection = styled.section`
+  width: 100%;
+  padding: 4rem 2rem;
+  background-color: #f5f5f5;
+  text-align: center;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+  }
+`;
+
 export const TransparencySection = styled.section`
   position: relative;
   width: 85%;
