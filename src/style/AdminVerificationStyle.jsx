@@ -287,21 +287,11 @@ export const Status = styled.span`
   border-radius: 12px;
   text-align: center;
 `;
-// export const MilestoneStatus = styled.span`
-//   background-color: ${({ active }) => (active ? "#000000" : "#e5e5e5")};
-//   color: ${({ active }) => (active ?  "#f3f3f3" : "#000000")};
-//   text-transform: lowercase;
-//   font-size: 13px;
-//   font-weight: 500;
-//   padding: 7px 6px;
-//   margin-right: 20px;
-//   border-radius: 12px;
-//   text-align: center;
-// `;
+
 export const MilestoneFundsStatus = styled.span`
   background-color: ${({ status }) =>
     status === "approved"
-      ? "#7aa62d" 
+      ? "#000" 
       : status === "rejected"
       ? "#ff0004b9"
       : "#e5e5e5"};

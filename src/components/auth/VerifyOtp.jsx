@@ -6,7 +6,7 @@ import { Container } from "../../style/VerifyOtpStyle";
 import logo2 from "../../assets/logo2.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../global/authSlice";
+import { setUser, setToken } from "../../global/authSlice";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const VerifyOtp = () => {
@@ -68,11 +68,16 @@ const VerifyOtp = () => {
         { email, otp: code }
       );
 
+      console.log("VERIFY OTP RESPONSE:", response.data);
+
+      // dispatch(setUser(data));
+
       if (response.data?.statusCode === true) {
         toast.success(response.data.message || "Email verification successful");
-        dispatch(setUser(response.data.user));
+        dispatch(setUser(response?.data?.data.user));
+        dispatch(setToken(response?.data.data.token));
 
-        if (role === "fundraiser") {
+    if (role === "fundraiser") {
           setShowSuccessOrg(true);
         } else {
           setShowSuccessIndi(true);
@@ -204,17 +209,13 @@ const VerifyOtp = () => {
                   created successfully.
                 </p>
               </div>
-              <Button
-                onClick={() => nav("/verify_kyc1")}
-                className="close_btn"
-              >
+              <Button onClick={() => nav("/verify_kyc1")} className="close_btn">
                 Proceed to KYC
               </Button>
             </div>
           </div>
         )}
 
-    
         {showSuccessIndi && (
           <div className="holder">
             <div className="reciept_holder">
@@ -224,7 +225,8 @@ const VerifyOtp = () => {
                 </i>
                 <p className="bigtext">Verification successful</p>
                 <p className="smalltext">
-                  Your email has been verified and your account has been created.
+                  Your email has been verified and your account has been
+                  created.
                 </p>
               </div>
             </div>

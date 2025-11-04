@@ -6,19 +6,22 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { saveKycStep1 } from "../../global/kycSlice";
 
 const KycVerification1 = () => {
-  const [formData, setFormData] = useState({
-    orgName: "",
-    regNumber: "",
-    regFile: "",
-    totalGoal: "",
-    repName: "",
-    repFile: "",
-    orgAddress: "",
-  });
-
+  const dispatch = useDispatch();
   const nav = useNavigate();
+
+  const [formData, setFormData] = useState({
+    organizationName: "",
+    organizationType: "",
+    registrationNumber: "",
+    registrationCertificate: null,
+    authorizedRepresentativeFullName: "",
+    authorizedRepresentativeId: null,
+    organizationAddress: "",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,20 +30,22 @@ const KycVerification1 = () => {
 
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
-    setFormData((prev) => ({ ...prev, [field]: file ? file.name : "" }));
+    setFormData((prev) => ({ ...prev, [field]: file }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const emptyFields = Object.entries(formData).filter(
-      ([key, value]) => !value
+      ([key, value]) => value === "" || value === null
     );
 
     if (emptyFields.length > 0) {
       toast.error("Please fill all fields before continuing.");
       return;
     }
+
+    dispatch(saveKycStep1(formData));
 
     nav("/verify_kyc2");
   };
@@ -75,19 +80,34 @@ const KycVerification1 = () => {
             <label>Organization’s Name</label>
             <InputField
               type="text"
-              name="orgName"
-              value={formData.orgName}
+              name="organizationName"
+              value={formData.organizationName}
               placeholder="Community groups / NGO / Foundation"
               onChange={handleChange}
             />
+          </div>
+
+            <div className="name_holder">
+            <label>Organization Type</label>
+            <select
+              name="organizationType"
+              value={formData.organizationType}
+              onChange={handleChange}
+              className="select_input"
+            >
+              <option value="">Select organization type</option>
+              <option value="Non-profit">Non-profit</option>
+              <option value="NGO">NGO</option>
+              <option value="Foundation">Foundation</option>
+            </select>
           </div>
 
           <div className="name_holder">
             <label>Registration Number</label>
             <InputField
               type="text"
-              name="regNumber"
-              value={formData.regNumber}
+              name="registrationNumber"
+              value={formData.registrationNumber}
               placeholder="CAC / NGO license number"
               onChange={handleChange}
             />
@@ -99,19 +119,18 @@ const KycVerification1 = () => {
               type="file"
               id="file-upload-1"
               accept="image/*,video/*"
-              onChange={(e) => handleFileChange(e, "regFile")}
+              onChange={(e) => handleFileChange(e, "registrationCertificate")}
               style={{ display: "none" }}
             />
             <InputField
               type="text"
               placeholder={
-                formData.regFile || "Upload registration certificate"
+                formData.registrationCertificate?.name ||
+                "Upload registration certificate"
               }
               readOnly
             />
-            <i>
-              <GoPaperclip />
-            </i>
+            <i><GoPaperclip /></i>
             <p
               className="choose_file"
               onClick={() => document.getElementById("file-upload-1").click()}
@@ -121,22 +140,11 @@ const KycVerification1 = () => {
           </div>
 
           <div className="name_holder">
-            <label>Total Goal Amount</label>
-            <InputField
-              type="text"
-              name="totalGoal"
-              value={formData.totalGoal}
-              placeholder="Enter your total goal amount"
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="name_holder">
             <label>Authorized Representative’s Full Name</label>
             <InputField
               type="text"
-              name="repName"
-              value={formData.repName}
+              name="authorizedRepresentativeFullName"
+              value={formData.authorizedRepresentativeFullName}
               placeholder="John Doe"
               onChange={handleChange}
             />
@@ -148,17 +156,18 @@ const KycVerification1 = () => {
               type="file"
               id="file-upload-2"
               accept="image/*,video/*"
-              onChange={(e) => handleFileChange(e, "repFile")}
+              onChange={(e) => handleFileChange(e, "authorizedRepresentativeId")}
               style={{ display: "none" }}
             />
             <InputField
               type="text"
-              placeholder={formData.repFile || "Upload ID document"}
+              placeholder={
+                formData.authorizedRepresentativeId?.name ||
+                "Upload ID document"
+              }
               readOnly
             />
-            <i>
-              <GoPaperclip />
-            </i>
+            <i><GoPaperclip /></i>
             <p
               className="choose_file"
               onClick={() => document.getElementById("file-upload-2").click()}
@@ -171,8 +180,8 @@ const KycVerification1 = () => {
             <label>Organization Address</label>
             <InputField
               type="text"
-              name="orgAddress"
-              value={formData.orgAddress}
+              name="organizationAddress"
+              value={formData.organizationAddress}
               placeholder="Enter your address"
               onChange={handleChange}
             />
@@ -188,6 +197,8 @@ const KycVerification1 = () => {
 };
 
 export default KycVerification1;
+
+
 
 const Container = styled.div`
   display: flex;

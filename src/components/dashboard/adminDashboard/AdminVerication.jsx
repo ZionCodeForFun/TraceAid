@@ -84,29 +84,29 @@ const AdminVerification = () => {
           <p>Review and approve {activeSection.toLowerCase()}</p>
         </AdminVerificationTop>
         <AdminVerificationInput>
-              <div className="input-info">
-        <section className="input-section">
-          <div className="holder">
-            <div className="logo">
-              <CiSearch size={18} />
-            </div>
-            <input
-              type="text"
-              placeholder="Search campaigns, users, NGOs..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-        </section>
+          <div className="input-info">
+            <section className="input-section">
+              <div className="holder">
+                <div className="logo">
+                  <CiSearch size={18} />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search campaigns, users, NGOs..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </section>
 
-        <section className="status-info">
-          <div className="all-stat">All Status</div>
-          <div className="all-drop">
-            <select></select>
+            <section className="status-info">
+              <div className="all-stat">All Status</div>
+              <div className="all-drop">
+                <select></select>
+              </div>
+            </section>
           </div>
-        </section>
-      </div>
-</AdminVerificationInput>
+        </AdminVerificationInput>
         <AdminVerificationItem>{renderSection()}</AdminVerificationItem>
       </AdminVerificationContent>
     </AdminVerificationContainer>

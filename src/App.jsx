@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import LandingPage from "./pages/LandingPage";
 import SignUpForm from "./components/auth/SignUpForm";
 import ResetPassword from "./components/auth/ResetPassword";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import RouterError from "./components/common/RouterError";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import LoginForm from "./components/auth/LoginForm";
 import VerifyOtp from "./components/auth/VerifyOtp";
 import HowItWorks from "./pages/HowItWorks";
 import ExploreCampaign from "./pages/ExploreCampaign";
 import AboutPage from "./pages/AboutPage";
 import CampaignDetails from "./pages/CampaignDetails";
+import MyDonations from "./pages/MyDonations";
+import SavedCampaign from "./pages/SavedCampaign";
+import ProfileSettings from "./pages/ProfileSettings";
+import RoleModal from "./components/auth/RoleModal";
+import TermsAndConditions from "./components/common/Terms&Con";
 import OrganizerDashboard from "./components/dashboard/organizerPage/OrganizerDashboard";
 import OverViewPage from "./components/dashboard/organizerPage/OverViewPage";
 import MyCampaigns from "./components/dashboard/organizerPage/myCampaignFiles/MyCampaigns";
@@ -26,10 +31,8 @@ import Notification from "./components/dashboard/organizerPage/Setting/Notificat
 import RequestWithraw from "./components/dashboard/organizerPage/walletFiles/RequestWithraw";
 import CreateCampaign from "./components/dashboard/organizerPage/myCampaignFiles/CreateCampaign";
 import CampaignDetails4org_ongoing from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org_ongoing";
-import RoleModal from "./components/auth/RoleModal";
 import CampaignDetails4org_pending from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org_pending";
 import CampaignDetails4org_completed from "./components/dashboard/organizerPage/myCampaignFiles/CampaignDetails4org_completed";
-import TermsAndConditions from "./components/common/Terms&Con";
 import KycVerification1 from "./components/auth/KycVerification1";
 import KycVerification2 from "./components/auth/KycVerification2";
 import AdminLogin from "./components/auth/adminAuth/AdminLogin";
@@ -40,43 +43,44 @@ import AdminVerifyOTP from "./components/auth/AdminVerifyOtp";
 import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
 import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
 import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
-import AdminVerification from "./components/dashboard/adminDashboard/AdminVerification";
 import AdminCampaignManagement from "./components/dashboard/adminDashboard/AdminCampaignManagement";
+import AdminVerification from "./components/dashboard/adminDashboard/AdminVerication";
 import ReportDashboard from "./components/dashboard/adminDashboard/ReportDashboard";
-import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc"
+import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc";
 import AdminSettings from "./components/dashboard/adminDashboard/AdminSettings";
 import AdminNotification from "./components/dashboard/adminDashboard/AdminNotification";
-
-
 
 const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/k" element={<LandingPage />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />
       <Route path="/createcampaign" element={<CreateCampaign />} />
-
+      <Route path="/how_it_works" element={<HowItWorks />} />
+      <Route path="/explore" element={<ExploreCampaign />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/campaign_details" element={<CampaignDetails />} />
+      <Route path="/role_modal" element={<RoleModal />} />
+      <Route path="/my_donations" element={<MyDonations />} />
+      <Route path="/saved_campaigns" element={<SavedCampaign />} />
+      <Route path="/profile_settings" element={<ProfileSettings />} />
+      <Route path="/signup" element={<SignUpForm />} />
+      <Route path="/login" element={<LoginForm />} />
+      <Route path="/verify/:email" element={<VerifyOtp />} />
+      <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
+      <Route path="/forgotpassword" element={<ForgotPassword />} />
+      <Route path="/verify_kyc1" element={<KycVerification1 />} />
+      <Route path="/verify_kyc2" element={<KycVerification2 />} />
       <Route path="/organization" element={<OrganizerDashboard />}>
         <Route index element={<OverViewPage />} />
         <Route path="myCampaigns" element={<MyCampaigns />}>
-          <Route
-            path="camp_details_ongoing"
-            element={<CampaignDetails4org_ongoing />}
-          />
-          <Route
-            path="camp_details_pending"
-            element={<CampaignDetails4org_pending />}
-          />
-          <Route
-            path="camp_details_completed"
-            element={<CampaignDetails4org_completed />}
-          />
+          <Route path="camp_details_ongoing" element={<CampaignDetails4org_ongoing />} />
+          <Route path="camp_details_pending" element={<CampaignDetails4org_pending />} />
+          <Route path="camp_details_completed" element={<CampaignDetails4org_completed />} />
         </Route>
-
         <Route path="wallet" element={<Wallet />}>
           <Route path="requestwithdraw" element={<RequestWithraw />} />
         </Route>
-
         <Route path="settings" element={<Settings />}>
           <Route index element={<PersonalInfo />} />
           <Route path="kycverify" element={<KycVerify />} />
@@ -85,45 +89,23 @@ const App = () => (
           <Route path="notification" element={<Notification />} />
         </Route>
       </Route>
-
       <Route path="/admin_register" element={<AdminRegister />} />
       <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
       <Route path="/admin_login" element={<AdminLogin />} />
       <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
-      <Route
-        path="/admin-request-password/:token/:id"
-        element={<AdminRequestPassword />}
-      />
-
-        <Route path="" element={<AdminDashboard />}>
-          <Route path="/admin" element={<DashboardManagement />} />
-          <Route path="admin/users" element={<AdminUsers />} />
-          <Route path="admin/verification" element={<AdminVerification />} />
-          <Route path="admin/campaigns" element={<AdminCampaignManagement />} />
-          <Route path="admin/reports" element={<ReportDashboard />} />
-          <Route path="admin/Kyc" element={<AdminKyc/>}/>
-          <Route path="admin/settings" element={<AdminSettings />} />
-          <Route path="admin/notifications" element={<AdminNotification />} />
-        </Route>
-
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/verify_kyc1" element={<KycVerification1 />} />
-      <Route path="/verify_kyc2" element={<KycVerification2 />} />
-      <Route path="/verify/:email" element={<VerifyOtp />} />
-      <Route path="/signup" element={<SignUpForm />} />
-
-      <Route path="/how_it_works" element={<HowItWorks />} />
-      <Route path="/explore" element={<ExploreCampaign />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/campaigndetails" element={<CampaignDetails />} />
-      <Route path="/role_modal" element={<RoleModal />} />
-
-      <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
-      <Route path="/forgotpassword" element={<ForgotPassword />} />
-
+      <Route path="/admin-request-password/:token/:id" element={<AdminRequestPassword />} />
+      <Route path="/admin" element={<AdminDashboard />}>
+        <Route index element={<DashboardManagement />} />
+        <Route path="users" element={<AdminUsers />} />
+        <Route path="verification" element={<AdminVerification />} />
+        <Route path="campaigns" element={<AdminCampaignManagement />} />
+        <Route path="reports" element={<ReportDashboard />} />
+        <Route path="kyc" element={<AdminKyc />} />
+        <Route path="settings" element={<AdminSettings />} />
+        <Route path="notifications" element={<AdminNotification />} />
+      </Route>
       <Route path="*" element={<RouterError />} />
     </Routes>
-
     <ToastContainer position="top-center" autoClose={2000} />
   </BrowserRouter>
 );

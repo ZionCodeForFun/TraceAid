@@ -28,8 +28,6 @@ const LoginForm = () => {
       const response = await axios.post(`${baseUrl}/login`, values);
       const data = response?.data?.data?.login;
 
-      console.log("zion login:", data);
-
       if (!data) {
         toast.error("Invalid response from server.");
         return;
@@ -86,7 +84,6 @@ const LoginForm = () => {
               placeholder="example@gmail.com"
               className="input"
             />
-            
           </Form.Item>
 
           <Form.Item

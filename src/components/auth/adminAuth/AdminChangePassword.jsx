@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { setAdmin } from "../../../global/adminAuthSlice";
+import { useNavigate } from "react-router-dom";
 
-const AdminLogin = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+const AdminChangePassword = () => {
+  const [formData, setFormData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,25 +19,37 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    const { currentPassword, newPassword, confirmPassword } = formData;
 
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("New passwords do not match");
+      return;
+    }
+
+    setLoading(true);
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BaseUrl_Admin}/login`,
-        formData
+  
+
+      const res = await axios.put(
+        `${import.meta.env.VITE_BaseUrl_Admin}/admin-change-password`,
+        { currentPassword, newPassword },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      const data = res.data?.data;
-      console.log(data);
+
       toast.success(res.data?.message);
-      dispatch(
-        setAdmin({
-          ...data.login,
-          token: data.login.token,
-        })
-      );
-      navigate("/admin");
+      navigate("/admin_dashboard"); 
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      console.error(error);
+      toast.error(error.response?.data?.message );
     } finally {
       setLoading(false);
     }
@@ -45,29 +58,34 @@ const AdminLogin = () => {
   return (
     <Container>
       <FormWrapper>
-        <h2>Admin Login</h2>
+        <h2>Change Password</h2>
         <form onSubmit={handleSubmit}>
           <Input
-            type="email"
-            name="email"
-            placeholder="Admin Email"
-            value={formData.email}
+            type="password"
+            name="currentPassword"
+            placeholder="Current Password"
+            value={formData.currentPassword}
             onChange={handleChange}
             required
           />
           <Input
             type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
+            name="newPassword"
+            placeholder="New Password"
+            value={formData.newPassword}
             onChange={handleChange}
             required
           />
-          <ForgotText onClick={() => navigate("/admin-forgot-password")}>
-            Forgot Password?
-          </ForgotText>
+          <Input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm New Password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
           <Button type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Updating..." : "Update Password"}
           </Button>
         </form>
       </FormWrapper>
@@ -75,7 +93,8 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default AdminChangePassword;
+
 
 const Container = styled.div`
   height: 100vh;
@@ -95,7 +114,7 @@ const FormWrapper = styled.div`
   text-align: center;
 
   h2 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     color: #222;
   }
 `;
@@ -108,21 +127,6 @@ const Input = styled.input`
   border-radius: 0.5rem;
   font-size: 1rem;
   outline: none;
-`;
-
-const ForgotText = styled.p`
-  text-align: right;
-  font-size: 0.9rem;
-  color: var(--PrimaryBase);
-  cursor: pointer;
-  margin-top: -0.5rem;
-  margin-bottom: 1rem;
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: var(--NeutralBlack);
-    text-decoration: underline;
-  }
 `;
 
 const Button = styled.button`

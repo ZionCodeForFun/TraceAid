@@ -72,9 +72,9 @@ export const Container = styled.div`
 
   .wrapper {
     display: flex;
-    width: 100%; 
-    max-width: 1200px; 
-    flex-wrap: nowrap; 
+    width: 100%;
+    max-width: 1200px;
+    flex-wrap: nowrap;
     height: 100%;
 
     padding-top: 45px;
@@ -84,13 +84,13 @@ export const Container = styled.div`
 
       height: 730px;
       border-radius: 10px;
-      padding: 21px 0 ;
+      padding: 21px 0;
       background-color: var(--Neutral_Offwhite);
       border: 0.5px solid var(--Neutral_Grey1);
       display: flex;
       flex-direction: column;
       align-items: center;
-    
+
       .top_profile {
         display: flex;
         flex-direction: column;
@@ -99,7 +99,9 @@ export const Container = styled.div`
         gap: 15px;
         justify-content: center;
         margin-bottom: 25px;
+        position: relative;
         align-items: center;
+
         .profile_holder {
           height: 100px;
           width: 100px;
@@ -110,6 +112,15 @@ export const Container = styled.div`
             height: 100%;
             object-fit: contain;
           }
+        }
+        .edit_icon {
+          position: absolute;
+          top: 50%;
+          right: 30%;
+          background-color: #E7F6CB;
+          font-size: 24px;
+          border-radius: 50px;
+          cursor: pointer;
         }
         .name_holder {
           display: flex;

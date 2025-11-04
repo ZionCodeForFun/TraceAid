@@ -5,12 +5,12 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
-  /* background-color: #8402e3; */
+ 
 
   .wrapper {
     display: flex;
    
-    max-width: 900px;
+    max-width: 1200px;
     height: 100%;
     flex-direction: column;
     justify-content: center;

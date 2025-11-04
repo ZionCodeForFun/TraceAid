@@ -5,6 +5,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { FiBell, FiLock } from "react-icons/fi";
 import { LuIdCard, LuWalletCards } from "react-icons/lu";
 import profile from "../../../../assets/profile.png";
+import { CiEdit } from "react-icons/ci";
 
 const infor = [
   { id: 1, name: "Personal Information", icon: <AiOutlineUser />, path: "" },
@@ -31,6 +32,7 @@ const Settings = () => {
               <p className="name">Slum2Africa</p>
               <p className="role">NGO</p>
             </div>
+            <CiEdit className="edit_icon"/>
           </header>
 
           <section className="infor_holder">

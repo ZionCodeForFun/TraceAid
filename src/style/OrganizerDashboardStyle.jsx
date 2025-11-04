@@ -43,14 +43,15 @@ export const Container = styled.div`
         flex-direction: column;
         width: 100%;
         max-width: 1200px;
-        height: 100%;
+        height: 80%;
         gap: 20px;
+        
         .menu {
-          height: 73px;
+          height: 48px;
           display: flex;
           width: 99%;
           align-items: center;
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 500;
 
           &:hover {
@@ -59,9 +60,9 @@ export const Container = styled.div`
         }
         .menulogout {
           color: #df0f23;
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 500;
-          height: 4rem;
+          height: 48px;
           display: flex;
           width: 99%;
           align-items: center;
