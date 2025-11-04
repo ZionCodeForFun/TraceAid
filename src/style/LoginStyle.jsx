@@ -16,8 +16,8 @@ export const Container = styled.div`
   }
 
   .wrapper {
-    width: 480px; /* reduced from 665px */
-    padding: 40px; /* reduced from 70px */
+    width: 480px;
+    padding: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,7 +37,7 @@ export const Container = styled.div`
 
       img {
         object-fit: contain;
-        height: 26px; /* smaller logo */
+        height: 26px;
         width: auto;
       }
     }
@@ -75,7 +75,7 @@ export const Container = styled.div`
         margin-bottom: 15px;
 
         .log {
-          font-size: 28px; /* reduced from 40px */
+          font-size: 28px;
           font-weight: 700;
           color: var(--NeutralGrey4-Text);
 
@@ -88,7 +88,7 @@ export const Container = styled.div`
         }
 
         .text {
-          font-size: 14px; 
+          font-size: 14px;
           color: var(--NeutralGrey4-Text);
           font-weight: 400;
 
@@ -103,7 +103,7 @@ export const Container = styled.div`
         flex-direction: column;
         align-items: center;
         width: 100%;
-        gap: 24px; 
+        gap: 24px;
         margin-top: 10px;
 
         .google_btn {
@@ -115,7 +115,7 @@ export const Container = styled.div`
           padding: 10px 20px;
           height: 42px;
           width: 400px;
-     
+
           border-radius: 10px;
           transition: all 0.3s ease;
 
@@ -142,7 +142,7 @@ export const Container = styled.div`
           margin: 5px 0;
           gap: 7px;
           font-weight: 400;
-          font-size: 14px; 
+          font-size: 14px;
           width: 100%;
           max-width: 400px;
 
@@ -157,25 +157,6 @@ export const Container = styled.div`
             flex: 1;
             margin: 0 5px;
             border-bottom: 1px solid #aaa;
-          }
-        }
-
-        .already {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          margin-top: 20px;
-          gap: 6px;
-          background-color:blue;
-          p {
-            font-size: 14px;
-            font-weight: 400;
-          }
-          span {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--Primary700);
           }
         }
       }
@@ -226,9 +207,26 @@ export const Container = styled.div`
           font-size: 12px;
         }
       }
+      .already {
+        display: flex;
+        align-items: center;
+
+        width: 100%;
+        margin-top: 20px;
+        gap: 6px;
+
+        p {
+          font-size: 14px;
+          font-weight: 400;
+        }
+        span {
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--Primary700);
+        }
+      }
     }
 
-    
     @media (max-width: 768px) {
       width: 85%;
       padding: 25px;

@@ -27,6 +27,7 @@ const KycReview = () => {
 
   const campaigns = [
     {
+      _id: "1",
       NgoName: "Slum2Africa",
       Email: "contact@hopefoundation.org",
       RegisteredDate: "2023-06-10",
@@ -34,6 +35,7 @@ const KycReview = () => {
       status: "verified",
     },
     {
+      _id: "2",
       NgoName: "Green Earth NGO",
       Email: "info@greenearth.org",
       RegisteredDate: "2023-08-15",
@@ -41,6 +43,7 @@ const KycReview = () => {
       status: "pending",
     },
     {
+      _id: "4",
       NgoName: "Child Care Foundation",
       Email: "support@childcare.org",
       RegisteredDate: "2024-01-20",
@@ -48,6 +51,7 @@ const KycReview = () => {
       status: "pending",
     },
     {
+      _id: "5",
       NgoName: "Pet Rescue",
       Email: "hello@petrescue.org",
       RegisteredDate: "2024-03-05",
@@ -55,6 +59,7 @@ const KycReview = () => {
       status: "verified",
     },
     {
+      _id: "6",
       NgoName: "Education First",
       Email: "contact@educationfirst.org",
       RegisteredDate: "2024-04-18",
@@ -148,12 +153,6 @@ const KycReview = () => {
       {selectedKyc && selectedKyc.status === "pending" && (
         <KycPending kycData={selectedKyc} onClose={handleClose} />
       )}
-      {/* {selectedKyc && selectedKyc.status === "verified" && (
-        <KycVerified kycData={selectedKyc} onClose={handleClose} />
-      )}
-      {selectedKyc && selectedKyc.status === "rejected" && (
-        <KycRejected kycData={selectedKyc} onClose={handleClose} />
-      )} */}
     </Container>
   );
 };

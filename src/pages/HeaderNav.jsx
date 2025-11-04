@@ -9,7 +9,6 @@ import { AiOutlineGift } from "react-icons/ai";
 import { CiBookmark, CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
 import axios from "axios";
-
 const HeaderNav = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
@@ -76,6 +75,7 @@ const HeaderNav = () => {
   const logoutUser = () => {
     dispatch(logout());
     setOpenDropdown(false);
+    nav("/login");
   };
 
   return (

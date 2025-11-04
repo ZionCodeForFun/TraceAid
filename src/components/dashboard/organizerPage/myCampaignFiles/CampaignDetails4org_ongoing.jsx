@@ -54,7 +54,7 @@ const CampaignDetails4org_ongoing = () => {
       <div className="goback">
         <div
           className="icon"
-          onClick={() => nav("/organizationdashboard/myCampaigns")}
+          onClick={() => nav("/organization/myCampaigns")}
         >
           <IoArrowBackOutline className="i" />
           <p>Go back</p>

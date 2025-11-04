@@ -1,15 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { X, FileText, CheckCircle, XCircle } from "lucide-react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const KycPending = ({ kycData, onClose }) => {
-  // 🧩 Safety check
   if (!kycData) return null;
 
-  // 🧠 Match actual data fields
-  const { NgoName, status, Email, RegisteredDate, Documents } = kycData;
+  const { NgoName, status, Email, RegisteredDate, Documents, _id } = kycData;
+  const { token } = useSelector((state) => state.adminAuth);
+  const [loading, setLoading] = useState(false);
 
-  // Mock documents (you can replace this with dynamic data later)
+  const handleVerify = async (newStatus) => {
+    try {
+      setLoading(true);
+
+      const res = await axios.patch(
+        `${import.meta.env.VITE_BaseUrl_AdminKycV}/${_id}/verify`,
+        { status: newStatus },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      toast.success(
+        `KYC ${newStatus === "approved" ? "approved" : "rejected"} successfully`
+      );
+      onClose();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to verify KYC");
+      console.log(err.response?.data.data)
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const documents = [
     { name: "Registration Certificate", format: "PDF", size: 1.9 },
     { name: "Tax Exemption Letter", format: "PDF", size: 1.4 },
@@ -77,11 +106,17 @@ const KycPending = ({ kycData, onClose }) => {
         </ModalContent>
 
         <ModalFooter>
-          <RejectButton>
-            <XCircle size={20} /> Reject
+          <RejectButton
+            onClick={() => handleVerify("rejected")}
+            disabled={loading}
+          >
+            <XCircle size={20} /> {loading ? "Processing..." : "Reject"}
           </RejectButton>
-          <ApproveButton>
-            <CheckCircle size={20} /> Approve
+          <ApproveButton
+            onClick={() => handleVerify("approved")}
+            disabled={loading}
+          >
+            <CheckCircle size={20} /> {loading ? "Processing..." : "Approve"}
           </ApproveButton>
         </ModalFooter>
       </ModalContainer>
@@ -91,7 +126,6 @@ const KycPending = ({ kycData, onClose }) => {
 
 export default KycPending;
 
-/* ---------------- STYLES BELOW ---------------- */
 const ModalBackdrop = styled.div`
   position: fixed;
   top: 0;
