@@ -44,6 +44,8 @@ import AdminVerification from "./components/dashboard/adminDashboard/AdminVerifi
 import AdminCampaignManagement from "./components/dashboard/adminDashboard/AdminCampaignManagement";
 import ReportDashboard from "./components/dashboard/adminDashboard/ReportDashboard";
 import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc"
+import AdminSettings from "./components/dashboard/adminDashboard/AdminSettings";
+import AdminNotification from "./components/dashboard/adminDashboard/AdminNotification";
 
 
 
@@ -100,6 +102,8 @@ const App = () => (
           <Route path="admin/campaigns" element={<AdminCampaignManagement />} />
           <Route path="admin/reports" element={<ReportDashboard />} />
           <Route path="admin/Kyc" element={<AdminKyc/>}/>
+          <Route path="admin/settings" element={<AdminSettings />} />
+          <Route path="admin/notifications" element={<AdminNotification />} />
         </Route>
 
       <Route path="/login" element={<LoginForm />} />

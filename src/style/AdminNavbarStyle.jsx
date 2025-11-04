@@ -37,5 +37,6 @@ export const NavItem = styled.div`
 
   &:hover {
     background-color: #e1e3eb;
+    color: white;
   }
 `;

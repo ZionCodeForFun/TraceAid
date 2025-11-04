@@ -7,8 +7,7 @@ export const Container = styled.div`
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid #ececf0;
+  border:1px solid #ececf0;
 `;
 
 export const Title = styled.h2`

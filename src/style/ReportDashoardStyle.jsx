@@ -136,7 +136,7 @@ export const AmountBadge = styled.div`
 
 export const ControlsRow = styled.div`
   display: flex;
-  gap: 12px;
+  gap: 9px;
   align-items: center;
 `;
 

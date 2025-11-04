@@ -30,11 +30,11 @@ const menuItems = [
   },
   { name: "Reports", icon: <FaFileAlt />, path: "/admin/reports" },
   { name: "KYC", icon: <FaIdCard />, path: "/admin/kyc" },
-  { name: "Settings", icon: <MdSettings />, path: "/adminDashboard/settings" },
+  { name: "Settings", icon: <MdSettings />, path: "/admin/settings" },
   {
     name: "Notifications",
     icon: <MdNotifications />,
-    path: "/adminDashboard/notifications",
+    path: "/admin/notifications",
   },
 ];
 
