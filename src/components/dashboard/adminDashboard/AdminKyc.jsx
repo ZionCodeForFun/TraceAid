@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { CiSearch } from "react-icons/ci";
+import { LuImage } from "react-icons/lu";
+
+import KycPending from "./modal/KycPending";
+// import KycVerified from "./modal/KycVerified";
+// import KycRejected from "./modal/KycRejected";
 
 import {
   Container,
@@ -14,18 +20,17 @@ import {
   AdminCampaignInput,
   ActionButton,
 } from "../../../style/AdminKycStyle";
-import { CiSearch } from "react-icons/ci";
-import { LuImage } from "react-icons/lu";
 
-const CampaignManagement = () => {
+const KycReview = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedKyc, setSelectedKyc] = useState(null);
 
   const campaigns = [
     {
       NgoName: "Slum2Africa",
       Email: "contact@hopefoundation.org",
       RegisteredDate: "2023-06-10",
-      Documents:"6",
+      Documents: "6",
       status: "verified",
     },
     {
@@ -58,10 +63,22 @@ const CampaignManagement = () => {
     },
   ];
 
+  const filteredCampaigns = campaigns.filter((c) =>
+    c.NgoName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleView = (ngo) => {
+    setSelectedKyc(ngo);
+  };
+
+  const handleClose = () => {
+    setSelectedKyc(null);
+  };
+
   return (
     <Container>
-      <Title>Kyc Review</Title>
-      <Subtitle>Review and Verify NGO KYC Account</Subtitle>
+      <Title>KYC Review</Title>
+      <Subtitle>Review and Verify NGO KYC Accounts</Subtitle>
 
       <TopBar>
         <AdminCampaignInput>
@@ -83,7 +100,12 @@ const CampaignManagement = () => {
             <section className="status-info">
               <div className="all-stat">All Status</div>
               <div className="all-drop">
-                <select></select>
+                <select>
+                  <option value="">All</option>
+                  <option value="pending">Pending</option>
+                  <option value="verified">Verified</option>
+                  <option value="rejected">Rejected</option>
+                </select>
               </div>
             </section>
           </div>
@@ -100,23 +122,40 @@ const CampaignManagement = () => {
           <span>Actions</span>
         </TableHeader>
 
-        {campaigns.map((item, i) => (
+        {filteredCampaigns.map((item, i) => (
           <TableRow key={i}>
             <span>{item.NgoName}</span>
             <NGOName>{item.Email}</NGOName>
             <span>{item.RegisteredDate}</span>
-            
-            <span style={{height:"10px",display:"flex",alignItem:"center"}}><LuImage/>{item.Documents}</span>
+            <span
+              style={{
+                height: "10px",
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+              }}
+            >
+              <LuImage /> {item.Documents}
+            </span>
             <StatusTag status={item.status}>{item.status}</StatusTag>
-            <ActionButton>
+            <ActionButton onClick={() => handleView(item)}>
               <MdOutlineRemoveRedEye /> View
             </ActionButton>
           </TableRow>
         ))}
       </Table>
+
+      {selectedKyc && selectedKyc.status === "pending" && (
+        <KycPending kycData={selectedKyc} onClose={handleClose} />
+      )}
+      {/* {selectedKyc && selectedKyc.status === "verified" && (
+        <KycVerified kycData={selectedKyc} onClose={handleClose} />
+      )}
+      {selectedKyc && selectedKyc.status === "rejected" && (
+        <KycRejected kycData={selectedKyc} onClose={handleClose} />
+      )} */}
     </Container>
   );
 };
 
-export default CampaignManagement;
-
+export default KycReview;

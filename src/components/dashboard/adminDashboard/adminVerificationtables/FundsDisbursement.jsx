@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { LuImage } from "react-icons/lu";
 import {
@@ -11,31 +11,20 @@ import {
   MilestoneFundsStatus,
   Actions,
 } from "../../../../style/AdminVerificationStyle";
+import FundsDisbursementModalApproved from "../modal/FundDisbursmentApproved";
+import FundsDisbursementModalPending from "../modal/FundDisbursementPending";
+import FundsDisbursementModalRejected from "../modal/FundDisbursementRejected";
 
 const FundsDisbursement = () => {
+  const [selectedFund, setSelectedFund] = useState(null);
+
   const funds = [
     {
-      campaign: "Clean water Initiative",
+      campaign: "Clean Water Initiative",
       subCampaign: "Phase 1: Well Construction",
       ngo: "Hope Foundation",
       amount: "₦20,000",
       submitted: "2025-10-18",
-      MilestoneFundsStatus: "pending",
-    },
-    {
-      campaign: "Education for All",
-      subCampaign: "Phase 2: Equipment Purchase",
-      ngo: "Education First",
-      amount: "₦15,000",
-      submitted: "2025-10-17",
-      MilestoneFundsStatus: "pending",
-    },
-    {
-      campaign: "Animal Shelter Expansion",
-      subCampaign: "Phase 1: Foundation & Structure",
-      ngo: "Pet Rescue",
-      amount: "₦18,000",
-      submitted: "2025-10-19",
       MilestoneFundsStatus: "pending",
     },
     {
@@ -48,7 +37,7 @@ const FundsDisbursement = () => {
     },
     {
       campaign: "Medical Aid Campaign",
-      subCampaign: "Phase 1:Medical Supply Procurement",
+      subCampaign: "Phase 1: Medical Supply Procurement",
       ngo: "Child Care Foundation",
       amount: "₦22,000",
       submitted: "2025-10-14",
@@ -56,46 +45,63 @@ const FundsDisbursement = () => {
     },
   ];
 
+  const handleCloseModal = () => setSelectedFund(null);
+
   return (
-    <TableContainer>
-      <Header columns={7}>
-        <HeaderItem>Campaign/Verification</HeaderItem>
-        <HeaderItem>NGO</HeaderItem>
-        <HeaderItem>Amount</HeaderItem>
-        <HeaderItem>Evidence</HeaderItem>
-        <HeaderItem>Submitted</HeaderItem>
-        <HeaderItem>Status</HeaderItem>
-        <HeaderItem>Actions</HeaderItem>
-      </Header>
+    <>
+      <TableContainer>
+        <Header columns={7}>
+          <HeaderItem>Campaign/Verification</HeaderItem>
+          <HeaderItem>NGO</HeaderItem>
+          <HeaderItem>Amount</HeaderItem>
+          <HeaderItem>Evidence</HeaderItem>
+          <HeaderItem>Submitted</HeaderItem>
+          <HeaderItem>Status</HeaderItem>
+          <HeaderItem>Actions</HeaderItem>
+        </Header>
 
-      {funds.map((item, index) => (
-        <Row key={index} columns={7}>
-          <Cell>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "4px" }}
-            >
-              <span style={{ fontWeight: "600", color: "#333" }}>
-                {item.campaign}
-              </span>
-              <span style={{ fontSize: "12px", color: "#90909b" }}>
-                {item.subCampaign}
-              </span>
-            </div>
-          </Cell>
+        {funds.map((item, index) => (
+          <Row key={index} columns={7}>
+            <Cell>
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: "4px" }}
+              >
+                <span style={{ fontWeight: "600", color: "#333" }}>
+                  {item.campaign}
+                </span>
+                <span style={{ fontSize: "12px", color: "#90909b" }}>
+                  {item.subCampaign}
+                </span>
+              </div>
+            </Cell>
 
-          <Cell>{item.ngo}</Cell>
-          <Cell>{item.amount}</Cell>
-          <Evidence><LuImage/>5/5</Evidence>
-          <Cell>{item.submitted}</Cell>
-          <MilestoneFundsStatus status={item.MilestoneFundsStatus}>
-            {item.MilestoneFundsStatus}
-          </MilestoneFundsStatus>
-          <Actions>
-            <MdOutlineRemoveRedEye /> View
-          </Actions>
-        </Row>
-      ))}
-    </TableContainer>
+            <Cell>{item.ngo}</Cell>
+            <Cell>{item.amount}</Cell>
+            <Evidence>
+              <LuImage /> 5/5
+            </Evidence>
+            <Cell>{item.submitted}</Cell>
+            <MilestoneFundsStatus status={item.MilestoneFundsStatus}>
+              {item.MilestoneFundsStatus}
+            </MilestoneFundsStatus>
+            <Actions onClick={() => setSelectedFund(item)}>
+              <MdOutlineRemoveRedEye /> View
+            </Actions>
+          </Row>
+        ))}
+      </TableContainer>
+
+      {selectedFund?.MilestoneFundsStatus === "approved" && (
+        <FundsDisbursementModalApproved onClose={handleCloseModal} />
+      )}
+     {selectedFund?.MilestoneFundsStatus === "pending" && (
+        <FundsDisbursementModalPending onClose={handleCloseModal} />
+      )}
+
+       {selectedFund?.MilestoneFundsStatus === "rejected" && (
+         <FundsDisbursementModalRejected onClose={handleCloseModal} />
+       )} 
+    </>
   );
 };
 

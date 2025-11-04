@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { X, FileText, Image as ImageIcon } from "lucide-react";
 
-const MilestoneVpending = ({ onClose, data }) => {
+const MilestoneVrejected = ({ onClose, data }) => {
   return (
     <Container>
       <Holder>
         <Wrapper>
           <Header>
-            <Title>Milestone Verification Details</Title>
-            <Subtitle>Review milestone completion and supporting documents</Subtitle>
+            <Title>Rejected Milestone Details</Title>
+            <Subtitle>Review reason and uploaded proofs for this rejected milestone</Subtitle>
             <CloseBtn onClick={onClose}>
               <X size={18} />
             </CloseBtn>
@@ -61,38 +61,39 @@ const MilestoneVpending = ({ onClose, data }) => {
 
             <ProgressText>100% Complete</ProgressText>
 
-            <SectionTitle>Milestone Description</SectionTitle>
+            <SectionTitle>Rejection Reason</SectionTitle>
             <DescriptionText>
-              Successfully constructed 5 water wells in rural areas and all have been tested and
-              are operational.
+              The milestone proof did not meet verification standards. Some documents were unclear or incomplete.
             </DescriptionText>
 
-            <SectionTitle>Proof of Completion</SectionTitle>
-
+            <SectionTitle>Uploaded Proofs</SectionTitle>
             <ProofList>
               <ProofItem>
-                <FileText size={18} color="#e74c3c" />
-                <FileName>Construction_Report.pdf</FileName>
+                <FileText size={18} color="#c0392b" />
+                <FileName>Incomplete_Report.pdf</FileName>
               </ProofItem>
 
               <ProofItem>
-                <ImageIcon size={18} color="#3498db" />
-                <FileName>Well_Photos.jpg</FileName>
+                <ImageIcon size={18} color="#e74c3c" />
+                <FileName>Blurred_Photo.jpg</FileName>
               </ProofItem>
 
               <ProofItem>
-                <FileText size={18} color="#e74c3c" />
-                <FileName>Water_Quality_Test.pdf</FileName>
+                <FileText size={18} color="#c0392b" />
+                <FileName>Verification_Missing.pdf</FileName>
               </ProofItem>
             </ProofList>
 
-            <SectionTitle>Review Notes (Optional)</SectionTitle>
-            <Textarea placeholder="Add any notes about this decision..." />
+            <SectionTitle>Rejection reason</SectionTitle>
+            <Textarea
+              placeholder="E.g. Uploaded documents were not legible, resubmission required..."
+              readOnly
+              defaultValue="Uploaded proofs were not clear enough to verify project completion. Please resubmit with clearer photos and reports."
+            />
           </Content>
 
           <Footer>
-            <RejectBtn>Reject</RejectBtn>
-            <ApproveBtn>Approve</ApproveBtn>
+            <CloseOnlyBtn onClick={onClose}>Close</CloseOnlyBtn>
           </Footer>
         </Wrapper>
       </Holder>
@@ -100,7 +101,8 @@ const MilestoneVpending = ({ onClose, data }) => {
   );
 };
 
-export default MilestoneVpending;
+export default MilestoneVrejected;
+
 
 const Container = styled.div`
   width: 100%;
@@ -164,9 +166,11 @@ const Content = styled.div`
   flex: 1;
   overflow-y: auto;
   padding: 20px 24px;
+
   &::-webkit-scrollbar {
     display: none;
   }
+
   scrollbar-width: none;
   -ms-overflow-style: none;
 `;
@@ -248,12 +252,12 @@ const ProgressBarWrapper = styled.div`
 const ProgressBar = styled.div`
   width: 100%;
   height: 100%;
-  background: #6cc04a;
+  background: #e74c3c;
 `;
 
 const ProgressText = styled.p`
   font-size: 12px;
-  color: #6cc04a;
+  color: #e74c3c;
   margin-top: 4px;
 `;
 
@@ -272,16 +276,16 @@ const ProofList = styled.div`
 const ProofItem = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #f5b7b1;
   border-radius: 8px;
   padding: 10px 14px;
   gap: 10px;
-  background: #fafafa;
+  background: #fef5f5;
 `;
 
 const FileName = styled.span`
   font-size: 13px;
-  color: #1e1e1e;
+  color: #c0392b;
 `;
 
 const Textarea = styled.textarea`
@@ -291,9 +295,11 @@ const Textarea = styled.textarea`
   border-radius: 8px;
   padding: 10px;
   font-size: 13px;
-  color: #333;
+  color: #e74c3c;
   resize: none;
   outline: none;
+  background: #fafafa;
+
   &::placeholder {
     color: #999;
   }
@@ -304,32 +310,20 @@ const Footer = styled.div`
   border-top: 1px solid #e5e5e5;
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
   background: #fff;
 `;
 
-const RejectBtn = styled.button`
-  border: 1px solid #ccc;
-  background: transparent;
-  color: #333;
-  padding: 8px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background: #f2f2f2;
-  }
-`;
-
-const ApproveBtn = styled.button`
-  background: #000;
-  color: #fff;
+const CloseOnlyBtn = styled.button`
+  background: #fff;
+  color: #333333;
   border: none;
-  padding: 8px 20px;
+  padding: 8px 22px;
   border-radius: 8px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 500;
   &:hover {
-    opacity: 0.9;
+    background: #c1bebe;
   }
 `;
