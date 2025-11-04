@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { CiSearch } from "react-icons/ci";
+import CampaignActive from "./modal/CampaignActive";
+import CampaignPaused from "./modal/CampaignPaused";
+import CampaignCompleted from "./modal/CampaignCompleted";
 
 import {
   Container,
@@ -17,12 +21,10 @@ import {
   AdminCampaignInput,
   ActionButton,
 } from "../../../style/AdminCampaignManagementStyle";
-import { CiSearch } from "react-icons/ci";
 
 const CampaignManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
-
-  const campaigns = [
+  const [campaigns, setCampaigns] = useState([
     {
       name: "Education for all",
       ngo: "Slum2Africa",
@@ -30,6 +32,9 @@ const CampaignManagement = () => {
       donors: 156,
       deadline: "2024-12-31",
       status: "active",
+      description: "Stationery for the children of Makoko Nursery School.",
+      goal: 5000000,
+      raised: 67500,
     },
     {
       name: "Books for Bright Futures",
@@ -38,6 +43,9 @@ const CampaignManagement = () => {
       donors: 89,
       deadline: "2025-11-30",
       status: "completed",
+      description: "Providing textbooks to rural communities.",
+      goal: 3500000,
+      raised: 3500000,
     },
     {
       name: "Pad a Girl",
@@ -46,6 +54,9 @@ const CampaignManagement = () => {
       donors: 234,
       deadline: "2024-12-15",
       status: "active",
+      description: "Providing sanitary pads to school girls.",
+      goal: 1500000,
+      raised: 1065000,
     },
     {
       name: "Medical Aid",
@@ -54,6 +65,9 @@ const CampaignManagement = () => {
       donors: 67,
       deadline: "2025-01-20",
       status: "paused",
+      description: "Medical supplies for children in need.",
+      goal: 2000000,
+      raised: 500000,
     },
     {
       name: "Save the Climate",
@@ -62,8 +76,38 @@ const CampaignManagement = () => {
       donors: 412,
       deadline: "2025-03-15",
       status: "active",
+      description: "Tree planting and renewable energy advocacy.",
+      goal: 3000000,
+      raised: 2700000,
     },
-  ];
+  ]);
+
+  const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [activeModalType, setActiveModalType] = useState(null);
+
+  const handleView = (campaign) => {
+    setSelectedCampaign(campaign);
+    setActiveModalType(campaign.status); 
+  };
+
+  const handleCloseModal = () => {
+    setSelectedCampaign(null);
+    setActiveModalType(null);
+  };
+
+ 
+  const handlePauseCampaign = (campaignName) => {
+    setCampaigns((prev) =>
+      prev.map((c) =>
+        c.name === campaignName ? { ...c, status: "paused" } : c
+      )
+    );
+    handleCloseModal();
+  };
+
+  const filteredCampaigns = campaigns.filter((c) =>
+    c.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <Container>
@@ -108,7 +152,7 @@ const CampaignManagement = () => {
           <span>Actions</span>
         </TableHeader>
 
-        {campaigns.map((item, i) => (
+        {filteredCampaigns.map((item, i) => (
           <TableRow key={i}>
             <span>{item.name}</span>
             <NGOName>{item.ngo}</NGOName>
@@ -121,15 +165,33 @@ const CampaignManagement = () => {
             <span>{item.donors}</span>
             <span>{item.deadline}</span>
             <StatusTag status={item.status}>{item.status}</StatusTag>
-            <ActionButton>
+            <ActionButton onClick={() => handleView(item)}>
               <MdOutlineRemoveRedEye /> View
             </ActionButton>
           </TableRow>
         ))}
       </Table>
+
+      {activeModalType === "active" && (
+        <CampaignActive
+          campaign={selectedCampaign}
+          onClose={handleCloseModal}
+          onPause={handlePauseCampaign}
+        />
+      )}
+
+      {activeModalType === "paused" && (
+        <CampaignPaused campaign={selectedCampaign} onClose={handleCloseModal} />
+      )}
+
+      {activeModalType === "completed" && (
+        <CampaignCompleted
+          campaign={selectedCampaign}
+          onClose={handleCloseModal}
+        />
+      )}
     </Container>
   );
 };
 
 export default CampaignManagement;
-

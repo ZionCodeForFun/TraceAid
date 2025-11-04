@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { X, FileText, Image as ImageIcon } from "lucide-react";
 
-const MilestoneVpending = ({ onClose, data }) => {
+const MilestoneVapproved = ({ onClose, data }) => {
   return (
     <Container>
       <Holder>
         <Wrapper>
           <Header>
-            <Title>Milestone Verification Details</Title>
-            <Subtitle>Review milestone completion and supporting documents</Subtitle>
+            <Title>Approved Milestone Details</Title>
+            <Subtitle>View approved milestone completion and attached proofs</Subtitle>
             <CloseBtn onClick={onClose}>
               <X size={18} />
             </CloseBtn>
@@ -63,36 +63,39 @@ const MilestoneVpending = ({ onClose, data }) => {
 
             <SectionTitle>Milestone Description</SectionTitle>
             <DescriptionText>
-              Successfully constructed 5 water wells in rural areas and all have been tested and
-              are operational.
+              Successfully completed the approved milestone. All deliverables were verified and
+              approved by the admin.
             </DescriptionText>
 
             <SectionTitle>Proof of Completion</SectionTitle>
 
             <ProofList>
               <ProofItem>
-                <FileText size={18} color="#e74c3c" />
-                <FileName>Construction_Report.pdf</FileName>
+                <FileText size={18} color="#27ae60" />
+                <FileName>Completion_Report.pdf</FileName>
               </ProofItem>
 
               <ProofItem>
-                <ImageIcon size={18} color="#3498db" />
-                <FileName>Well_Photos.jpg</FileName>
+                <ImageIcon size={18} color="#2ecc71" />
+                <FileName>Project_Photos.jpg</FileName>
               </ProofItem>
 
               <ProofItem>
-                <FileText size={18} color="#e74c3c" />
-                <FileName>Water_Quality_Test.pdf</FileName>
+                <FileText size={18} color="#27ae60" />
+                <FileName>Verification_Document.pdf</FileName>
               </ProofItem>
             </ProofList>
 
-            <SectionTitle>Review Notes (Optional)</SectionTitle>
-            <Textarea placeholder="Add any notes about this decision..." />
+            <SectionTitle>Admin Review Notes</SectionTitle>
+            <Textarea
+              placeholder="Approved notes..."
+              readOnly
+              defaultValue="All provided proofs have been verified successfully. The milestone meets all required standards."
+            />
           </Content>
 
           <Footer>
-            <RejectBtn>Reject</RejectBtn>
-            <ApproveBtn>Approve</ApproveBtn>
+            <CloseOnlyBtn onClick={onClose}>Close</CloseOnlyBtn>
           </Footer>
         </Wrapper>
       </Holder>
@@ -100,7 +103,8 @@ const MilestoneVpending = ({ onClose, data }) => {
   );
 };
 
-export default MilestoneVpending;
+export default MilestoneVapproved;
+
 
 const Container = styled.div`
   width: 100%;
@@ -248,12 +252,12 @@ const ProgressBarWrapper = styled.div`
 const ProgressBar = styled.div`
   width: 100%;
   height: 100%;
-  background: #6cc04a;
+  background: #27ae60;
 `;
 
 const ProgressText = styled.p`
   font-size: 12px;
-  color: #6cc04a;
+  color: #27ae60;
   margin-top: 4px;
 `;
 
@@ -272,16 +276,16 @@ const ProofList = styled.div`
 const ProofItem = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #d5f5e3;
   border-radius: 8px;
   padding: 10px 14px;
   gap: 10px;
-  background: #fafafa;
+  background: #f6fff9;
 `;
 
 const FileName = styled.span`
   font-size: 13px;
-  color: #1e1e1e;
+  color: #1e8449;
 `;
 
 const Textarea = styled.textarea`
@@ -294,6 +298,8 @@ const Textarea = styled.textarea`
   color: #333;
   resize: none;
   outline: none;
+  background: #fafafa;
+
   &::placeholder {
     color: #999;
   }
@@ -304,32 +310,19 @@ const Footer = styled.div`
   border-top: 1px solid #e5e5e5;
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
   background: #fff;
 `;
 
-const RejectBtn = styled.button`
-  border: 1px solid #ccc;
-  background: transparent;
-  color: #333;
-  padding: 8px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background: #f2f2f2;
-  }
-`;
-
-const ApproveBtn = styled.button`
-  background: #000;
+const CloseOnlyBtn = styled.button`
+  background: #27ae60;
   color: #fff;
   border: none;
-  padding: 8px 20px;
+  padding: 8px 22px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 500;
   &:hover {
-    opacity: 0.9;
+    background: #1e8449;
   }
 `;

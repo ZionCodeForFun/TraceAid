@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container } from "../../../../style/WalletStyle";
 import Button from "../../../common/Button";
 import InputField from "../../../common/InputField";
@@ -43,10 +43,27 @@ const data = [
   },
 ];
 
+const campaigns = [
+  "Stationery for the children of Makoko Nursery School",
+  "Food for all",
+  "Stationery for the children of Makoko Nursery School",
+];
+
 const Wallet = () => {
   const nav = useNavigate();
   const location = useLocation();
-const isMainWallet = location.pathname.endsWith("/wallet");
+  const isMainWallet = location.pathname.endsWith("/wallet");
+
+  const [selectedCampaign, setSelectedCampaign] = useState("");
+  const [showCategoryDrop, setShowCategoryDrop] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filter data by recent search input
+  const filteredData = data.filter(
+    (item) =>
+      item.refId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.details.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <Container>
@@ -72,7 +89,7 @@ const isMainWallet = location.pathname.endsWith("/wallet");
                   </span>
                 </div>
                 <div className="down">
-                  <p>₦{328400 .toLocaleString()}</p>
+                  <p>₦{(328400).toLocaleString()}</p>
                 </div>
               </div>
 
@@ -84,23 +101,53 @@ const isMainWallet = location.pathname.endsWith("/wallet");
                   </span>
                 </div>
                 <div className="down">
-                  <p>₦{328400 .toLocaleString()}</p>
+                  <p>₦{(328400).toLocaleString()}</p>
                 </div>
               </div>
             </div>
+
+            <label>Select campaign to view details</label>
+
+            <div className="select_control">
+              <InputField
+                type="text"
+                placeholder="Select Campaign"
+                className="input"
+                readOnly
+                value={selectedCampaign}
+              />
+              <RiArrowDropDownLine
+                className="icon_"
+                onClick={() => setShowCategoryDrop((prev) => !prev)}
+              />
+            </div>
+
+            {showCategoryDrop && (
+              <div className="cartigory_drop">
+                {campaigns.map((c, i) => (
+                  <p
+                    key={i}
+                    onClick={() => {
+                      setSelectedCampaign(c);
+                      setShowCategoryDrop(false);
+                    }}
+                  >
+                    {c}
+                  </p>
+                ))}
+              </div>
+            )}
 
             <div className="recent_text">
               <InputField
                 type="text"
                 placeholder="Search input"
                 className="input"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
-
               <div className="dropdwn">
                 <p>All Status</p>
-                <i>
-                  <RiArrowDropDownLine />
-                </i>
               </div>
             </div>
 
@@ -116,19 +163,22 @@ const isMainWallet = location.pathname.endsWith("/wallet");
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((item, index) => (
+                  {filteredData.map((item, index) => (
                     <tr key={index}>
                       <td>{item.refId}</td>
                       <td className="details">{item.details}</td>
                       <td>{item.date}</td>
                       <td>₦{item.amount.toLocaleString()}</td>
-                      <td
-                       
-                      >
-                        {item.status}
-                      </td>
+                      <td>{item.status}</td>
                     </tr>
                   ))}
+                  {filteredData.length === 0 && (
+                    <tr>
+                      <td colSpan="5" style={{ textAlign: "center" }}>
+                        No records found
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

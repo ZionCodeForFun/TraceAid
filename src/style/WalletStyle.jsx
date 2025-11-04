@@ -106,7 +106,7 @@ export const Container = styled.div`
         gap: 15px;
         background-color: var(--sidebarBg);
         height: 100%;
-         width: 180px;
+        width: 180px;
         border-radius: 7px;
         justify-content: space-around;
 
@@ -134,7 +134,47 @@ export const Container = styled.div`
         font-family: Arial, Helvetica, sans-serif;
       }
     }
-
+    .select_control {
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 1px solid #c0c0c0;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      .icon_ {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      .input {
+        font-size: 16px;
+        font-weight: 400;
+        color: #333333;
+        height: 100%;
+        width: 100%;
+        outline: none;
+        border: none;
+      }
+    }
+    .cartigory_drop {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 150px;
+      margin-bottom: 16px;
+      border: 1px solid #c0c0c0;
+      border-radius: 12px;
+      justify-content: center;
+      p {
+        font-size: 16px;
+        font-weight: 400;
+        color: #333333;
+        cursor: pointer;
+        padding: 8px;
+        &:hover {
+          background-color: #efeded;
+        }
+      }
+    }
     .table-container {
       width: 100%;
       border-radius: 10px;

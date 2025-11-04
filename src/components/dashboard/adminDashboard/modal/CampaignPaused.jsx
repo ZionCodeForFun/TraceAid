@@ -1,17 +1,23 @@
 import React from "react";
 import styled from "styled-components";
-import { X, Pause } from "lucide-react";
+import { X, Play } from "lucide-react";
 
-const CampaignDetailsModal = () => {
+const CampaignPaused = ({ campaign, onClose, onContinue }) => {
+  const handleContinue = () => {
+    if (window.confirm(`Continue campaign "${campaign.name}"?`)) {
+      onContinue(campaign.name);
+    }
+  };
+
   return (
     <Overlay>
       <Container>
         <Header>
           <div>
-            <Title>Campaign Details</Title>
-            <Subtitle>View and manage campaign information</Subtitle>
+            <Title>Paused Campaign Details</Title>
+            <Subtitle>View and manage paused campaign information</Subtitle>
           </div>
-          <CloseBtn>
+          <CloseBtn onClick={onClose}>
             <X size={18} strokeWidth={2} />
           </CloseBtn>
         </Header>
@@ -20,11 +26,11 @@ const CampaignDetailsModal = () => {
           <DetailsGrid>
             <DetailItem>
               <DetailLabel>Campaign Name</DetailLabel>
-              <DetailValue>Education For All</DetailValue>
+              <DetailValue>{campaign.name}</DetailValue>
             </DetailItem>
             <DetailItem>
               <DetailLabel>NGO</DetailLabel>
-              <DetailValue>Slum2Africa</DetailValue>
+              <DetailValue>{campaign.ngo}</DetailValue>
             </DetailItem>
             <DetailItem>
               <DetailLabel>Created Date</DetailLabel>
@@ -32,15 +38,13 @@ const CampaignDetailsModal = () => {
             </DetailItem>
             <DetailItem>
               <DetailLabel>Deadline</DetailLabel>
-              <DetailValue>2025-03-15</DetailValue>
+              <DetailValue>{campaign.deadline}</DetailValue>
             </DetailItem>
           </DetailsGrid>
 
           <Section>
             <SectionTitle>Description</SectionTitle>
-            <Description>
-              Stationery for the children of Makoko Nursery School.
-            </Description>
+            <Description>{campaign.description}</Description>
           </Section>
 
           <DonationSection>
@@ -48,32 +52,36 @@ const CampaignDetailsModal = () => {
 
             <ProgressCards>
               <ProgressCard className="raised">
-                <CardAmount>₦67,500</CardAmount>
+                <CardAmount>₦{campaign.raised.toLocaleString()}</CardAmount>
                 <CardLabel>Amount Raised</CardLabel>
               </ProgressCard>
 
               <ProgressCard className="goal">
-                <CardAmount>₦5,000,000</CardAmount>
+                <CardAmount>₦{campaign.goal.toLocaleString()}</CardAmount>
                 <CardLabel>Goal Amount</CardLabel>
               </ProgressCard>
 
               <ProgressCard className="donors">
-                <CardAmount>412</CardAmount>
+                <CardAmount>{campaign.donors}</CardAmount>
                 <CardLabel>Total Donors</CardLabel>
               </ProgressCard>
             </ProgressCards>
 
             <ProgressBar>
-              <ProgressFill style={{ width: "90%" }} />
+              <ProgressFill style={{ width: `${campaign.progress}%` }} />
             </ProgressBar>
 
             <ProgressSummary>
               <div className="stats">
-                <Percent>90%</Percent>
-                <Complete>Complete</Complete>
+                <Percent>{campaign.progress}%</Percent>
+                <Complete>
+                  {campaign.progress === 100 ? "Complete" : "Paused"}
+                </Complete>
               </div>
               <div className="remaining">
-                <RemainAmount>₦7,500</RemainAmount>
+                <RemainAmount>
+                  ₦{(campaign.goal - campaign.raised).toLocaleString()}
+                </RemainAmount>
                 <RemainLabel>remaining</RemainLabel>
               </div>
             </ProgressSummary>
@@ -81,17 +89,17 @@ const CampaignDetailsModal = () => {
         </Body>
 
         <Footer>
-          <PauseButton>
-            <Pause size={16} strokeWidth={2.5} className="pause-icon" />
-            Pause
-          </PauseButton>
+          <ContinueButton onClick={handleContinue}>
+            <Play size={16} strokeWidth={2.5} className="play-icon" />
+            Continue
+          </ContinueButton>
         </Footer>
       </Container>
     </Overlay>
   );
 };
 
-export default CampaignDetailsModal;
+export default CampaignPaused;
 
 
 const Overlay = styled.div`
@@ -109,7 +117,7 @@ const Container = styled.div`
   background-color: white;
   border-radius: 8px;
   width: 512px;
-  height: 533px;
+  height: 600px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2),
     0 4px 6px -2px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -221,12 +229,10 @@ const ProgressCard = styled.div`
 
   &.raised {
     background-color: #f7f3ff;
-  
   }
 
   &.goal {
     background-color: #f0fff4;
-   
   }
 
   &.donors {
@@ -255,7 +261,7 @@ const ProgressBar = styled.div`
 
 const ProgressFill = styled.div`
   height: 100%;
-  background-color: #fcd34d;
+  background-color: #9ca3af;
   border-radius: 4px;
   transition: width 0.5s ease;
 `;
@@ -301,7 +307,7 @@ const Footer = styled.div`
   background-color: white;
 `;
 
-const PauseButton = styled.button`
+const ContinueButton = styled.button`
   display: flex;
   align-items: center;
   padding: 8px 16px;
@@ -309,17 +315,17 @@ const PauseButton = styled.button`
   font-weight: 600;
   border-radius: 6px;
   cursor: pointer;
-  border: 1px solid #d1d5db;
-  background-color: #f3f4f6;
-  color: #1f2937;
+  border: 1px solid #22c55e;
+  background-color: #dcfce7;
+  color: #166534;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   transition: background-color 0.15s ease-in-out;
 
-  .pause-icon {
+  .play-icon {
     margin-right: 8px;
   }
 
   &:hover {
-    background-color: #e5e7eb;
+    background-color: #bbf7d0;
   }
 `;

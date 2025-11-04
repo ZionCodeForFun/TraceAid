@@ -20,8 +20,10 @@ import {
   Icon6,
   CTASection,
 } from './HowItWorkStyled.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const HowItWorks = () => {
+  const nav = useNavigate()
   return (
     <HowitworksContainer>
       <HeaderNav />
@@ -114,7 +116,7 @@ const HowItWorks = () => {
     <p>
     Join thousands of donors and fundraisers making transparent giving a reality.
     </p>
-  <button>Create an account</button>
+  <button onClick={()=>nav("/role_modal")} >Create an account</button>
 </CTASection>
 
      <Footer /> 

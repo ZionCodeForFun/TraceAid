@@ -3,19 +3,17 @@ import styled from "styled-components";
 import { IoClose } from "react-icons/io5";
 import { PiCameraFill } from "react-icons/pi";
 
-const FundsDisbursementModal = ({ onClose }) => {
+const FundDisbursementRejected = ({ onClose }) => {
   const pictures = [
     {
       id: 1,
       title: "Crayons and Erasers 5,000 saplings",
-
       image:
         "https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=600&q=60",
     },
     {
       id: 2,
       title: "Pencils and Notepads 2,000 saplings",
-
       image:
         "https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=600&q=60",
     },
@@ -45,7 +43,7 @@ const FundsDisbursementModal = ({ onClose }) => {
         <Header>
           <h2>Funds Disbursement Request</h2>
           <IoClose className="close-icon" onClick={onClose} />
-          <p>Review evidence and bank details before approving disbursement</p>
+          <p>Review evidence and rejection reason for this disbursement</p>
         </Header>
 
         <Content>
@@ -98,7 +96,7 @@ const FundsDisbursementModal = ({ onClose }) => {
             <div className="header">
               <h3>Picture Evidence</h3>
               <div className="badge">
-                <PiCameraFill /> 5/5 Required
+                <PiCameraFill /> 5/5 Uploaded
               </div>
             </div>
 
@@ -109,7 +107,6 @@ const FundsDisbursementModal = ({ onClose }) => {
                     <img src={item.image} alt={item.title} />
                   </div>
                   <div className="image_disc">
-                    {" "}
                     <span className="img-label">Image {index + 1}</span>
                     <p>{item.title}</p>
                   </div>
@@ -118,34 +115,31 @@ const FundsDisbursementModal = ({ onClose }) => {
             </div>
           </PictureEvidence>
 
-          <DisbursementInfo>
-            <h4>Disbursement Completed</h4>
-            <div className="info-box">
-              <div className="row">
-                <span>Disbursement Date:</span>
-                <strong>2024-10-17</strong>
-              </div>
-              <div className="row">
-                <span>Transaction Reference:</span>
-                <strong>TXN-2025-10-17-001</strong>
-              </div>
-              <div className="row">
-                <span>Amount Disbursed:</span>
-                <strong>₦30,000</strong>
-              </div>
+          <RejectionInfo>
+            <h4>Disbursement Rejected</h4>
+            <div className="reason-box">
+              <p>
+                The submitted evidence does not sufficiently prove completion of
+                the milestone. Additional documentation and verified receipts are
+                required for approval.
+              </p>
             </div>
-          </DisbursementInfo>
+          </RejectionInfo>
         </Content>
 
         <Footer>
-          <button className="reject">Close</button>
+          <button className="close-btn" onClick={onClose}>
+            Close
+          </button>
         </Footer>
       </ModalContainer>
     </Overlay>
   );
 };
 
-export default FundsDisbursementModal;
+export default FundDisbursementRejected;
+
+// ---------- Styled Components ----------
 
 const Overlay = styled.div`
   position: fixed;
@@ -199,7 +193,6 @@ const Content = styled.div`
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-
   &::-webkit-scrollbar {
     display: none;
   }
@@ -249,6 +242,7 @@ const BankBox = styled.div`
     }
   }
 `;
+
 const PictureEvidence = styled.div`
   margin-top: 1rem;
 
@@ -300,23 +294,21 @@ const PictureEvidence = styled.div`
         width: 100%;
         height: 100%;
         object-fit: cover;
-        display: block;
       }
     }
+
     .image_disc {
-      width: fit-content;
       display: flex;
       align-items: center;
       .img-label {
         display: flex;
-        background: #ffffff;
+        background: #fff;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
         justify-content: center;
         color: #1a1a1a;
         font-size: 11px;
         height: 20px;
         border-radius: 20px;
-        margin-bottom: 4px;
         margin-right: 4px;
         width: 60px;
       }
@@ -328,41 +320,28 @@ const PictureEvidence = styled.div`
     }
   }
 `;
-const DisbursementInfo = styled.div`
+
+const RejectionInfo = styled.div`
   margin-top: 1.5rem;
 
   h4 {
     font-size: 14px;
     font-weight: 600;
-    color: #14ae5c; /* Green title */
+    color: #d93025; /* red tone */
     margin-bottom: 8px;
   }
 
-  .info-box {
-    background: #f4fff9;
-    border: 1px solid #d3f2e1;
+  .reason-box {
+    background: #fff6f6;
+    border: 1px solid #f4c7c3;
     border-radius: 8px;
     padding: 14px 16px;
 
-    .row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    p {
       font-size: 13px;
-      margin-bottom: 6px;
-
-      span {
-        color: #555;
-      }
-
-      strong {
-        color: #111;
-        font-weight: 500;
-      }
-
-      &:last-child {
-        margin-bottom: 0;
-      }
+      color: #a33b2e;
+      margin: 0;
+      line-height: 1.5;
     }
   }
 `;
@@ -372,25 +351,19 @@ const Footer = styled.div`
   border-top: 1px solid #eee;
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
   background: #fff;
 
-  button {
+  .close-btn {
     padding: 10px 18px;
     border-radius: 8px;
-    border: none;
-    font-weight: 500;
-    cursor: pointer;
-  }
-
-  .reject {
     background: transparent;
     border: 1px solid #ccc;
     color: #333;
-  }
+    font-weight: 500;
+    cursor: pointer;
 
-  .approve {
-    background: #111;
-    color: #fff;
+    &:hover {
+      background: #f2f2f2;
+    }
   }
 `;

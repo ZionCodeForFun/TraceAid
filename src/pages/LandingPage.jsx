@@ -44,13 +44,12 @@ import CelebrateIcon from "../assets/CelebrateImg.png";
 import HeaderNav from "./HeaderNav.jsx";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer.jsx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const LandingPage = () => {
-
   const nav = useNavigate();
   const { user } = useSelector((state) => state.auth);
-
+  const dispatch = useDispatch();
   const handleGetStarted = () => {
     if (user) {
       nav("/explore");
@@ -58,6 +57,7 @@ const LandingPage = () => {
       nav("/role_modal");
     }
   };
+
   return (
     <LandingContainer>
       <HeaderNav />
@@ -72,7 +72,7 @@ const LandingPage = () => {
               Know where your support goes and the change it makes through
               trackable milestones.
             </p>
-            <button onClick={()=> nav("/explore")}>Give a Donation</button>
+            <button onClick={() => nav("/explore")}>Give a Donation</button>
           </HeroContent>
 
           <HeroIcons>
@@ -235,7 +235,9 @@ const LandingPage = () => {
             <h3>Be Part of our Donors and Fundraisers with over</h3>
             <CommunityStat>20,000</CommunityStat>
             <p>People from across Nigeria</p>
-            <CommunityButton onClick={handleGetStarted}>Get Started</CommunityButton>
+            <CommunityButton onClick={handleGetStarted}>
+              Get Started
+            </CommunityButton>
           </CommunityContent>
           <img src={Img3} alt="Community Image 3" />
           <img src={Img4} alt="Community Image 4" />
@@ -248,4 +250,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
