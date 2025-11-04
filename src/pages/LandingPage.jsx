@@ -23,9 +23,10 @@ import {
   CommunityContent,
   CommunityStat,
   CommunityButton,
+  ApiSection,
 } from "./LandingPageStyled.jsx";
 
-import CampaignData from "./CampaignData.jsx";
+// import CampaignData from "./CampaignData.jsx";
 import Img1 from "../assets/Rectangle 10.png";
 import Img2 from "../assets/Rectangle 11.png";
 import Img3 from "../assets/Rectangle 9.png";
@@ -85,7 +86,12 @@ const LandingPage = () => {
         </HeroOverlay>
       </HeroSection>
 
-      <CampaignData />
+      <ApiSection>
+        <h2>Waiting for Api Integration</h2>
+        <p>Please check back later for updates.</p>
+      </ApiSection>
+
+      {/* <CampaignData /> */}
 
       <TransparencySection>
         <h2>

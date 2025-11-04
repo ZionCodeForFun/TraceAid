@@ -4,10 +4,9 @@ import logoImg from "../assets/logo2.png";
 import { useNavigate } from "react-router-dom";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../global/authSlice";
+import { logout, setUser } from "../global/authSlice";
 import { AiOutlineGift } from "react-icons/ai";
-import { CiBookmark } from "react-icons/ci";
-import { CiSettings } from "react-icons/ci";
+import { CiBookmark, CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
 import axios from "axios";
 
@@ -15,52 +14,64 @@ const HeaderNav = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.auth);
-  // console.log("this is user", user);
+  const auth = useSelector((state) => state.auth);
+  const userData = auth.user;
+
   const [openDropdown, setOpenDropdown] = useState(false);
-  const [fetchedUser, setFetchedUser] = useState(null);
 
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
 
-  // console.log("this is user", user);
+  console.log("userData", userData);
 
   useEffect(() => {
-    if (!user?.user?._id) return;
+    if (!auth?.user?._id) return;
+
+    if (
+      userData?.firstName &&
+      userData?.lastName &&
+      (userData?.profilePicture || userData?.profilePicture === null)
+    ) {
+      return;
+    }
+
+    const storedToken = auth.token;
+    if (!storedToken) return;
+
     const getUserData = async () => {
       try {
-        const response = await axios.get(
-          `${
-            user?.user?.role === "donor"
-              ? import.meta.env.VITE_BaseUrl
-              : import.meta.env.VITE_BaseUrl2
-          }/user/${user?.user?._id}`
+        const res = await axios.get(
+          `${import.meta.env.VITE_BaseUrl}/user/${auth.user._id}`,
+          {
+            headers: { Authorization: `Bearer ${storedToken}` },
+          }
         );
-        // console.log("Getting", response.data.data);
-        setFetchedUser(response?.data?.data);
+        dispatch(setUser(res.data.data));
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
+
     getUserData();
-  }, [user?.user?._id]);
+  }, [auth?.user?._id, auth?.token]);
 
+  const getInitials = (value) => {
+    if (!value) return "";
 
-  const getInitials = (name) => {
-    if (!name || typeof name !== "string") return "";
+    const parts = value.trim().split(" ").filter(Boolean);
 
-    const parts = name.trim().split(" ").filter(Boolean);
+    if (parts.length === 1) return parts[0][0].toUpperCase();
 
-    if (parts.length === 0) return "";
-    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
-
-    const first = parts[0].charAt(0).toUpperCase();
-    const last = parts[parts.length - 1].charAt(0).toUpperCase();
-    return `${first}${last}`;
+    return parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase();
   };
+
   const fullName =
-    fetchedUser?.firstName && fetchedUser?.lastName
-      ? `${fetchedUser.firstName} ${fetchedUser.lastName}`
-      : "";
+    userData?.firstName && userData?.lastName
+      ? `${userData.firstName} ${userData.lastName}`
+      : userData?.organizationName || null;
+
+  const initials = fullName
+    ? getInitials(fullName)
+    : getInitials(userData?.email);
 
   const logoutUser = () => {
     dispatch(logout());
@@ -82,7 +93,7 @@ const HeaderNav = () => {
         </NavLinks>
       </LeftSection>
 
-      {!user.user ? (
+      {!userData ? (
         <ButtonGroup>
           <button className="login" onClick={() => nav("/login")}>
             Login
@@ -93,44 +104,49 @@ const HeaderNav = () => {
         </ButtonGroup>
       ) : (
         <ProfileWrapper onClick={toggleDropdown}>
-          <div className="initials">
-            {getInitials(fullName || fetchedUser?.organizationName)}
-          </div>
+          {userData?.profilePicture?.imageUrl ? (
+            <img
+              src={`${userData.profilePicture.imageUrl}?t=${Date.now()}`}
+              className="profile-img"
+              alt="profile"
+            />
+          ) : (
+            <div className="initials">{initials}</div>
+          )}
 
           <div className="info">
-            <h4>{fullName || fetchedUser?.organizationName}</h4>
-            <p>{fetchedUser?.email}</p>
+            <h4>{fullName}</h4>
+            <p>{userData?.email}</p>
           </div>
 
           <RiArrowDropDownLine
             className={`arrow ${openDropdown ? "rotate" : ""}`}
           />
+
           {openDropdown && (
             <DropdownMenu>
-              {user.user.role === "donor" && (
+              {userData.role === "donor" && (
                 <li onClick={() => nav("/my_donations")}>
-                  <AiOutlineGift className="icon" />
-                  My Donations
+                  <AiOutlineGift className="icon" /> My Donations
                 </li>
               )}
-
-              {user.user.role === "fundraiser" && (
+              {userData.role === "fundraiser" && (
                 <li onClick={() => nav("/organization")}>
                   <AiOutlineGift className="icon" />
                   Fundraiser Dashboard
                 </li>
               )}
+
               <li onClick={() => nav("/saved_campaigns")}>
-                <CiBookmark className="icon" />
-                Saved Campaigns
+                <CiBookmark className="icon" /> Saved Campaigns
               </li>
-              <li onClick={() => nav("/explore")}>
-                <CiSettings className="icon" />
-                My Account Settings
+
+              <li onClick={() => nav("/profile_settings")}>
+                <CiSettings className="icon" /> My Account Settings
               </li>
+
               <li onClick={logoutUser} className="logout">
-                <MdOutlineLogout className="icon" />
-                Logout
+                <MdOutlineLogout className="icon" /> Logout
               </li>
             </DropdownMenu>
           )}
@@ -256,11 +272,18 @@ export const ProfileWrapper = styled.div`
   cursor: pointer;
   position: relative;
 
+  .profile-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
   .initials {
     width: 42px;
     height: 42px;
     background-color: #354f25;
-    color: #fff;
+    color: #ffffff;
     font-size: 0.95rem;
     font-weight: 700;
     border-radius: 50%;
