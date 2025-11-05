@@ -299,7 +299,6 @@ export const HeroContent = styled.div`
     }
   }
 `;
-/* HeroIcons */
 export const HeroIcons = styled.div`
   position: absolute;
   top: 0;
@@ -352,7 +351,6 @@ export const HeroIcons = styled.div`
   }
 `;
 
-/* ApiSection */
 export const ApiSection = styled.section`
   width: 100%;
   padding: 4rem 2rem;
