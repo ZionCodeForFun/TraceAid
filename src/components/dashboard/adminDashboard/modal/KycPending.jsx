@@ -8,17 +8,27 @@ import { toast } from "react-toastify";
 const KycPending = ({ kycData, onClose }) => {
   if (!kycData) return null;
 
-  const { NgoName, status, Email, RegisteredDate, Documents, _id } = kycData;
+  const {
+    organizationName,
+    verificationStatus,
+    user,
+    createdAt,
+    registrationCertificate,
+    authorizedRepresentativeId,
+    _id,
+    bankDetails, 
+  } = kycData;
+
   const { token } = useSelector((state) => state.adminAuth);
   const [loading, setLoading] = useState(false);
 
   const handleVerify = async (newStatus) => {
     try {
       setLoading(true);
-
+      const action = newStatus === "verified" ? "verify" : "reject";
       const res = await axios.patch(
-        `${import.meta.env.VITE_BaseUrl_AdminKycV}/${_id}/verify`,
-        { status: newStatus },
+        `${import.meta.env.VITE_BaseUrl_AdminKycV}/verify/${_id}`,
+        { action },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -28,30 +38,54 @@ const KycPending = ({ kycData, onClose }) => {
       );
 
       toast.success(
-        `KYC ${newStatus === "approved" ? "approved" : "rejected"} successfully`
+        `KYC ${newStatus === "verified" ? "approved" : "rejected"} successfully`
       );
       onClose();
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to verify KYC");
-      console.log(err.response?.data.data)
+      console.log(err.response?.data);
     } finally {
       setLoading(false);
     }
   };
 
-  const documents = [
-    { name: "Registration Certificate", format: "PDF", size: 1.9 },
-    { name: "Tax Exemption Letter", format: "PDF", size: 1.4 },
-    { name: "Articles of Association", format: "PDF", size: 2.1 },
-    { name: "Board Members List", format: "PDF", size: 0.8 },
-  ];
+ 
+  const formatDocUrl = (url) => {
+    if (!url) return null;
+    if (Array.isArray(url)) return formatDocUrl(url[0]);
+    if (typeof url === "object") {
+      const val =
+        url.secure_url ||
+        url.url ||
+        url.path ||
+        url.imageUrl ||
+        url.public_id;
+      return formatDocUrl(val);
+    }
+    if (typeof url !== "string") return null;
+    if (url.startsWith("http")) return url;
+    return `https://res.cloudinary.com/${
+      import.meta.env.VITE_CLOUDINARY_NAME || "traceaid"
+    }/image/upload/${url}`;
+  };
+
+  const documentList = [
+    registrationCertificate && {
+      name: "Registration Certificate",
+      url: formatDocUrl(registrationCertificate),
+    },
+    authorizedRepresentativeId && {
+      name: "Authorized Representative ID",
+      url: formatDocUrl(authorizedRepresentativeId),
+    },
+  ].filter(Boolean);
 
   return (
     <ModalBackdrop onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
           <HeaderContent>
-            <HeaderTitle>KYC Review: {NgoName}</HeaderTitle>
+            <HeaderTitle>KYC Review: {organizationName}</HeaderTitle>
             <HeaderSubtitle>
               Review NGO information and verification documents
             </HeaderSubtitle>
@@ -64,60 +98,100 @@ const KycPending = ({ kycData, onClose }) => {
         <ModalContent>
           <SectionTitleBar>
             <SectionTitle>NGO Information</SectionTitle>
-            <StatusBadge status={status}>{status}</StatusBadge>
+            <StatusBadge status={verificationStatus}>
+              {verificationStatus}
+            </StatusBadge>
           </SectionTitleBar>
 
           <InfoGrid>
             <InfoItem>
               <InfoLabel>Email</InfoLabel>
-              <InfoValue>{Email}</InfoValue>
+              <InfoValue>{user?.email || "N/A"}</InfoValue>
             </InfoItem>
             <InfoItem>
               <InfoLabel>Registered Date</InfoLabel>
-              <InfoValue>{RegisteredDate}</InfoValue>
+              <InfoValue>{new Date(createdAt).toLocaleDateString()}</InfoValue>
             </InfoItem>
           </InfoGrid>
 
-          <DescriptionBlock>
-            <InfoLabel>Description</InfoLabel>
-            <InfoValue>
-              This NGO focuses on charity, sustainability, and improving
-              community welfare.
-            </InfoValue>
-          </DescriptionBlock>
+          <Separator />
+
+          <SectionTitle>Documents ({documentList.length})</SectionTitle>
+
+          {documentList.length > 0 ? (
+            <DocumentsList>
+              {documentList.map((doc, index) => (
+                <DocumentItem key={index}>
+                  <FileText size={24} color="#3b82f6" />
+                  <DocDetails>
+                    <DocName>{doc.name}</DocName>
+                    <a
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ fontSize: "0.75rem", color: "#2563eb" }}
+                    >
+                      View Document
+                    </a>
+                  </DocDetails>
+                </DocumentItem>
+              ))}
+            </DocumentsList>
+          ) : (
+            <p style={{ fontSize: "0.9rem", color: "#6b7280" }}>
+              No documents uploaded.
+            </p>
+          )}
 
           <Separator />
 
-          <SectionTitle>Registration Documents ({Documents})</SectionTitle>
+         
+             <Divider />
 
-          <DocumentsList>
-            {documents.map((doc, index) => (
-              <DocumentItem key={index}>
-                <FileText size={24} color="#3b82f6" />
-                <DocDetails>
-                  <DocName>{doc.name}</DocName>
-                  <DocMeta>
-                    {doc.format} • {doc.size} MB
-                  </DocMeta>
-                </DocDetails>
-              </DocumentItem>
-            ))}
-          </DocumentsList>
+          <section>
+            <h4>Bank Details</h4>
+            <h6><p>Account Name:</p> {kycData.bankAccountName || "N/A"}</h6>
+            <h6><p>Account Number:</p> {kycData.bankAccountNumber || "N/A"}</h6>
+            <h6><p>Bank Name:</p> {kycData.bankName || "N/A"}</h6>
+          </section>
+
+          <Divider />
         </ModalContent>
 
         <ModalFooter>
-          <RejectButton
-            onClick={() => handleVerify("rejected")}
-            disabled={loading}
-          >
-            <XCircle size={20} /> {loading ? "Processing..." : "Reject"}
-          </RejectButton>
-          <ApproveButton
-            onClick={() => handleVerify("approved")}
-            disabled={loading}
-          >
-            <CheckCircle size={20} /> {loading ? "Processing..." : "Approve"}
-          </ApproveButton>
+          {verificationStatus === "pending" ? (
+            <>
+              <RejectButton
+                onClick={() => handleVerify("rejected")}
+                disabled={loading}
+              >
+                <XCircle size={20} />{" "}
+                {loading ? "Processing..." : "Reject"}
+              </RejectButton>
+              <ApproveButton
+                onClick={() => handleVerify("verified")}
+                disabled={loading}
+              >
+                <CheckCircle size={20} />{" "}
+                {loading ? "Processing..." : "Approve"}
+              </ApproveButton>
+            </>
+          ) : (
+            <span
+              style={{
+                fontSize: "0.875rem",
+                fontWeight: 600,
+                color:
+                  verificationStatus === "verified"
+                    ? "#16a34a"
+                    : verificationStatus === "rejected"
+                    ? "#dc2626"
+                    : "#ca8a04",
+              }}
+            >
+              This KYC has already been {verificationStatus}.
+            </span>
+          )}
         </ModalFooter>
       </ModalContainer>
     </ModalBackdrop>
@@ -141,14 +215,12 @@ const ModalBackdrop = styled.div`
 
 const ModalContainer = styled.div`
   width: 512px;
-  height: 527px;
+  height: 540px;
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  color: #1f2937;
   overflow: hidden;
 `;
 
@@ -160,20 +232,16 @@ const ModalHeader = styled.div`
   border-bottom: 1px solid #f3f4f6;
 `;
 
-const HeaderContent = styled.div`
-  flex-grow: 1;
-`;
+const HeaderContent = styled.div``;
 
 const HeaderTitle = styled.h2`
   font-size: 1.25rem;
   font-weight: 700;
-  margin: 0;
 `;
 
 const HeaderSubtitle = styled.p`
-  font-size: 0.9375rem;
+  font-size: 0.9rem;
   color: #6b7280;
-  margin-top: 4px;
 `;
 
 const CloseButton = styled.button`
@@ -181,24 +249,21 @@ const CloseButton = styled.button`
   border: none;
   color: #9ca3af;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: color 0.15s;
-  &:hover {
-    color: #4b5563;
-  }
 `;
 
 const ModalContent = styled.div`
   flex-grow: 1;
   padding: 0 24px;
   overflow-y: auto;
-  scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
 `;
-
+const Divider = styled.hr`
+  margin: 15px 0;
+  border: 0;
+  border-top: 1px solid #eee;
+`;
 const SectionTitleBar = styled.div`
   display: flex;
   justify-content: space-between;
@@ -210,31 +275,29 @@ const SectionTitleBar = styled.div`
 const SectionTitle = styled.h3`
   font-size: 1rem;
   font-weight: 600;
-  margin: 0;
 `;
 
 const StatusBadge = styled.div`
-  display: inline-flex;
   padding: 4px 10px;
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: capitalize;
   background-color: ${({ status }) =>
-    status === "approved"
+    status === "verified"
       ? "#dcfce7"
       : status === "rejected"
       ? "#fee2e2"
       : "#fef9c3"};
   color: ${({ status }) =>
-    status === "approved"
+    status === "verified"
       ? "#166534"
       : status === "rejected"
       ? "#991b1b"
       : "#a16207"};
   border: 1px solid
     ${({ status }) =>
-      status === "approved"
+      status === "verified"
         ? "#16a34a"
         : status === "rejected"
         ? "#ef4444"
@@ -257,7 +320,6 @@ const InfoLabel = styled.div`
   font-size: 0.75rem;
   color: #9ca3af;
   font-weight: 500;
-  text-transform: uppercase;
   margin-bottom: 4px;
 `;
 
@@ -265,10 +327,6 @@ const InfoValue = styled.div`
   font-size: 0.9375rem;
   color: #1f2937;
   font-weight: 500;
-`;
-
-const DescriptionBlock = styled.div`
-  margin-bottom: 20px;
 `;
 
 const Separator = styled.div`
@@ -292,10 +350,6 @@ const DocumentItem = styled.div`
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.15s;
-  &:hover {
-    background-color: #f3f4f6;
-  }
 `;
 
 const DocDetails = styled.div`
@@ -305,19 +359,13 @@ const DocDetails = styled.div`
 const DocName = styled.div`
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1f2937;
-`;
-
-const DocMeta = styled.div`
-  font-size: 0.75rem;
-  color: #6b7280;
 `;
 
 const ModalFooter = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  padding: 16px 24px 24px 24px;
+  padding: 16px 24px;
   border-top: 1px solid #f3f4f6;
 `;
 
@@ -340,9 +388,9 @@ const RejectButton = styled.button`
 `;
 
 const ApproveButton = styled.button`
-  background-color: green;
+  background-color: #16a34a;
   color: white;
-  border: 1px solid green;
+  border: 1px solid #16a34a;
   padding: 8px 16px;
   border-radius: 6px;
   font-weight: 600;

@@ -9,10 +9,12 @@ import { toast } from "react-toastify";
 import AddMilestone from "./AddMilestone";
 import { IoIosArrowDown, IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CreateCampaign = ({ onClose }) => {
   const [state, setState] = useState({
     fileName: "",
+    file: null,
     agreed: false,
     error: false,
     show: false,
@@ -21,7 +23,7 @@ const CreateCampaign = ({ onClose }) => {
     milestones: [],
     showMilestoneDetails: null,
   });
-
+ const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -31,8 +33,8 @@ const CreateCampaign = ({ onClose }) => {
   });
 
   const nav = useNavigate();
+  const token = useSelector((state) => state.auth.token);
 
-  // Handle change for all form inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -40,28 +42,106 @@ const CreateCampaign = ({ onClose }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setState((prev) => ({ ...prev, fileName: file ? file.name : "" }));
+    setState((prev) => ({
+      ...prev,
+      fileName: file ? file.name : "",
+      file: file || null,
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { title, description, goalAmount, category, duration } = formData;
+    const { agreed, file, milestones } = state;
 
-    // Validation
-    if (!title || !description || !goalAmount || !category || !duration) {
+    if (
+      !title ||
+      !description ||
+      !goalAmount ||
+      !category ||
+      !duration ||
+      !file
+    ) {
       toast.error("Please fill in all fields before continuing.");
       return;
     }
 
-    if (!state.agreed) {
+    if (!agreed) {
       setState((prev) => ({ ...prev, error: true }));
-      toast.error("You must agree to the Terms and Conditions");
+      toast.error("You must agree to the Terms and Conditions.");
       return;
     }
 
-    toast.success("Campaign created successfully!");
-    setState((prev) => ({ ...prev, showreciept: true }));
+    if (!milestones.length) {
+      toast.error("Please add at least one milestone.");
+      return;
+    }
+
+    const totalMilestoneAmount = milestones.reduce(
+      (acc, m) => acc + Number(m.amount || 0),
+      0
+    );
+    if (Number(totalMilestoneAmount) !== Number(goalAmount)) {
+      toast.error("Milestone total must equal the campaign goal.");
+      return;
+    }
+
+    if (!token) {
+      toast.error("You must be logged in to create a campaign.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const data = new FormData();
+      data.append("campaignTitle", title);
+      data.append("campaignDescription", description);
+      data.append("totalCampaignGoalAmount", goalAmount);
+      data.append("campaignCategory", category);
+      data.append("durationDays", duration);
+      data.append("campaignCoverImageOrVideo", file);
+      data.append(
+        "milestones",
+        JSON.stringify(
+          milestones.map((m) => ({
+            milestoneTitle: m.title,
+            milestoneDescription: m.description,
+            targetAmount: m.amount,
+          }))
+        )
+      );
+
+      const res = await fetch(
+        `${import.meta.env.VITE_BaseUrl_Campaign1}/create-campaign`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: data,
+        }
+      );
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        console.error(result);
+        toast.error(result.message || "Failed to create campaign.");
+        return;
+      }
+
+      toast.success("Campaign created successfully!");
+      setLoading(false);
+      setState((prev) => ({
+        ...prev,
+        showreciept: true,
+      }));
+    } catch (error) {
+      console.error("Error creating campaign:", error);
+      toast.error("An unexpected error occurred. Please try again.");
+       setLoading(false);
+    }
   };
 
   const toggle = (key) => {
@@ -139,21 +219,23 @@ const CreateCampaign = ({ onClose }) => {
                 required
               >
                 <option value="">Select a category</option>
-                <option value="Education">Education</option>
+
+                <option value="Health & Wellness">Health & Wellness</option>
+                <option value="Education & Schools">Education & Schools</option>
+                <option value="Disaster Relief">
+                 Disaster Relief
+                </option>
                 <option value="Community Development">
-                  Community Development
+                 Community Development
                 </option>
-                <option value="Agriculture & Food Security">
-                  Agriculture & Food Security
+                <option value="Animal Welfare">Animal Welfare</option>
+                <option value="Arts & Culture">
+                 Arts & Culture
                 </option>
-                <option value="Environment">Environment</option>
-                <option value="Women & Youth Empowerment">
-                  Women & Youth Empowerment
+                <option value="Other/General Support">
+                  Other/General Support
                 </option>
-                <option value="Innovation & Technology">
-                  Innovation & Technology
-                </option>
-                <option value="Emergency Relief">Emergency Relief</option>
+               
               </select>
               <IoIosArrowDown className="menu_i" />
             </div>
@@ -328,7 +410,7 @@ const CreateCampaign = ({ onClose }) => {
           </div>
 
           <div className="btn_holder">
-            <Button text="Create Campaign" className="btn" type="submit" />
+            <Button   text={loading ? "Creating..." : "Create Campaign"} className="btn" type="submit" />
           </div>
 
           <IoCloseSharp onClick={() => onClose()} className="btn_close" />
@@ -385,9 +467,7 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   height: 100%;
-
   width: 100%;
-
   .right {
     width: 650px;
     height: 900px;
@@ -399,7 +479,6 @@ const Container = styled.div`
     border-radius: 40px;
     background: #fff;
     position: relative;
-
     .title {
       display: flex;
       flex-direction: column;
@@ -416,7 +495,6 @@ const Container = styled.div`
         font-weight: 400;
       }
     }
-
     .input_holder {
       width: 90%;
       height: max-content;
@@ -425,19 +503,16 @@ const Container = styled.div`
       justify-content: end;
       position: relative;
       gap: 19px;
-
       .name_holder {
         display: flex;
         flex-direction: column;
         height: 71px;
         position: relative;
         gap: 5px;
-      
         .custom_select {
           position: relative;
           width: 100%;
         }
-
         .custom_select select {
           width: 100%;
           padding: 10px 35px;
@@ -452,27 +527,22 @@ const Container = styled.div`
           cursor: pointer;
           transition: all 0.3s ease;
         }
-
         .custom_select select:hover {
           background-color: #efefef;
         }
-
         .custom_select select:focus {
           background-color: #fff;
           box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
         }
-
         .custom_select option {
           color: #333;
           background-color: #fff;
           padding: 10px;
         }
-
         .custom_select option:hover {
           background-color: var(--PrimaryBase);
           color: #fff;
         }
-
         .custom_select .menu_i {
           position: absolute;
           top: 50%;
@@ -482,13 +552,11 @@ const Container = styled.div`
           font-size: 20px;
           pointer-events: none;
         }
-
         label {
           font-size: 14px;
           font-weight: 400;
           color: var(--NeutralGrey4-Text);
         }
-
         input {
           width: 100%;
           padding: 10px 35px;
@@ -507,7 +575,6 @@ const Container = styled.div`
           font-size: 20px;
           cursor: pointer;
         }
-
         i {
           position: absolute;
           top: 52%;
@@ -515,7 +582,6 @@ const Container = styled.div`
           color: #8d8d8d;
           font-size: 20px;
         }
-
         .choose_file {
           position: absolute;
           top: 50%;
@@ -526,7 +592,6 @@ const Container = styled.div`
           cursor: pointer;
         }
       }
-
       .btn_close {
         position: absolute;
         top: -37%;
@@ -536,7 +601,6 @@ const Container = styled.div`
         color: #8d8d8d;
       }
     }
-
     .sec_add {
       border-bottom: 1px solid #333333;
       width: 200px;
@@ -556,11 +620,9 @@ const Container = styled.div`
       margin-top: 100px;
       max-height: 55px;
       cursor: pointer;
-
       &.expanded {
         max-height: 300px;
       }
-
       .milestone_title {
         display: flex;
         justify-content: space-between;
@@ -569,22 +631,18 @@ const Container = styled.div`
         font-size: 16px;
         padding: 12px 16px;
       }
-
       .arrow {
         transition: transform 0.3s ease;
       }
-
       .arrow.rotated {
         transform: rotate(180deg);
       }
-
       .milestone_content {
         padding: 12px 16px;
         border-top: 1px solid #e0e0e0;
         animation: fadeIn 0.3s ease;
       }
     }
-
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -595,7 +653,6 @@ const Container = styled.div`
         transform: translateY(0);
       }
     }
-
     .alrt_holder {
       gap: 5px;
       display: flex;
@@ -615,17 +672,14 @@ const Container = styled.div`
         gap: 8px;
         align-items: center;
         margin-top: 5px;
-
         .alrt_icon {
           font-size: 17px;
         }
-
         &.error {
           color: #e50914;
         }
       }
     }
-
     .check {
       display: flex;
       align-items: center;
@@ -633,7 +687,6 @@ const Container = styled.div`
       margin-top: 15px;
       font-size: 14px;
       color: var(--NeutralGrey4-Text);
-
       input[type="checkbox"] {
         appearance: none;
         width: 18px;
@@ -644,14 +697,12 @@ const Container = styled.div`
         position: relative;
         transition: all 0.2s ease;
       }
-
       input[type="checkbox"]:checked {
         background-color: var(--PrimaryBase);
         border-color: var(--PrimaryBase);
         transform: scale(1.1);
         box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
       }
-
       input[type="checkbox"]:checked::after {
         content: "✔";
         color: #fff;
@@ -660,18 +711,15 @@ const Container = styled.div`
         top: -1px;
         left: 3px;
       }
-
       label {
         cursor: pointer;
         user-select: none;
       }
     }
-
     .btn_holder {
       display: flex;
       height: 43px;
       justify-content: space-between;
-
       .btn {
         height: 100%;
         width: 100%;
@@ -680,7 +728,6 @@ const Container = styled.div`
         color: var(--PrimaryBase);
         font-size: 16px;
         font-weight: 600;
-
         &:hover {
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
@@ -709,7 +756,6 @@ const Container = styled.div`
         position: absolute;
         border-radius: 8px;
         gap: 20px;
-
         .content-holder {
           width: 462px;
           height: 200px;
@@ -763,7 +809,6 @@ const Container = styled.div`
     height: 20px;
     width: 80%;
     padding-top: 70px;
-
     .icon_holder {
       display: flex;
       margin-left: 70px;
@@ -771,7 +816,6 @@ const Container = styled.div`
       width: 100%;
       height: 100%;
       align-items: center;
-
       .iconn {
         font-size: 20px;
         cursor: pointer;

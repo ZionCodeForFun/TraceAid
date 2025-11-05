@@ -1,130 +1,125 @@
 import React, { useState } from "react";
 import InputField from "../../../common/InputField";
 import Button from "../../../common/Button";
-import { GoPaperclip } from "react-icons/go";
-import { IoCloseSharp } from "react-icons/io5";
 import styled from "styled-components";
-import { CiCircleAlert } from "react-icons/ci";
 import { toast } from "react-toastify";
 import ReactDOM from "react-dom";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
 
-const AddMilestone = ({ onClose, campaign }) => {
-  const nav = useNavigate();
-  const [state, setState] = useState({
-    fileCount: 0,
-    error: false,
+const AddMilestone = ({ onClose }) => {
+  const [milestone, setMilestone] = useState({
     title: "",
     amount: "",
     duration: "",
     description: "",
-    showSuccess: false,
   });
+  const [error, setError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  const {
-    fileCount,
-    error,
-    title,
-    amount,
-    duration,
-    description,
-    showSuccess,
-  } = state;
+ 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setMilestone((prev) => ({ ...prev, [name]: value }));
+    setError(false);
+  };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { title, amount, duration, description } = milestone;
 
     if (!title.trim()) {
-      setState((prev) => ({ ...prev, error: true }));
+      setError(true);
       return;
     }
 
     toast.success("Milestone saved successfully");
-    setState((prev) => ({ ...prev, showSuccess: true }));
+    setShowSuccess(true);
+
+    setTimeout(() => {
+      onClose(true, {
+        title,
+        description,
+        amount,
+        duration,
+      });
+    }, 1000);
   };
 
   return ReactDOM.createPortal(
     <Container>
       <aside className="right">
         <div className="title">
-          <p className="bigtext">Milestone Update</p>
-          <p className="smalltext">Milestone 1</p>
+          <p className="bigtext">Add Milestone</p>
+          <p className="smalltext">Define a milestone for your campaign</p>
         </div>
 
-        <form className="input_holder" onSubmit={handleSubmit}>
-          <div className="name_holder">
-            <label>Milestone Title</label>
-            <InputField
-              type="text"
-              placeholder="Stationaries"
-              value={title}
-              onChange={(e) =>
-                setState((prev) => ({
-                  ...prev,
-                  title: e.target.value,
-                  error: false,
-                }))
-              }
-            />
-          </div>
+        {!showSuccess ? (
+          <form className="input_holder" onSubmit={handleSubmit}>
+            <div className="name_holder">
+              <label>Milestone Title</label>
+              <InputField
+                type="text"
+                name="title"
+                placeholder="Enter milestone title"
+                value={milestone.title}
+                onChange={handleChange}
+              />
+            </div>
 
-          <div className="name_holder">
-            <label>Amount</label>
-            <InputField
-              type="text"
-              placeholder="Enter amount"
-              value={amount}
-              onChange={(e) =>
-                setState((prev) => ({ ...prev, amount: e.target.value }))
-              }
-            />
-          </div>
+            <div className="name_holder">
+              <label>Amount</label>
+              <InputField
+                type="text"
+                name="amount"
+                placeholder="Enter target amount"
+                value={milestone.amount}
+                onChange={handleChange}
+              />
+            </div>
 
-          <div className="name_holder">
-            <label>Duration (Date)</label>
-            <InputField
-              type="text"
-              placeholder="Enter your duration date"
-              value={duration}
-              onChange={(e) =>
-                setState((prev) => ({ ...prev, duration: e.target.value }))
-              }
-            />
-          </div>
+            <div className="name_holder">
+              <label>Duration (days)</label>
+              <InputField
+                type="text"
+                name="duration"
+                placeholder="Enter milestone duration"
+                value={milestone.duration}
+                onChange={handleChange}
+              />
+            </div>
 
-          <div className="name_holder">
-            <label>Description</label>
-            <InputField
-              type="text"
-              placeholder="Description"
-              value={description}
-              onChange={(e) =>
-                setState((prev) => ({ ...prev, description: e.target.value }))
-              }
-            />
-          </div>
+            <div className="name_holder">
+              <label>Description</label>
+              <InputField
+                type="text"
+                name="description"
+                placeholder="Enter milestone description"
+                value={milestone.description}
+                onChange={handleChange}
+              />
+            </div>
 
-          <div className="btn_holder">
-            <Button text="Save Milestones" className="btn" type="submit" />
-          </div>
+            {error && (
+              <p style={{ color: "#e50914", fontSize: 12 }}>
+                Milestone title is required
+              </p>
+            )}
 
-          <IoCloseSharp onClick={() => onClose(false)} className="btn_close" />
-        </form>
-        {showSuccess && (
+            <div className="btn_holder">
+              <Button text="Save Milestone" className="btn" type="submit" />
+            </div>
+          </form>
+        ) : (
           <div className="holder">
             <div className="reciept_holder">
               <div className="content-holder">
-                <i>
-                  <IoMdCheckmarkCircleOutline />
-                </i>
                 <p className="bigtext">Milestone Submitted</p>
                 <p className="smalltext">
-                  Milestone achievement have been submitted for verification
+                  Milestone achievement has been submitted for verification
                 </p>
               </div>
               <Button
-                onClick={() => nav("/organization")}
+                onClick={() => onClose(false)}
                 text="Close"
                 className="close_btn"
               />
@@ -144,15 +139,15 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-color: rgb(141, 141, 141, 0.5);
+  background-color: rgba(141, 141, 141, 0.5);
   position: fixed;
-  top: 0%;
+  top: 0;
   width: 100%;
   z-index: 9999;
 
   .right {
     width: 650px;
-    height: max-content;
+    height: 90vh;
     padding: 20px 40px;
     display: flex;
     flex-direction: column;
@@ -161,6 +156,7 @@ const Container = styled.div`
     border-radius: 40px;
     border: 1px solid var(--Neutral_Grey1);
     background-color: var(--Neutral_Offwhite);
+    position: relative;
 
     .title {
       display: flex;
@@ -170,7 +166,7 @@ const Container = styled.div`
 
       .bigtext {
         color: var(--NeutralGrey4-Text);
-        font-size: 40px;
+        font-size: 36px;
         font-weight: 700;
       }
       .smalltext {
@@ -182,149 +178,107 @@ const Container = styled.div`
 
     .input_holder {
       width: 90%;
-      height: max-content;
       display: flex;
       flex-direction: column;
-      justify-content: end;
-      position: relative;
-      gap: 19px;
+      gap: 15px;
 
       .name_holder {
         display: flex;
         flex-direction: column;
-        height: 61px;
-        position: relative;
         gap: 5px;
 
         label {
           font-size: 14px;
-          font-weight: 400;
           color: var(--NeutralGrey4-Text);
         }
 
         input {
           width: 100%;
-          padding: 10px 35px;
-          border-radius: 12px;
+          padding: 10px 15px;
+          border-radius: 8px;
           border: 1px solid var(--Neutral_Grey1);
           outline: none;
-          color: #8d8d8d;
-          height: 48px;
-          font-size: 16px;
-        }
-
-        i {
-          position: absolute;
-          top: 52%;
-          left: 2%;
-          color: #8d8d8d;
-          font-size: 20px;
-        }
-
-        .choose_file {
-          position: absolute;
-          top: 50%;
-          right: 4%;
-          color: var(--PrimaryBase);
-          font-weight: 400;
-          font-size: 16px;
-          cursor: pointer;
+          height: 45px;
+          font-size: 14px;
+          color: #333;
         }
       }
 
       .btn_close {
         position: absolute;
-        top: -27%;
-        right: 2%;
+        top: 10px;
+        right: 10px;
         cursor: pointer;
         font-size: 24px;
         color: #8d8d8d;
       }
-    }
 
-    .btn_holder {
-      display: flex;
-      height: 43px;
-      justify-content: space-between;
-      margin-top: 30px;
+      .btn_holder {
+        margin-top: 15px;
 
-      .btn {
-        height: 100%;
-        width: 100%;
-        border-radius: 8px;
-        background-color: var(--NeutralBlack);
-        color: var(--PrimaryBase);
-        font-size: 16px;
-        font-weight: 600;
+        .btn {
+          width: 100%;
+          height: 43px;
+          border-radius: 8px;
+          background-color: var(--NeutralBlack);
+          color: var(--PrimaryBase);
+          font-weight: 600;
 
-        &:hover {
-          background-color: var(--PrimaryBase);
-          color: var(--NeutralBlack);
+          &:hover {
+            background-color: var(--PrimaryBase);
+            color: var(--NeutralBlack);
+          }
         }
       }
     }
+
     .holder {
-      height: 90vh;
+      height: 100%;
       width: 100%;
-      top: 20%;
-      left: 0%;
-      z-index: 9999;
       position: fixed;
-      background-color: rgb(192, 192, 192, 0.3);
+      top: 0;
+      left: 0;
+      background-color: rgba(192, 192, 192, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
       .reciept_holder {
+        width: 450px;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 12px;
         display: flex;
-        width: 512px;
-        height: 318px;
         flex-direction: column;
-        background-color: white;
         align-items: center;
-        padding: 20px;
-        top: 12%;
-        left: 30%;
-        z-index: 9999;
-        position: absolute;
-        border-radius: 8px;
+        gap: 20px;
+
         .content-holder {
-          width: 462px;
-          height: 164px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 20px;
           text-align: center;
+
           i {
-            height: 64px;
-            width: 64px;
-            background-color: black;
-            font-size: 32px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 48px;
             color: #00a63e;
-            background-color: #dcfce7;
+            margin-bottom: 10px;
           }
+
           .bigtext {
             font-size: 18px;
             font-weight: 700;
           }
-          .small {
+
+          .smalltext {
             font-size: 14px;
-            font-weight: 400;
           }
         }
+
         .close_btn {
-          height: 36px;
-          width: 133px;
-          border: 1px solid var(--Neutral_Grey1);
-          color: #0a0a0a;
-          font-size: 14px;
-          margin-top: 20px;
-          background-color: white;
-          font-weight: 400;
-          font-family: Arial, Helvetica, sans-serif;
+          width: 100%;
+          padding: 10px;
           border-radius: 8px;
-          cursor: pointer;
+          background-color: var(--NeutralBlack);
+          color: var(--PrimaryBase);
+          font-weight: 600;
         }
       }
     }

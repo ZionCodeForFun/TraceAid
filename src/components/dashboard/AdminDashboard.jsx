@@ -7,7 +7,6 @@ const AdminDashboard = () => {
 
   if (role !== "admin") {
     const handleSimulate = () => {
-      // write a simple simulateAuth entry to localStorage for dev/testing
       if (typeof window !== "undefined") {
         localStorage.setItem(
           "simulateAuth",
