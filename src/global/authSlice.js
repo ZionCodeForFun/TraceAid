@@ -23,7 +23,7 @@ const authSlice = createSlice({
     },
     setUser: (state, action) => {
       state.user = action.payload;
-      console.log(action.payload);
+     
     },
      setToken: (state, action) => {
       state.token = action.payload;

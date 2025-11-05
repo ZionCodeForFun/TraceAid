@@ -1,10 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { X, Check, Slash } from "lucide-react";
+import { X } from "lucide-react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
+  if (!campaign) return null;
+
+  const { token } = useSelector((state) => state.adminAuth);
+  const [loading, setLoading] = useState(false);
+
+  const status = campaign.Status?.toLowerCase();
+  const isPending = status === "pending";
+  const isApproved = status === "approved";
+  const isRejected = status === "rejected";
+
+  const handleDecision = async (decision) => {
+    try {
+      setLoading(true);
+      await axios.patch(
+        `${import.meta.env.VITE_BaseUrl_AdminVCampaign}/review/${campaign._id}`,
+        { action: decision },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      toast.success(`Campaign ${decision} successfully`);
+      onClose();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to update campaign");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Overlay>
       <Container>
@@ -42,21 +75,45 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
             <SectionTitle>NGO Information</SectionTitle>
             <NGOInfo>
               <NGOName>{campaign.NGO}</NGOName>
-              <Badge className="status-pending">Pending</Badge>
+              <Badge
+                className={
+                  isPending
+                    ? "status-pending"
+                    : isApproved
+                    ? "status-approved"
+                    : "status-rejected"
+                }
+              >
+                {campaign.Status}
+              </Badge>
             </NGOInfo>
           </NGOSection>
         </Body>
 
         <Footer>
-          <RejectBtn>
-            <IoCloseCircleOutline size={16} className="icon" />
-            Reject
-          </RejectBtn>
+          {isPending ? (
+            <>
+              <RejectBtn
+                onClick={() => handleDecision("rejected")}
+                disabled={loading}
+              >
+                <IoCloseCircleOutline size={16} className="icon" />
+                {loading ? "Processing..." : "Reject"}
+              </RejectBtn>
 
-          <ApproveBtn>
-            <IoMdCheckmarkCircleOutline size={16} className="icon" />
-            Approve
-          </ApproveBtn>
+              <ApproveBtn
+                onClick={() => handleDecision("approved")}
+                disabled={loading}
+              >
+                <IoMdCheckmarkCircleOutline size={16} className="icon" />
+                {loading ? "Processing..." : "Approve"}
+              </ApproveBtn>
+            </>
+          ) : (
+            <StatusMessage approved={isApproved}>
+              This campaign has already been {campaign.Status}.
+            </StatusMessage>
+          )}
         </Footer>
       </Container>
     </Overlay>
@@ -64,6 +121,7 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
 };
 
 export default CampaignDetailsPendingModal;
+
 
 const Overlay = styled.div`
   position: fixed;
@@ -153,23 +211,15 @@ const Value = styled.p`
   margin-top: 2px;
 `;
 
-const Section = styled.div``;
+const NGOSection = styled.div`
+  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
+`;
 
 const SectionTitle = styled.h3`
   font-size: 1rem;
   font-weight: 700;
   margin-bottom: 6px;
-`;
-
-const Desc = styled.p`
-  font-size: 0.875rem;
-  color: #374151;
-  line-height: 1.5;
-`;
-
-const NGOSection = styled.div`
-  padding-top: 16px;
-  border-top: 1px solid #f3f4f6;
 `;
 
 const NGOInfo = styled.div`
@@ -197,6 +247,16 @@ const Badge = styled.span`
     background-color: #eceef2;
     color: #67940b;
   }
+
+  &.status-approved {
+    background-color: #dcfce7;
+    color: #166534;
+  }
+
+  &.status-rejected {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
 `;
 
 const Footer = styled.div`
@@ -222,6 +282,11 @@ const BaseButton = styled.button`
   .icon {
     margin-right: 8px;
   }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 `;
 
 const RejectBtn = styled(BaseButton)`
@@ -234,12 +299,23 @@ const RejectBtn = styled(BaseButton)`
     transform: rotate(45deg);
   }
 
-  &:hover {
+  &:hover:enabled {
     background-color: #f3f4f6;
   }
 `;
 
 const ApproveBtn = styled(BaseButton)`
-  color: #c1e86e;
-  background-color: #030213;
+  color: white;
+  background-color: #16a34a;
+  border: 1px solid #16a34a;
+
+  &:hover:enabled {
+    background-color: #059669;
+    border-color: #059669;
+  }
+`;
+
+const StatusMessage = styled.span`
+  font-weight: 600;
+  color: ${({ approved }) => (approved ? "#16a34a" : "#dc2626")};
 `;
