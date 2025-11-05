@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
-
 import HeaderNav from "./HeaderNav";
 import Footer from "./Footer.jsx";
 import {
@@ -24,9 +22,6 @@ import {
 
 const CampaignDetails = () => {
   const { id } = useParams();
-  const token = useSelector((state) => state.auth.token);
-
-  console.log("Redux token =>", token);
 
   const [campaign, setCampaign] = useState(null);
   const [milestones, setMilestones] = useState([]);
@@ -43,13 +38,7 @@ const CampaignDetails = () => {
     setErrText("");
 
     const res = await axios.get(
-      `${VITE_campaignBaseUrl}/get-campaigns-milestones`,
-      {
-        params: { id },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `${VITE_campaignBaseUrl}/get-campaign-and-milestones/${id}`
     );
 
     console.log("Campaign details response:", res.data);

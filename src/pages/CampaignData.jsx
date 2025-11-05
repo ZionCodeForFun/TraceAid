@@ -149,7 +149,6 @@ const CampaignData = () => {
                 return (
                   <CampaignCard
                     key={item._id}
-                    onClick={() => nav(`/campaign_details/${item._id}`)}
                     style={{ cursor: "pointer" }}
                   >
                     <CampaignImage>
@@ -186,7 +185,7 @@ const CampaignData = () => {
                       </ProgressRow>
                     </CampaignContent>
 
-                    <DonateButton>Donate Now</DonateButton>
+                    <DonateButton onClick={() => nav(`/campaign_details/${item._id}`)}>Donate Now</DonateButton>
                   </CampaignCard>
                 );
               })}
