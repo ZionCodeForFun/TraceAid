@@ -6,6 +6,14 @@ export const PageContainer = styled.div`
   font-family: Arial, sans-serif;
   width: 100%;
   max-width: 1250px;
+
+  @media (max-width: 768px) {
+    padding: 18px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    padding: 25px;
+  }
 `;
 
 export const SettingsSection = styled.div`
@@ -16,6 +24,14 @@ export const SettingsSection = styled.div`
   margin-bottom: 30px;
   width: 100%;
   max-width: 1250px;
+
+  @media (max-width: 768px) {
+    padding: 18px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    padding: 22px;
+  }
 `;
 
 export const SectionTitle = styled.h2`
@@ -23,18 +39,40 @@ export const SectionTitle = styled.h2`
   font-weight: 600;
   margin-bottom: 3px;
   color: #333;
+
+  @media (max-width: 768px) {
+    font-size: 17px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    font-size: 18px;
+  }
 `;
 
 export const SectionSubtitle = styled.p`
   font-size: 14px;
   color: #777;
   margin-bottom: 30px;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 export const FieldGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px 40px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 25px;
+  }
 `;
 
 export const FieldGroup = styled.div`
@@ -48,6 +86,10 @@ export const FieldLabel = styled.label`
   color: #424242;
   margin-bottom: 10px;
   margin-top: 15px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 export const StaticField = styled.div`
@@ -62,6 +104,10 @@ export const StaticField = styled.div`
   display: flex;
   align-items: center;
   white-space: pre-wrap;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 export const SaveButton = styled.button`
@@ -75,12 +121,21 @@ export const SaveButton = styled.button`
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size: 14px;
+  }
 `;
 
 export const ButtonRow = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 export const ToggleContainer = styled.div`
@@ -89,12 +144,22 @@ export const ToggleContainer = styled.div`
   align-items: center;
   margin-bottom: 15px;
   margin-top: 10px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 `;
 
 export const ToggleLabel = styled.span`
   font-size: 16px;
   color: #313131;
   font-weight: 500;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 export const Switch = styled.label`
@@ -147,6 +212,12 @@ export const TableHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
 `;
 
 export const AddAdminButton = styled.button`
@@ -168,6 +239,11 @@ export const AddAdminButton = styled.button`
   svg {
     margin-right: 8px;
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 export const AdminTable = styled.table`
@@ -179,24 +255,26 @@ export const AdminTable = styled.table`
   td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #eee;
-    border-top: 1px solid #eee;
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
+    border: 1px solid #eee;
   }
 
   th {
     background-color: transparent;
     font-weight: 600;
     color: #555;
-    border-bottom: 1px solid #eee;
-    border-top: 1px solid #eee;
-    border-left: 1px solid #eee;
-    border-right: 1px solid #eee;
   }
 
   tr:last-child td {
     border-bottom: none;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+    th,
+    td {
+      padding: 10px 8px;
+      white-space: nowrap;
+    }
   }
 `;
 
@@ -207,6 +285,7 @@ export const StatusTag = styled.span`
   padding: 4px 8px;
   border-radius: 4px;
   font-weight: 600;
+  font-size: 13px;
 `;
 
 export const DeleteButton = styled.button`

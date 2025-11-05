@@ -64,7 +64,6 @@ const AdminSettings = () => {
 
   return (
     <PageContainer>
-      {/* General Settings */}
       <SettingsSection>
         <SectionTitle>General Settings</SectionTitle>
         <SectionSubtitle>Manage basic platform configuration</SectionSubtitle>

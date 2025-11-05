@@ -23,14 +23,14 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     background-color: var(--Neutral_Offwhite);
-    border-radius: 28px; /* smoother corners */
+    border-radius: 28px; 
     border: 0.5px solid var(--Neutral_Grey1);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    height: auto; /* removed fixed 850px */
+    height: auto;
 
     .img_holder {
       width: 100%;
-      height: 60px; /* reduced from 75px */
+      height: 60px; 
       display: flex;
       justify-content: center;
       align-items: center;
@@ -78,23 +78,12 @@ export const Container = styled.div`
           font-size: 28px;
           font-weight: 700;
           color: var(--NeutralGrey4-Text);
-
-          @media (max-width: 768px) {
-            font-size: 22px;
-          }
-          @media (max-width: 480px) {
-            font-size: 18px;
-          }
         }
 
         .text {
           font-size: 14px;
           color: var(--NeutralGrey4-Text);
           font-weight: 400;
-
-          @media (max-width: 480px) {
-            font-size: 11px;
-          }
         }
       }
 
@@ -110,27 +99,22 @@ export const Container = styled.div`
           background-color: white;
           border: 2px solid var(--Primary700);
           color: var(--NeutralGrey4-Text);
-          font-size: 14px; /* reduced */
+          font-size: 14px;
           font-weight: 600;
           padding: 10px 20px;
           height: 42px;
-          width: 400px;
-
+          width: 100%;
+          min-width: 400px;
           border-radius: 10px;
           transition: all 0.3s ease;
-
+        
+    @media screen and (min-width: 480px) and (max-width: 768px) {
+      max-width: 100px;
+    }
           &:hover {
             background-color: var(--Primary200);
           }
-
-          @media (max-width: 768px) {
-            font-size: 13px;
-          }
-
-          @media (max-width: 480px) {
-            font-size: 12px;
-            padding: 8px 10px;
-          }
+          
         }
 
         .line-text {
@@ -145,11 +129,6 @@ export const Container = styled.div`
           font-size: 14px;
           width: 100%;
           max-width: 400px;
-
-          @media (max-width: 480px) {
-            font-size: 11px;
-            margin: 10px 0;
-          }
 
           &::before,
           &::after {
@@ -174,15 +153,6 @@ export const Container = styled.div`
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
         }
-
-        @media (max-width: 768px) {
-          font-size: 13px;
-        }
-
-        @media (max-width: 480px) {
-          font-size: 12px;
-          padding: 8px 10px;
-        }
       }
 
       .custom-checkbox {
@@ -202,15 +172,11 @@ export const Container = styled.div`
           background-color: var(--NeutralBlack);
           border-color: var(--NeutralGrey4-Text);
         }
-
-        @media (max-width: 480px) {
-          font-size: 12px;
-        }
       }
+
       .already {
         display: flex;
         align-items: center;
-
         width: 100%;
         margin-top: 20px;
         gap: 6px;
@@ -227,23 +193,70 @@ export const Container = styled.div`
       }
     }
 
+    @media (max-width: 900px) {
+      max-width: 600px;
+      padding: 35px;
+
+      .title .log {
+        font-size: 24px;
+      }
+    }
+
     @media (max-width: 768px) {
       width: 85%;
       padding: 25px;
       border-radius: 20px;
+
+      .title .log {
+        font-size: 22px;
+      }
+
+      .footer .google_btn {
+        font-size: 13px;
+       
+        
+      }
+
+      .footer .line-text {
+        font-size: 12px;
+      }
+
+      .login_btn {
+        font-size: 13px;
+      }
     }
 
     @media (max-width: 480px) {
       width: 95%;
       padding: 15px;
       border-radius: 18px;
-    }
 
-    @media screen and (min-width: 600px) and (max-width: 900px) {
-      max-width: 600px;
-      padding: 35px;
       .title .log {
-        font-size: 24px;
+        font-size: 18px;
+      }
+
+      .title .text {
+        font-size: 11px;
+      }
+
+      .footer .google_btn {
+        font-size: 12px;
+        padding: 8px 10px;
+        width: 100%;
+      }
+
+      .footer .line-text {
+        font-size: 11px;
+        margin: 10px 0;
+      }
+
+      .login_btn {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+
+      .custom-checkbox {
+        font-size: 12px;
       }
     }
   }

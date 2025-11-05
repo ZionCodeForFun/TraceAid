@@ -15,6 +15,21 @@ export const AdminHeaderInner = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    width: 100%;
+    padding: 0 1rem;
+    height: 60px;
+  }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    width: 100%;
+    padding: 0 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    height: auto;
+  }
 `;
 
 export const AdminHeaderLeft = styled.div`
@@ -25,6 +40,22 @@ export const AdminHeaderLeft = styled.div`
   img {
     height: 29px;
     cursor: pointer;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    width: 25%;
+    img {
+      height: 25px;
+    }
+  }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+
+    img {
+      height: 24px;
+    }
   }
 `;
 
@@ -43,14 +74,14 @@ export const AdminHeaderCenter = styled.div`
     border-radius: 8px;
     gap: 10px;
     cursor: pointer;
-    
+
     .logo {
       color: #717182;
       display: flex;
       align-items: center;
       cursor: pointer;
     }
-    
+
     input {
       cursor: pointer;
       width: 100%;
@@ -59,6 +90,25 @@ export const AdminHeaderCenter = styled.div`
       color: #717182;
       font-size: 14px;
       outline: none;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    width: 50%;
+
+    .holder {
+      width: 100%;
+      height: 34px;
+    }
+  }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+
+    .holder {
+      width: 100%;
+      height: 34px;
     }
   }
 `;
@@ -100,6 +150,46 @@ export const AdminHeaderRight = styled.div`
       .email {
         font-size: 12px;
         color: #6b7280;
+      }
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    width: 30%;
+    justify-content: flex-end;
+
+    .left {
+      gap: 8px;
+      .name {
+        font-size: 14px;
+      }
+      .email {
+        font-size: 11px;
+      }
+    }
+  }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+    padding-right: 0;
+
+    .left {
+      gap: 6px;
+
+      .profile_holder {
+        width: 32px;
+        height: 32px;
+      }
+
+      .name_holder {
+        align-items: center;
+        .name {
+          font-size: 14px;
+        }
+        .email {
+          font-size: 11px;
+        }
       }
     }
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import { IoSearch } from "react-icons/io5";
-import { LuShieldCheck, LuMagnet  } from "react-icons/lu";
+import { LuShieldCheck, LuMagnet } from "react-icons/lu";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { TbHeartHandshake } from "react-icons/tb";
 
@@ -26,7 +26,6 @@ import {
   CommunityContent,
   CommunityStat,
   CommunityButton,
-  // ApiSection,
 } from "./LandingPageStyled.jsx";
 
 import CampaignData from "./CampaignData.jsx";

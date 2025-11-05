@@ -7,7 +7,15 @@ export const Container = styled.div`
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  border:1px solid #ececf0;
+  border: 1px solid #ececf0;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    padding: 20px;
+  }
 `;
 
 export const Title = styled.h2`
@@ -15,6 +23,14 @@ export const Title = styled.h2`
   font-weight: 600;
   color: #111;
   margin: 0px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    font-size: 19px;
+  }
 `;
 
 export const Subtitle = styled.p`
@@ -32,13 +48,19 @@ export const TopBar = styled.div`
   background: transparent;
   border-radius: 8px;
   width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
 `;
+
 export const AdminCampaignInput = styled.div`
   width: 100%;
   display: flex;
   gap: 20px;
 
-  
   .campaign-info {
     width: 100%;
     display: flex;
@@ -111,7 +133,27 @@ export const AdminCampaignInput = styled.div`
     }
   }
 
-  `;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 12px;
+
+    .campaign-info {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .status-info {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    .campaign-info {
+      gap: 15px;
+    }
+  }
+`;
 
 export const StatusFilter = styled.div`
   select {
@@ -130,11 +172,15 @@ export const Table = styled.div`
   border: 1px solid #ececf0;
   border-radius: 12px;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    overflow-x: auto;
+  }
 `;
 
 export const TableHeader = styled.div`
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr 1.5fr 1.5fr 1.1fr ;
+  grid-template-columns: 2fr 2fr 2fr 1.5fr 1.5fr 1.1fr;
   padding: 12px 20px;
   font-weight: 600;
   color: #222;
@@ -142,25 +188,36 @@ export const TableHeader = styled.div`
   border-bottom: 1px solid #ececf0;
 
   span:nth-last-child(2) {
-margin-left: 20px;
-}
+    margin-left: 20px;
+  }
   span:nth-last-child(1) {
-margin-left: 20px;
-}
- span:nth-last-child(5) {
-margin-left: 20px;
-}
- span:nth-last-child(4) {
-margin-left: 30px;
-}
- span:nth-last-child(3) {
-margin-left: 30px;
-}
-  `;
+    margin-left: 20px;
+  }
+  span:nth-last-child(5) {
+    margin-left: 20px;
+  }
+  span:nth-last-child(4) {
+    margin-left: 30px;
+  }
+  span:nth-last-child(3) {
+    margin-left: 30px;
+  }
+
+  @media (max-width: 768px) {
+    min-width: 700px;
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr 1fr 1fr;
+    font-size: 14px;
+  }
+`;
 
 export const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr 1fr 1.5fr 0.9fr ;
+  grid-template-columns: 2fr 2fr 2fr 1fr 1.5fr 0.9fr;
   align-items: center;
   padding: 12px 20px;
   border-bottom: 1px solid #ececf0;
@@ -170,16 +227,29 @@ export const TableRow = styled.div`
   &:last-child {
     border-bottom: none;
   }
-    & > div:nth-child(3) {
-    margin-right: 45px; 
+
+  & > div:nth-child(3) {
+    margin-right: 45px;
   }
-    span:nth-last-child(2) {
+
+  span:nth-last-child(2) {
     margin-right: 80px;
   }
-    span:nth-last-child(3) {
+
+  span:nth-last-child(3) {
     margin-right: 40px;
   }
 
+  @media (max-width: 768px) {
+    min-width: 700px;
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr 1fr 1fr;
+    font-size: 14px;
+  }
 `;
 
 export const NGOName = styled.span`
@@ -189,21 +259,21 @@ export const NGOName = styled.span`
 
 export const StatusTag = styled.span`
   background-color: ${({ status }) =>
-    status === "verified"
-      ? "#4b7e1f"
-      : status === "pending"
-      ? "#f3f3f3"
-      : status === "rejected"
-      ? "#ff0000c5"
-      : "#f3f3f3"};
+    status === 'verified'
+      ? '#4b7e1f'
+      : status === 'pending'
+      ? '#f3f3f3'
+      : status === 'rejected'
+      ? '#ff0000c5'
+      : '#f3f3f3'};
   color: ${({ status }) =>
-    status === "verified"
-      ? "#fff"
-      : status === "pending"
-      ? "#000"
-      : status === "rejected"
-      ? "#fff"
-      : "#555"};
+    status === 'verified'
+      ? '#fff'
+      : status === 'pending'
+      ? '#000'
+      : status === 'rejected'
+      ? '#fff'
+      : '#555'};
   font-weight: 500;
   font-size: 13px;
   padding: 6px 6px;
@@ -233,8 +303,9 @@ export const ActionButton = styled.button`
   svg {
     font-size: 16px;
   }
+
+  @media (max-width: 768px) {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
 `;
-
-
-
-

@@ -158,6 +158,11 @@ const HeaderNav = () => {
 
 export default HeaderNav;
 
+
+
+
+
+
 export const NavBar = styled.nav`
   width: 100%;
   height: 70px;
@@ -171,11 +176,20 @@ export const NavBar = styled.nav`
   justify-content: space-between;
   background-color: #f8f9fa;
   transition: box-shadow 0.3s ease;
-  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); */
   cursor: pointer;
 
   &.scrolled {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    height: 60px;
+    padding: 0.8rem 3%;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    height: 65px;
+    padding: 0.9rem 4%;
   }
 `;
 
@@ -183,6 +197,14 @@ export const LeftSection = styled.div`
   display: flex;
   align-items: center;
   gap: 2rem;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    gap: 1rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    gap: 1.5rem;
+  }
 `;
 
 export const LogoContainer = styled.div`
@@ -193,12 +215,28 @@ export const LogoContainer = styled.div`
   img {
     height: 35px;
     object-fit: contain;
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      height: 30px;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      height: 32px;
+    }
   }
 
   span {
     font-size: 1.3rem;
     font-weight: 700;
     color: #000000;
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      font-size: 1.1rem;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      font-size: 1.2rem;
+    }
   }
 
   .divider {
@@ -206,6 +244,14 @@ export const LogoContainer = styled.div`
     height: 45px;
     background-color: #a8a8a8;
     margin-left: 0.8rem;
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      height: 35px;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      height: 40px;
+    }
   }
 `;
 
@@ -225,6 +271,22 @@ export const NavLinks = styled.ul`
     &:hover {
       color: #617437;
     }
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      font-size: 0.8rem;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    gap: 0.8rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    gap: 1rem;
   }
 `;
 
@@ -246,6 +308,16 @@ export const ButtonGroup = styled.div`
       background-color: #d5e3b9ff;
       color: #333333;
     }
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      padding: 0.5rem 1.2rem;
+      font-size: 0.8rem;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      padding: 0.55rem 1.4rem;
+      font-size: 0.85rem;
+    }
   }
 
   .create {
@@ -262,6 +334,24 @@ export const ButtonGroup = styled.div`
       background-color: #c1e86e;
       color: #1a1a1a;
     }
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      padding: 0.55rem 1.1rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    gap: 0.7rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    gap: 0.9rem;
   }
 `;
 
@@ -272,49 +362,68 @@ export const ProfileWrapper = styled.div`
   cursor: pointer;
   position: relative;
 
-  .profile-img {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
+  .profile-img,
   .initials {
     width: 42px;
     height: 42px;
-    background-color: #354f25;
-    color: #ffffff;
-    font-size: 0.95rem;
-    font-weight: 700;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      width: 36px;
+      height: 36px;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      width: 38px;
+      height: 38px;
+    }
   }
 
-  .info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-    h4 {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #1a1a1a;
+  .initials {
+    font-size: 0.95rem;
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      font-size: 0.8rem;
     }
-    p {
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      font-size: 0.85rem;
+    }
+  }
+
+  .info h4 {
+    font-size: 0.9rem;
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      font-size: 0.8rem;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      font-size: 0.85rem;
+    }
+  }
+
+  .info p {
+    font-size: 0.75rem;
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      font-size: 0.7rem;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
       font-size: 0.75rem;
-      color: #555;
     }
   }
 
   .arrow {
     font-size: 1.4rem;
-    color: #1a1a1a;
-    transition: transform 0.3s ease;
-  }
 
-  .arrow.rotate {
-    transform: rotate(180deg);
+    @media (min-width: 480px) and (max-width: 768px) {
+      font-size: 1.2rem;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      font-size: 1.25rem;
+    }
   }
 `;
 
@@ -340,20 +449,26 @@ export const DropdownMenu = styled.ul`
 
     .icon {
       font-size: 1.1rem;
-      color: #3b7a57;
-      transition: color 0.3s ease;
-    }
 
-    &:hover .icon {
-      color: #000;
+      @media (min-width: 480px) and (max-width: 768px) {
+        font-size: 0.95rem;
+      }
+
+      @media (min-width: 600px) and (max-width: 900px) {
+        font-size: 1rem;
+      }
     }
   }
 
-  .logout .icon {
-    color: #b30000;
+  @media (min-width: 480px) and (max-width: 768px) {
+    width: 200px;
+    height: 180px;
+    padding: 0.8rem 1rem;
   }
 
-  .logout:hover .icon {
-    color: #7a0000;
+  @media (min-width: 600px) and (max-width: 900px) {
+    width: 220px;
+    height: 190px;
+    padding: 0.85rem 1.1rem;
   }
 `;

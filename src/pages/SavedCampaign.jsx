@@ -38,20 +38,70 @@ const MySavedCampaigns = () => {
 
 export default MySavedCampaigns;
 
-const SavedContainer = styled.div`
+// const SavedContainer = styled.div`
+//   width: 100%;
+//   padding: 5rem 8%;
+//   margin-top: 3rem;
+// `;
+
+// const GoBack = styled.div`
+//   display: flex;
+//   align-items: center;
+//   gap: 7px;
+//   font-size: 0.95rem;
+//   cursor: pointer;
+//   color: #444;
+//   margin-bottom: 2rem;
+
+//   span {
+//     margin-top: 2px;
+//   }
+
+//   &:hover {
+//     color: #000;
+//   }
+// `;
+
+// const Heading = styled.h2`
+//   font-size: 1.2rem;
+//   font-weight: 600;
+//   color: #000000;
+//   margin-top: 5rem;
+// `;
+
+// const SubText = styled.p`
+//   color: #6a6a6a;
+//   font-size: 0.8rem;
+//   margin-top: 0.5rem;
+//   color: #000000;
+// `;
+
+
+
+
+
+
+
+
+
+
+ const SavedContainer = styled.div`
   width: 100%;
-  padding: 5rem 8%;
-  margin-top: 3rem;
+  padding: clamp(2rem, 5vw, 5rem) clamp(3%, 8vw, 8%);
+  margin-top: clamp(1.5rem, 3vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vw, 3rem); /* Fluid spacing between child elements */
 `;
 
-const GoBack = styled.div`
+ const GoBack = styled.div`
   display: flex;
   align-items: center;
-  gap: 7px;
-  font-size: 0.95rem;
+  gap: clamp(5px, 1vw, 7px);
+  font-size: clamp(0.8rem, 1vw, 0.95rem);
   cursor: pointer;
   color: #444;
-  margin-bottom: 2rem;
+  margin-bottom: clamp(1rem, 2vw, 2rem);
 
   span {
     margin-top: 2px;
@@ -62,22 +112,15 @@ const GoBack = styled.div`
   }
 `;
 
-const Heading = styled.h2`
-  font-size: 1.2rem;
+ const Heading = styled.h2`
+  font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 600;
   color: #000000;
-  margin-top: 5rem;
+  margin-top: clamp(3rem, 5vw, 5rem);
 `;
 
-const SubText = styled.p`
-  color: #6a6a6a;
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
+ const SubText = styled.p`
   color: #000000;
+  font-size: clamp(0.7rem, 1vw, 0.8rem);
+  margin-top: clamp(0.25rem, 0.5vw, 0.5rem);
 `;
-
-// const EmptyState = styled.div`
-//   margin-top: 3rem;
-//   font-size: 1.1rem;
-//   color: #9d9d9d;
-// `;

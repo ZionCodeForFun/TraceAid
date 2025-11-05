@@ -9,19 +9,34 @@ export const Container = styled.div`
   flex-direction: column;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
   border: 1px solid #ececf0;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    border-radius: 12px;
+  }
 `;
 
 export const Title = styled.h2`
   font-size: 20px;
   font-weight: 600;
   color: #111;
-  margin: 0px;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    text-align: center;
+  }
 `;
 
 export const Subtitle = styled.p`
   font-size: 14px;
   color: #666;
   margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+    text-align: center;
+  }
 `;
 
 export const TopBar = styled.div`
@@ -30,10 +45,15 @@ export const TopBar = styled.div`
   align-items: center;
   gap: 20px;
   margin: 20px 0;
-  background: transparent;
-  border-radius: 8px;
   width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
 `;
+
 export const AdminCampaignInput = styled.div`
   width: 100%;
   display: flex;
@@ -45,7 +65,6 @@ export const AdminCampaignInput = styled.div`
     align-content: center;
     gap: 20px;
     padding: 0.5rem;
-    background: transparent;
 
     .campaign-section {
       height: 36px;
@@ -63,7 +82,6 @@ export const AdminCampaignInput = styled.div`
         padding: 0 0.75rem;
         border-radius: 8px;
         gap: 10px;
-        cursor: pointer;
 
         .logo {
           color: #717182;
@@ -72,7 +90,6 @@ export const AdminCampaignInput = styled.div`
         }
 
         input {
-          cursor: pointer;
           width: 100%;
           border: none;
           background: transparent;
@@ -93,7 +110,6 @@ export const AdminCampaignInput = styled.div`
       padding: 0.75rem;
       border-radius: 8px;
       gap: 10px;
-      cursor: pointer;
 
       .all-stat {
         font-size: 14px;
@@ -104,22 +120,44 @@ export const AdminCampaignInput = styled.div`
       .all-drop select {
         border: none;
         outline: none;
-        cursor: pointer;
         color: #717182;
         background: transparent;
+        cursor: pointer;
       }
     }
   }
-`;
 
-export const StatusFilter = styled.div`
-  select {
-    border: none;
-    outline: none;
-    background: transparent;
-    color: #444;
-    font-size: 14px;
-    cursor: pointer;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 12px;
+
+    .campaign-info {
+      flex-direction: column;
+      gap: 12px;
+
+      .campaign-section {
+        width: 100%;
+      }
+
+      .status-info {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    .campaign-info {
+      gap: 16px;
+
+      .campaign-section {
+        width: 80%;
+      }
+
+      .status-info {
+        width: 35%;
+      }
+    }
   }
 `;
 
@@ -128,7 +166,20 @@ export const Table = styled.div`
   flex-direction: column;
   border: 1px solid #ececf0;
   border-radius: 12px;
-  overflow: hidden;
+  overflow-x: auto;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+  }
+
+  @media (max-width: 768px) {
+    border-radius: 8px;
+  }
 `;
 
 export const TableHeader = styled.div`
@@ -137,8 +188,17 @@ export const TableHeader = styled.div`
   padding: 12px 20px;
   font-weight: 600;
   color: #222;
-  background-color: transparent;
   border-bottom: 1px solid #ececf0;
+  min-width: 850px;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr 1fr 1fr 1fr;
+  }
 `;
 
 export const TableRow = styled.div`
@@ -149,15 +209,19 @@ export const TableRow = styled.div`
   border-bottom: 1px solid #ececf0;
   font-size: 14px;
   color: #333;
+  min-width: 850px;
 
   &:last-child {
     border-bottom: none;
   }
-  & > div:nth-child(3) {
-    margin-right: 45px;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+    padding: 10px 14px;
   }
-  span:nth-last-child(2) {
-    margin-right: 40px;
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr 1fr 1fr 1fr;
   }
 `;
 
@@ -233,5 +297,10 @@ export const ActionButton = styled.button`
 
   svg {
     font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+    padding: 5px 8px;
   }
 `;

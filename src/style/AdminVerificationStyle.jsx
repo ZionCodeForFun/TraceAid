@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-
-
 export const AdminVerificationContainer = styled.div`
   height: 75vh;
   min-height: max-content;
@@ -10,6 +8,16 @@ export const AdminVerificationContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    padding: 15px;
+    gap: 25px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    padding: 18px;
+    gap: 30px;
+  }
 `;
 
 export const AdminVerificationTitle = styled.h2`
@@ -42,6 +50,28 @@ export const AdminVerificationTitle = styled.h2`
     &:hover {
       background-color: #9fd434ce;
       color: #fff;
+    }
+  }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    width: 100%;
+    font-size: 18px;
+
+    button {
+      width: 48%;
+      font-size: 14px;
+      padding: 6px 8px;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    width: 100%;
+    font-size: 20px;
+
+    button {
+      width: 45%;
+      font-size: 15px;
+      padding: 6px 10px;
     }
   }
 `;
@@ -83,6 +113,24 @@ export const AdminVerificationContent = styled.div`
       background: transparent;
     }
   }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    padding: 15px;
+
+    .status-info {
+      width: 100%;
+      font-size: 13px;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    padding: 18px;
+
+    .status-info {
+      width: 180px;
+      font-size: 14px;
+    }
+  }
 `;
 
 export const AdminVerificationTop = styled.div`
@@ -103,13 +151,31 @@ export const AdminVerificationTop = styled.div`
     line-height: 16px;
     color: #90909b;
   }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    text {
+      font-size: 16px;
+    }
+    .text1 {
+      font-size: 12px;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    text {
+      font-size: 17px;
+    }
+    .text1 {
+      font-size: 13px;
+    }
+  }
 `;
+
 export const AdminVerificationInput = styled.div`
   width: 100%;
   display: flex;
   gap: 20px;
 
-  
   .input-info {
     width: 100%;
     display: flex;
@@ -181,7 +247,34 @@ export const AdminVerificationInput = styled.div`
     }
   }
 
-  `;
+  @media (min-width: 480px) and (max-width: 768px) {
+    flex-direction: column;
+
+    .input-info {
+      flex-direction: column;
+      gap: 15px;
+
+      .input-section,
+      .status-info {
+        width: 100%;
+      }
+
+      .input-section .holder input {
+        font-size: 13px;
+      }
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    .input-info {
+      gap: 18px;
+
+      .input-section .holder input {
+        font-size: 13.5px;
+      }
+    }
+  }
+`;
 
 export const AdminVerificationItem = styled.div`
   height: auto;
@@ -201,7 +294,12 @@ export const TableContainer = styled.div`
   > * {
     width: 100%;
   }
-  `;
+
+  @media (max-width: 768px) {
+    overflow-x: auto;
+  }
+`;
+
 export const CampaignHeader = styled.div`
   display: grid;
   grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr 0fr; 
@@ -210,7 +308,17 @@ export const CampaignHeader = styled.div`
   border-bottom: 1px solid #e5e5e5;
   padding: 12px 20px;
   margin-left: 8px;
-  `;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    padding: 10px 12px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 11px 14px;
+  }
+`;
 
 export const HeaderItem = styled.span`
   font-size: 14px;
@@ -218,6 +326,7 @@ export const HeaderItem = styled.span`
   min-width: max-content;
   color: #333333;
 `;
+
 export const Header = styled.div`
   display: grid;
   grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr 0.6fr;
@@ -225,6 +334,16 @@ export const Header = styled.div`
   color: #222;
   border-bottom: 1px solid #e5e5e5;
   padding: 12px 20px;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    padding: 10px 12px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 11px 14px;
+  }
 `;
 
 export const Row = styled.div`
@@ -236,44 +355,73 @@ export const Row = styled.div`
   border-bottom: 1px solid #e5e5e5;
   padding: 12px 20px;
   width: 100%;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    font-size: 14px;
+    grid-row-gap: 8px;
+    padding: 10px 12px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 11px 14px;
+  }
 `;
-export const CampaignRow = styled.div`
-  display: grid;
-  grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 0.5fr 0fr; 
-  align-items: center;
-  color: #2f2f2f;
-  font-size: 15px;
-  border-bottom: 1px solid #e5e5e5;
-  padding: 12px 20px;
-  width: 100%;
-`;
+
+export const CampaignRow = styled(Row)``;
+
 export const Cell = styled.div`
   flex: 1;
   text-align: left;
   font-size: 14px;
   color: #333;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 13px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    font-size: 13.5px;
+  }
 `;
 
 export const CampaignName = styled.span`
   font-weight: 600;
   font-size: 14px;
   color: #333333;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 export const NGO = styled.span`
   color: #4a5565;
   font-size: 14px;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 export const CreatedDate = styled.span`
   color: #4a5565;
   font-size: 14px;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 export const Goal = styled.span`
   font-weight: 600;
   color: #333333;
   font-size: 14px;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 export const Status = styled.span`
@@ -286,12 +434,18 @@ export const Status = styled.span`
   margin-right: 20px;
   border-radius: 12px;
   text-align: center;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 12px;
+    padding: 6px 5px;
+    margin-right: 10px;
+  }
 `;
 
 export const MilestoneFundsStatus = styled.span`
   background-color: ${({ status }) =>
     status === "approved"
-      ? "#000" 
+      ? "#000"
       : status === "rejected"
       ? "#ff0004b9"
       : "#e5e5e5"};
@@ -304,31 +458,49 @@ export const MilestoneFundsStatus = styled.span`
   margin-right: 20px;
   border-radius: 12px;
   text-align: center;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 12px;
+    padding: 6px 8px;
+    margin-right: 10px;
+  }
 `;
 
 export const Actions = styled.button`
   background-color: transparent;
   color: black;
-  padding: 7px 6px; 
+  padding: 7px 6px;
   border-radius: 12px;
   border: 1px solid #e5e5e5;
-  font-size: 12px; 
+  font-size: 12px;
   cursor: pointer;
   font-weight: 500;
-  margin-left: 20px; 
+  margin-left: 20px;
 
   &:hover {
     background-color: #e5e5e5;
     color: #000000;
   }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 11px;
+    padding: 5px 4px;
+    margin-left: 10px;
+  }
 `;
+
 export const Evidence = styled.div`
   color: black;
-  font-size: 12px; 
+  font-size: 12px;
   cursor: pointer;
   font-weight: 500;
   display: flex;
   justify-content: start;
   align-content: center;
   padding-left: 30px;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 11px;
+    padding-left: 15px;
+  }
 `;

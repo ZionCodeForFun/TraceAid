@@ -5,7 +5,6 @@ import { LuImage } from "react-icons/lu";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
 import KycPending from "./modal/KycPending";
 
 import {
@@ -36,9 +35,8 @@ const KycReview = () => {
     try {
       setLoading(true);
       const url = statusFilter
-  ? `${baseUrl}/get-kyc-by-status?status=${statusFilter}`
-  : `${baseUrl}/get-all-kyc`;
-  
+        ? `${baseUrl}/get-kyc-by-status?status=${statusFilter}`
+        : `${baseUrl}/get-all-kyc`;
 
       const response = await axios.get(url, {
         headers: {
@@ -54,7 +52,6 @@ const KycReview = () => {
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to load KYC data");
-      
     } finally {
       setLoading(false);
     }

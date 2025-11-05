@@ -15,12 +15,30 @@ export const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    padding: 0 1rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    padding: 0 1.5rem;
+  }
 `;
 
 export const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
 `;
 
 export const StatCard = styled.div`
@@ -30,6 +48,14 @@ export const StatCard = styled.div`
   transition: all 0.3s ease;
   border: 1px solid #d1d5db;
   cursor: pointer;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    padding: 1.2rem;
+  }
 `;
 
 export const StatHeader = styled.div`
@@ -45,6 +71,14 @@ export const StatIconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    padding: 6px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    padding: 7px;
+  }
 `;
 
 export const StatTitle = styled.h4`
@@ -53,6 +87,14 @@ export const StatTitle = styled.h4`
   line-height: 20px;
   font-weight: 600;
   margin-bottom: 0.5rem;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 13px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    font-size: 13.5px;
+  }
 `;
 
 export const StatValue = styled.h2`
@@ -61,6 +103,15 @@ export const StatValue = styled.h2`
   margin: 0;
   font-weight: 400;
   color: #101828;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    font-size: 22px;
+  }
 `;
 
 export const StatChange = styled.p`
@@ -71,6 +122,14 @@ export const StatChange = styled.p`
   display: flex;
   align-items: center;
   gap: 0.25rem;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 11px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    font-size: 11.5px;
+  }
 `;
 
 export const ChartsContainer = styled.div`
@@ -89,12 +148,28 @@ export const ChartCard = styled.div`
   border-radius: 16px;
   border: 1px solid #d1d5db;
   cursor: pointer;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    padding: 1.2rem;
+  }
 `;
 
 export const ChartTitle = styled.h3`
   font-size: 1rem;
   color: #333;
   margin-bottom: 1rem;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    font-size: 0.95rem;
+  }
 `;
 
 export const RecentActivity = styled.div`
@@ -113,12 +188,29 @@ export const RecentActivity = styled.div`
     font-size: 17px;
     font-weight: 500;
     line-height: 16px;
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      font-size: 15px;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      font-size: 16px;
+    }
   }
+
   p {
     color: #717182;
     font-size: 14px;
     font-weight: 400;
     line-height: 24px;
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      font-size: 12px;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      font-size: 13px;
+    }
   }
 `;
 
@@ -142,6 +234,16 @@ export const ProfileHolder = styled.div`
     align-items: center;
     cursor: pointer;
   }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    width: 28px;
+    height: 28px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 export const ActivityItem = styled.div`
@@ -161,6 +263,16 @@ export const ActivityItem = styled.div`
     align-items: center;
     gap: 1rem;
   }
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    flex-direction: row;
+  }
 `;
 
 export const ActivityInfo = styled.div`
@@ -170,6 +282,14 @@ export const ActivityInfo = styled.div`
     line-height: 20px;
     margin: 0;
     color: #101828;
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      font-size: 13px;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      font-size: 13.5px;
+    }
   }
 
   p {
@@ -178,6 +298,14 @@ export const ActivityInfo = styled.div`
     font-size: 12px;
     line-height: 16px;
     margin: 0.3rem 0 0;
+
+    @media (min-width: 480px) and (max-width: 768px) {
+      font-size: 11px;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      font-size: 11.5px;
+    }
   }
 `;
 
@@ -190,4 +318,13 @@ export const ActivityType = styled.span`
   line-height: 16px;
   color: #0a0a0a;
   font-weight: 500;
+
+  @media (min-width: 480px) and (max-width: 768px) {
+    font-size: 11px;
+    padding: 0.3rem 0.6rem;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    font-size: 11.5px;
+  }
 `;
