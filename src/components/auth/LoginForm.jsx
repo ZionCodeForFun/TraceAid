@@ -7,7 +7,7 @@ import { Container } from "../../style/LoginStyle";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
-import { setUser, setToken } from "../../global/authSlice"; 
+import { setUser, setToken } from "../../global/authSlice";
 import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
@@ -21,12 +21,10 @@ const LoginForm = () => {
     try {
       setLoading(true);
 
-      
       const baseUrl = isOrganization
         ? import.meta.env.VITE_BaseUrl2
         : import.meta.env.VITE_BaseUrl;
 
-   
       const response = await axios.post(`${baseUrl}/login`, values);
       const data = response?.data?.data?.login;
 
@@ -35,20 +33,18 @@ const LoginForm = () => {
         return;
       }
 
-       console.log("zion code ".data)
       const token = data?.token;
       if (token) {
-        localStorage.setItem("token", token); 
-        dispatch(setToken(token)); 
+        localStorage.setItem("token", token);
+        dispatch(setToken({ token: token }));
       }
-
       
       dispatch(setUser(data));
       dispatch(setToken(response.data.data.token));
+      console.log("zion code login ",data);
 
       toast.success("Login successful!");
-
-      
+        
       const role = data?.role?.toLowerCase();
       if (role === "fundraiser" || role === "organization") {
         nav("/");

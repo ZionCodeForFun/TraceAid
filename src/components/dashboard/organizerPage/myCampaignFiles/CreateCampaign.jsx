@@ -23,7 +23,7 @@ const CreateCampaign = ({ onClose }) => {
     milestones: [],
     showMilestoneDetails: null,
   });
- const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -33,8 +33,8 @@ const CreateCampaign = ({ onClose }) => {
   });
 
   const nav = useNavigate();
-  const token = useSelector((state) => state.auth.token);
-
+  const user = useSelector((state) => state.auth.user);
+  console.log("create campagn token", user.token);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -87,7 +87,7 @@ const CreateCampaign = ({ onClose }) => {
       return;
     }
 
-    if (!token) {
+    if (!user) {
       toast.error("You must be logged in to create a campaign.");
       return;
     }
@@ -117,7 +117,7 @@ const CreateCampaign = ({ onClose }) => {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`,
           },
           body: data,
         }
@@ -140,7 +140,7 @@ const CreateCampaign = ({ onClose }) => {
     } catch (error) {
       console.error("Error creating campaign:", error);
       toast.error("An unexpected error occurred. Please try again.");
-       setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -222,20 +222,15 @@ const CreateCampaign = ({ onClose }) => {
 
                 <option value="Health & Wellness">Health & Wellness</option>
                 <option value="Education & Schools">Education & Schools</option>
-                <option value="Disaster Relief">
-                 Disaster Relief
-                </option>
+                <option value="Disaster Relief">Disaster Relief</option>
                 <option value="Community Development">
-                 Community Development
+                  Community Development
                 </option>
                 <option value="Animal Welfare">Animal Welfare</option>
-                <option value="Arts & Culture">
-                 Arts & Culture
-                </option>
+                <option value="Arts & Culture">Arts & Culture</option>
                 <option value="Other/General Support">
                   Other/General Support
                 </option>
-               
               </select>
               <IoIosArrowDown className="menu_i" />
             </div>
@@ -410,7 +405,11 @@ const CreateCampaign = ({ onClose }) => {
           </div>
 
           <div className="btn_holder">
-            <Button   text={loading ? "Creating..." : "Create Campaign"} className="btn" type="submit" />
+            <Button
+              text={loading ? "Creating..." : "Create Campaign"}
+              className="btn"
+              type="submit"
+            />
           </div>
 
           <IoCloseSharp onClick={() => onClose()} className="btn_close" />

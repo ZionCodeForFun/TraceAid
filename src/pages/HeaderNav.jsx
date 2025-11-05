@@ -20,7 +20,7 @@ const HeaderNav = () => {
 
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
 
-  console.log("userData", userData);
+ 
 
   useEffect(() => {
     if (!auth?.user?._id) return;
