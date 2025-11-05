@@ -75,7 +75,7 @@ const HeaderNav = () => {
   const logoutUser = () => {
     dispatch(logout());
     setOpenDropdown(false);
-    nav("/login");
+    nav("/");
   };
 
   return (
@@ -87,7 +87,7 @@ const HeaderNav = () => {
         </LogoContainer>
 
         <NavLinks>
-          <li onClick={() => nav("/explore")}>Explore Campaigns</li>
+          <li onClick={() => nav("/campaign_data")}>Explore Campaigns</li>
           <li onClick={() => nav("/how_it_works")}>How it Works</li>
           <li onClick={() => nav("/explore")}>Start a Campaign</li>
         </NavLinks>

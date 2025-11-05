@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "../../../../style/MyCampaignsStyle";
 import InputField from "../../../common/InputField";
 import { HiOutlineDotsVertical } from "react-icons/hi";
@@ -14,6 +14,13 @@ import { FaXTwitter } from "react-icons/fa6";
 import { LuCopy } from "react-icons/lu";
 import { toast } from "react-toastify";
 import { IoCloseSharp } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setLoading,
+  setCampaigns,
+  setError,
+} from "../../../../global/funCampaignSlice";
+import { GetAllCampaignsAPI } from "../../../../global/GetAllCampaignsData";
 
 const MyCampaigns = () => {
   const [state, setState] = useState({
@@ -25,9 +32,15 @@ const MyCampaigns = () => {
     popupPosition: { top: 40, left: 20 },
   });
 
+  const dispatch = useDispatch();
   const nav = useNavigate();
   const location = useLocation();
   const isMainWallet = location.pathname.endsWith("myCampaigns");
+
+  const token = useSelector((state) => state.auth.token);
+  const { all, active, pending, completed, counts, loading, error } = useSelector(
+    (state) => state.campaigns
+  );
 
   const {
     show,
@@ -38,73 +51,33 @@ const MyCampaigns = () => {
     showShare,
   } = state;
 
-  const data = [
-    {
-      id: 1,
-      details: "Stationery for the children of Makoko Nursery School",
-      raised: 5000,
-      goal: 50000,
-      NumberOfDonr: 252,
-      status: "Ongoing",
-      milestone: "Upload",
-      date: "20/10/2025",
-      icon: <HiOutlineDotsVertical />,
-    },
-    {
-      id: 2,
-      details: "Food for All",
-      raised: 5000,
-      goal: 50000,
-      NumberOfDonr: 252,
-      status: "Completed",
-      milestone: "Upload",
-      date: "20/10/2025",
-      icon: <HiOutlineDotsVertical />,
-    },
-    {
-      id: 3,
-      details: "Medical Supplies for Makoko",
-      raised: 5000,
-      goal: 50000,
-      NumberOfDonr: 174,
-      status: "Completed",
-      milestone: "Upload",
-      date: "20/10/2025",
-      icon: <HiOutlineDotsVertical />,
-    },
-    {
-      id: 4,
-      details: "Medical Supplies for Makoko",
-      raised: 5000,
-      goal: 50000,
-      NumberOfDonr: 174,
-      status: "Pending",
-      milestone: "Upload",
-      date: "20/10/2025",
-      icon: <HiOutlineDotsVertical />,
-    },
-    {
-      id: 5,
-      details: "Medical Supplies for Makoko",
-      raised: 5000,
-      goal: 50000,
-      NumberOfDonr: 174,
-      status: "completed",
-      milestone: "Done",
-      date: "20/10/2025",
-      icon: <HiOutlineDotsVertical />,
-    },
-  ];
-  const campaignUrl = `https://traceaid.com/campaign/${selectedCampaign?.id}`;
+  const fetchCampaigns = async () => {
+    try {
+      dispatch(setLoading(true));
+      const response = await GetAllCampaignsAPI(token);
+      dispatch(setCampaigns(response.data.data));
+    } catch (err) {
+      dispatch(
+        setError(err?.response?.data?.message || "Failed to fetch campaigns")
+      );
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
+  useEffect(() => {
+    if (token) fetchCampaigns();
+  }, [token]);
+
+  const VITE_campaignBaseUrl = `https://traceaid.com/campaign/${selectedCampaign?._id}`;
 
   const handleShare = (platform) => {
     const text = encodeURIComponent(
       "I just supported this cause! You can too. Every little bit counts ❤️"
     );
-    const url = encodeURIComponent(campaignUrl);
+    const url = encodeURIComponent(VITE_campaignBaseUrl);
 
     let shareUrl = "";
-
     switch (platform) {
       case "facebook":
         shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
@@ -120,31 +93,17 @@ const MyCampaigns = () => {
       default:
         return;
     }
-  };
-  const getMilestoneStyle = (status) => {
-    switch (status) {
-      case "Completed":
-        return { color: "#4d4d4d" };
-      case "Ongoing":
-        return { color: "#C4C4C4" };
-      case "Pending":
-        return { color: "#C4C4C4" };
-      case "completed":
-        return { color: "#67940B" };
-      default:
-        return { color: "#000" };
-    }
+    window.open(shareUrl, "_blank");
   };
 
   const handleViewDetails = () => {
     if (!selectedCampaign) return;
 
     switch (selectedCampaign.status) {
-      case "Pending":
-      case "Ongoing":
+      case "pending":
         nav("camp_details_pending");
         break;
-      case "Completed":
+      case "active":
         nav("camp_details_ongoing");
         break;
       case "completed":
@@ -161,6 +120,7 @@ const MyCampaigns = () => {
     <Container>
       <article className="wrapper">
         <Outlet />
+
         {isMainWallet && (
           <>
             <div className="btn_holder">
@@ -179,9 +139,7 @@ const MyCampaigns = () => {
                     ₦
                   </span>
                 </div>
-                <div className="down">
-                  <p>2</p>
-                </div>
+                <div className="down"><p>{counts?.active || 0}</p></div>
               </div>
 
               <div className="card" style={{ background: "#FFF7EC" }}>
@@ -192,7 +150,7 @@ const MyCampaigns = () => {
                   </span>
                 </div>
                 <div className="down">
-                  <p>2</p>
+                  <p>{counts?.pending || 0}</p>
                 </div>
               </div>
 
@@ -204,7 +162,7 @@ const MyCampaigns = () => {
                   </span>
                 </div>
                 <div className="down">
-                  <p>2</p>
+                  <p>{counts?.completed || 0}</p>
                 </div>
               </div>
             </div>
@@ -223,81 +181,67 @@ const MyCampaigns = () => {
               </div>
             </div>
 
-            <div className="table-container">
-              <table className="custom-table">
-                <thead>
-                  <tr>
-                    <th>Campaigns</th>
-                    <th>Progress</th>
-                    <th style={{width:100, paddingLeft:"12px"}}>No of Donors</th>
-                    <th>Status</th>
-                    <th>MileStones</th>
-                    <th>Deadline</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((item, index) => (
-                    <tr key={index}>
-                      <td className="details">{item.details}</td>
-                      <td>
-                        ₦{item.raised.toLocaleString()}/₦
-                        {item.goal.toLocaleString()}
-                      </td>
-                      <td>{item.NumberOfDonr}</td>
-                      <td>{item.status}</td>
-                      <td>
-                        <span
-                          style={{
-                            ...getMilestoneStyle(item.status),
-                            cursor:
-                              item.status === "Completed"
-                                ? "pointer"
-                                : "default",
-                          }}
-                          onClick={() => {
-                            if (item.status === "Completed") {
-                              setState((prev) => ({
-                                ...prev,
-                                selectedCampaign: item,
-                                showMilestone: true,
-                              }));
-                            }
+            {loading && <p>Loading campaigns...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
+
+            {!loading && all.length === 0 && <p>No campaigns found.</p>}
+
+            {!loading && all.length > 0 && (
+              <div className="table-container">
+                <table className="custom-table">
+                  <thead>
+                    <tr>
+                      <th>Campaigns</th>
+                      <th>Goal</th>
+                      <th>No of Donors</th>
+                      <th>Status</th>
+                      <th>Milestones</th>
+                      <th>Duration</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {all.map((item, index) => (
+                      <tr key={index}>
+                        <td className="details">{item.campaignTitle}</td>
+                        <td>
+                          ₦{item.totalCampaignGoalAmount.toLocaleString()}
+                        </td>
+                        <td>0</td>
+                        <td>{item.status}</td>
+                        <td>—</td>
+                        <td>{item.durationDays} days</td>
+                        <td
+                          className="icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const rect =
+                              e.currentTarget.getBoundingClientRect();
+                            const scrollY = window.scrollY;
+                            const scrollX = window.scrollX;
+
+                            setState((prev) => ({
+                              ...prev,
+                              popupPosition: {
+                                top: rect.top + scrollY + 40,
+                                left: rect.left + scrollX - 170,
+                              },
+                              selectedCampaign: item,
+                              show:
+                                prev.selectedCampaign?._id === item._id
+                                  ? !prev.show
+                                  : true,
+                            }));
                           }}
                         >
-                          {item.milestone}
-                        </span>
-                      </td>
-                      <td>{item.date}</td>
-                      <td
-                        className="icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const rect = e.currentTarget.getBoundingClientRect();
-                          const scrollY = window.scrollY;
-                          const scrollX = window.scrollX;
-
-                          setState((prev) => ({
-                            ...prev,
-                            popupPosition: {
-                              top: rect.top + scrollY + 40,
-                              left: rect.left + scrollX - 170,
-                            },
-                            selectedCampaign: item,
-                            show:
-                              prev.selectedCampaign?.id === item.id
-                                ? !prev.show
-                                : true,
-                          }));
-                        }}
-                      >
-                        {item.icon}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                          <HiOutlineDotsVertical />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
             {show && selectedCampaign && (
               <div
@@ -338,6 +282,7 @@ const MyCampaigns = () => {
             }
           />
         )}
+
         {showDelete && (
           <div className="holder">
             <div className="reciept_holder">
@@ -347,9 +292,9 @@ const MyCampaigns = () => {
                 </i>
                 <p className="bigtext">Close Campaign?</p>
                 <p className="smalltext">
-                  Are you sure you want to delete this <br /> campaign? This
-                  action cannot be undone and all associated <br /> donations
-                  will be archived.
+                  Are you sure you want to delete this campaign? This action
+                  cannot be undone and all associated donations will be
+                  archived.
                 </p>
               </div>
               <div className="btn_holder">
@@ -358,11 +303,12 @@ const MyCampaigns = () => {
                   text="Keep Campaign"
                   className="close_btn1"
                 />
-                <Button text="Delet Campaign" className="close_btn2" />
+                <Button text="Delete Campaign" className="close_btn2" />
               </div>
             </div>
           </div>
         )}
+
         {showShare && (
           <div className="holder">
             <div className="reciept_holder" style={{ height: 360 }}>
@@ -380,7 +326,12 @@ const MyCampaigns = () => {
                   placeholder="https://traceaid.com/stationery-4-kids"
                   className="input"
                 />
-            <IoCloseSharp onClick={()=>setState((prev)=>({...prev,showShare:false}))} className="close_bt" />
+                <IoCloseSharp
+                  onClick={() =>
+                    setState((prev) => ({ ...prev, showShare: false }))
+                  }
+                  className="close_bt"
+                />
                 <LuCopy className="copy" />
               </div>
               <div className="btn_holder">
@@ -403,3 +354,4 @@ const MyCampaigns = () => {
 };
 
 export default MyCampaigns;
+

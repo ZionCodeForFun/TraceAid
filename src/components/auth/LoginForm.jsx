@@ -44,6 +44,7 @@ const LoginForm = () => {
 
       
       dispatch(setUser(data));
+      dispatch(setToken(response.data.data.token));
 
       toast.success("Login successful!");
 
