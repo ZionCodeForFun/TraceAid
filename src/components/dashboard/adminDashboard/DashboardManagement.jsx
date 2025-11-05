@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   DashboardContainer,
   InnerContainer,
@@ -36,6 +37,7 @@ import {
   Bar,
   Legend,
 } from "recharts";
+import { useSelector } from "react-redux";
 
 const donationData = [
   { month: "Jan", amount: 45000 },
@@ -94,18 +96,46 @@ const activities = [
 ];
 
 const DashboardManagement = () => {
+  const { token } = useSelector((state) => state.adminAuth);
+  const [totalDonation, setTotalDonation] = useState(0);
+
+  useEffect(() => {
+    fetchTotalDonation();
+  }, []);
+
+  const fetchTotalDonation = async () => {
+    if (!token) return;
+
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BaseUrl_AdminKycV}/get-all-donations`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("All donations:", res.data);
+
+      const donations = res.data.data?.donations || [];
+      const total = donations.reduce((sum, donation) => sum + donation.amount, 0);
+
+      setTotalDonation(total);
+    } catch (err) {
+      console.error("Error fetching donations:", err.response?.data || err.message);
+    }
+  };
+
   return (
     <DashboardContainer>
       <InnerContainer>
         <StatsGrid>
-          <StatCard bg="#f4e8ff">
+          <StatCard bg="#e8ffec">
             <StatHeader>
               <StatTitle>Total Donations</StatTitle>
               <StatIconContainer bg="#DFCBFF">
                 <TbCurrencyNaira size={20} color="#8402E3" />
               </StatIconContainer>
             </StatHeader>
-            <StatValue>₦328,400</StatValue>
+            <StatValue>₦{totalDonation.toLocaleString()}</StatValue>
             <StatChange up>+12.5% from last month</StatChange>
           </StatCard>
 
@@ -154,12 +184,7 @@ const DashboardManagement = () => {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="amount"
-                  stroke="#67940B"
-                  strokeWidth={2}
-                />
+                <Line type="monotone" dataKey="amount" stroke="#67940B" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -193,15 +218,9 @@ const DashboardManagement = () => {
               <div className="left">
                 <ProfileHolder type={act.type}>
                   <div className="img-holder">
-                    {act.type === "Donation" && (
-                      <TbCurrencyNaira size={16} color="#14AE5C" />
-                    )}
-                    {act.type === "Campaign" && (
-                      <FiTrendingUp size={16} color="#155DFC" />
-                    )}
-                    {act.type === "Verification" && (
-                      <BsExclamationCircle size={16} color="#F54900" />
-                    )}
+                    {act.type === "Donation" && <TbCurrencyNaira size={16} color="#14AE5C" />}
+                    {act.type === "Campaign" && <FiTrendingUp size={16} color="#155DFC" />}
+                    {act.type === "Verification" && <BsExclamationCircle size={16} color="#F54900" />}
                   </div>
                 </ProfileHolder>
 

@@ -40,6 +40,7 @@ import AdminRegister from "./components/auth/adminAuth/AdminRegister";
 import AdminForgotPassword from "./components/auth/adminAuth/AdminForgotPassword";
 import AdminRequestPassword from "./components/auth/adminAuth/AdminRequestPassword";
 import AdminVerifyOTP from "./components/auth/AdminVerifyOtp";
+import ContactUsPage from "./pages/ContactUs";
 import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
 import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
 import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
@@ -49,6 +50,7 @@ import ReportDashboard from "./components/dashboard/adminDashboard/ReportDashboa
 import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc";
 import AdminSettings from "./components/dashboard/adminDashboard/AdminSettings";
 import AdminNotification from "./components/dashboard/adminDashboard/AdminNotification";
+import CampaignData from "./pages/CampaignData";
 
 const App = () => (
   <BrowserRouter>
@@ -58,12 +60,14 @@ const App = () => (
       <Route path="/createcampaign" element={<CreateCampaign />} />
       <Route path="/how_it_works" element={<HowItWorks />} />
       <Route path="/explore" element={<ExploreCampaign />} />
+      <Route path="/campaign_data" element={<CampaignData />} />
       <Route path="/about" element={<AboutPage />} />
-      <Route path="/campaign_details" element={<CampaignDetails />} />
+      <Route path="/campaign_details/:id" element={<CampaignDetails />} />
       <Route path="/role_modal" element={<RoleModal />} />
       <Route path="/my_donations" element={<MyDonations />} />
       <Route path="/saved_campaigns" element={<SavedCampaign />} />
       <Route path="/profile_settings" element={<ProfileSettings />} />
+      <Route path="/contact_us" element={<ContactUsPage />} />
       <Route path="/signup" element={<SignUpForm />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/verify/:email" element={<VerifyOtp />} />
@@ -74,9 +78,18 @@ const App = () => (
       <Route path="/organization" element={<OrganizerDashboard />}>
         <Route index element={<OverViewPage />} />
         <Route path="myCampaigns" element={<MyCampaigns />}>
-          <Route path="camp_details_ongoing" element={<CampaignDetails4org_ongoing />} />
-          <Route path="camp_details_pending" element={<CampaignDetails4org_pending />} />
-          <Route path="camp_details_completed" element={<CampaignDetails4org_completed />} />
+          <Route
+            path="camp_details_ongoing"
+            element={<CampaignDetails4org_ongoing />}
+          />
+          <Route
+            path="camp_details_pending"
+            element={<CampaignDetails4org_pending />}
+          />
+          <Route
+            path="camp_details_completed"
+            element={<CampaignDetails4org_completed />}
+          />
         </Route>
         <Route path="wallet" element={<Wallet />}>
           <Route path="requestwithdraw" element={<RequestWithraw />} />
@@ -93,7 +106,10 @@ const App = () => (
       <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
       <Route path="/admin_login" element={<AdminLogin />} />
       <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
-      <Route path="/admin-request-password/:token/:id" element={<AdminRequestPassword />} />
+      <Route
+        path="/admin-request-password/:token/:id"
+        element={<AdminRequestPassword />}
+      />
       <Route path="/admin" element={<AdminDashboard />}>
         <Route index element={<DashboardManagement />} />
         <Route path="users" element={<AdminUsers />} />

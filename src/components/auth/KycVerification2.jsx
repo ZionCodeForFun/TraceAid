@@ -46,11 +46,17 @@ const KycVerification2 = () => {
       !step1?.authorizedRepresentativeId ||
       !step1?.organizationAddress
     ) {
-      toast.error("KYC Step 1 is incomplete. Please go back and fill all fields.");
+      toast.error(
+        "KYC Step 1 is incomplete. Please go back and fill all fields."
+      );
       return;
     }
 
-    if (!formData.bankAccountName || !formData.bankAccountNumber || !formData.bankName) {
+    if (
+      !formData.bankAccountName ||
+      !formData.bankAccountNumber ||
+      !formData.bankName
+    ) {
       toast.error("Please fill all fields.");
       return;
     }
@@ -62,7 +68,10 @@ const KycVerification2 = () => {
     fd.append("organizationType", step1.organizationType);
     fd.append("registrationNumber", step1.registrationNumber);
     fd.append("registrationCertificate", step1.registrationCertificate);
-    fd.append("authorizedRepresentativeFullName", step1.authorizedRepresentativeFullName);
+    fd.append(
+      "authorizedRepresentativeFullName",
+      step1.authorizedRepresentativeFullName
+    );
     fd.append("authorizedRepresentativeId", step1.authorizedRepresentativeId);
     fd.append("organizationAddress", step1.organizationAddress);
 
@@ -114,7 +123,9 @@ const KycVerification2 = () => {
 
         <div className="progress-bar">
           <div className="line"></div>
-          <div className="dot filled"><span>✓</span></div>
+          <div className="dot filled">
+            <span>✓</span>
+          </div>
           <div className="dot empty"></div>
         </div>
 
@@ -175,7 +186,9 @@ const KycVerification2 = () => {
           <div className="holder">
             <div className="reciept_holder">
               <div className="content-holder">
-                <i><IoMdCheckmarkCircleOutline /></i>
+                <i>
+                  <IoMdCheckmarkCircleOutline />
+                </i>
                 <p className="bigtext">Fundraiser account created</p>
                 <p className="smalltext">
                   Your fundraiser account has been created successfully
@@ -198,8 +211,6 @@ const KycVerification2 = () => {
 };
 
 export default KycVerification2;
-
-
 
 const Container = styled.div`
   display: flex;

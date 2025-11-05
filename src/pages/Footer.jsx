@@ -43,8 +43,8 @@ const Footer = () => {
                  <ul>
                    <li onClick={()=> nav("/about")}>About</li>
                    <li>Blog</li>
-                   <li>Terms & Conditions</li>
-                   <li>Contact Us</li>
+                   <li onClick={()=> nav("/termsandcon")}>Terms & Conditions</li>
+                   <li onClick={()=> nav("/contact_us")}>Contact Us</li>
                  </ul>
                </FooterColumn>
            </FooterContent>

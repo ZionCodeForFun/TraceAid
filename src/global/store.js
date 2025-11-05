@@ -5,16 +5,18 @@ import authSlice from "./authSlice";
 import accountType from "../global/accountTypeSlice";
 import adminAuthSlice from "./adminAuthSlice";
 import kycSlice from "./kycSlice";
+import campaignSlice from "./funCampaignSlice";
 const rootReducer = combineReducers({
   auth: authSlice,
   adminAuth: adminAuthSlice,
   accountType: accountType,
   kyc: kycSlice,
+  campaigns: campaignSlice,
 });
 const persist = {
   key: "root",
   storage,
-  whitelist: ["auth","adminAuth"],
+  whitelist: ["auth","adminAuth","kyc"],
 };
 const persistedReducer = persistReducer(persist, rootReducer);
 export const store = configureStore({

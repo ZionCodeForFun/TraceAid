@@ -1,5 +1,8 @@
 import React from "react";
 import { IoSearch } from "react-icons/io5";
+import { LuShieldCheck, LuMagnet  } from "react-icons/lu";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { TbHeartHandshake } from "react-icons/tb";
 
 import {
   LandingContainer,
@@ -23,10 +26,10 @@ import {
   CommunityContent,
   CommunityStat,
   CommunityButton,
-  ApiSection,
+  // ApiSection,
 } from "./LandingPageStyled.jsx";
 
-// import CampaignData from "./CampaignData.jsx";
+import CampaignData from "./CampaignData.jsx";
 import Img1 from "../assets/Rectangle 10.png";
 import Img2 from "../assets/Rectangle 11.png";
 import Img3 from "../assets/Rectangle 9.png";
@@ -86,12 +89,7 @@ const LandingPage = () => {
         </HeroOverlay>
       </HeroSection>
 
-      <ApiSection>
-        <h2>Waiting for Api Integration</h2>
-        <p>Please check back later for updates.</p>
-      </ApiSection>
-
-      {/* <CampaignData /> */}
+      <CampaignData />
 
       <TransparencySection>
         <h2>
@@ -159,7 +157,7 @@ const LandingPage = () => {
         <TraceaidCardGrid>
           <TraceaidCard>
             <div className="iconfirst">
-              <IoSearch size={20} color="#000000" />
+              <LuShieldCheck size={20} color="#000000" />
             </div>
             <h3>Raise Funds With Trust</h3>
             <p>
@@ -170,7 +168,7 @@ const LandingPage = () => {
 
           <TraceaidCard>
             <div className="iconsecond">
-              <IoSearch size={20} color="#000000" />
+              <IoMdCheckmarkCircleOutline size={20} color="#000000" />
             </div>
             <h3>Simplify Your Campaign</h3>
             <p>
@@ -181,7 +179,7 @@ const LandingPage = () => {
 
           <TraceaidCard>
             <div className="iconthird">
-              <IoSearch size={20} color="#000000" />
+              <LuMagnet size={20} color="#000000" />
             </div>
             <h3>Attract More Donors</h3>
             <p>
@@ -192,7 +190,7 @@ const LandingPage = () => {
 
           <TraceaidCard>
             <div className="iconfourth">
-              <IoSearch size={20} color="#000000" />
+              <TbHeartHandshake size={20} color="#000000" />
             </div>
             <h3>Build Lasting Support</h3>
             <p>
@@ -210,7 +208,7 @@ const LandingPage = () => {
             See, manage, and grow your impact, all from one simple dashboard
             that brings every campaign detail together in one clear view.
           </p>
-          <button onClick={handleGetStarted}>Give a Donation</button>
+          <button onClick={handleGetStarted}>Get Started</button>
         </FundraisingContent>
 
         <FundraisingImage>
