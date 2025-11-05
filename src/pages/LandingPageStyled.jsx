@@ -350,7 +350,7 @@ export const HeroIcons = styled.div`
       left: 2rem;
     }
   }
-}
+`;
 
 /* ApiSection */
 export const ApiSection = styled.section`
@@ -482,7 +482,7 @@ export const TransparencyCard = styled.div`
   color: #1a1a1a;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   text-align: left;
 
   .icon-wrap {
@@ -550,7 +550,7 @@ export const TraceaidSection = styled.section`
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #000; 
+  color: #000;
   overflow: hidden;
   margin-top: 7.5rem;
 
@@ -621,7 +621,7 @@ export const TraceaidCard = styled.div`
   padding: 2rem;
   border-radius: 12px;
   text-align: left;
-  
+
   .iconfirst,
   .iconsecond,
   .iconthird,
@@ -635,10 +635,18 @@ export const TraceaidCard = styled.div`
     align-items: center;
   }
 
-  .iconfirst { background-color: #ffb3ba; }
-  .iconsecond { background-color: #ffdfba; }
-  .iconthird { background-color: #baffc9; }
-  .iconfourth { background-color: #bae1ff; }
+  .iconfirst {
+    background-color: #ffb3ba;
+  }
+  .iconsecond {
+    background-color: #ffdfba;
+  }
+  .iconthird {
+    background-color: #baffc9;
+  }
+  .iconfourth {
+    background-color: #bae1ff;
+  }
 
   h3 {
     font-size: 1.1rem;
@@ -667,14 +675,22 @@ export const TraceaidCard = styled.div`
       margin: 0 auto 1rem;
     }
 
-    h3 { font-size: 1rem; }
-    p { font-size: 0.85rem; }
+    h3 {
+      font-size: 1rem;
+    }
+    p {
+      font-size: 0.85rem;
+    }
   }
 
   @media (min-width: 600px) and (max-width: 900px) {
     text-align: left;
-    h3 { font-size: 1.05rem; }
-    p { font-size: 0.9rem; }
+    h3 {
+      font-size: 1.05rem;
+    }
+    p {
+      font-size: 0.9rem;
+    }
   }
 `;
 
@@ -719,7 +735,7 @@ export const FundraisingContent = styled.div`
   h2 {
     font-size: 2.3rem;
     font-weight: 800;
-    color: #3b4f25; 
+    color: #3b4f25;
     margin-bottom: 1.2rem;
 
     @media (min-width: 480px) and (max-width: 768px) {
