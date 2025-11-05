@@ -7,7 +7,7 @@ import { Container } from "../../style/LoginStyle";
 import logo2 from "../../assets/logo2.png";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
-import { setUser } from "../../global/authSlice";
+import { setUser, setToken } from "../../global/authSlice";
 import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
@@ -35,6 +35,7 @@ const LoginForm = () => {
 
       toast.success("Login successful!");
       dispatch(setUser(data));
+      dispatch(setToken(response.data.data.token));
 
       const role = data?.role?.toLowerCase();
       if (role === "fundraiser" || role === "organization") {
