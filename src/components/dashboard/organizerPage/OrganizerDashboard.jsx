@@ -20,7 +20,7 @@ const OrganizerDashboard = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    nav("/");
+    nav("/login");
   };
 
   const items = [
