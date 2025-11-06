@@ -33,11 +33,11 @@ const LoginForm = () => {
         return;
       }
 
-      const token = data?.token;
-      if (token) {
-        localStorage.setItem("token", token);
-        dispatch(setToken({ token: token }));
-      }
+      // const token = data?.token;
+      // if (token) {
+      //   localStorage.setItem("token", token);
+      //   dispatch(setToken({ token: token }));
+      // }
 
       dispatch(setUser(data));
 
