@@ -38,13 +38,11 @@ const LoginForm = () => {
         localStorage.setItem("token", token);
         dispatch(setToken({ token: token }));
       }
-      
+
       dispatch(setUser(data));
-      dispatch(setToken(response.data.data.token));
-      console.log("zion code login ",data);
 
       toast.success("Login successful!");
-        
+
       const role = data?.role?.toLowerCase();
       if (role === "fundraiser" || role === "organization") {
         nav("/");
