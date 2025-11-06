@@ -26,7 +26,6 @@ const MySavedCampaigns = () => {
           make a difference.
         </SubText>
 
-        {/* <EmptyState>No saved campaigns yet</EmptyState> */}
 
         <SavedMappedCampaign />
 
@@ -75,9 +74,3 @@ const SubText = styled.p`
   margin-top: 0.5rem;
   color: #000000;
 `;
-
-// const EmptyState = styled.div`
-//   margin-top: 3rem;
-//   font-size: 1.1rem;
-//   color: #9d9d9d;
-// `;
