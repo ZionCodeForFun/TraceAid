@@ -9,6 +9,7 @@ import { AiOutlineGift } from "react-icons/ai";
 import { CiBookmark, CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
 import axios from "axios";
+
 const HeaderNav = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
@@ -17,10 +18,10 @@ const HeaderNav = () => {
   const userData = auth.user;
 
   const [openDropdown, setOpenDropdown] = useState(false);
-
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
 
- 
+  const isLoggedIn = !!userData;
+  const isFundraiser = userData?.role === "fundraiser";
 
   useEffect(() => {
     if (!auth?.user?._id) return;
@@ -55,11 +56,8 @@ const HeaderNav = () => {
 
   const getInitials = (value) => {
     if (!value) return "";
-
     const parts = value.trim().split(" ").filter(Boolean);
-
     if (parts.length === 1) return parts[0][0].toUpperCase();
-
     return parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase();
   };
 
@@ -68,9 +66,7 @@ const HeaderNav = () => {
       ? `${userData.firstName} ${userData.lastName}`
       : userData?.organizationName || null;
 
-  const initials = fullName
-    ? getInitials(fullName)
-    : getInitials(userData?.email);
+  const initials = fullName ? getInitials(fullName) : getInitials(userData?.email);
 
   const logoutUser = () => {
     dispatch(logout());
@@ -86,11 +82,19 @@ const HeaderNav = () => {
           <div className="divider"></div>
         </LogoContainer>
 
-        <NavLinks>
-          <li onClick={() => nav("/campaign_data")}>Explore Campaigns</li>
-          <li onClick={() => nav("/how_it_works")}>How it Works</li>
-          <li onClick={() => nav("/explore")}>Start a Campaign</li>
-        </NavLinks>
+    <NavLinks>
+  <li onClick={() => nav("/campaign_data")}>Explore Campaigns</li>
+  <li onClick={() => nav("/how_it_works")}>How it Works</li>
+
+  {isLoggedIn && isFundraiser && (
+    <li onClick={() => nav("/createcampaign")}>Start a Campaign</li>
+  )}
+
+  {!isLoggedIn && (
+    <li onClick={() => nav("/role_modal")}>Start a Campaign</li>
+  )}
+</NavLinks>
+
       </LeftSection>
 
       {!userData ? (
@@ -119,9 +123,7 @@ const HeaderNav = () => {
             <p>{userData?.email}</p>
           </div>
 
-          <RiArrowDropDownLine
-            className={`arrow ${openDropdown ? "rotate" : ""}`}
-          />
+          <RiArrowDropDownLine className={`arrow ${openDropdown ? "rotate" : ""}`} />
 
           {openDropdown && (
             <DropdownMenu>
@@ -157,6 +159,7 @@ const HeaderNav = () => {
 };
 
 export default HeaderNav;
+
 
 export const NavBar = styled.nav`
   width: 100%;

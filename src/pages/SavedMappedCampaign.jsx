@@ -1,55 +1,123 @@
-import React from 'react';
-import styled from 'styled-components';
-import Save  from "../global/SavedCamp";
-import { RiBookmarkLine } from 'react-icons/ri';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { RiBookmarkFill } from "react-icons/ri";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const SavedMappedCampaign = () => {
+  const [savedCampaigns, setSavedCampaigns] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const token = useSelector((state) => state.auth.token);
+
+  const savedCampaignBaseUrl = import.meta.env.VITE_SavedCampaignBaseUrl;
+
+  useEffect(() => {
+    const fetchSavedCampaigns = async () => {
+      try {
+        const res = await axios.get(
+          `${savedCampaignBaseUrl}/all-saved-campaign`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setSavedCampaigns(res.data.data);
+      } catch (err) {
+        console.error("Error fetching saved campaigns:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSavedCampaigns();
+  }, [token]);
+
   return (
     <SavedMappedSection>
-    <CampaignGrid>
-            {Save.map((card) => (  
-              <CampaignCard key={card.id}>
+      <CampaignGrid>
+        {loading ? (
+          Array.from({ length: 6 }).map((_, i) => (
+            <CampaignCard key={i}>
+              <Skeleton height={220} />
+
+              <div style={{ padding: "18px 20px" }}>
+                <Skeleton height={20} width="60%" />
+                <Skeleton height={15} width="90%" style={{ marginTop: 10 }} />
+                <Skeleton height={15} width="80%" />
+                <Skeleton height={30} width="100%" style={{ marginTop: 15 }} />
+              </div>
+            </CampaignCard>
+          ))
+        ) : savedCampaigns.length === 0 ? (
+          <p style={{ textAlign: "center", width: "100%" }}>
+            You have no saved campaigns yet.
+          </p>
+        ) : (
+          savedCampaigns.map((card) => {
+            const progress = Math.floor(
+              (card.currentAmount / card.goalAmount) * 100
+            );
+
+            return (
+              <CampaignCard key={card._id}>
                 <CampaignImage>
-                  <img src={card.image} alt={card.title} />
+                  <img
+                    src={card.campaignCoverImageOrVideo?.imageUrl}
+                    alt={card.title}
+                  />
                   <div className="bookmark">
-                    <RiBookmarkLine/>
+                    <RiBookmarkFill />
                   </div>
                 </CampaignImage>
-    
+
                 <CampaignContent>
                   <div className="topRow">
-                    <h4>{card.organization}</h4>
-                    <p className="daysLeft">{card.daysLeft} days left</p>
+                    <h4>{card.campaignCategory}</h4>
+                    <p className="daysLeft">{card.durationDays} days left</p>
                   </div>
-    
-                  <h3>{card.title}</h3>
-                  <p>{card.description}</p>
-    
+
+                  <h3>{card.campaignTitle}</h3>
+                  <p>{card.campaignDescription}</p>
+
                   <ProgressWrapper>
                     <span>
-                      <strong>Goal:</strong> {card.goal}
+                      <strong>Goal:</strong>
+                      <p className="money">
+                        ₦{(card.totalCampaignGoalAmount || 0).toLocaleString()}
+                      </p>
                     </span>
+
                     <span>
-                      <strong>Raised:</strong> {card.raised}
+                      <strong>Raised:</strong>
+                      <p className="money">
+                        ₦{(card.amountRaised || 0).toLocaleString()}
+                      </p>
                     </span>
                   </ProgressWrapper>
-    
+
                   <ProgressRow>
-                    <ProgressBar $progress={card.progress} />
-                    <ProgressPercent>{card.progress}%</ProgressPercent>
+                    <ProgressBar $progress={card.progressPercentage} />
+                    <ProgressPercent>
+                      {card.progressPercentage}%
+                    </ProgressPercent>
                   </ProgressRow>
                 </CampaignContent>
-    
+
                 <DonateButton>Donate Now</DonateButton>
               </CampaignCard>
-            ))}
-          </CampaignGrid>
-          </SavedMappedSection>
+            );
+          })
+        )}
+      </CampaignGrid>
+    </SavedMappedSection>
   );
 };
 
 export default SavedMappedCampaign;
-
 
 export const SavedMappedSection = styled.section`
   width: 100%;
@@ -58,8 +126,8 @@ export const SavedMappedSection = styled.section`
   /* margin: 0 auto; */
   /* padding-top: 2.5rem; */
   margin-top: 4rem;
-  background-color: #ffffff; 
-`
+  background-color: #ffffff;
+`;
 export const CampaignGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -80,7 +148,8 @@ export const CampaignCard = styled.div`
   background: #ffffff;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+  box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px,
+    rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
   display: flex;
   flex-direction: column;
   border: 1px solid gray;
@@ -166,6 +235,13 @@ export const ProgressWrapper = styled.div`
   color: #333;
   margin-top: 0.6rem;
   background-color: #f9fdf2;
+
+  .money {
+  margin-top: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #222;
+}
 `;
 
 export const ProgressBar = styled.div`
@@ -217,8 +293,7 @@ export const DonateButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover {
-      background: #c1e86e;
-      color: #1a1a1a;
+    background: #c1e86e;
+    color: #1a1a1a;
   }
 `;
-
