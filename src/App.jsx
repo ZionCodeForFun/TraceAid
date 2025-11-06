@@ -50,9 +50,11 @@ import AdminVerification from "./components/dashboard/adminDashboard/AdminVerica
 import ReportDashboard from "./components/dashboard/adminDashboard/ReportDashboard";
 import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc";
 import CampaignData from "./pages/CampaignData";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 const App = () => (
   <BrowserRouter>
+    <ScrollToTop />
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />
