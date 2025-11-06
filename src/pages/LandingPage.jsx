@@ -10,6 +10,7 @@ import {
   HeroOverlay,
   HeroContent,
   HeroIcons,
+  Header,
   TransparencySection,
   TransparencyCardGrid,
   TransparencyCard,
@@ -27,6 +28,7 @@ import {
   CommunityStat,
   CommunityButton,
 } from "./LandingPageStyled.jsx";
+
 
 import CampaignData from "./CampaignData.jsx";
 import Img1 from "../assets/Rectangle 10.png";
@@ -52,9 +54,10 @@ const LandingPage = () => {
   const nav = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
   const handleGetStarted = () => {
     if (user) {
-      nav("/explore");
+      nav("/campaign_data");
     } else {
       nav("/role_modal");
     }
@@ -87,6 +90,11 @@ const LandingPage = () => {
           </HeroIcons>
         </HeroOverlay>
       </HeroSection>
+
+      <Header>
+        <h1>Real Stories. Real Change.</h1>
+        <p>See the impact your giving creates in real communities.</p>
+      </Header>
 
       <CampaignData />
 
@@ -224,6 +232,7 @@ const LandingPage = () => {
       <JoinUsSection>
         <h2>Join Us</h2>
       </JoinUsSection>
+
       <CommunitySection>
         <CommunityGrid>
           <img src={Img1} alt="Community Image 1" />
@@ -247,3 +256,5 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
+

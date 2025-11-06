@@ -26,7 +26,7 @@ const menuItems = [
   {
     name: "Campaigns",
     icon: <MdCampaign />,
-    path: "/admin/campaigns",
+    path: "/admin/campaign",
   },
   { name: "Reports", icon: <FaFileAlt />, path: "/admin/reports" },
   { name: "KYC", icon: <FaIdCard />, path: "/admin/kyc" },

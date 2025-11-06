@@ -51,9 +51,11 @@ import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc";
 import AdminSettings from "./components/dashboard/adminDashboard/AdminSettings";
 import AdminNotification from "./components/dashboard/adminDashboard/AdminNotification";
 import CampaignData from "./pages/CampaignData";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 const App = () => (
   <BrowserRouter>
+    <ScrollToTop />
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />

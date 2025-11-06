@@ -28,6 +28,8 @@ const LoginForm = () => {
       const response = await axios.post(`${baseUrl}/login`, values);
       const data = response?.data?.data?.login;
 
+      console.log("my login data:", data);
+
       if (!data) {
         toast.error("Invalid response from server.");
         return;
@@ -35,16 +37,14 @@ const LoginForm = () => {
 
       const token = data?.token;
       if (token) {
-        localStorage.setItem("token", token);
-        dispatch(setToken({ token: token }));
+        // localStorage.setItem("token", token);
+        dispatch(setToken(token));
       }
-      
+
       dispatch(setUser(data));
-      dispatch(setToken(response.data.data.token));
-      console.log("zion code login ",data);
 
       toast.success("Login successful!");
-        
+
       const role = data?.role?.toLowerCase();
       if (role === "fundraiser" || role === "organization") {
         nav("/");

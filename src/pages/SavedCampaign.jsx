@@ -26,7 +26,6 @@ const MySavedCampaigns = () => {
           make a difference.
         </SubText>
 
-        {/* <EmptyState>No saved campaigns yet</EmptyState> */}
 
         <SavedMappedCampaign />
 

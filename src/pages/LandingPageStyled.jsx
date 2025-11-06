@@ -385,6 +385,26 @@ export const ApiSection = styled.section`
     }
   }
 `;
+
+export const Header = styled.div`
+  text-align: center;
+  margin-bottom: 2rem;
+  margin-top: 4rem;
+
+  h1 {
+    font-family: Inter, sans-serif;
+    font-size: 2.9rem;
+    font-weight: 700;
+    color: #000000;
+  }
+
+  p {
+    color: #000000;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    font-size: 1.2rem;
+  }
+`;
 export const TransparencySection = styled.section`
   position: relative;
   width: 85%;

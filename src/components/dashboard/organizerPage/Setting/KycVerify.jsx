@@ -1,52 +1,57 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container } from "../../../../style/SettingsStyle";
 import InputField from "../../../common/InputField";
 import { GoPaperclip } from "react-icons/go";
 import { IoLocationOutline } from "react-icons/io5";
 import Button from "../../../common/Button";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import axios from "axios";
+
 const KycVerify = () => {
+  const fileInputRef = useRef(null);
+  const { user, token } = useSelector((state) => state.auth);
+  const [isVerified, setIsVerified] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [formData, setFormData] = useState({
     registrationNumber: "",
     address: "",
     certificate: null,
   });
 
-  const fileInputRef = useRef(null);
+  // Fetch KYC status after login
+  useEffect(() => {
+    const fetchKycStatus = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BaseUrl3}/kyc/${user.id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+        if (res.data?.verificationStatus === "verified") {
+          setIsVerified(true);
+          setFormData({
+            registrationNumber: res.data.registrationNumber,
+            address: res.data.organizationAddress,
+            certificate: res.data.registrationCertificate || null,
+          });
+        } else {
+          setIsVerified(false);
+        }
+      } catch (err) {
+        console.error("Error fetching KYC:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prev) => ({ ...prev, certificate: file }));
-  };
+    fetchKycStatus();
+  }, [user, token]);
 
-  const handleChooseFile = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!formData.registrationNumber || !formData.address || !formData.certificate) {
-       toast.success("Please complete all fields before saving.");
-      return;
-    }
-
-    console.log("Form submitted:", formData);
-    alert("KYC verification submitted successfully!");
-  };
-
-  const handleDiscard = () => {
-    setFormData({
-      registrationNumber: "",
-      address: "",
-      certificate: null,
-    });
-  };
+  if (loading) return <p style={{marginLeft:"100px"}}>Loading KYC details...</p>;
 
   return (
     <Container>
@@ -55,70 +60,51 @@ const KycVerify = () => {
           <p>KYC Verification</p>
         </div>
 
-        <form className="input_holder" onSubmit={handleSubmit}>
-          <div className="name_holder">
-            <label>Registration Number</label>
-            <InputField
-              type="text"
-              placeholder="CAC/NGO license number"
-              name="registrationNumber"
-              value={formData.registrationNumber}
-              onChange={handleInputChange}
-            />
-          </div>
+        {isVerified ? (
+          <form className="input_holder">
+            <div className="name_holder">
+              <label>Registration Number</label>
+              <InputField
+                type="text"
+                value={formData.registrationNumber}
+                readOnly
+              />
+            </div>
 
-          <div className="name_holder">
-            <label>Upload Registration Certificate</label>
-            <InputField
-              type="text"
-              placeholder={formData.certificate ? formData.certificate.name : "File upload"}
-              readOnly
-            />
-            <i>
-              <GoPaperclip />
-            </i>
-            <p className="choose_file" onClick={handleChooseFile}>
-              Choose file
+            <div className="name_holder">
+              <label>Registration Certificate</label>
+              <InputField
+                type="text"
+                value={formData.certificate ? "Uploaded" : "No file"}
+                readOnly
+              />
+            </div>
+
+            <div className="name_holder">
+              <label>Organization Address</label>
+              <InputField type="text" value={formData.address} readOnly />
+            </div>
+
+            <p
+              style={{
+                fontWeight: "bold",
+                color: "green",
+                marginTop: "20px",
+              }}
+            >
+              KYC Verified
             </p>
-
-            <input
-              type="file"
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-              accept=".pdf,.jpg,.jpeg,.png"
-            />
+          </form>
+        ) : (
+          <div style={{ textAlign: "center", marginTop: "40px" }}>
+            <p style={{ fontWeight: "bold", color: "red", fontSize: "18px" }}>
+              Your KYC is not verified yet.
+            </p>
           </div>
-
-     
-          <div className="name_holder">
-            <label>Organization Address</label>
-            <InputField
-              type="text"
-              placeholder="Enter your address"
-              name="address"
-              value={formData.address}
-              onChange={handleInputChange}
-            />
-            <i>
-              <IoLocationOutline />
-            </i>
-          </div>
-
-    
-          <div className="btn_holder">
-            <Button
-              text="Discard Changes"
-              className="btn_left"
-              type="button"
-              onClick={handleDiscard}
-            />
-            <Button text="Save Changes" className="btn_right" type="submit" />
-          </div>
-        </form>
+        )}
       </aside>
     </Container>
   );
 };
 
-export default KycVerify; 
+export default KycVerify;

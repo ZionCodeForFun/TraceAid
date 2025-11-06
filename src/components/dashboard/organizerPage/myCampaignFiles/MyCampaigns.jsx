@@ -38,9 +38,8 @@ const MyCampaigns = () => {
   const isMainWallet = location.pathname.endsWith("myCampaigns");
 
   const token = useSelector((state) => state.auth.token);
-  const { all, active, pending, completed, counts, loading, error } = useSelector(
-    (state) => state.campaigns
-  );
+  const { all, active, pending, completed, counts, loading, error } =
+    useSelector((state) => state.campaigns);
 
   const {
     show,
@@ -76,7 +75,6 @@ const MyCampaigns = () => {
       "I just supported this cause! You can too. Every little bit counts ❤️"
     );
     const url = encodeURIComponent(VITE_campaignBaseUrl);
-
     let shareUrl = "";
     switch (platform) {
       case "facebook":
@@ -139,7 +137,9 @@ const MyCampaigns = () => {
                     ₦
                   </span>
                 </div>
-                <div className="down"><p>{counts?.active || 0}</p></div>
+                <div className="down">
+                  <p>{counts?.active || 0}</p>
+                </div>
               </div>
 
               <div className="card" style={{ background: "#FFF7EC" }}>
@@ -354,4 +354,3 @@ const MyCampaigns = () => {
 };
 
 export default MyCampaigns;
-
