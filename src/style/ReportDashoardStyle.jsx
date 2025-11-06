@@ -12,6 +12,12 @@ export const TopCards = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const Card = styled.div`
@@ -22,7 +28,7 @@ export const Card = styled.div`
   justify-content: space-between;
   align-items: center;
   border: 1px solid #ececf0;
-  box-shadow: 0 1px 2px rgba(10,10,10,0.03);
+  box-shadow: 0 1px 2px rgba(10, 10, 10, 0.03);
 `;
 
 export const CardTitle = styled.div`
@@ -57,6 +63,9 @@ export const ContentGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const ChartCard = styled.div`
@@ -102,6 +111,10 @@ export const TableHeader = styled.div`
   border-radius: 8px;
   color: #333;
   background: #fff;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    padding: 8px;
+  }
 `;
 
 export const TableBody = styled.div`
@@ -121,6 +134,10 @@ export const TableRow = styled.div`
 
   &:last-child {
     border-bottom: none;
+  }
+  @media (max-width: 768px) {
+    display: block;
+    padding: 10px 6px;
   }
 `;
 
@@ -149,7 +166,6 @@ export const ExportButton = styled.button`
   cursor: pointer;
 `;
 
-
 export const StatCard = styled.div`
   background: ${({ bg }) => bg || "#fff"};
   padding: 1.5rem;
@@ -175,7 +191,7 @@ export const StatIconContainer = styled.div`
 `;
 
 export const StatTitle = styled.h4`
-  color: #4A5565;
+  color: #4a5565;
   font-size: 14px;
   line-height: 20px;
   font-weight: 600;

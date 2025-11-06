@@ -39,11 +39,19 @@ export const ExploreTopBar = styled.div`
   gap: 1.2rem;
   margin-top: 5rem;
   flex-wrap: wrap;
+  @media (max-width: 768px) {
+    width: 95%;
+    margin-top: 2rem;
+    justify-content: center;
+  }
 `;
 
 export const SearchWrapper = styled.div`
   position: relative;
   width: 512px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 
   .search-icon {
     position: absolute;

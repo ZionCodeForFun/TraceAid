@@ -18,7 +18,7 @@ export const Container = styled.div`
       z-index: 999;
 
       .ant-menu-item-selected {
-        background-color: var(--NeutralBlack) !important; 
+        background-color: var(--NeutralBlack) !important;
         color: var(--PrimaryBase) !important;
       }
       .logo {
@@ -45,7 +45,7 @@ export const Container = styled.div`
         max-width: 1200px;
         height: 80%;
         gap: 20px;
-        
+
         .menu {
           height: 48px;
           display: flex;
@@ -79,6 +79,81 @@ export const Container = styled.div`
       padding-top: 30px;
       margin-left: 20%;
       height: 100%;
+    }
+  }
+  @media (max-width: 768px) {
+    .wrapper {
+      .sider_holder {
+        position: relative;
+        height: auto;
+        padding-top: 16px;
+        width: 100%;
+
+        .logo {
+          padding-left: 0;
+          justify-content: center;
+          height: 3rem;
+          margin-bottom: 12px;
+
+          img {
+            height: 24px;
+          }
+        }
+
+        .content_holder {
+          gap: 16px;
+
+          .menu,
+          .menulogout {
+            font-size: 14px;
+            height: 42px;
+            padding: 0 12px;
+          }
+        }
+      }
+
+      .contentoutline_holder {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
+        padding: 12px;
+      }
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    .wrapper {
+      .sider_holder {
+        width: 250px;
+        padding-top: 32px;
+
+        .logo {
+          height: 3.5rem;
+          margin-bottom: 14px;
+
+          img {
+            height: 26px;
+          }
+        }
+
+        .content_holder {
+          gap: 18px;
+
+          .menu,
+          .menulogout {
+            font-size: 15px;
+            height: 45px;
+            padding: 0 14px;
+          }
+        }
+      }
+
+      .contentoutline_holder {
+        width: calc(100% - 250px);
+        margin-left: 250px;
+        margin-top: 30px;
+        padding: 20px;
+      }
     }
   }
 `;

@@ -5,11 +5,30 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 40px;
+
+  @media (max-width: 768px) {
+    margin-top: 24px;
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    margin-top: 32px;
+  }
+
   .wrapper {
     width: 95%;
     height: 100%;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 0 16px;
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      width: 100%;
+      padding: 0 24px;
+    }
 
     .card_holder {
       display: flex;
@@ -68,15 +87,47 @@ export const Container = styled.div`
         }
       }
     }
+    @media (max-width: 768px) {
+      .card_holder {
+        flex-direction: column;
+        height: auto;
+        gap: 16px;
+        .card {
+          width: 100%;
+          height: auto;
+          padding: 16px;
+        }
+      }
+    }
     .recent_text {
       display: flex;
       flex-direction: column;
       gap: 15px;
       padding: 10px 0 20px 0;
+
+      @media (max-width: 768px) {
+        gap: 12px;
+        padding: 8px 0 16px 0;
+      }
+
+      @media (min-width: 600px) and (max-width: 900px) {
+        gap: 14px;
+        padding: 10px 0 18px 0;
+      }
+
       p {
         font-weight: 500;
         font-size: 24px;
+
+        @media (max-width: 768px) {
+          font-size: 20px;
+        }
+
+        @media (min-width: 600px) and (max-width: 900px) {
+          font-size: 22px;
+        }
       }
+
       input {
         outline: none;
         border: 0.5px;
@@ -87,20 +138,35 @@ export const Container = styled.div`
         font-weight: 400;
         font-size: 14px;
         font-family: Arial, Helvetica, sans-serif;
+        border-radius: 6px;
+
+        @media (max-width: 768px) {
+          height: 34px;
+          padding: 4px 10px 4px 32px;
+          font-size: 13px;
+        }
+
+        @media (min-width: 600px) and (max-width: 900px) {
+          height: 35px;
+          font-size: 14px;
+        }
       }
     }
     .table-container {
       width: 100%;
-
       border-radius: 10px;
-
       border: 0.5px solid #cccccc;
+      overflow-x: auto;
+
+      @media (max-width: 768px) {
+        border-radius: 8px;
+      }
     }
 
     .custom-table {
       width: 100%;
+      min-width: 650px;
       border-collapse: collapse;
-
       color: #1f2937;
     }
 
@@ -113,21 +179,42 @@ export const Container = styled.div`
       height: 56px;
       border-bottom: 1px solid #e5e7eb;
       color: #4d4d4d;
-      padding-left: 12px;
+      padding: 12px;
+
+      @media (max-width: 768px) {
+        height: 48px;
+        padding: 8px;
+        font-size: 14px;
+      }
+
+      @media (min-width: 600px) and (max-width: 900px) {
+        padding: 10px;
+        font-size: 15px;
+      }
     }
 
     .custom-table th {
       color: #0a0a0a;
       border-bottom: 1px solid #e5e7eb;
-      font-family: 400;
+      font-weight: 500;
       font-size: 16px;
       line-height: 20px;
-      font-size: 16px;
       height: 40px;
       text-align: start;
       letter-spacing: 0.5px;
       background-color: #f8f9fa;
-      padding-left: 12px;
+      padding: 12px;
+
+      @media (max-width: 768px) {
+        height: 36px;
+        padding: 8px;
+        font-size: 14px;
+      }
+
+      @media (min-width: 600px) and (max-width: 900px) {
+        padding: 10px;
+        font-size: 15px;
+      }
     }
   }
 `;

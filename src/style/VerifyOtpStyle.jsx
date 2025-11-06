@@ -106,14 +106,13 @@ export const Container = styled.div`
     }
     .otpResend {
       text-decoration: underline;
-    
+
       text-align: center;
-   
+
       cursor: pointer;
       color: #3a4621;
-   
+
       gap: 5px;
-    
     }
     .holder {
       height: 90vh;
@@ -145,6 +144,18 @@ export const Container = styled.div`
           align-items: center;
           gap: 20px;
           text-align: center;
+
+          @media (max-width: 768px) {
+            width: 100%;
+            height: auto;
+            gap: 16px;
+          }
+
+          @media (min-width: 600px) and (max-width: 900px) {
+            width: 90%;
+            gap: 18px;
+          }
+
           i {
             height: 64px;
             width: 64px;
@@ -156,14 +167,44 @@ export const Container = styled.div`
             justify-content: center;
             color: #00a63e;
             background-color: #dcfce7;
+
+            @media (max-width: 768px) {
+              height: 48px;
+              width: 48px;
+              font-size: 24px;
+            }
+
+            @media (min-width: 600px) and (max-width: 900px) {
+              height: 56px;
+              width: 56px;
+              font-size: 28px;
+            }
           }
+
           .bigtext {
             font-size: 18px;
             font-weight: 700;
+
+            @media (max-width: 768px) {
+              font-size: 16px;
+            }
+
+            @media (min-width: 600px) and (max-width: 900px) {
+              font-size: 17px;
+            }
           }
+
           .small {
             font-size: 14px;
             font-weight: 400;
+
+            @media (max-width: 768px) {
+              font-size: 13px;
+            }
+
+            @media (min-width: 600px) and (max-width: 900px) {
+              font-size: 13.5px;
+            }
           }
         }
         .close_btn {

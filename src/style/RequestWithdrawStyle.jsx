@@ -183,6 +183,7 @@ export const Container = styled.div`
       .reciept_holder {
         display: flex;
         width: 512px;
+        max-width: 95%;
         height: 318px;
         flex-direction: column;
         background-color: white;
@@ -234,6 +235,161 @@ export const Container = styled.div`
           font-family: Arial, Helvetica, sans-serif;
           border-radius: 8px;
           cursor: pointer;
+        }
+      }
+    }
+    @media (max-width: 768px) {
+      .content_holder {
+        width: 100%;
+        height: auto;
+        padding: 16px;
+        gap: 32px;
+
+        .header {
+          height: auto;
+          gap: 8px;
+
+          .bigtext {
+            font-size: 16px;
+          }
+          .smalltext {
+            font-size: 14px;
+            text-align: center;
+          }
+        }
+
+        .input_holder {
+          height: auto;
+          gap: 16px;
+
+          label {
+            font-size: 13px;
+          }
+          .input {
+            height: 42px;
+            font-size: 14px;
+            padding: 8px 12px;
+          }
+        }
+
+        .btn {
+          height: 40px;
+          font-size: 15px;
+        }
+      }
+
+      .dropdown_menu1,
+      .dropdown_menu2 {
+        width: calc(100% - 32px);
+        left: 16px;
+        height: auto;
+        max-height: 200px;
+        overflow-y: auto;
+
+        p {
+          padding: 10px 8px;
+          font-size: 14px;
+        }
+      }
+
+      .goback {
+        height: 80px;
+        padding: 0 16px;
+
+        .icon {
+          gap: 12px;
+
+          .i {
+            font-size: 18px;
+          }
+          p {
+            font-size: 14px;
+          }
+        }
+      }
+
+      .holder {
+        .reciept_holder {
+          left: 50%;
+          transform: translateX(-50%);
+          top: 10%;
+          width: 90%;
+          height: auto;
+          padding: 16px;
+
+          .content-holder {
+            width: 100%;
+            height: auto;
+            gap: 16px;
+
+            i {
+              height: 48px;
+              width: 48px;
+              font-size: 24px;
+            }
+            .bigtext {
+              font-size: 16px;
+            }
+            .small {
+              font-size: 13px;
+            }
+          }
+
+          .close_btn {
+            height: 32px;
+            width: 120px;
+            font-size: 13px;
+            margin-top: 16px;
+          }
+        }
+      }
+    }
+
+    @media (min-width: 600px) and (max-width: 900px) {
+      .content_holder {
+        width: 80%;
+        height: auto;
+        padding: 20px;
+        gap: 40px;
+
+        .header {
+          height: auto;
+          gap: 10px;
+
+          .bigtext {
+            font-size: 17px;
+          }
+          .smalltext {
+            font-size: 15px;
+          }
+        }
+
+        .input_holder {
+          height: auto;
+          gap: 18px;
+
+          .input {
+            height: 45px;
+            font-size: 15px;
+          }
+        }
+
+        .btn {
+          height: 42px;
+        }
+      }
+
+      .dropdown_menu1,
+      .dropdown_menu2 {
+        width: 80%;
+        left: 10%;
+      }
+
+      .holder {
+        .reciept_holder {
+          width: 70%;
+          left: 50%;
+          transform: translateX(-50%);
         }
       }
     }

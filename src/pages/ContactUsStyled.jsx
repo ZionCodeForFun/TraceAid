@@ -20,6 +20,10 @@ export const ContactWrapper = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  @media (max-width: 768px) {
+    padding: 1rem;
+    max-width: 100%;
+  }
 `;
 
 export const Title = styled.h1`
@@ -69,8 +73,8 @@ export const TextArea = styled.textarea`
 export const Button = styled.button`
   width: 120px;
   padding: 0.5rem 1rem;
-  background: #1A1A1A;
-  color: #C1E86E;
+  background: #1a1a1a;
+  color: #c1e86e;
   border: none;
   border-radius: 6px;
   font-size: 0.95rem;
