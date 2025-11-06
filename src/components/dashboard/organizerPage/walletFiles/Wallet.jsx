@@ -1,52 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "../../../../style/WalletStyle";
 import Button from "../../../common/Button";
 import InputField from "../../../common/InputField";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { Loader2 } from "lucide-react";
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
-
-const data = [
-  {
-    refId: "TRA-987653",
-    details: "Stationery for the children of Makoko Nursery School",
-    date: "20/10/2025",
-    amount: 5000000,
-    status: "Processing",
-  },
-  {
-    refId: "TRA-987654",
-    details: "Stationery for the children of Makoko Nursery School",
-    date: "20/10/2025",
-    amount: 5000000,
-    status: "Processing",
-  },
-  {
-    refId: "TRA-987655",
-    details: "Stationery for the children of Makoko Nursery School",
-    date: "20/10/2025",
-    amount: 5000000,
-    status: "Paid",
-  },
-  {
-    refId: "TRA-987656",
-    details: "Stationery for the children of Makoko Nursery School",
-    date: "20/10/2025",
-    amount: 5000000,
-    status: "Paid",
-  },
-  {
-    refId: "TRA-987657",
-    details: "Stationery for the children of Makoko Nursery School",
-    date: "20/10/2025",
-    amount: 5000000,
-    status: "Paid",
-  },
-];
 
 const campaigns = [
   "Stationery for the children of Makoko Nursery School",
   "Food for all",
-  "Stationery for the children of Makoko Nursery School",
+  "Clean Water Project",
 ];
 
 const Wallet = () => {
@@ -57,12 +20,26 @@ const Wallet = () => {
   const [selectedCampaign, setSelectedCampaign] = useState("");
   const [showCategoryDrop, setShowCategoryDrop] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // Filter data by recent search input
-  const filteredData = data.filter(
+  useEffect(() => {
+    setLoading(true);
+    setError("");
+
+    const timer = setTimeout(() => {
+      setTransactions([]);
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const filteredData = transactions.filter(
     (item) =>
-      item.refId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.details.toLowerCase().includes(searchTerm.toLowerCase())
+      item.refId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.details?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -89,7 +66,7 @@ const Wallet = () => {
                   </span>
                 </div>
                 <div className="down">
-                  <p>₦{(328400).toLocaleString()}</p>
+                  <p>₦{(0).toLocaleString()}</p>
                 </div>
               </div>
 
@@ -101,13 +78,12 @@ const Wallet = () => {
                   </span>
                 </div>
                 <div className="down">
-                  <p>₦{(328400).toLocaleString()}</p>
+                  <p>₦{(0).toLocaleString()}</p>
                 </div>
               </div>
             </div>
 
             <label>Select campaign to view details</label>
-
             <div className="select_control">
               <InputField
                 type="text"
@@ -151,37 +127,60 @@ const Wallet = () => {
               </div>
             </div>
 
-            <div className="table-container">
-              <table className="custom-table">
-                <thead>
-                  <tr>
-                    <th>Reference ID</th>
-                    <th>Campaigns</th>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredData.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item.refId}</td>
-                      <td className="details">{item.details}</td>
-                      <td>{item.date}</td>
-                      <td>₦{item.amount.toLocaleString()}</td>
-                      <td>{item.status}</td>
-                    </tr>
-                  ))}
-                  {filteredData.length === 0 && (
+            {loading ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "3rem 0",
+                }}
+              >
+                <Loader2 className="animate-spin" size={36} color="#8402E3" />
+                <p style={{ marginTop: "1rem", color: "#555" }}>
+                  Loading wallet data...
+                </p>
+              </div>
+            ) : error ? (
+              <p style={{ color: "red", textAlign: "center" }}>{error}</p>
+            ) : (
+              <div className="table-container">
+                <table className="custom-table">
+                  <thead>
                     <tr>
-                      <td colSpan="5" style={{ textAlign: "center" }}>
-                        No records found
-                      </td>
+                      <th>Reference ID</th>
+                      <th>Campaigns</th>
+                      <th>Date</th>
+                      <th>Amount</th>
+                      <th>Status</th>
                     </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {filteredData.length === 0 ? (
+                      <tr>
+                        <td
+                          colSpan="5"
+                          style={{ textAlign: "center", color: "#777" }}
+                        >
+                          No transactions available
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredData.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item.refId}</td>
+                          <td className="details">{item.details}</td>
+                          <td>{item.date}</td>
+                          <td>₦{item.amount.toLocaleString()}</td>
+                          <td>{item.status}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </>
         )}
       </article>

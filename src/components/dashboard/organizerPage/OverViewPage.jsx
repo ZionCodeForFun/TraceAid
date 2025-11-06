@@ -1,43 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Container } from "../../../style/OverViewStyle";
 import { GoGift } from "react-icons/go";
 import { FiFlag } from "react-icons/fi";
 import { CiCircleAlert } from "react-icons/ci";
 import InputField from "../../common/InputField";
+import { useSelector } from "react-redux";
 
 const OverViewPage = () => {
-  const data = [
-    {
-      name: "Darasimi Ijabiken",
-      details: "Stationery for the children of Makoko Nursery School",
-      date: "20/10/2025",
-      amount: 5000,
-    },
-    {
-      name: "Channels Oladapo",
-      details: "Stationery for the children of Makoko Nursery School",
-      date: "20/10/2025",
-      amount: 5000,
-    },
-    {
-      name: "Darasimi Ijabiken",
-      details: "Stationery for the children of Makoko Nursery School",
-      date: "20/10/2025",
-      amount: 5000,
-    },
-    {
-      name: "Emmanuel Ameh",
-      details: "Stationery for the children of Makoko Nursery School",
-      date: "20/10/2025",
-      amount: 5000,
-    },
-    {
-      name: "Tochukwu Emmanuel",
-      details: "Stationery for the children of Makoko Nursery School",
-      date: "20/10/2025",
-      amount: 5000,
-    },
-  ];
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const token = useSelector((state) => state.auth.user?.token);
+
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BaseUrl2}/fundraiser-dashboard`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setDashboardData(response.data.data);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboard();
+  }, [token]);
+
+  if (loading) return <h1>Loading...</h1>;
 
   return (
     <Container>
@@ -46,10 +44,9 @@ const OverViewPage = () => {
           <div className="card">
             <div className="top">
               <p>Total Donations</p>
-              <span>₦</span>
             </div>
             <div className="down">
-              <p>₦328,400</p>
+              <p>₦{dashboardData?.totalDonations?.toLocaleString() || 0}</p>
             </div>
           </div>
 
@@ -61,19 +58,19 @@ const OverViewPage = () => {
               </span>
             </div>
             <div className="down">
-              <p>2</p>
+              <p>{dashboardData?.activeCampaigns || 0}</p>
             </div>
           </div>
 
           <div className="card" style={{ background: "#E8FFF9" }}>
             <div className="top">
-              <p>Milestone Archived</p>
+              <p>Milestone Achieved</p>
               <span style={{ background: "#CFF6EC", color: "#3D7D6C" }}>
                 <FiFlag />
               </span>
             </div>
             <div className="down">
-              <p>12/20</p>
+              <p>{dashboardData?.milestones || 0}</p>
             </div>
           </div>
 
@@ -85,14 +82,18 @@ const OverViewPage = () => {
               </span>
             </div>
             <div className="down">
-              <p>1</p>
+              <p>{dashboardData?.pendingVerifications || 0}</p>
             </div>
           </div>
         </div>
 
         <div className="recent_text">
           <p>Recent Transactions</p>
-          <InputField type="text" placeholder="Search input" className="input" />
+          <InputField
+            type="text"
+            placeholder="Search input"
+            className="input"
+          />
         </div>
 
         <div className="table-container">
@@ -106,14 +107,18 @@ const OverViewPage = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((item, index) => (
+              {dashboardData?.transactions?.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.name}</td>
-                  <td>{item.details}</td>
+                  <td>{item.donorName}</td>
+                  <td>{item.campaignName}</td>
                   <td>{item.date}</td>
-                  <td>₦{item.amount.toLocaleString()}</td>
+                  <td>₦{item.amount?.toLocaleString()}</td>
                 </tr>
-              ))}
+              )) || (
+                <tr>
+                  <td colSpan="4">No transactions found</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

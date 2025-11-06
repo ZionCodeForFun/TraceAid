@@ -75,7 +75,6 @@ const MyCampaigns = () => {
       "I just supported this cause! You can too. Every little bit counts ❤️"
     );
     const url = encodeURIComponent(VITE_campaignBaseUrl);
-
     let shareUrl = "";
     switch (platform) {
       case "facebook":

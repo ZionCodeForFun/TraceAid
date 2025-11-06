@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Header = () => {
   const location = useLocation();
-  const  user  = useSelector((state) => state.auth);
+
+  const token = useSelector((state) => state.auth.token);
+  const userDetails = useSelector((state) => state.auth.user); 
+  const userId = userDetails?._id || userDetails?.userId; 
+
+  const [user, setUser] = useState(userDetails || null);
 
 
   const getHeaderText = (pathname) => {
@@ -56,7 +62,7 @@ const Header = () => {
       : parts[0][0].toUpperCase();
   };
 
-  const orgName = user?.organizationName;
+  const orgName = user?.organizationName || "Organization";
   const initials = getInitials(orgName);
 
   return (
@@ -135,11 +141,13 @@ const Container = styled.div`
       .profile_holder {
         width: 50px;
         height: 50px;
-        border-radius: 50px;
+       
+     
         img {
           width: 100%;
           height: 100%;
           object-fit: contain;
+           border-radius: 50px;
         }
         .initials {
           width: 50px;
@@ -152,7 +160,7 @@ const Container = styled.div`
           display: flex;
           align-items: center;
           justify-content: center;
-      }
+        }
       }
 
       .name_holder {
