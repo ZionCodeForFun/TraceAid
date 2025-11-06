@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import HeaderNav from "./HeaderNav";
 import Footer from "./Footer.jsx";
+import "react-loading-skeleton/dist/skeleton.css";
 import {
   CampaignDetailSection,
   CampaignTop,
