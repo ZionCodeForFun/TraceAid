@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import {
   TableContainer,
@@ -11,45 +11,40 @@ import {
 } from "../../../../style/AdminVerificationStyle";
 import CampaignDetailsAprovedModal from "../modal/CampaignDetailsAprovedModal";
 import CampaignDetailsPendingModal from "../modal/CampaignDetailsPendingModal";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const Campaign = () => {
   const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [campaigns, setCampaigns] = useState([]);
+  const token = useSelector((state) => state.adminAuth.token);
+  console.log("Admin token:", token);
+  const fetchCampaigns = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BaseUrl_AdminGetCampagn}/get-campaigns`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Campaigns fetched:", res.data?.data);
+      setCampaigns(res.data?.data || []);
+      toast.success(res.data?.message || "Campaigns fetched successfully");
+    } catch (error) {
+      console.error(
+        "Error fetching campaigns:",
+        error.response?.data || error.message
+      );
+      toast.error("Failed to fetch campaigns");
+    }
+  };
 
-  const campaigns = [
-    {
-      CampaignName: "Education for all",
-      NGO: "Slum2Africa",
-      CreatedDate: "2024-10-10",
-      Goal: "₦5,000,000",
-      Status: "Approved",
-    },
-    {
-      CampaignName: "Light Up a Village",
-      NGO: "Solar Nigeria",
-      CreatedDate: "2024-10-12",
-      Goal: "₦30,000",
-      Status: "Pending",
-      CampaignName: "Light Up a village",
-      NGO: "Green Earth NGO",
-      CreatedDate: "2024-10-14",
-      Goal: "₦75,000",
-      Status: "Pending",
-    },
-    {
-      CampaignName: "Save the climate",
-      NGO: "Slum2Africa",
-      CreatedDate: "2024-10-10",
-      Goal: "₦5,000,000",
-      Status: "Approved",
-    },
-    {
-      CampaignName: "Pad a girl",
-      NGO: "Faith Kaiye Foundation",
-      CreatedDate: "2024-10-08",
-      Goal: "₦40,000",
-      Status: "Pending",
-    },
-  ];
+  useEffect(() => {
+    fetchCampaigns();
+  }, []);
 
   const handleView = (campaign) => {
     setSelectedCampaign(campaign);
@@ -71,27 +66,33 @@ const Campaign = () => {
           <HeaderItem>Actions</HeaderItem>
         </CampaignHeader>
 
-        {campaigns.map((item, index) => (
-          <CampaignRow key={index} columns={6}>
-            <Cell>{item.CampaignName}</Cell>
-            <Cell>{item.NGO}</Cell>
-            <Cell>{item.CreatedDate}</Cell>
-            <Cell>{item.Goal}</Cell>
-            <Status active={item.Status === "Approved"}>{item.Status}</Status>
-            <Actions
-              onClick={() => handleView(item)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "7px",
-                cursor: "pointer",
-              }}
-            >
-              <MdOutlineRemoveRedEye /> View
-            </Actions>
+        {campaigns.length > 0 ? (
+          campaigns.map((item, index) => (
+            <CampaignRow key={index} columns={6}>
+              <Cell>{item.CampaignName}</Cell>
+              <Cell>{item.NGO}</Cell>
+              <Cell>{item.CreatedDate}</Cell>
+              <Cell>{item.Goal}</Cell>
+              <Status active={item.Status === "Approved"}>{item.Status}</Status>
+              <Actions
+                onClick={() => handleView(item)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "7px",
+                  cursor: "pointer",
+                }}
+              >
+                <MdOutlineRemoveRedEye /> View
+              </Actions>
+            </CampaignRow>
+          ))
+        ) : (
+          <CampaignRow columns={6}>
+            <Cell colSpan={6}>No campaigns found.</Cell>
           </CampaignRow>
-        ))}
+        )}
       </TableContainer>
 
       {selectedCampaign && selectedCampaign.Status === "Approved" && (
