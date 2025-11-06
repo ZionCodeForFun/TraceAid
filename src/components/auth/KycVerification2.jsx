@@ -194,7 +194,7 @@ const KycVerification2 = () => {
                   Your fundraiser account has been created successfully
                 </p>
               </div>
-              <Button
+              <Button2
                 onClick={handleStartCampaign}
                 className="close_btn"
                 text="Start a Campaign"
@@ -211,6 +211,9 @@ const KycVerification2 = () => {
 };
 
 export default KycVerification2;
+
+
+
 
 const Container = styled.div`
   display: flex;
@@ -241,12 +244,14 @@ const Container = styled.div`
         color: var(--NeutralGrey4-Text);
         font-size: 40px;
         font-weight: 700;
+        text-align: center;
       }
 
       .smalltext {
         color: var(--NeutralGrey4-Text);
         font-size: 16px;
         font-weight: 400;
+        text-align: center;
       }
     }
 
@@ -257,7 +262,6 @@ const Container = styled.div`
       margin: 20px 0 30px 0;
       display: flex;
       justify-content: space-between;
-
       align-items: center;
 
       .line {
@@ -322,7 +326,7 @@ const Container = styled.div`
 
         input {
           width: 100%;
-          padding: 10px 35px;
+          padding: 10px 20px; 
           border-radius: 12px;
           border: 1px solid var(--Neutral_Grey1);
           outline: none;
@@ -356,30 +360,28 @@ const Container = styled.div`
         margin-top: 15px;
         gap: 35px;
 
-        .btn1 {
+        .btn1,
+        .btn2 {
           height: 43px;
           width: 48%;
           border-radius: 8px;
-          background-color: white;
-          color: var(--NeutralBlack);
           font-size: 16px;
           font-weight: 600;
+        }
 
+        .btn1 {
+          background-color: white;
+          color: var(--NeutralBlack);
           &:hover {
             background-color: var(--PrimaryBase);
             color: var(--NeutralBlack);
           }
         }
+
         .btn2 {
-          height: 43px;
-          width: 48%;
-          border-radius: 8px;
           background-color: var(--NeutralBlack);
           color: var(--PrimaryBase);
-          font-size: 16px;
-          font-weight: 600;
           border: 2px solid #617437;
-
           &:hover {
             background-color: var(--PrimaryBase);
             color: var(--NeutralBlack);
@@ -389,7 +391,7 @@ const Container = styled.div`
     }
 
     .holder {
-      height: 90vh;
+      height: 100vh;
       width: 100%;
       top: 0;
       left: 0;
@@ -399,24 +401,24 @@ const Container = styled.div`
 
       .reciept_holder {
         display: flex;
-        width: 448px;
-        height: 383px;
         flex-direction: column;
-        background-color: white;
         align-items: center;
+        background-color: white;
         padding: 40px;
-        top: 12%;
-        left: 30%;
-        z-index: 9999;
         position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
         border-radius: 8px;
         gap: 20px;
+        width: 400px;
+        height: auto;
 
         .content-holder {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 20px;
+          gap: 15px;
           text-align: center;
 
           i {
@@ -443,16 +445,15 @@ const Container = styled.div`
         }
 
         .close_btn {
-          height: 36px;
-          width: 300px;
-          border: none;
+          height: 40px;
+          width: 100%;
           background-color: var(--NeutralBlack);
           color: var(--PrimaryBase);
           font-size: 16px;
           font-weight: 600;
           border-radius: 8px;
+          border: none;
           cursor: pointer;
-
           &:hover {
             background-color: var(--PrimaryBase);
             color: var(--NeutralBlack);
@@ -468,14 +469,15 @@ const Container = styled.div`
 
   .goback {
     width: 80%;
-    padding-top: 70px;
+    padding-top: 30px;
+    align-self: flex-start;
 
     .icon_holder {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 10px;
       cursor: pointer;
-      margin-left: 70px;
+      margin-left: 40px;
 
       .iconn {
         font-size: 20px;
@@ -484,6 +486,77 @@ const Container = styled.div`
       p {
         font-size: 16px;
         font-weight: 400;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .right {
+      width: 90%;
+      padding: 20px;
+      border-radius: 20px;
+      .title .bigtext {
+        font-size: 28px;
+      }
+      .title .smalltext {
+        font-size: 14px;
+      }
+      .input_holder .btn_holder {
+        flex-direction: column;
+        gap: 15px;
+        .btn1,
+        .btn2 {
+          width: 100%;
+        }
+      }
+    }
+
+    .holder .reciept_holder {
+      width: 90%;
+      top: 20%;
+      left: 5%;
+      transform: none;
+    }
+
+    .goback {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      padding: 20px 20px 0 20px;
+
+      .icon_holder {
+        border: none;
+        border-radius: 8px;
+        padding: 10px 18px;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 0;
+        width: fit-content;
+      }
+
+      .iconn {
+        font-size: 16px;
+      }
+
+      p {
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (min-width: 600px) and (max-width: 900px) {
+    .right {
+      width: 80%;
+      padding: 30px;
+      .title .bigtext {
+        font-size: 32px;
+      }
+      .title .smalltext {
+        font-size: 15px;
       }
     }
   }

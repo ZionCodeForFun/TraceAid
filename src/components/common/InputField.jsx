@@ -10,6 +10,7 @@ const InputField = (props) => {
         placeholder={props.placeholder}
         value={props.value}
         className={props.className}
+        style={{cursor:"pointer"}}
       />
     </div>
   );

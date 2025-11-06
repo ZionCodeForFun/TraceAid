@@ -23,14 +23,14 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     background-color: var(--Neutral_Offwhite);
-    border-radius: 28px; 
+    border-radius: 28px;
     border: 0.5px solid var(--Neutral_Grey1);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     height: auto;
 
     .img_holder {
       width: 100%;
-      height: 60px; 
+      height: 60px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -96,25 +96,47 @@ export const Container = styled.div`
         margin-top: 10px;
 
         .google_btn {
-          background-color: white;
-          border: 2px solid var(--Primary700);
-          color: var(--NeutralGrey4-Text);
-          font-size: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background-color: #ffffff;
+          color: #333333;
+          border: 1.5px solid #c1e86e;
           font-weight: 600;
-          padding: 10px 20px;
-          height: 42px;
-          width: 100%;
-          min-width: 400px;
-          border-radius: 10px;
+          padding: 0.6rem 1.2rem;
+          font-size: 1rem;
+          border-radius: 6px;
           transition: all 0.3s ease;
-        
-    @media screen and (min-width: 480px) and (max-width: 768px) {
-      max-width: 100px;
-    }
-          &:hover {
-            background-color: var(--Primary200);
+          width: 300px;
+          max-width: 400px;
+
+          svg {
+            font-size: 1.2rem;
           }
-          
+
+          &:hover {
+            background-color: #f3f8e4;
+            border-color: #a5d35d;
+          }
+
+          @media (min-width: 480px) and (max-width: 768px) {
+            font-size: 0.85rem;
+            padding: 0.55rem 1rem;
+            gap: 6px;
+            svg {
+              font-size: 1rem;
+            }
+          }
+
+          @media (min-width: 600px) and (max-width: 900px) {
+            font-size: 0.9rem;
+            padding: 0.6rem 1.1rem;
+            gap: 7px;
+            svg {
+              font-size: 1.1rem;
+            }
+          }
         }
 
         .line-text {
@@ -213,8 +235,6 @@ export const Container = styled.div`
 
       .footer .google_btn {
         font-size: 13px;
-       
-        
       }
 
       .footer .line-text {

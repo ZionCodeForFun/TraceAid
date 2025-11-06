@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import InputField from "../common/InputField";
 import Button from "../common/Button";
 import { GoPaperclip } from "react-icons/go";
+import { LuBriefcase } from "react-icons/lu";
+import { GoPerson } from "react-icons/go";
+import { SlLocationPin } from "react-icons/sl";
 import { IoArrowBackOutline } from "react-icons/io5";
 import styled from "styled-components";
 import { toast } from "react-toastify";
@@ -37,7 +40,7 @@ const KycVerification1 = () => {
     e.preventDefault();
 
     const emptyFields = Object.entries(formData).filter(
-      ([key, value]) => value === "" || value === null
+      ([, value]) => value === "" || value === null
     );
 
     if (emptyFields.length > 0) {
@@ -46,7 +49,6 @@ const KycVerification1 = () => {
     }
 
     dispatch(saveKycStep1(formData));
-
     nav("/verify_kyc2");
   };
 
@@ -82,20 +84,23 @@ const KycVerification1 = () => {
               type="text"
               name="organizationName"
               value={formData.organizationName}
-              placeholder="Community groups / NGO / Foundation"
               onChange={handleChange}
+              placeholder="John"
             />
+            <i>
+              <LuBriefcase />
+            </i>
           </div>
 
-            <div className="name_holder">
+          <div className="name_holder">
             <label>Organization Type</label>
             <select
               name="organizationType"
               value={formData.organizationType}
               onChange={handleChange}
-              className="select_input"
+              className="selected_input"
             >
-              <option value="">Select organization type</option>
+              <option value="">Community groups/ NGO / Foundation ....</option>
               <option value="Non-profit">Non-profit</option>
               <option value="NGO">NGO</option>
               <option value="Foundation">Foundation</option>
@@ -108,8 +113,8 @@ const KycVerification1 = () => {
               type="text"
               name="registrationNumber"
               value={formData.registrationNumber}
-              placeholder="CAC / NGO license number"
               onChange={handleChange}
+              placeholder="CAC / NGO license number"
             />
           </div>
 
@@ -125,12 +130,13 @@ const KycVerification1 = () => {
             <InputField
               type="text"
               placeholder={
-                formData.registrationCertificate?.name ||
-                "Upload registration certificate"
+                formData.registrationCertificate?.name || "File upload"
               }
               readOnly
             />
-            <i><GoPaperclip /></i>
+            <i>
+              <GoPaperclip />
+            </i>
             <p
               className="choose_file"
               onClick={() => document.getElementById("file-upload-1").click()}
@@ -148,6 +154,9 @@ const KycVerification1 = () => {
               placeholder="John Doe"
               onChange={handleChange}
             />
+            <i>
+              <GoPerson />
+            </i>
           </div>
 
           <div className="name_holder">
@@ -156,18 +165,21 @@ const KycVerification1 = () => {
               type="file"
               id="file-upload-2"
               accept="image/*,video/*"
-              onChange={(e) => handleFileChange(e, "authorizedRepresentativeId")}
+              onChange={(e) =>
+                handleFileChange(e, "authorizedRepresentativeId")
+              }
               style={{ display: "none" }}
             />
             <InputField
               type="text"
               placeholder={
-                formData.authorizedRepresentativeId?.name ||
-                "Upload ID document"
+                formData.authorizedRepresentativeId?.name || "File Upload"
               }
               readOnly
             />
-            <i><GoPaperclip /></i>
+            <i>
+              <GoPaperclip />
+            </i>
             <p
               className="choose_file"
               onClick={() => document.getElementById("file-upload-2").click()}
@@ -185,6 +197,9 @@ const KycVerification1 = () => {
               placeholder="Enter your address"
               onChange={handleChange}
             />
+            <i>
+              <SlLocationPin />
+            </i>
           </div>
 
           <div className="btn_holder">
@@ -198,18 +213,51 @@ const KycVerification1 = () => {
 
 export default KycVerification1;
 
-
-
 const Container = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  background-color: #fff;
   height: 100%;
   width: 100%;
+  margin-top: 20px;
+  position: relative;
+
+  .goback {
+    position: absolute;
+    top: 25px;
+    left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 10;
+    background: transparent;
+
+    .icon_holder {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      .iconn {
+        font-size: 22px;
+      }
+
+      p {
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--NeutralGrey4-Text);
+      }
+
+      &:hover p {
+        color: var(--Primary700);
+      }
+    }
+  }
 
   .right {
+    height: 100%;
     width: 650px;
+    margin: 0 auto;
     padding: 40px;
     display: flex;
     flex-direction: column;
@@ -223,18 +271,21 @@ const Container = styled.div`
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 8px;
       margin-bottom: 10px;
 
       .bigtext {
         color: var(--NeutralGrey4-Text);
         font-size: 40px;
         font-weight: 700;
+        text-align: center;
       }
 
       .smalltext {
         color: var(--NeutralGrey4-Text);
         font-size: 16px;
         font-weight: 400;
+        text-align: center;
       }
     }
 
@@ -245,7 +296,6 @@ const Container = styled.div`
       margin: 20px 0 30px 0;
       display: flex;
       justify-content: space-between;
-
       align-items: center;
 
       .line {
@@ -276,23 +326,24 @@ const Container = styled.div`
       width: 90%;
       display: flex;
       flex-direction: column;
-      gap: 19px;
+      gap: 29px;
 
       .big {
-        font-size: 18px;
-        font-weight: 600;
+        font-size: 24px;
+        font-weight: 500;
         color: var(--NeutralGrey4-Text);
       }
 
       .name_holder {
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        gap: 7px;
         position: relative;
 
         label {
           font-size: 14px;
           color: var(--NeutralGrey4-Text);
+          font-weight: 500;
         }
 
         input {
@@ -300,10 +351,23 @@ const Container = styled.div`
           padding: 10px 35px;
           border-radius: 12px;
           border: 1px solid var(--Neutral_Grey1);
-          outline: none;
-          color: #8d8d8d;
+          color: #2c2c2c;
           height: 48px;
           font-size: 16px;
+          cursor: pointer;
+
+          &::placeholder {
+            color: #8d8d8d;
+          }
+
+          &:focus {
+            outline: 0.5px solid #0000009b;
+            color: #000;
+          }
+        }
+
+        input[name="registrationNumber"] {
+          padding-left: 15px;
         }
 
         i {
@@ -338,6 +402,7 @@ const Container = styled.div`
           color: var(--PrimaryBase);
           font-size: 16px;
           font-weight: 600;
+          border: none;
 
           &:hover {
             background-color: var(--PrimaryBase);
@@ -347,98 +412,97 @@ const Container = styled.div`
       }
     }
 
-    .holder {
-      height: 90vh;
+    .selected_input,
+    .selected_input2 {
       width: 100%;
-      top: 0;
-      left: 0;
-      z-index: 9999;
-      position: fixed;
-      background-color: rgba(192, 192, 192, 0.3);
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--Neutral_Grey1);
+      color: #2c2c2c;
+      height: 48px;
+      font-size: 16px;
+      cursor: pointer;
 
-      .reciept_holder {
-        display: flex;
-        width: 448px;
-        height: 383px;
-        flex-direction: column;
-        background-color: white;
-        align-items: center;
-        padding: 40px;
-        top: 12%;
-        left: 30%;
-        z-index: 9999;
-        position: absolute;
-        border-radius: 8px;
-        gap: 20px;
+      &::placeholder {
+        color: #8d8d8d;
+      }
 
-        .content-holder {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 20px;
-          text-align: center;
-
-          i {
-            height: 64px;
-            width: 64px;
-            font-size: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #00a63e;
-            background-color: #dcfce7;
-          }
-
-          .bigtext {
-            font-size: 18px;
-            font-weight: 700;
-          }
-
-          .smalltext {
-            font-size: 14px;
-            font-weight: 400;
-          }
-        }
-
-        .close_btn {
-          height: 36px;
-          width: 300px;
-          border: none;
-          background-color: var(--NeutralBlack);
-          color: var(--PrimaryBase);
-          font-size: 16px;
-          font-weight: 600;
-          border-radius: 8px;
-          cursor: pointer;
-
-          &:hover {
-            background-color: var(--PrimaryBase);
-            color: var(--NeutralBlack);
-          }
-        }
+      &:focus {
+        outline: 0.5px solid #0000009b;
+        color: #000;
       }
     }
   }
 
-  .goback {
-    width: 80%;
-    padding-top: 70px;
+  /* Tablet */
+  @media screen and (max-width: 900px) {
+    .right {
+      width: 85%;
+      padding: 30px;
 
-    .icon_holder {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      cursor: pointer;
-      margin-left: 70px;
-
-      .iconn {
-        font-size: 20px;
+      .title .bigtext {
+        font-size: 32px;
       }
 
-      p {
-        font-size: 16px;
-        font-weight: 400;
+      .title .smalltext {
+        font-size: 14px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .goback {
+      top: 15px;
+      left: 15px;
+
+      .icon_holder {
+        gap: 6px;
+
+        p {
+          display: none;
+        }
+
+        .iconn {
+          font-size: 22px;
+        }
+      }
+    }
+
+    .right {
+      width: 95%;
+      padding: 20px;
+      gap: 15px;
+
+      .title .bigtext {
+        font-size: 26px;
+      }
+
+      .title .smalltext {
+        font-size: 13px;
+      }
+
+      .input_holder {
+        width: 100%;
+        gap: 20px;
+
+        .big {
+          font-size: 20px;
+        }
+
+        label {
+          font-size: 13px;
+        }
+
+        input,
+        .selected_input,
+        .selected_input2 {
+          font-size: 14px;
+          height: 42px;
+        }
+
+        .choose_file {
+          font-size: 13px;
+        }
       }
     }
   }

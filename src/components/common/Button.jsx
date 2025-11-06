@@ -6,7 +6,7 @@ const Button = (props) => {
       <button
         onClick={props.onClick}
         className={props.className}
-        style={{ cursor: "pointer" }}
+        style={{ cursor: "pointer", outline: "none" }}
       >
         {props.text}
       </button>
@@ -15,3 +15,4 @@ const Button = (props) => {
 };
 
 export default Button;
+

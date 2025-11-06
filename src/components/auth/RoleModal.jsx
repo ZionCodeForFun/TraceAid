@@ -67,7 +67,8 @@ const RoleModal = ({ onClose }) => {
 
 export default RoleModal;
 
-const Container = styled.div`
+
+ const Container = styled.div`
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -96,6 +97,7 @@ const Container = styled.div`
       img {
         object-fit: contain;
         height: 29px;
+        transition: all 0.3s ease;
       }
     }
 
@@ -107,13 +109,14 @@ const Container = styled.div`
       align-items: center;
       flex-direction: column;
       gap: 15px;
+      text-align: center;
 
       .big_text {
         font-size: 40px;
         font-weight: 700;
         color: var(--NeutralGrey4-Text);
-        text-align: center;
       }
+
       .small_text {
         font-weight: 500;
         font-size: 24px;
@@ -124,14 +127,12 @@ const Container = styled.div`
     .select_holder {
       display: flex;
       flex-direction: column;
-      height: 264px;
       width: 100%;
       gap: 20px;
 
       .select1,
       .select2 {
         height: 122px;
-        width: 100%;
         display: flex;
         flex-direction: column;
         gap: 15px;
@@ -140,17 +141,14 @@ const Container = styled.div`
         padding-left: 15px;
         cursor: pointer;
         transition: 0.3s ease;
+
         &:hover {
           background-color: var(--NeutralBlack);
           color: var(--PrimaryBase);
         }
       }
 
-      .select1 {
-        background-color: #f7f6f6;
-        color: var(--NeutralGrey4-Text);
-
-      }
+      .select1,
       .select2 {
         background-color: #f7f6f6;
         color: var(--NeutralGrey4-Text);
@@ -166,10 +164,12 @@ const Container = styled.div`
         font-size: 24px;
         font-weight: 700;
       }
+
       .text {
         font-size: 14px;
         font-weight: 400;
-        width: 390px;
+        width: 90%;
+        max-width: 390px;
       }
     }
 
@@ -177,23 +177,133 @@ const Container = styled.div`
       .already {
         display: flex;
         align-items: center;
-        width: 100%;
         justify-content: center;
         margin-top: 34px;
-        height: 19px;
         gap: 6px;
 
         p {
           font-size: 16px;
           font-weight: 400;
         }
+
         span {
           font-size: 16px;
           font-weight: 500;
           color: var(--Primary700);
+          color: #4ec03f;
           cursor: pointer;
+          
+          &:hover{
+            color: var(--Primary700);
+          }
         }
       }
+    }
+  }
+
+  /* 💻 Tablets (600px - 900px) */
+  @media (min-width: 600px) and (max-width: 900px) {
+    .wrapper {
+      width: 70%;
+      height: auto;
+      padding: 30px;
+      gap: 30px;
+    }
+
+    .intro .big_text {
+      font-size: 32px;
+    }
+
+    .intro .small_text {
+      font-size: 20px;
+    }
+
+    .select_holder .individual,
+    .select_holder .organization {
+      font-size: 20px;
+    }
+
+    .select_holder .text {
+      font-size: 13.5px;
+      max-width: 100%;
+    }
+  }
+
+  /* 📱 Mobile (max-width: 600px) */
+  @media (max-width: 600px) {
+    padding: 15px;
+
+    .wrapper {
+      width: 95%;
+      height: auto;
+      padding: 20px;
+      gap: 25px;
+    }
+
+    .logo_holder img {
+      height: 22px;
+    }
+
+    .intro {
+      height: auto;
+      gap: 10px;
+
+      .big_text {
+        font-size: 26px;
+      }
+
+      .small_text {
+        font-size: 16px;
+      }
+    }
+
+    .select_holder {
+      gap: 15px;
+
+      .select1,
+      .select2 {
+        height: auto;
+        padding: 15px;
+        gap: 10px;
+      }
+
+      .individual,
+      .organization {
+        font-size: 18px;
+      }
+
+      .text {
+        font-size: 12.5px;
+        width: 100%;
+      }
+    }
+
+    .select_wrapper .already {
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+
+      p,
+      span {
+        font-size: 13px;
+      }
+    }
+  }
+
+  /* 🖥 Small Laptops (900px - 1200px) */
+  @media (min-width: 900px) and (max-width: 1200px) {
+    .wrapper {
+      width: 50%;
+      height: auto;
+      padding: 35px;
+    }
+
+    .intro .big_text {
+      font-size: 34px;
+    }
+
+    .intro .small_text {
+      font-size: 22px;
     }
   }
 `;

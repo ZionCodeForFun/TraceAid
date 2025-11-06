@@ -10,6 +10,7 @@ import { CiBookmark, CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
 import axios from "axios";
 
+
 const HeaderNav = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
@@ -20,83 +21,70 @@ const HeaderNav = () => {
   const [showMenu, setShowMenu] = useState(false);
 
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
+  const toggleMenu = () => setShowMenu((prev) => !prev);
 
- 
-
-  useEffect(() => {
-    if (!auth?.user?._id) return;
-
-    if (
-      userData?.firstName &&
-      userData?.lastName &&
-      (userData?.profilePicture || userData?.profilePicture === null)
-    )
-      return;
-
-    const storedToken = auth.token;
-    if (!storedToken) return;
-
-    const getUserData = async () => {
-      try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_BaseUrl}/user/${auth.user._id}`,
-          { headers: { Authorization: `Bearer ${storedToken}` } }
-        );
-        dispatch(setUser(res.data.data));
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    getUserData();
-  }, [auth?.user?._id, auth?.token]);
-
-  const getInitials = (value) => {
-    if (!value) return "";
-    const parts = value.trim().split(" ").filter(Boolean);
-    if (parts.length === 1) return parts[0][0].toUpperCase();
-    return parts[0][0].toUpperCase() + parts[parts.length - 1][0].toUpperCase();
-  };
-
-  const fullName =
-    userData?.firstName && userData?.lastName
-      ? `${userData.firstName} ${userData.lastName}`
-      : userData?.organizationName || null;
-
-  const initials = fullName ? getInitials(fullName) : getInitials(userData?.email);
-
+  
   const logoutUser = () => {
     dispatch(logout());
     setOpenDropdown(false);
+    setShowMenu(false); 
     nav("/");
+  };
+
+  const handleNav = (path) => {
+    nav(path);
+    setShowMenu(false);
+    setOpenDropdown(false);
   };
 
   return (
     <NavBar>
       <LeftSection>
-        <LogoContainer onClick={() => nav("/")}>
+        <LogoContainer onClick={() => handleNav("/")}>
           <img src={logoImg} alt="TraceAid Logo" />
           <div className="divider"></div>
         </LogoContainer>
 
         <NavLinks showMenu={showMenu}>
-          <li onClick={() => nav("/campaign_data")}>Explore Campaigns</li>
-          <li onClick={() => nav("/how_it_works")}>How it Works</li>
-          <li onClick={() => nav("/explore")}>Start a Campaign</li>
+          <li onClick={() => handleNav("/campaign_data")}>Explore Campaigns</li>
+          <li onClick={() => handleNav("/how_it_works")}>How it Works</li>
+          <li onClick={() => handleNav("/explore")}>Start a Campaign</li>
 
+<MobileLinksWrapper>
+  <MobileOnlyDivider />
+
+  {!userData && (
+    <MobileButtonRow>
+      <button className="login" onClick={() => handleNav("/login")}>
+        Login
+      </button>
+      <button className="create" onClick={() => handleNav("/role_modal")}>
+        Create an Account
+      </button>
+    </MobileButtonRow>
+  )}
+
+  {userData && (
+    <>
+      <li onClick={() => handleNav("/my_donations")}>
+        <AiOutlineGift className="icon" /> My Donations
+      </li>
+    </>
+  )}
+</MobileLinksWrapper>
         </NavLinks>
-
-        <Hamburger onClick={toggleMenu}>
-          <RiMenuLine />
-        </Hamburger>
       </LeftSection>
+
+      <Hamburger onClick={toggleMenu}>
+        <RiMenuLine />
+      </Hamburger>
 
       {!userData && (
         <ButtonGroupDesktop>
-          <button className="login" onClick={() => nav("/login")}>
+          <button className="login" onClick={() => handleNav("/login")}>
             Login
           </button>
-          <button className="create" onClick={() => nav("/role_modal")}>
+          <button className="create" onClick={() => handleNav("/role_modal")}>
             Create an Account
           </button>
         </ButtonGroupDesktop>
@@ -126,20 +114,20 @@ const HeaderNav = () => {
           {openDropdown && (
             <DropdownMenu>
               {userData.role === "donor" && (
-                <li onClick={() => nav("/my_donations")}>
+                <li onClick={() => handleNav("/my_donations")}>
                   <AiOutlineGift className="icon" /> My Donations
                 </li>
               )}
               {userData.role === "fundraiser" && (
-                <li onClick={() => nav("/organization")}>
+                <li onClick={() => handleNav("/organization")}>
                   <AiOutlineGift className="icon" />
                   Fundraiser Dashboard
                 </li>
               )}
-              <li onClick={() => nav("/saved_campaigns")}>
+              <li onClick={() => handleNav("/saved_campaigns")}>
                 <CiBookmark className="icon" /> Saved Campaigns
               </li>
-              <li onClick={() => nav("/profile_settings")}>
+              <li onClick={() => handleNav("/profile_settings")}>
                 <CiSettings className="icon" /> My Account Settings
               </li>
               <li onClick={logoutUser} className="logout">
@@ -156,17 +144,19 @@ const HeaderNav = () => {
 export default HeaderNav;
 
 
+const breakpoint = "769px";
+
 const NavBar = styled.nav`
   width: 100%;
-  height: 70px;
+  height: 65px; 
   position: fixed;
-  padding: 1rem 2%;
+  padding: 0 4%; 
   top: 0;
   left: 0;
   z-index: 200;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; 
   background-color: #f8f9fa;
   transition: box-shadow 0.3s ease;
 
@@ -174,19 +164,18 @@ const NavBar = styled.nav`
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
   }
 
-  @media (max-width: 600px) {
-    justify-content: center;
-    height: 65px;
+  @media (min-width: ${breakpoint}) {
+    height: 70px; 
+    padding: 1rem 2%; 
   }
 `;
 
 const LeftSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 2rem;
-  position: relative;
-
-  @media (max-width: 768px) {
+  gap: 2rem; 
+  
+  @media (max-width: ${breakpoint}) {
     gap: 0.5rem;
   }
 `;
@@ -198,111 +187,122 @@ const LogoContainer = styled.div`
   cursor: pointer;
 
   img {
-    height: 35px;
-
-    @media (max-width: 768px) {
-      height: 40px; 
-    }
-
-    @media (min-width: 600px) and (max-width: 900px) {
-      height: 32px;
+    height: 40px; 
+    
+    @media (min-width: ${breakpoint}) {
+      height: 35px; 
     }
   }
 
   .divider {
+    display: none;
     width: 1.5px;
     height: 45px;
     background-color: #a8a8a8;
 
-    @media (max-width: 768px) {
-      display: none; 
-    }
-
-    @media (min-width: 600px) and (max-width: 900px) {
-      height: 40px;
+    @media (min-width: ${breakpoint}) {
+      display: block; 
     }
   }
 `;
 
 const NavLinks = styled.ul`
-  display: flex;
-  align-items: center;
+  display: ${({ showMenu }) => (showMenu ? "flex" : "none")};
+  flex-direction: column;
+  position: absolute;
+  top: 65px;
+  left: 0;
+  width: 100%;
+  background: #f8f9fa;
+  padding: 1rem 4%;
   list-style: none;
-  gap: 1.2rem;
+  gap: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   li {
-    font-size: 0.9rem;
+    font-size: 1rem; 
     font-weight: bold;
     cursor: pointer;
     transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+
+    .icon {
+      font-size: 1.2rem;
+    }
 
     &:hover {
       color: #617437;
     }
-
-    button {
-      width: 100%;
-      text-align: left;
-    }
   }
 
-  @media (max-width: 768px) {
-    display: ${({ showMenu }) => (showMenu ? "flex" : "none")};
-    flex-direction: column;
-    position: absolute;
-    top: 65px;
-    right: 0;
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    width: 200px;
-    gap: 1rem;
-  }
+  @media (min-width: ${breakpoint}) {
+    display: flex !important; 
+    flex-direction: row;
+    position: static;
+    width: auto;
+    background: transparent;
+    padding: 0;
+    gap: 1.2rem;
+    box-shadow: none;
 
-  @media (min-width: 600px) and (max-width: 900px) {
     li {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
+      .icon {
+        display: none;
+      }
     }
   }
 `;
 
-const Hamburger = styled.div`
-  display: none;
-  font-size: 1.8rem;
-  cursor: pointer;
+const MobileLinksWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
 
-  @media (max-width: 768px) {
-    display: flex;
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
+  @media (min-width: ${breakpoint}) {
+    display: none; 
   }
 `;
 
-const ButtonGroupDesktop = styled.div`
+const MobileOnlyDivider = styled.div`
+  height: 1px;
+  width: 100%;
+  background-color: #e0e0e0;
+
+  @media (min-width: ${breakpoint}) {
+    display: none; 
+  }
+`;
+
+
+const MobileButtonRow = styled.div`
   display: flex;
+  flex-direction: row;
   gap: 1rem;
+  width: 100%;
+
+  .login,
+  .create {
+    flex: 1; 
+    font-weight: bold;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 0.9rem; 
+    text-align: center;
+  }
 
   .login {
     border: 2px solid #617437;
     background: #ffffff;
     color: #333333;
-    font-weight: bold;
-    padding: 0.6rem 1.6rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s ease;
 
     &:hover {
       background-color: #d5e3b9ff;
-      color: #333333;
-    }
-
-    @media (min-width: 600px) and (max-width: 900px) {
-      padding: 0.5rem 1.2rem;
-      font-size: 0.8rem;
     }
   }
 
@@ -310,55 +310,102 @@ const ButtonGroupDesktop = styled.div`
     background-color: #1a1a1a;
     border: none;
     color: #c1e86e;
-    font-weight: bold;
-    padding: 0.6rem 1.2rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s ease;
 
     &:hover {
       background-color: #c1e86e;
       color: #1a1a1a;
     }
-
-    @media (min-width: 600px) and (max-width: 900px) {
-      padding: 0.5rem 1rem;
-      font-size: 0.8rem;
-    }
   }
+`;
 
-  @media (max-width: 768px) {
+
+const Hamburger = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+
+  @media (min-width: ${breakpoint}) {
     display: none; 
   }
 `;
 
+const ButtonGroupDesktop = styled.div`
+  display: none; 
+
+  @media (min-width: ${breakpoint}) {
+    display: flex;
+    gap: 1rem;
+
+    .login {
+      border: 2px solid #617437;
+      background: #ffffff;
+      color: #333333;
+      font-weight: bold;
+      padding: 0.6rem 1.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s ease;
+
+      &:hover {
+        background-color: #d5e3b9ff;
+        color: #333333;
+      }
+    }
+
+    .create {
+      background-color: #1a1a1a;
+      border: none;
+      color: #c1e86e;
+      font-weight: bold;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s ease;
+
+      &:hover {
+        background-color: #c1e86e;
+        color: #1a1a1a;
+      }
+    }
+  }
+`;
+
 const ProfileWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  cursor: pointer;
-  position: relative;
+  display: none; 
 
-  .profile-img,
-  .initials {
-    width: 42px;
-    height: 42px;
-  }
+  @media (min-width: ${breakpoint}) {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    position: relative;
 
-  .initials {
-    font-size: 0.95rem;
-  }
+    .profile-img,
+    .initials {
+      width: 42px;
+      height: 42px;
+    }
 
-  .info h4 {
-    font-size: 0.9rem;
-  }
+    .initials {
+      font-size: 0.95rem;
+    }
 
-  .info p {
-    font-size: 0.75rem;
-  }
+    .info {
+      display: block; 
+    }
 
-  .arrow {
-    font-size: 1.4rem;
+    .info h4 {
+      font-size: 0.9rem;
+    }
+
+    .info p {
+      font-size: 0.75rem;
+    }
+
+    .arrow {
+      font-size: 1.4rem;
+    }
   }
 `;
 
@@ -367,7 +414,7 @@ const DropdownMenu = styled.ul`
   top: 60px;
   right: 0;
   width: 250px;
-  height: 200px;
+  height: 200px; 
   background: #fff;
   border-radius: 8px;
   padding: 0.9rem 1.2rem;
