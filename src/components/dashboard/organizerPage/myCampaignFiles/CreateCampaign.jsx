@@ -33,8 +33,10 @@ const CreateCampaign = ({ onClose }) => {
   });
 
   const nav = useNavigate();
-  const user = useSelector((state) => state.auth.user);
-  console.log("create campagn token", user.token);
+  const token = useSelector((state) => state.auth.token);
+  const user = useSelector((state) => state.auth);
+  
+  console.log("create campagn user", user );
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -117,7 +119,7 @@ const CreateCampaign = ({ onClose }) => {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${token}`,
           },
           body: data,
         }

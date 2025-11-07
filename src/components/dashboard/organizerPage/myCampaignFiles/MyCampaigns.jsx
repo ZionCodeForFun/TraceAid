@@ -72,7 +72,7 @@ const MyCampaigns = () => {
 
   const handleShare = (platform) => {
     const text = encodeURIComponent(
-      "I just supported this cause! You can too. Every little bit counts ❤️"
+      "I just supported this cause! You can too. Every little bit counts "
     );
     const url = encodeURIComponent(VITE_campaignBaseUrl);
     let shareUrl = "";
@@ -85,7 +85,7 @@ const MyCampaigns = () => {
         break;
       case "instagram":
         toast.success(
-          "Instagram doesn’t support direct web sharing — copy the link instead 😅"
+          "Instagram doesn’t support direct web sharing — copy the link instead "
         );
         return;
       default:
@@ -196,7 +196,7 @@ const MyCampaigns = () => {
                       <th>No of Donors</th>
                       <th>Status</th>
                       <th>Milestones</th>
-                      <th>Duration</th>
+                      <th>Deadline</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
