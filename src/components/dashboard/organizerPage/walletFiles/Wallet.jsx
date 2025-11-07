@@ -5,6 +5,8 @@ import InputField from "../../../common/InputField";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Loader2 } from "lucide-react";
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const campaigns = [
   "Stationery for the children of Makoko Nursery School",
@@ -17,24 +19,46 @@ const Wallet = () => {
   const location = useLocation();
   const isMainWallet = location.pathname.endsWith("/wallet");
 
+  const token = useSelector((state) => state.auth.user?.token);
+
   const [selectedCampaign, setSelectedCampaign] = useState("");
   const [showCategoryDrop, setShowCategoryDrop] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [walletSummary, setWalletSummary] = useState({
+    activeBalance: 0,
+    totalWithdrawn: 0,
+  });
 
   useEffect(() => {
-    setLoading(true);
-    setError("");
+    const fetchWalletData = async () => {
+      try {
+        setLoading(true);
+        setError("");
 
-    const timer = setTimeout(() => {
-      setTransactions([]);
-      setLoading(false);
-    }, 2000);
+        const res = await axios.get(`${import.meta.env.VITE_BaseUrl2}/wallet/summary`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-    return () => clearTimeout(timer);
-  }, []);
+        const data = res.data?.data;
+        setTransactions(data?.transactions || []);
+        setWalletSummary({
+          activeBalance: data?.balance || 0,
+          totalWithdrawn: data?.withdrawn || 0,
+        });
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to load wallet data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) fetchWalletData();
+  }, [token]);
 
   const filteredData = transactions.filter(
     (item) =>
@@ -61,29 +85,33 @@ const Wallet = () => {
               <div className="card" style={{ background: "#EBF5FF" }}>
                 <div className="top">
                   <p>Active Balance</p>
-                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>
-                    ₦
-                  </span>
+                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>₦</span>
                 </div>
                 <div className="down">
-                  <p>₦{(0).toLocaleString()}</p>
+                  {loading ? (
+                    <div className="skeleton skeleton-text"></div>
+                  ) : (
+                    <p>₦{walletSummary.activeBalance.toLocaleString()}</p>
+                  )}
                 </div>
               </div>
 
               <div className="card" style={{ background: "#E8FFF9" }}>
                 <div className="top">
                   <p>Total Withdrawn</p>
-                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>
-                    ₦
-                  </span>
+                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>₦</span>
                 </div>
                 <div className="down">
-                  <p>₦{(0).toLocaleString()}</p>
+                  {loading ? (
+                    <div className="skeleton skeleton-text"></div>
+                  ) : (
+                    <p>₦{walletSummary.totalWithdrawn.toLocaleString()}</p>
+                  )}
                 </div>
               </div>
             </div>
 
-            <label>Select campaign to view details</label>
+            <label style={{padding:"10px 0"}}>Select campaign to view details</label>
             <div className="select_control">
               <InputField
                 type="text"
@@ -150,7 +178,7 @@ const Wallet = () => {
                   <thead>
                     <tr>
                       <th>Reference ID</th>
-                      <th>Campaigns</th>
+                      <th>Campaign</th>
                       <th>Date</th>
                       <th>Amount</th>
                       <th>Status</th>
@@ -159,21 +187,18 @@ const Wallet = () => {
                   <tbody>
                     {filteredData.length === 0 ? (
                       <tr>
-                        <td
-                          colSpan="5"
-                          style={{ textAlign: "center", color: "#777" }}
-                        >
+                        <td colSpan="5" style={{ textAlign: "center", color: "#777" }}>
                           No transactions available
                         </td>
                       </tr>
                     ) : (
                       filteredData.map((item, index) => (
                         <tr key={index}>
-                          <td>{item.refId}</td>
-                          <td className="details">{item.details}</td>
-                          <td>{item.date}</td>
-                          <td>₦{item.amount.toLocaleString()}</td>
-                          <td>{item.status}</td>
+                          <td>{item.refId || "—"}</td>
+                          <td className="details">{item.details || "—"}</td>
+                          <td>{new Date(item.date).toLocaleDateString()}</td>
+                          <td>₦{item.amount?.toLocaleString()}</td>
+                          <td>{item.status || "Pending"}</td>
                         </tr>
                       ))
                     )}
@@ -184,6 +209,29 @@ const Wallet = () => {
           </>
         )}
       </article>
+
+      <style jsx>{`
+        .skeleton {
+          background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+          background-size: 200% 100%;
+          animation: shimmer 1.6s infinite;
+          border-radius: 8px;
+        }
+
+        .skeleton-text {
+          width: 120px;
+          height: 22px;
+        }
+
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+      `}</style>
     </Container>
   );
 };
