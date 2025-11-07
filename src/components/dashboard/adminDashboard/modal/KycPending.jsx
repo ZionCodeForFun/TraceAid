@@ -4,7 +4,7 @@ import { X, FileText, CheckCircle, XCircle } from "lucide-react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
+import { useParams } from "react-router-dom";
 const KycPending = ({ kycData, onClose }) => {
   if (!kycData) return null;
 
@@ -16,12 +16,13 @@ const KycPending = ({ kycData, onClose }) => {
     registrationCertificate,
     authorizedRepresentativeId,
     _id,
-    bankDetails, 
+    bankDetails,
   } = kycData;
+
+  console.log("This is Id", _id);
 
   const { token } = useSelector((state) => state.adminAuth);
   const [loading, setLoading] = useState(false);
-
   const handleVerify = async (newStatus) => {
     try {
       setLoading(true);
@@ -36,30 +37,24 @@ const KycPending = ({ kycData, onClose }) => {
           },
         }
       );
-
       toast.success(
         `KYC ${newStatus === "verified" ? "approved" : "rejected"} successfully`
       );
       onClose();
     } catch (err) {
+      console.log("yes", err.response?.data);
       toast.error(err.response?.data?.message || "Failed to verify KYC");
-      console.log(err.response?.data);
     } finally {
       setLoading(false);
     }
   };
 
- 
   const formatDocUrl = (url) => {
     if (!url) return null;
     if (Array.isArray(url)) return formatDocUrl(url[0]);
     if (typeof url === "object") {
       const val =
-        url.secure_url ||
-        url.url ||
-        url.path ||
-        url.imageUrl ||
-        url.public_id;
+        url.secure_url || url.url || url.path || url.imageUrl || url.public_id;
       return formatDocUrl(val);
     }
     if (typeof url !== "string") return null;
@@ -145,14 +140,19 @@ const KycPending = ({ kycData, onClose }) => {
 
           <Separator />
 
-         
-             <Divider />
+          <Divider />
 
           <section>
             <h4>Bank Details</h4>
-            <h6><p>Account Name:</p> {kycData.bankAccountName || "N/A"}</h6>
-            <h6><p>Account Number:</p> {kycData.bankAccountNumber || "N/A"}</h6>
-            <h6><p>Bank Name:</p> {kycData.bankName || "N/A"}</h6>
+            <h6>
+              <p>Account Name:</p> {kycData.bankAccountName || "N/A"}
+            </h6>
+            <h6>
+              <p>Account Number:</p> {kycData.bankAccountNumber || "N/A"}
+            </h6>
+            <h6>
+              <p>Bank Name:</p> {kycData.bankName || "N/A"}
+            </h6>
           </section>
 
           <Divider />
@@ -165,8 +165,7 @@ const KycPending = ({ kycData, onClose }) => {
                 onClick={() => handleVerify("rejected")}
                 disabled={loading}
               >
-                <XCircle size={20} />{" "}
-                {loading ? "Processing..." : "Reject"}
+                <XCircle size={20} /> {loading ? "Processing..." : "Reject"}
               </RejectButton>
               <ApproveButton
                 onClick={() => handleVerify("verified")}

@@ -122,7 +122,7 @@ const App = () => (
       {/* ADMIN ROUTES AND PAGES BELOW, DON'T ADD ROUTES THATS NOT ADMIN'S */}
       <Route path="/admin_register" element={<AdminRegister />} />
       <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
-      <Route path="/asmin_login" element={<AdminLogin />} />
+      <Route path="/admin_login" element={<AdminLogin />} />
       <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
       <Route
         path="/admin-request-password/:token/:id"
