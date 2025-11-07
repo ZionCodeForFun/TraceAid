@@ -219,7 +219,7 @@ const Wallet = () => {
         }
 
         .skeleton-text {
-          width: 120px;
+          width: 60px;
           height: 22px;
         }
 
