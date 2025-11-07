@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Container } from "../../../../style/SettingsStyle";
 import InputField from "../../../common/InputField";
-import { GoPaperclip } from "react-icons/go";
-import { IoLocationOutline } from "react-icons/io5";
-import Button from "../../../common/Button";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -11,6 +8,7 @@ import axios from "axios";
 const KycVerify = () => {
   const fileInputRef = useRef(null);
   const { user, token } = useSelector((state) => state.auth);
+
   const [isVerified, setIsVerified] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -20,18 +18,18 @@ const KycVerify = () => {
     certificate: null,
   });
 
-  // Fetch KYC status after login
+  const baseUrl = import.meta.env.VITE_BaseUrl_Kyc_Auto;
+  console.log("user:", user);
+  console.log("token:", token);
+  console.log("baseUrl:", baseUrl);
   useEffect(() => {
     const fetchKycStatus = async () => {
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_BaseUrl3}/kyc/${user.id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const res = await axios.post(`${baseUrl}/add-kyc/${user._id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-        if (res.data?.verificationStatus === "verified") {
+        if (res.data?.data?.verificationStatus === "verified") {
           setIsVerified(true);
           setFormData({
             registrationNumber: res.data.registrationNumber,
@@ -49,9 +47,10 @@ const KycVerify = () => {
     };
 
     fetchKycStatus();
-  }, [user, token]);
+  }, []);
 
-  if (loading) return <p style={{marginLeft:"100px"}}>Loading KYC details...</p>;
+  if (loading)
+    return <p style={{ marginLeft: "100px" }}>Loading KYC details...</p>;
 
   return (
     <Container>

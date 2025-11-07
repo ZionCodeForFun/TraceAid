@@ -66,8 +66,8 @@ const OverViewPage = () => {
       }
     };
 
-    fetchDashboard();
-  }, [token]);
+    if (token) fetchDashboard();
+  }, [token, location.key]);
 
   return (
     <Container>
@@ -137,7 +137,11 @@ const OverViewPage = () => {
 
         <div className="recent_text">
           <p>Recent Transactions</p>
-          <InputField type="text" placeholder="Search input" className="input" />
+          <InputField
+            type="text"
+            placeholder="Search input"
+            className="input"
+          />
         </div>
 
         <div className="table-container">
