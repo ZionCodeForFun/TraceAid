@@ -22,6 +22,7 @@ const CreateCampaign = ({ onClose }) => {
     showaddmilestone: false,
     milestones: [],
     showMilestoneDetails: null,
+    editingMilestoneIndex: null,
   });
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -35,8 +36,9 @@ const CreateCampaign = ({ onClose }) => {
   const nav = useNavigate();
   const token = useSelector((state) => state.auth?.token);
 
+  // console.log(" token", token);
   const user = useSelector((state) => state.auth.user);
-  console.log(" user",user)
+  console.log(" user", user);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -359,6 +361,17 @@ const CreateCampaign = ({ onClose }) => {
                     >
                       {milestone.duration}
                     </p>
+                    <Button
+                      text="Edit Milestone"
+                      className="edit_btn"
+                      onClick={() =>
+                        setState((prev) => ({
+                          ...prev,
+                          showaddmilestone: true,
+                          editingMilestoneIndex: index,
+                        }))
+                      }
+                    />
                   </div>
                 )}
               </div>
@@ -418,20 +431,22 @@ const CreateCampaign = ({ onClose }) => {
         </form>
 
         {showaddmilestone && (
-          <AddMilestone
-            onClose={(saved, data) => {
-              setState((prev) => ({
-                ...prev,
-                showaddmilestone: false,
-                ...(saved && data
-                  ? {
-                      milestones: [...prev.milestones, data],
-                      show: true,
-                    }
-                  : {}),
-              }));
-            }}
-          />
+          <div className="modal_overlay">
+            <AddMilestone
+              onClose={(saved, data) => {
+                setState((prev) => ({
+                  ...prev,
+                  showaddmilestone: false,
+                  ...(saved && data
+                    ? {
+                        milestones: [...prev.milestones, data],
+                        show: true,
+                      }
+                    : {}),
+                }));
+              }}
+            />
+          </div>
         )}
 
         {showreciept && (
@@ -462,164 +477,176 @@ const CreateCampaign = ({ onClose }) => {
 
 export default CreateCampaign;
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  height: 100%;
+  align-items: center;
   width: 100%;
-  .right {
-    width: 650px;
-    height: 900px;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    border-radius: 40px;
-    background: #fff;
-    position: relative;
-    .title {
+  height: 100%;
+
+  .goback {
+    width: 80%;
+    padding-top: 70px;
+
+    .icon_holder {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      .bigtext {
-        color: var(--NeutralGrey4-Text);
-        font-size: 40px;
-        font-weight: 700;
-        padding-top: 40px;
+      gap: 16px;
+      margin-left: 70px;
+      cursor: pointer;
+
+      .iconn {
+        font-size: 20px;
       }
-      .smalltext {
-        color: var(--NeutralGrey4-Text);
+
+      p {
         font-size: 16px;
         font-weight: 400;
       }
     }
-    .input_holder {
-      width: 90%;
-      height: max-content;
+  }
+
+  .right {
+    width: 650px;
+    height: 900px;
+    padding: 40px;
+    margin-bottom: 70px;
+    border-radius: 40px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+
+    .title {
       display: flex;
       flex-direction: column;
-      justify-content: end;
-      position: relative;
+      align-items: center;
+
+      .bigtext {
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--NeutralGrey4-Text);
+        padding-top: 40px;
+      }
+
+      .smalltext {
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--NeutralGrey4-Text);
+      }
+    }
+
+    .input_holder {
+      width: 90%;
+      display: flex;
+      flex-direction: column;
       gap: 19px;
+      position: relative;
+
       .name_holder {
         display: flex;
         flex-direction: column;
-        height: 71px;
-        position: relative;
         gap: 5px;
-        .custom_select {
-          position: relative;
-          width: 100%;
-        }
-        .custom_select select {
-          width: 100%;
-          padding: 10px 35px;
-          border-radius: 12px;
-          border: 1px solid var(--Neutral_Grey1);
-          outline: none;
-          color: #333;
-          height: 48px;
-          font-size: 16px;
-          background-color: #f9f9f9;
-          appearance: none;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-        .custom_select select:hover {
-          background-color: #efefef;
-        }
-        .custom_select select:focus {
-          background-color: #fff;
-          box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-        }
-        .custom_select option {
-          color: #333;
-          background-color: #fff;
-          padding: 10px;
-        }
-        .custom_select option:hover {
-          background-color: var(--PrimaryBase);
-          color: #fff;
-        }
-        .custom_select .menu_i {
-          position: absolute;
-          top: 50%;
-          right: 12px;
-          transform: translateY(-50%);
-          color: #8d8d8d;
-          font-size: 20px;
-          pointer-events: none;
-        }
+
         label {
           font-size: 14px;
           font-weight: 400;
           color: var(--NeutralGrey4-Text);
         }
+
         input {
           width: 100%;
+          height: 48px;
           padding: 10px 35px;
+          font-size: 16px;
           border-radius: 12px;
           border: 1px solid var(--Neutral_Grey1);
           outline: none;
           color: #8d8d8d;
-          height: 48px;
-          font-size: 16px;
+          background-color: #f9f9f9;
         }
-        .menu_i {
-          position: absolute;
-          top: 52%;
-          right: 2%;
-          color: #8d8d8d;
-          font-size: 20px;
-          cursor: pointer;
+
+        .custom_select {
+          position: relative;
+          width: 100%;
+
+          select {
+            width: 100%;
+            height: 48px;
+            padding: 10px 35px;
+            border-radius: 12px;
+            border: 1px solid var(--Neutral_Grey1);
+            background-color: #f9f9f9;
+            color: #333;
+            font-size: 16px;
+            appearance: none;
+            cursor: pointer;
+            outline: none;
+            transition: 0.3s all ease;
+
+            &:hover {
+              background-color: #efefef;
+            }
+
+            &:focus {
+              background-color: #fff;
+              box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+            }
+          }
+
+          .menu_i {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #8d8d8d;
+            pointer-events: none;
+          }
         }
+
         i {
           position: absolute;
-          top: 52%;
-          left: 2%;
-          color: #8d8d8d;
+          top: 56%;
+          left: 10px;
+          transform: translateY(-50%);
           font-size: 20px;
+          color: #8d8d8d;
         }
+
         .choose_file {
           position: absolute;
-          top: 50%;
+          top: 56%;
           right: 4%;
-          color: var(--PrimaryBase);
-          font-weight: 400;
+          transform: translateY(-50%);
           font-size: 16px;
+          color: var(--PrimaryBase);
           cursor: pointer;
         }
       }
+
       .btn_close {
         position: absolute;
         top: -37%;
         right: 4%;
-        cursor: pointer;
         font-size: 24px;
         color: #8d8d8d;
+        cursor: pointer;
       }
     }
-    .sec_add {
-      border-bottom: 1px solid #333333;
-      width: 200px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-    }
+
     .milestone_dropdown {
       width: 100%;
       border: 1px solid #e0e0e0;
       border-radius: 8px;
-      margin-top: 100px;
       background: #fff;
-      position: relative;
-      transition: all 0.3s ease;
       overflow: hidden;
       max-height: 55px;
+      margin-top: 20px;
       cursor: pointer;
+      transition: all 0.3s ease;
 
       &.expanded {
         max-height: 300px;
@@ -629,100 +656,69 @@ const Container = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 12px 16px;
         font-weight: 700;
         font-size: 16px;
-        padding: 12px 16px;
       }
 
       .arrow {
         transition: transform 0.3s ease;
-      }
 
-      .arrow.rotated {
-        transform: rotate(180deg);
+        &.rotated {
+          transform: rotate(180deg);
+        }
       }
 
       .milestone_content {
         padding: 12px 16px;
         border-top: 1px solid #e0e0e0;
         animation: fadeIn 0.3s ease;
+        p {
+          margin: 4px 0;
+          font-size: 16px;
+          font-weight: 400;
+          color: #4d4d4d;
+
+          &:nth-child(2),
+          &:nth-child(4) {
+            font-weight: 500;
+            color: #0a9c57;
+          }
+        }
       }
     }
 
     .alrt_holder {
-      gap: 5px;
       display: flex;
       flex-direction: column;
+      gap: 5px;
       margin-top: 30px;
+
       .add {
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
         border-bottom: 1px solid #333333;
         width: fit-content;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
       }
+
       .alrt {
         display: flex;
+        align-items: center;
+        gap: 8px;
         font-size: 12px;
         color: #4d4d4d;
-        gap: 8px;
-        align-items: center;
-        margin-top: 5px;
-        .alrt_icon {
-          font-size: 17px;
-        }
+
         &.error {
           color: #e50914;
+        }
+
+        .alrt_icon {
+          font-size: 17px;
         }
       }
     }
 
-    .sec_add {
-      border-bottom: 1px solid #333333;
-      width: fit-content;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-5px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .alrt_holder {
-      gap: 5px;
-      display: flex;
-      flex-direction: column;
-      margin-top: 100px;
-      .add {
-        border-bottom: 1px solid #333333;
-        width: 136px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-      }
-      .alrt {
-        display: flex;
-        font-size: 12px;
-        color: #4d4d4d;
-        gap: 8px;
-        align-items: center;
-        margin-top: 5px;
-        .alrt_icon {
-          font-size: 17px;
-        }
-        &.error {
-          color: #e50914;
-        }
-      }
-    }
     .check {
       display: flex;
       align-items: center;
@@ -730,143 +726,153 @@ const Container = styled.div`
       margin-top: 15px;
       font-size: 14px;
       color: var(--NeutralGrey4-Text);
+
       input[type="checkbox"] {
-        appearance: none;
         width: 18px;
         height: 18px;
         border: 2px solid var(--NeutralGrey4-Text);
         border-radius: 4px;
+        appearance: none;
         cursor: pointer;
         position: relative;
         transition: all 0.2s ease;
+
+        &:checked {
+          background-color: var(--PrimaryBase);
+          border-color: var(--PrimaryBase);
+          transform: scale(1.1);
+          box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+
+          &::after {
+            content: "✔";
+            color: #fff;
+            font-size: 12px;
+            position: absolute;
+            top: -1px;
+            left: 3px;
+          }
+        }
       }
-      input[type="checkbox"]:checked {
-        background-color: var(--PrimaryBase);
-        border-color: var(--PrimaryBase);
-        transform: scale(1.1);
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-      }
-      input[type="checkbox"]:checked::after {
-        content: "✔";
-        color: #fff;
-        font-size: 12px;
-        position: absolute;
-        top: -1px;
-        left: 3px;
-      }
+
       label {
         cursor: pointer;
         user-select: none;
       }
     }
+
     .btn_holder {
       display: flex;
+      gap: 10px;
+      width: 100%;
       height: 43px;
-      justify-content: space-between;
+
       .btn {
-        height: 100%;
         width: 100%;
+        height: 100%;
         border-radius: 8px;
         background-color: var(--NeutralBlack);
         color: var(--PrimaryBase);
         font-size: 16px;
         font-weight: 600;
+        cursor: pointer;
+
         &:hover {
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
         }
       }
     }
+
     .holder {
-      height: 90vh;
-      width: 100%;
-      top: 0%;
-      left: 0%;
-      z-index: 9999;
       position: fixed;
-      background-color: rgb(192, 192, 192, 0.3);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 90vh;
+      background-color: rgba(192, 192, 192, 0.3);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
       .reciept_holder {
-        display: flex;
         width: 448px;
         height: 383px;
-        flex-direction: column;
-        background-color: white;
-        align-items: center;
-        padding: 40px;
-        top: 12%;
-        left: 30%;
-        z-index: 9999;
-        position: absolute;
+        background: #fff;
         border-radius: 8px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         gap: 20px;
+        position: relative;
+
         .content-holder {
-          width: 462px;
-          height: 200px;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 20px;
           text-align: center;
+
           i {
-            height: 64px;
-            width: 64px;
-            background-color: black;
-            font-size: 32px;
-            border-radius: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 64px;
+            height: 64px;
+            font-size: 32px;
             color: #00a63e;
             background-color: #dcfce7;
+            border-radius: 50%;
           }
+
           .bigtext {
             font-size: 18px;
             font-weight: 700;
           }
-          .small {
+
+          .smalltext {
             font-size: 14px;
             font-weight: 400;
-            width: 104px;
-            height: 55px;
-            text-align: center;
           }
         }
+
         .close_btn {
-          height: 36px;
           width: 300px;
-          border: 1px solid var(--Neutral_Grey1);
-          color: #0a0a0a;
-          font-size: 16px;
+          height: 36px;
           margin-top: 20px;
+          font-size: 16px;
+          font-weight: 600;
+          border-radius: 8px;
           background-color: var(--NeutralBlack);
           color: var(--PrimaryBase);
-          font-weight: 600;
-          font-family: Arial, Helvetica, sans-serif;
-          border-radius: 8px;
           cursor: pointer;
         }
       }
     }
   }
-  .goback {
-    height: 20px;
-    width: 80%;
-    padding-top: 70px;
-    .icon_holder {
-      display: flex;
-      margin-left: 70px;
-      gap: 16px;
-      width: 100%;
-      height: 100%;
-      align-items: center;
-      .iconn {
-        font-size: 20px;
-        cursor: pointer;
-      }
-      p {
-        font-size: 16px;
-        font-weight: 400;
-      }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
+  .modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+
 `;

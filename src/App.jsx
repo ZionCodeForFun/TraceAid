@@ -136,7 +136,7 @@ const App = () => (
         <Route path="" element={<DashboardManagement />} />
         <Route path="users" element={<AdminUsers />} />
         <Route path="verification" element={<AdminVerification />} />
-        <Route path="campaigns" element={<AdminCampaignManagement />} />
+        <Route path="campaign" element={<AdminCampaignManagement />} />
         <Route path="reports" element={<ReportDashboard />} />
         <Route path="Kyc" element={<AdminKyc />} />
       </Route>

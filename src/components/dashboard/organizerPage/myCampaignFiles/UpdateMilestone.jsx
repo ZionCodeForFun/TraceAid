@@ -86,7 +86,6 @@ const UpdateMilestone = ({ onClose, campaign }) => {
 
           <IoCloseSharp onClick={() => onClose()} className="btn_close" />
         </form>
-        
       </aside>
     </Container>
   );
@@ -190,7 +189,7 @@ const Container = styled.div`
           }
 
           &.error {
-            color: #e50914; 
+            color: #e50914;
           }
         }
       }
@@ -200,7 +199,7 @@ const Container = styled.div`
         top: -37%;
         right: 4%;
         cursor: pointer;
-        font-size: 24px;
+        font-size: 84px;
         color: #8d8d8d;
       }
     }
