@@ -30,6 +30,20 @@ const Spinner = () => (
   </div>
 );
 
+const SkeletonLoader = () => (
+  <div
+    style={{
+      width: "60px",
+      height: "20px",
+      borderRadius: "4px",
+      background:
+        "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+      backgroundSize: "200% 100%",
+      animation: "loading 1.2s ease-in-out infinite",
+    }}
+  ></div>
+);
+
 const OverViewPage = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -59,61 +73,66 @@ const OverViewPage = () => {
     <Container>
       <article className="wrapper">
         <div className="card_holder">
-          {loading ? (
-            <>
-              <div className="card"><Spinner /></div>
-              <div className="card"><Spinner /></div>
-              <div className="card"><Spinner /></div>
-              <div className="card"><Spinner /></div>
-            </>
-          ) : (
-            <>
-              <div className="card">
-                <div className="top">
-                  <p>Total Donations</p>
-                </div>
-                <div className="down">
-                  <p>₦{dashboardData?.totalDonations?.toLocaleString() || 0}</p>
-                </div>
-              </div>
+          <div className="card">
+            <div className="top">
+              <p>Total Donations</p>
+            </div>
+            <div className="down">
+              {loading ? (
+                <SkeletonLoader />
+              ) : (
+                <p>₦{dashboardData?.totalDonations?.toLocaleString() || 0}</p>
+              )}
+            </div>
+          </div>
 
-              <div className="card" style={{ background: "#EBF5FF" }}>
-                <div className="top">
-                  <p>Active Campaigns</p>
-                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>
-                    <GoGift />
-                  </span>
-                </div>
-                <div className="down">
-                  <p>{dashboardData?.activeCampaigns || 0}</p>
-                </div>
-              </div>
+          <div className="card" style={{ background: "#EBF5FF" }}>
+            <div className="top">
+              <p>Active Campaigns</p>
+              <span style={{ background: "#DBEAFE", color: "#8402E3" }}>
+                <GoGift />
+              </span>
+            </div>
+            <div className="down">
+              {loading ? (
+                <SkeletonLoader />
+              ) : (
+                <p>{dashboardData?.activeCampaigns || 0}</p>
+              )}
+            </div>
+          </div>
 
-              <div className="card" style={{ background: "#E8FFF9" }}>
-                <div className="top">
-                  <p>Milestone Achieved</p>
-                  <span style={{ background: "#CFF6EC", color: "#3D7D6C" }}>
-                    <FiFlag />
-                  </span>
-                </div>
-                <div className="down">
-                  <p>{dashboardData?.milestones || 0}</p>
-                </div>
-              </div>
+          <div className="card" style={{ background: "#E8FFF9" }}>
+            <div className="top">
+              <p>Milestone Achieved</p>
+              <span style={{ background: "#CFF6EC", color: "#3D7D6C" }}>
+                <FiFlag />
+              </span>
+            </div>
+            <div className="down">
+              {loading ? (
+                <SkeletonLoader />
+              ) : (
+                <p>{dashboardData?.milestones || 0}</p>
+              )}
+            </div>
+          </div>
 
-              <div className="card" style={{ background: "#FFF7EC" }}>
-                <div className="top">
-                  <p>Pending Verifications</p>
-                  <span style={{ background: "#FFEDD4", color: "#F54900" }}>
-                    <CiCircleAlert />
-                  </span>
-                </div>
-                <div className="down">
-                  <p>{dashboardData?.pendingVerifications || 0}</p>
-                </div>
-              </div>
-            </>
-          )}
+          <div className="card" style={{ background: "#FFF7EC" }}>
+            <div className="top">
+              <p>Pending Verifications</p>
+              <span style={{ background: "#FFEDD4", color: "#F54900" }}>
+                <CiCircleAlert />
+              </span>
+            </div>
+            <div className="down">
+              {loading ? (
+                <SkeletonLoader />
+              ) : (
+                <p>{dashboardData?.pendingVerifications || 0}</p>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="recent_text">
@@ -160,6 +179,15 @@ const OverViewPage = () => {
           @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+          }
+
+          @keyframes loading {
+            0% {
+              background-position: 200% 0;
+            }
+            100% {
+              background-position: -200% 0;
+            }
           }
         `}
       </style>

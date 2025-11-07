@@ -5,11 +5,19 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
- 
 
   .wrapper {
+    @keyframes loading {
+      0% {
+        background-position: 200% 0;
+      }
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
     display: flex;
-   
+
     max-width: 1200px;
     height: 100%;
     flex-direction: column;
@@ -148,7 +156,7 @@ export const Container = styled.div`
       width: 100%;
       border-collapse: collapse;
       color: #1f2937;
-  min-width: 600px;
+      min-width: 600px;
       .details {
         width: 280px;
         padding-right: 15px;
