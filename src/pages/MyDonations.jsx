@@ -1,57 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoArrowBack } from "react-icons/io5";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
 import HeaderNav from "./HeaderNav";
 
 const MyDonations = () => {
   const nav = useNavigate();
+  const token = useSelector((state) => state.auth.token);
 
-  const allDonations = [
-    {
-      id: 1,
-      campaign: "Stationery for the children of Makoko Nursery School",
-      amount: "₦5,000.00",
-      date: "20/12/2025",
-      status: "Ongoing",
-    },
-    {
-      id: 2,
-      campaign: "Stationery for the children of Makoko Nursery School",
-      amount: "₦10,000.00",
-      date: "20/12/2025",
-      status: "Completed",
-    },
-    {
-      id: 3,
-      campaign: "Stationery for the children of Makoko Nursery School",
-      amount: "₦25,000.00",
-      date: "20/12/2025",
-      status: "Ongoing",
-    },
-    {
-      id: 4,
-      campaign: "Stationery for the children of Makoko Nursery School",
-      amount: "₦5,000.00",
-      date: "20/12/2025",
-      status: "Ongoing",
-    },
-    {
-      id: 5,
-      campaign: "Stationery for the children of Makoko Nursery School",
-      amount: "₦15,000.00",
-      date: "20/12/2025",
-      status: "Completed",
-    },
-  ];
+  const VITE_Payemt_BaseUrl = import.meta.env.VITE_Payemt_BaseUrl;
 
+  const [donations, setDonations] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState("All Status");
+
+  const fetchDonations = async () => {
+    try {
+      const res = await axios.get(`${VITE_Payemt_BaseUrl}/my-donations`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setDonations(res?.data?.data || []);
+      console.log("my donations", res);
+    } catch (error) {
+      console.log("MY DONATIONS FETCH ERROR:", error.response?.data || error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (token) fetchDonations();
+  }, [token]);
+
+  const formattedDonations = donations.map((item) => ({
+    id: item._id,
+    campaign: item?.campaign?.title || "Unknown Campaign",
+    amount: `₦${item?.amount?.toLocaleString()}`,
+    date: new Date(item?.createdAt).toLocaleDateString(),
+    status: item?.campaign?.status === "active" ? "Ongoing" : "Completed",
+  }));
 
   const filteredDonations =
     filterStatus === "All Status"
-      ? allDonations
-      : allDonations.filter((item) => item.status === filterStatus);
+      ? formattedDonations
+      : formattedDonations.filter((item) => item.status === filterStatus);
+
+  const totalDonated = donations.reduce(
+    (sum, d) => sum + Number(d.amount || 0),
+    0
+  );
+  const supportedCampaigns = new Set(donations.map((d) => d.campaign?._id))
+    .size;
 
   return (
     <>
@@ -69,11 +72,11 @@ const MyDonations = () => {
 
         <StatsRow>
           <StatBox>
-            <StatValue>₦120,000</StatValue>
+            <StatValue>₦{totalDonated.toLocaleString()}</StatValue>
             <StatLabel>Total Donated</StatLabel>
           </StatBox>
           <StatBox>
-            <StatValue>5</StatValue>
+            <StatValue>{supportedCampaigns}</StatValue>
             <StatLabel>Campaigns Supported</StatLabel>
           </StatBox>
         </StatsRow>
@@ -81,7 +84,6 @@ const MyDonations = () => {
         <HistoryContainer>
           <HistoryHeader>
             <SearchInput placeholder="Search input" />
-
             <StatusFilter>
               <select
                 value={filterStatus}
@@ -102,17 +104,23 @@ const MyDonations = () => {
             <span></span>
           </TableHeader>
 
-          {filteredDonations.map((item) => (
-            <TableRow key={item.id}>
-              <span>{item.campaign}</span>
-              <span>{item.amount}</span>
-              <span>{item.date}</span>
-              <StatusPill $status={item.status}>{item.status}</StatusPill>
-              <MenuDots>
-                <HiOutlineDotsVertical size={20} />
-              </MenuDots>
-            </TableRow>
-          ))}
+          {loading ? (
+            <p>Loading donations...</p>
+          ) : filteredDonations.length === 0 ? (
+            <p>No donations found</p>
+          ) : (
+            filteredDonations.map((item) => (
+              <TableRow key={item.id}>
+                <span>{item.campaign}</span>
+                <span>{item.amount}</span>
+                <span>{item.date}</span>
+                <StatusPill $status={item.status}>{item.status}</StatusPill>
+                <MenuDots>
+                  <HiOutlineDotsVertical size={20} />
+                </MenuDots>
+              </TableRow>
+            ))
+          )}
         </HistoryContainer>
       </Container>
     </>
@@ -121,6 +129,128 @@ const MyDonations = () => {
 
 export default MyDonations;
 
+// import React, { useState } from "react";
+// import styled from "styled-components";
+// import { IoArrowBack } from "react-icons/io5";
+// import { HiOutlineDotsVertical } from "react-icons/hi";
+// import { useNavigate } from "react-router-dom";
+// import HeaderNav from "./HeaderNav";
+
+// const MyDonations = () => {
+//   const nav = useNavigate();
+
+//   const allDonations = [
+//     {
+//       id: 1,
+//       campaign: "Stationery for the children of Makoko Nursery School",
+//       amount: "₦5,000.00",
+//       date: "20/12/2025",
+//       status: "Ongoing",
+//     },
+//     {
+//       id: 2,
+//       campaign: "Stationery for the children of Makoko Nursery School",
+//       amount: "₦10,000.00",
+//       date: "20/12/2025",
+//       status: "Completed",
+//     },
+//     {
+//       id: 3,
+//       campaign: "Stationery for the children of Makoko Nursery School",
+//       amount: "₦25,000.00",
+//       date: "20/12/2025",
+//       status: "Ongoing",
+//     },
+//     {
+//       id: 4,
+//       campaign: "Stationery for the children of Makoko Nursery School",
+//       amount: "₦5,000.00",
+//       date: "20/12/2025",
+//       status: "Ongoing",
+//     },
+//     {
+//       id: 5,
+//       campaign: "Stationery for the children of Makoko Nursery School",
+//       amount: "₦15,000.00",
+//       date: "20/12/2025",
+//       status: "Completed",
+//     },
+//   ];
+
+//   const [filterStatus, setFilterStatus] = useState("All Status");
+
+//   const filteredDonations =
+//     filterStatus === "All Status"
+//       ? allDonations
+//       : allDonations.filter((item) => item.status === filterStatus);
+
+//   return (
+//     <>
+//       <HeaderNav />
+//       <Container>
+//         <GoBack onClick={() => nav(-1)}>
+//           <IoArrowBack size={18} />
+//           Go Back
+//         </GoBack>
+
+//         <Heading>My Donations</Heading>
+//         <SubText>
+//           Track your contributions and the milestones you’ve helped achieve.
+//         </SubText>
+
+//         <StatsRow>
+//           <StatBox>
+//             <StatValue>₦120,000</StatValue>
+//             <StatLabel>Total Donated</StatLabel>
+//           </StatBox>
+//           <StatBox>
+//             <StatValue>5</StatValue>
+//             <StatLabel>Campaigns Supported</StatLabel>
+//           </StatBox>
+//         </StatsRow>
+
+//         <HistoryContainer>
+//           <HistoryHeader>
+//             <SearchInput placeholder="Search input" />
+
+//             <StatusFilter>
+//               <select
+//                 value={filterStatus}
+//                 onChange={(e) => setFilterStatus(e.target.value)}
+//               >
+//                 <option>All Status</option>
+//                 <option>Ongoing</option>
+//                 <option>Completed</option>
+//               </select>
+//             </StatusFilter>
+//           </HistoryHeader>
+
+//           <TableHeader>
+//             <span>Campaign</span>
+//             <span>Amount Donated</span>
+//             <span>Date</span>
+//             <span>Status</span>
+//             <span></span>
+//           </TableHeader>
+
+//           {filteredDonations.map((item) => (
+//             <TableRow key={item.id}>
+//               <span>{item.campaign}</span>
+//               <span>{item.amount}</span>
+//               <span>{item.date}</span>
+//               <StatusPill $status={item.status}>{item.status}</StatusPill>
+//               <MenuDots>
+//                 <HiOutlineDotsVertical size={20} />
+//               </MenuDots>
+//             </TableRow>
+//           ))}
+//         </HistoryContainer>
+//       </Container>
+//     </>
+//   );
+// };
+
+// export default MyDonations;
 
 const Container = styled.div`
   width: 100%;
@@ -188,7 +318,7 @@ const StatValue = styled.h3`
 
 const StatLabel = styled.p`
   font-family: Inter;
-  color: #4D4D4D;
+  color: #4d4d4d;
   font-weight: 400;
   font-size: 1rem;
 `;
@@ -253,8 +383,7 @@ const TableRow = styled.div`
 const StatusPill = styled.span`
   background: ${({ $status }) =>
     $status === "Ongoing" ? "#d2efff" : "#e0f2e3"};
-  color: ${({ $status }) =>
-    $status === "Ongoing" ? "#0077c8" : "#2f8a45"};
+  color: ${({ $status }) => ($status === "Ongoing" ? "#0077c8" : "#2f8a45")};
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
   font-size: 0.85rem;

@@ -51,6 +51,7 @@ import ReportDashboard from "./components/dashboard/adminDashboard/ReportDashboa
 import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc";
 import CampaignData from "./pages/CampaignData";
 import ScrollToTop from "./components/common/ScrollToTop";
+import SuccessModal from "./pages/SuccessModal";
 
 const App = () => (
   <BrowserRouter>
@@ -115,6 +116,8 @@ const App = () => (
       <Route path="/saved_campaigns" element={<SavedCampaign />} />
       <Route path="/profile_settings" element={<ProfileSettings />} />
       <Route path="/contact_us" element={<ContactUsPage />} />
+      <Route path="/payment-success" element={<SuccessModal />} />
+
 
       <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />

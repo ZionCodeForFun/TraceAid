@@ -182,7 +182,7 @@ const MyCampaigns = () => {
             </div>
 
             {loading && <p>Loading campaigns...</p>}
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
 
             {!loading && all.length === 0 && <p>No campaigns found.</p>}
 
