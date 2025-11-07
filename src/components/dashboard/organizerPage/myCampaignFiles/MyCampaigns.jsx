@@ -22,6 +22,23 @@ import {
 } from "../../../../global/funCampaignSlice";
 import { GetAllCampaignsAPI } from "../../../../global/GetAllCampaignsData";
 
+// ✅ Skeleton Loader Component
+const SkeletonLoader = () => (
+  <div className="skeleton-container">
+    {[1, 2, 3, 4, 5].map((i) => (
+      <div key={i} className="skeleton-row">
+        <div className="skeleton skeleton-title"></div>
+        <div className="skeleton skeleton-small"></div>
+        <div className="skeleton skeleton-small"></div>
+        <div className="skeleton skeleton-status"></div>
+        <div className="skeleton skeleton-small"></div>
+        <div className="skeleton skeleton-small"></div>
+        <div className="skeleton skeleton-action"></div>
+      </div>
+    ))}
+  </div>
+);
+
 const MyCampaigns = () => {
   const [state, setState] = useState({
     show: false,
@@ -99,13 +116,15 @@ const MyCampaigns = () => {
 
     switch (selectedCampaign.status) {
       case "pending":
-        nav("camp_details_pending");
+        nav("camp_details_pending", { state: { campaign: selectedCampaign } });
         break;
       case "active":
-        nav("camp_details_ongoing");
+        nav("camp_details_ongoing", { state: { campaign: selectedCampaign } });
         break;
       case "completed":
-        nav("camp_details_completed");
+        nav("camp_details_completed", {
+          state: { campaign: selectedCampaign },
+        });
         break;
       default:
         break;
@@ -138,7 +157,21 @@ const MyCampaigns = () => {
                   </span>
                 </div>
                 <div className="down">
-                  <p>{counts?.active || 0}</p>
+                  {loading ? (
+                    <div
+                      style={{
+                        width: "60px",
+                        height: "20px",
+                        borderRadius: "4px",
+                        background:
+                          "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+                        backgroundSize: "200% 100%",
+                        animation: "loading 1.2s ease-in-out infinite",
+                      }}
+                    ></div>
+                  ) : (
+                    <p>{counts?.active || 0}</p>
+                  )}
                 </div>
               </div>
 
@@ -150,7 +183,21 @@ const MyCampaigns = () => {
                   </span>
                 </div>
                 <div className="down">
-                  <p>{counts?.pending || 0}</p>
+                  {loading ? (
+                    <div
+                      style={{
+                        width: "60px",
+                        height: "20px",
+                        borderRadius: "4px",
+                        background:
+                          "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+                        backgroundSize: "200% 100%",
+                        animation: "loading 1.2s ease-in-out infinite",
+                      }}
+                    ></div>
+                  ) : (
+                    <p>{counts?.pending || 0}</p>
+                  )}
                 </div>
               </div>
 
@@ -162,7 +209,21 @@ const MyCampaigns = () => {
                   </span>
                 </div>
                 <div className="down">
-                  <p>{counts?.completed || 0}</p>
+                  {loading ? (
+                    <div
+                      style={{
+                        width: "60px",
+                        height: "20px",
+                        borderRadius: "4px",
+                        background:
+                          "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+                        backgroundSize: "200% 100%",
+                        animation: "loading 1.2s ease-in-out infinite",
+                      }}
+                    ></div>
+                  ) : (
+                    <p>{counts?.completed || 0}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -181,8 +242,7 @@ const MyCampaigns = () => {
               </div>
             </div>
 
-            {loading && <p>Loading campaigns...</p>}
-            {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
+            {loading && <SkeletonLoader />}
 
             {!loading && all.length === 0 && <p>No campaigns found.</p>}
 

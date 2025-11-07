@@ -33,10 +33,10 @@ const CreateCampaign = ({ onClose }) => {
   });
 
   const nav = useNavigate();
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth?.token);
 
-  console.log(" token", token)
-  const user =useSelector((state)=>state.auth.user)
+  const user = useSelector((state) => state.auth.user);
+  console.log(" user",user)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -272,7 +272,6 @@ const CreateCampaign = ({ onClose }) => {
                 placeholder="Campaign duration"
                 value={formData.duration}
                 onChange={handleChange}
-                
               />
             </div>
           </div>
@@ -609,84 +608,83 @@ const Container = styled.div`
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-
     }
-.milestone_dropdown {
-  width: 100%;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  margin-top: 100px; 
-  background: #fff;
-  position: relative;
-  transition: all 0.3s ease;
-  overflow: hidden;
-  max-height: 55px;
-  cursor: pointer;
+    .milestone_dropdown {
+      width: 100%;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      margin-top: 100px;
+      background: #fff;
+      position: relative;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      max-height: 55px;
+      cursor: pointer;
 
-  &.expanded {
-    max-height: 300px;
-  }
+      &.expanded {
+        max-height: 300px;
+      }
 
-  .milestone_title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 700;
-    font-size: 16px;
-    padding: 12px 16px;
-  }
+      .milestone_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+        font-size: 16px;
+        padding: 12px 16px;
+      }
 
-  .arrow {
-    transition: transform 0.3s ease;
-  }
+      .arrow {
+        transition: transform 0.3s ease;
+      }
 
-  .arrow.rotated {
-    transform: rotate(180deg);
-  }
+      .arrow.rotated {
+        transform: rotate(180deg);
+      }
 
-  .milestone_content {
-    padding: 12px 16px;
-    border-top: 1px solid #e0e0e0;
-    animation: fadeIn 0.3s ease;
-  }
-}
-
-.alrt_holder {
-  gap: 5px;
-  display: flex;
-  flex-direction: column;
-  margin-top: 30px;
-  .add {
-    border-bottom: 1px solid #333333;
-    width: fit-content;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .alrt {
-    display: flex;
-    font-size: 12px;
-    color: #4d4d4d;
-    gap: 8px;
-    align-items: center;
-    margin-top: 5px;
-    .alrt_icon {
-      font-size: 17px;
+      .milestone_content {
+        padding: 12px 16px;
+        border-top: 1px solid #e0e0e0;
+        animation: fadeIn 0.3s ease;
+      }
     }
-    &.error {
-      color: #e50914;
-    }
-  }
-}
 
-.sec_add {
-  border-bottom: 1px solid #333333;
-  width: fit-content;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 15px;
-}
+    .alrt_holder {
+      gap: 5px;
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+      .add {
+        border-bottom: 1px solid #333333;
+        width: fit-content;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .alrt {
+        display: flex;
+        font-size: 12px;
+        color: #4d4d4d;
+        gap: 8px;
+        align-items: center;
+        margin-top: 5px;
+        .alrt_icon {
+          font-size: 17px;
+        }
+        &.error {
+          color: #e50914;
+        }
+      }
+    }
+
+    .sec_add {
+      border-bottom: 1px solid #333333;
+      width: fit-content;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 15px;
+    }
 
     @keyframes fadeIn {
       from {
