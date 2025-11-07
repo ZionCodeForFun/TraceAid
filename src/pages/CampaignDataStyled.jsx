@@ -218,6 +218,13 @@ export const ProgressWrapper = styled.div`
   color: #333;
   margin-top: 0.6rem;
   background-color: #f9fdf2;
+
+   .money {
+  margin-top: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #222;
+}
 `;
 
 export const ProgressBar = styled.div`

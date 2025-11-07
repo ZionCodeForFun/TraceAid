@@ -251,10 +251,12 @@ const CampaignData = () => {
 
                       <ProgressWrapper>
                         <span>
-                          <strong>Goal:</strong> ₦{goal.toLocaleString()}
+                          <strong>Goal:</strong>
+                          <p className="money"> ₦{goal.toLocaleString()}</p>
                         </span>
                         <span>
-                          <strong>Raised:</strong> ₦{raised.toLocaleString()}
+                          <strong>Raised:</strong> 
+                          <p className="money">₦{raised.toLocaleString()}</p>
                         </span>
                       </ProgressWrapper>
 
