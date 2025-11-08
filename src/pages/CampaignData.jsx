@@ -56,7 +56,7 @@ const CampaignData = () => {
 
   const getCampaigns = async () => {
     try {
-      const res = await axios.get`https://traceaid.onrender.com/campaign/api/v1/campaign/get-all-active-campaign`;
+      const res = await axios.get(`${VITE_campaignBaseUrl}/get-all-active-campaign`);
       setCampaigns(res.data.data.active);
     } catch (err) {
       setError("Failed to load campaigns");
