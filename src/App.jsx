@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import SignUpForm from "./components/auth/SignUpForm";
 import ResetPassword from "./components/auth/ResetPassword";
@@ -55,7 +55,7 @@ import SuccessModal from "./pages/SuccessModal";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 
 const App = () => (
-  <BrowserRouter>
+  <HashRouter>
     <ScrollToTop />
     <Routes>
       <Route path="/" element={<LandingPage />} />
@@ -146,7 +146,7 @@ const App = () => (
     </Routes>
 
     <ToastContainer position="top-center" autoClose={2000} />
-  </BrowserRouter>
+  </HashRouter>
 );
 
 export default App;
