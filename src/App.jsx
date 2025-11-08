@@ -59,19 +59,19 @@ const App = () => (
   <BrowserRouter>
     <ScrollToTop />
     <Routes>
+      {/* Public Routes */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />
-      <Route path="/createcampaign" element={<CreateCampaign />} />
       <Route path="/how_it_works" element={<HowItWorks />} />
       <Route path="/explore" element={<ExploreCampaign />} />
       <Route path="/campaign_data" element={<CampaignData />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/campaign_details/:id" element={<CampaignDetails />} />
       <Route path="/role_modal" element={<RoleModal />} />
-      <Route path="/my_donations" element={<MyDonations />} />
-      <Route path="/saved_campaigns" element={<SavedCampaign />} />
-      <Route path="/profile_settings" element={<ProfileSettings />} />
       <Route path="/contact_us" element={<ContactUsPage />} />
+      <Route path="/payment_success" element={<PaymentSuccessPage />} />
+
+      {/* Auth Routes */}
       <Route path="/signup" element={<SignUpForm />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/verify/:email" element={<VerifyOtp />} />
@@ -79,6 +79,14 @@ const App = () => (
       <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="/verify_kyc1" element={<KycVerification1 />} />
       <Route path="/verify_kyc2" element={<KycVerification2 />} />
+
+      {/* User Routes */}
+      <Route path="/my_donations" element={<MyDonations />} />
+      <Route path="/saved_campaigns" element={<SavedCampaign />} />
+      <Route path="/profile_settings" element={<ProfileSettings />} />
+      <Route path="/createcampaign" element={<CreateCampaign />} />
+
+      {/* Organization Routes */}
       <Route path="/organization" element={<OrganizerDashboard />}>
         <Route index element={<OverViewPage />} />
         <Route path="myCampaigns" element={<MyCampaigns />}>
@@ -106,6 +114,8 @@ const App = () => (
           <Route path="notification" element={<Notification />} />
         </Route>
       </Route>
+
+      {/* Admin Routes */}
       <Route path="/admin_register" element={<AdminRegister />} />
       <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
       <Route path="/admin_login" element={<AdminLogin />} />
@@ -114,41 +124,6 @@ const App = () => (
         path="/admin-request-password/:token/:id"
         element={<AdminRequestPassword />}
       />
-<<<<<<< HEAD
-=======
-
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/verify_kyc1" element={<KycVerification1 />} />
-      <Route path="/verify_kyc2" element={<KycVerification2 />} />
-      <Route path="/verify/:email" element={<VerifyOtp />} />
-      <Route path="/signup" element={<SignUpForm />} />
-
-      <Route path="/how_it_works" element={<HowItWorks />} />
-      <Route path="/explore" element={<ExploreCampaign />} />
-      <Route path="/campaign_data" element={<CampaignData />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/campaign_details/:id" element={<CampaignDetails />} />
-      <Route path="/role_modal" element={<RoleModal />} />
-      <Route path="/my_donations" element={<MyDonations />} />
-      <Route path="/saved_campaigns" element={<SavedCampaign />} />
-      <Route path="/profile_settings" element={<ProfileSettings />} />
-      <Route path="/contact_us" element={<ContactUsPage />} />
-      <Route path="/payment_success" element={<PaymentSuccessPage />} />
-
-      <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
-      <Route path="/forgotpassword" element={<ForgotPassword />} />
-
-      {/* ADMIN ROUTES AND PAGES BELOW, DON'T ADD ROUTES THATS NOT ADMIN'S */}
-      <Route path="/admin_register" element={<AdminRegister />} />
-      <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
-      <Route path="/admin_login" element={<AdminLogin />} />
-      <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
-      <Route
-        path="/admin-request-password/:token/:id"
-        element={<AdminRequestPassword />}
-      />
-
->>>>>>> 8451965a3480866c625f00a00dd88a1f755e6458
       <Route path="/admin" element={<AdminDashboard />}>
         <Route index element={<DashboardManagement />} />
         <Route path="users" element={<AdminUsers />} />
@@ -159,6 +134,8 @@ const App = () => (
         <Route path="settings" element={<AdminSettings />} />
         <Route path="notifications" element={<AdminNotification />} />
       </Route>
+
+      {/* 404 Route */}
       <Route path="*" element={<RouterError />} />
     </Routes>
     <ToastContainer position="top-center" autoClose={2000} />
@@ -166,4 +143,3 @@ const App = () => (
 );
 
 export default App;
-
