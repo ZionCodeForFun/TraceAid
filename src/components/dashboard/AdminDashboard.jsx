@@ -16,7 +16,6 @@ const AdminDashboard = () => {
             user: { name: "Sim Admin" },
           })
         );
-        // reload to make ProtectedRoute pick it up
         window.location.reload();
       }
     };
@@ -45,7 +44,6 @@ const AdminDashboard = () => {
         <div style={{ marginTop: 12 }}>
           <button
             onClick={() => {
-              // clear simulation if present
               if (typeof window !== "undefined") {
                 localStorage.removeItem("simulateAuth");
                 window.location.reload();

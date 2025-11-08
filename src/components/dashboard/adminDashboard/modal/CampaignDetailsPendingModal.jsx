@@ -13,22 +13,21 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
   const { token } = useSelector((state) => state.adminAuth);
   const [loading, setLoading] = useState(false);
 
-  const status = campaign.Status?.toLowerCase();
-  const isPending = status === "pending";
-  const isApproved = status === "approved";
-  const isRejected = status === "rejected";
+  // Determine status
+  const isApproved = campaign.isActive === true;
+  const isPending = campaign.isActive === false && campaign.status !== "rejected";
+  const isRejected = campaign.status === "rejected";
 
-  const handleDecision = async (decision) => {
+  const handleDecision = async (action) => {
+    // API expects "approve" or "reject"
     try {
       setLoading(true);
       await axios.patch(
         `${import.meta.env.VITE_BaseUrl_AdminVCampaign}/review/${campaign._id}`,
-        { action: decision },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { action },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-      toast.success(`Campaign ${decision} successfully`);
+      toast.success(`Campaign ${action} successfully`);
       onClose();
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to update campaign");
@@ -55,36 +54,32 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
           <Grid>
             <Detail>
               <Label>Campaign Name</Label>
-              <Value>{campaign.CampaignName}</Value>
+              <Value>{campaign.campaignTitle}</Value>
             </Detail>
             <Detail>
               <Label>Goal Amount</Label>
-              <Value>{campaign.Goal}</Value>
+              <Value>{campaign.totalCampaignGoalAmount ? `₦${campaign.totalCampaignGoalAmount}` : "—"}</Value>
             </Detail>
             <Detail>
               <Label>Created Date</Label>
-              <Value>{campaign.CreatedDate}</Value>
+              <Value>{campaign.createdAt ? new Date(campaign.createdAt).toLocaleDateString() : "—"}</Value>
             </Detail>
             <Detail>
               <Label>Status</Label>
-              <Value>{campaign.Status}</Value>
+              <Value>{isApproved ? "Approved" : isPending ? "Pending" : "Rejected"}</Value>
             </Detail>
           </Grid>
 
           <NGOSection>
             <SectionTitle>NGO Information</SectionTitle>
             <NGOInfo>
-              <NGOName>{campaign.NGO}</NGOName>
+              <NGOName>{campaign.fundraiser || "Unknown"}</NGOName>
               <Badge
                 className={
-                  isPending
-                    ? "status-pending"
-                    : isApproved
-                    ? "status-approved"
-                    : "status-rejected"
+                  isPending ? "status-pending" : isApproved ? "status-approved" : "status-rejected"
                 }
               >
-                {campaign.Status}
+                {isApproved ? "Approved" : isPending ? "Pending" : "Rejected"}
               </Badge>
             </NGOInfo>
           </NGOSection>
@@ -93,25 +88,19 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
         <Footer>
           {isPending ? (
             <>
-              <RejectBtn
-                onClick={() => handleDecision("rejected")}
-                disabled={loading}
-              >
+              <RejectBtn onClick={() => handleDecision("reject")} disabled={loading}>
                 <IoCloseCircleOutline size={16} className="icon" />
                 {loading ? "Processing..." : "Reject"}
               </RejectBtn>
 
-              <ApproveBtn
-                onClick={() => handleDecision("approved")}
-                disabled={loading}
-              >
+              <ApproveBtn onClick={() => handleDecision("approve")} disabled={loading}>
                 <IoMdCheckmarkCircleOutline size={16} className="icon" />
                 {loading ? "Processing..." : "Approve"}
               </ApproveBtn>
             </>
           ) : (
             <StatusMessage approved={isApproved}>
-              This campaign has already been {campaign.Status}.
+              This campaign has already been {isApproved ? "Approved" : "Rejected"}.
             </StatusMessage>
           )}
         </Footer>
@@ -121,6 +110,8 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
 };
 
 export default CampaignDetailsPendingModal;
+
+
 
 
 const Overlay = styled.div`

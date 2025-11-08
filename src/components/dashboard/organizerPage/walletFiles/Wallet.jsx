@@ -8,12 +8,6 @@ import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const campaigns = [
-  "Stationery for the children of Makoko Nursery School",
-  "Food for all",
-  "Clean Water Project",
-];
-
 const Wallet = () => {
   const nav = useNavigate();
   const location = useLocation();
@@ -31,6 +25,8 @@ const Wallet = () => {
     activeBalance: 0,
     totalWithdrawn: 0,
   });
+
+  const [campaigns, setCampaigns] = useState([]);
 
   const fetchWalletData = async () => {
     try {
@@ -59,16 +55,40 @@ const Wallet = () => {
     }
   };
 
+  const fetchCampaigns = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BaseUrl_Campaign1}/get-all-campaign-and-milestone-of-fundraiser`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const campaignsData = Array.isArray(res.data?.data)
+        ? res.data.data
+        : [];
+
+      setCampaigns(campaignsData.map((c) => c.campaignTitle));
+    } catch (err) {
+      console.error("Error fetching campaigns:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (token && isMainWallet) {
+      fetchWalletData();
+      fetchCampaigns();
+    }
+  }, [token, isMainWallet, location.key]);
+
   const filteredData = transactions.filter(
     (item) =>
       item.refId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.details?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  useEffect(() => {
-    if (token && isMainWallet) {
-      fetchWalletData();
-    }
-  }, [token, isMainWallet, location.key]);
+
   return (
     <Container>
       <article className="wrapper">
@@ -137,17 +157,21 @@ const Wallet = () => {
 
             {showCategoryDrop && (
               <div className="cartigory_drop">
-                {campaigns.map((c, i) => (
-                  <p
-                    key={i}
-                    onClick={() => {
-                      setSelectedCampaign(c);
-                      setShowCategoryDrop(false);
-                    }}
-                  >
-                    {c}
-                  </p>
-                ))}
+                {campaigns.length === 0 ? (
+                  <p style={{ color: "#777" }}>No campaigns available</p>
+                ) : (
+                  campaigns.map((c, i) => (
+                    <p
+                      key={i}
+                      onClick={() => {
+                        setSelectedCampaign(c);
+                        setShowCategoryDrop(false);
+                      }}
+                    >
+                      {c}
+                    </p>
+                  ))
+                )}
               </div>
             )}
 
@@ -221,34 +245,6 @@ const Wallet = () => {
           </>
         )}
       </article>
-
-      <style jsx>{`
-        .skeleton {
-          background: linear-gradient(
-            90deg,
-            #e0e0e0 25%,
-            #f5f5f5 50%,
-            #e0e0e0 75%
-          );
-          background-size: 200% 100%;
-          animation: shimmer 1.6s infinite;
-          border-radius: 8px;
-        }
-
-        .skeleton-text {
-          width: 60px;
-          height: 22px;
-        }
-
-        @keyframes shimmer {
-          0% {
-            background-position: -200% 0;
-          }
-          100% {
-            background-position: 200% 0;
-          }
-        }
-      `}</style>
     </Container>
   );
 };

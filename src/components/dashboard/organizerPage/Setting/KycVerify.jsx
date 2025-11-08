@@ -19,9 +19,7 @@ const KycVerify = () => {
   });
 
   const baseUrl = import.meta.env.VITE_BaseUrl_Kyc_Auto;
-  console.log("user:", user);
-  console.log("token:", token);
-  console.log("baseUrl:", baseUrl);
+
   useEffect(() => {
     const fetchKycStatus = async () => {
       try {
