@@ -58,7 +58,7 @@ const OverViewPage = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setDashboardData(response.data.data);
+        setDashboardData(response.data?.data);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
@@ -158,11 +158,11 @@ const OverViewPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {dashboardData?.transactions?.length > 0 ? (
-                  dashboardData.transactions.map((item, index) => (
+                {dashboardData?.recentTransactions?.length > 0 ? (
+                  dashboardData.recentTransactions.map((item, index) => (
                     <tr key={index}>
                       <td>{item.donorName}</td>
-                      <td>{item.campaignName}</td>
+                      <td>{item.campaignTitle}</td>
                       <td>{item.date}</td>
                       <td>₦{item.amount?.toLocaleString()}</td>
                     </tr>

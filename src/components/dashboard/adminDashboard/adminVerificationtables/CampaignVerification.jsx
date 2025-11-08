@@ -11,6 +11,7 @@ import {
 } from "../../../../style/AdminVerificationStyle";
 import CampaignDetailsAprovedModal from "../modal/CampaignDetailsAprovedModal";
 import CampaignDetailsPendingModal from "../modal/CampaignDetailsPendingModal";
+import CampaignCompleted from "../modal/CampaignCompleted";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -18,36 +19,66 @@ import { useSelector } from "react-redux";
 const Campaign = () => {
   const [selectedCampaign, setSelectedCampaign] = useState(null);
   const [campaigns, setCampaigns] = useState([]);
-  const token = useSelector((state) => state.adminAuth.token);
-  console.log("Admin token:", token);
+  const [loading, setLoading] = useState(false);
+  const { token } = useSelector((state) => state.adminAuth);
+
   const fetchCampaigns = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_BaseUrl_AdminGetCampagn}/get-campaigns`,
+        `${
+          import.meta.env.VITE_BaseUrl_AdminGetCampagn
+        }/get-all-campaign-and-milestones`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log("Campaigns fetched:", res.data?.data);
-      setCampaigns(res.data?.data || []);
-      toast.success(res.data?.message || "Campaigns fetched successfully");
+      console.log(res.data?.data);
+      const campaigns = Array.isArray(res.data)
+        ? res.data
+        : res.data?.data || [];
+
+      if (campaigns.length > 0) {
+        const normalized = campaigns.map((c) => {
+          const allMilestonesCompleted =
+            Array.isArray(c.milestones) &&
+            c.milestones.every((m) => m.isCompleted);
+
+          return {
+            id: c._id,
+            campaignCategory: c.campaignCategory,
+            campaignTitle: c.campaignTitle,
+            fundraiser: c.fundraiser,
+            createdAt: c.createdAt,
+            totalCampaignGoalAmount:
+              c.targetAmount || c.totalCampaignGoalAmount || "—",
+            status: c.isActive ? "Approved" : "Pending",
+            isCompleted: c.isActive && allMilestonesCompleted,
+            milestones: c.milestones || [],
+            raw: c,
+          };
+        });
+
+        setCampaigns(normalized);
+        toast.success("Campaigns fetched successfully");
+      } else {
+        toast.warn("No campaigns found");
+      }
     } catch (error) {
-      console.error(
-        "Error fetching campaigns:",
-        error.response?.data || error.message
-      );
+      console.error("Error fetching campaigns:", error.response?.data || error);
       toast.error("Failed to fetch campaigns");
+    } finally {
+      setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchCampaigns();
-  }, []);
+  }, [token]);
 
   const handleView = (campaign) => {
-    setSelectedCampaign(campaign);
+    setSelectedCampaign(campaign.raw || campaign);
   };
 
   const handleClose = () => {
@@ -59,21 +90,35 @@ const Campaign = () => {
       <TableContainer>
         <CampaignHeader columns={6}>
           <HeaderItem>Campaign Name</HeaderItem>
-          <HeaderItem>NGO</HeaderItem>
+          <HeaderItem>Fundraiser</HeaderItem>
           <HeaderItem>Created Date</HeaderItem>
           <HeaderItem>Goal</HeaderItem>
           <HeaderItem>Status</HeaderItem>
           <HeaderItem>Actions</HeaderItem>
         </CampaignHeader>
 
-        {campaigns.length > 0 ? (
+        {loading ? (
+          <CampaignRow columns={6}>
+            <Cell colSpan={6}>Loading campaigns...</Cell>
+          </CampaignRow>
+        ) : campaigns.length > 0 ? (
           campaigns.map((item, index) => (
             <CampaignRow key={index} columns={6}>
-              <Cell>{item.CampaignName}</Cell>
-              <Cell>{item.NGO}</Cell>
-              <Cell>{item.CreatedDate}</Cell>
-              <Cell>{item.Goal}</Cell>
-              <Status active={item.Status === "Approved"}>{item.Status}</Status>
+              <Cell>{item.campaignCategory || "Unnamed Campaign"}</Cell>
+              <Cell>{item.fundraiser || "Unknown"}</Cell>
+              <Cell>
+                {item.createdAt
+                  ? new Date(item.createdAt).toLocaleDateString()
+                  : "—"}
+              </Cell>
+              <Cell>
+                {item.totalCampaignGoalAmount
+                  ? `₦${item.totalCampaignGoalAmount}`
+                  : "—"}
+              </Cell>
+              <Status active={item.status === "Approved"}>
+                {item.status || "Pending"}
+              </Status>
               <Actions
                 onClick={() => handleView(item)}
                 style={{
@@ -95,19 +140,27 @@ const Campaign = () => {
         )}
       </TableContainer>
 
-      {selectedCampaign && selectedCampaign.Status === "Approved" && (
-        <CampaignDetailsAprovedModal
-          campaign={selectedCampaign}
-          onClose={handleClose}
-        />
+      {selectedCampaign && selectedCampaign.isCompleted && (
+        <CampaignCompleted campaign={selectedCampaign} onClose={handleClose} />
       )}
 
-      {selectedCampaign && selectedCampaign.Status === "Pending" && (
-        <CampaignDetailsPendingModal
-          campaign={selectedCampaign}
-          onClose={handleClose}
-        />
-      )}
+      {selectedCampaign &&
+        !selectedCampaign.isCompleted &&
+        selectedCampaign.isActive && (
+          <CampaignDetailsAprovedModal
+            campaign={selectedCampaign}
+            onClose={handleClose}
+          />
+        )}
+
+      {selectedCampaign &&
+        !selectedCampaign.isCompleted &&
+        !selectedCampaign.isActive && (
+          <CampaignDetailsPendingModal
+            campaign={selectedCampaign}
+            onClose={handleClose}
+          />
+        )}
     </>
   );
 };

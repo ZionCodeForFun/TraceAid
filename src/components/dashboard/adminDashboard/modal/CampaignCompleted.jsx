@@ -1,8 +1,21 @@
 import React from "react";
 import styled from "styled-components";
-import { X, CheckCircle } from "lucide-react";
+import { X } from "lucide-react";
 
 const CampaignCompleted = ({ campaign, onClose }) => {
+  if (!campaign) return null;
+
+  const totalRaised = campaign.milestones?.reduce(
+    (sum, m) => sum + (m.raisedAmount || 0),
+    0
+  );
+  const totalDonors = campaign.milestones?.reduce(
+    (sum, m) => sum + (m.donorsCount || 0),
+    0
+  );
+  const goalAmount = campaign.totalCampaignGoalAmount || 1;
+  const percentComplete = Math.min((totalRaised / goalAmount) * 100, 100).toFixed(1);
+
   return (
     <Overlay>
       <Container>
@@ -22,75 +35,87 @@ const CampaignCompleted = ({ campaign, onClose }) => {
           <DetailsGrid>
             <DetailItem>
               <DetailLabel>Campaign Name</DetailLabel>
-              <DetailValue>{campaign.name}</DetailValue>
+              <DetailValue>{campaign.campaignTitle}</DetailValue>
             </DetailItem>
             <DetailItem>
               <DetailLabel>NGO</DetailLabel>
-              <DetailValue>{campaign.ngo}</DetailValue>
+              <DetailValue>{campaign.fundraiser || "Unknown"}</DetailValue>
             </DetailItem>
             <DetailItem>
               <DetailLabel>Created Date</DetailLabel>
-              <DetailValue>2024-10-05</DetailValue>
+              <DetailValue>
+                {campaign.createdAt
+                  ? new Date(campaign.createdAt).toLocaleDateString()
+                  : "—"}
+              </DetailValue>
             </DetailItem>
             <DetailItem>
               <DetailLabel>Deadline</DetailLabel>
-              <DetailValue>{campaign.deadline}</DetailValue>
+              <DetailValue>{campaign.deadline || "—"}</DetailValue>
             </DetailItem>
           </DetailsGrid>
 
           <Section>
             <SectionTitle>Description</SectionTitle>
-            <Description>{campaign.description}</Description>
+            <Description>{campaign.description || "No description provided"}</Description>
           </Section>
 
           <DonationSection>
             <SectionTitle>Donation Overview</SectionTitle>
-
             <ProgressCards>
               <ProgressCard className="raised">
-                <CardAmount>₦{campaign.raised.toLocaleString()}</CardAmount>
+                <CardAmount>₦{totalRaised?.toLocaleString()}</CardAmount>
                 <CardLabel>Amount Raised</CardLabel>
               </ProgressCard>
 
               <ProgressCard className="goal">
-                <CardAmount>₦{campaign.goal.toLocaleString()}</CardAmount>
+                <CardAmount>₦{goalAmount.toLocaleString()}</CardAmount>
                 <CardLabel>Goal Amount</CardLabel>
               </ProgressCard>
 
               <ProgressCard className="donors">
-                <CardAmount>{campaign.donors}</CardAmount>
+                <CardAmount>{totalDonors}</CardAmount>
                 <CardLabel>Total Donors</CardLabel>
               </ProgressCard>
             </ProgressCards>
 
-            {/* ✅ Completed Progress Bar */}
             <ProgressBar>
-              <ProgressFill style={{ width: "100%", backgroundColor: "#4d7c0f" }} />
+              <ProgressFill style={{ width: `${percentComplete}%`, backgroundColor: "#4d7c0f" }} />
             </ProgressBar>
 
             <ProgressSummary>
               <div className="stats">
-                <Percent>100.0%</Percent>
+                <Percent>{percentComplete}%</Percent>
                 <Complete>Complete</Complete>
               </div>
               <div className="remaining">
-                <RemainAmount>₦0</RemainAmount>
+                <RemainAmount>₦{Math.max(goalAmount - totalRaised, 0)}</RemainAmount>
                 <RemainLabel>remaining</RemainLabel>
               </div>
             </ProgressSummary>
+
+            {campaign.milestones?.length > 0 && (
+              <MilestoneList>
+                {campaign.milestones.map((m, i) => (
+                  <Milestone key={i}>
+                    <MilestoneName>{m.title}</MilestoneName>
+                    <MilestoneStatus completed={m.isCompleted}>
+                      {m.isCompleted ? "Completed" : "Pending"}
+                    </MilestoneStatus>
+                  </Milestone>
+                ))}
+              </MilestoneList>
+            )}
           </DonationSection>
         </Body>
 
-        <Footer>
-      
-        </Footer>
+        <Footer></Footer>
       </Container>
     </Overlay>
   );
 };
 
 export default CampaignCompleted;
-
 
 const Overlay = styled.div`
   position: fixed;
