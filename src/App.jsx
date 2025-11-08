@@ -117,8 +117,7 @@ const App = () => (
       <Route path="/saved_campaigns" element={<SavedCampaign />} />
       <Route path="/profile_settings" element={<ProfileSettings />} />
       <Route path="/contact_us" element={<ContactUsPage />} />
-      <Route path="/payment-success" element={<PaymentSuccessPage />} />
-
+      <Route path="/payment_success" element={<PaymentSuccessPage />} />
 
       <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />

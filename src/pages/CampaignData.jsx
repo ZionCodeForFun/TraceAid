@@ -56,8 +56,8 @@ const CampaignData = () => {
 
   const getCampaigns = async () => {
     try {
-      const res = await axios.get(`${VITE_campaignBaseUrl}/get-all-campaign`);
-      setCampaigns(res.data.data.all);
+      const res = await axios.get`https://traceaid.onrender.com/campaign/api/v1/get-all-active-campaign`;
+      setCampaigns(res.data.data.active);
     } catch (err) {
       setError("Failed to load campaigns");
     } finally {
@@ -130,7 +130,7 @@ const CampaignData = () => {
     return data;
   }, [campaigns, search, category]);
 
-  const currentCards = filteredCampaigns.slice(0, visibleCount);
+  const currentCards = filteredCampaigns?.slice(0, visibleCount);
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 6);
@@ -213,7 +213,7 @@ const CampaignData = () => {
                   </div>
                 </CampaignCard>
               ))
-            : currentCards.map((item) => {
+            : currentCards?.map((item) => {
                 const goal = item.totalCampaignGoalAmount || 0;
                 const raised = item.amountRaised || 0;
                 const progress = item.progressPercentage || 0;
@@ -276,7 +276,7 @@ const CampaignData = () => {
               })}
         </CampaignGrid>
 
-        {!loading && currentCards.length < filteredCampaigns.length && (
+        {!loading && currentCards?.length < filteredCampaigns?.length && (
           <SeeMoreWrapper>
             <SeeMoreButton onClick={handleLoadMore}>See More</SeeMoreButton>
           </SeeMoreWrapper>
