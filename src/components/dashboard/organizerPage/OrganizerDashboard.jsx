@@ -83,7 +83,7 @@ const OrganizerDashboard = () => {
         </Sider>
 
         <Layout>
-          <Header />
+          <Header  />
           <Content className="contentoutline_holder">
             <Outlet />
           </Content>

@@ -4,7 +4,8 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: start;
+  padding-left: 27  px;
 
   .wrapper {
     @keyframes loading {
@@ -53,7 +54,7 @@ export const Container = styled.div`
       .card {
         display: flex;
         flex-direction: column;
-        width: 324px;
+        width: 400px;
         background-color: var(--content_1bg);
         height: 166px;
         border: 1px solid #b1d8ff;

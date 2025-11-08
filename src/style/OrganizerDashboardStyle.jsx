@@ -74,10 +74,9 @@ export const Container = styled.div`
     }
     .contentoutline_holder {
       width: 80%;
-
       margin-top: 60px;
       padding-top: 30px;
-      margin-left: 20%;
+      margin-left: 13%;
       height: 100%;
     }
   }
@@ -115,7 +114,7 @@ export const Container = styled.div`
       .contentoutline_holder {
         width: 100%;
         margin-left: 0;
-        margin-top: 10px;
+        margin-top: 75px;
         padding: 12px;
       }
     }

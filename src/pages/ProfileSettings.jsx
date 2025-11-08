@@ -51,7 +51,7 @@ const ProfileSettings = () => {
     const file = e.target.files[0];
     if (file) {
       setFormData({ ...formData, profilePicture: file });
-      setPreviewImg(URL.createObjectURL(file)); 
+      setPreviewImg(URL.createObjectURL(file));
     }
   };
 
@@ -164,7 +164,6 @@ const ProfileSettings = () => {
               />
             </div>
           </InputGroup>
-        </FormRow>
 
         <InputGroup>
           <Label>Phone Number</Label>
@@ -180,6 +179,7 @@ const ProfileSettings = () => {
           </div>
         </InputGroup>
 
+        </FormRow>
         <ButtonGroup>
           <OutlineBtn onClick={handleDiscard}>Discard Changes</OutlineBtn>
           <PrimaryBtn disabled={loading} onClick={handleSave}>
@@ -194,5 +194,3 @@ const ProfileSettings = () => {
 };
 
 export default ProfileSettings;
-
-

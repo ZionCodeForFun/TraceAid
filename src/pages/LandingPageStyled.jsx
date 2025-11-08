@@ -10,8 +10,8 @@ export const LandingContainer = styled.div`
   flex-direction: column;
   padding-top: 80px;
 
-  @media (min-width: 480px) and (max-width: 768px) {
-    padding-top: 60px;
+  @media (min-width: 300px) and (max-width: 768px) {
+    padding-top: 65px;
   }
 
   @media (min-width: 600px) and (max-width: 900px) {
@@ -28,7 +28,7 @@ export const NavBar = styled.nav`
   background-color: #f8f9fa;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     padding: 0.8rem 5%;
   }
 
@@ -42,7 +42,7 @@ export const LeftSection = styled.div`
   align-items: center;
   gap: 2rem;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     gap: 1rem;
   }
 
@@ -60,7 +60,7 @@ export const LogoContainer = styled.div`
     height: 35px;
     object-fit: contain;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       height: 28px;
     }
 
@@ -74,7 +74,7 @@ export const LogoContainer = styled.div`
     font-weight: 700;
     color: #000;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 1rem;
     }
 
@@ -89,7 +89,7 @@ export const LogoContainer = styled.div`
     background-color: #a8a8a8;
     margin-left: 0.8rem;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       height: 35px;
     }
 
@@ -117,7 +117,7 @@ export const NavLinks = styled.ul`
     }
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     gap: 0.8rem;
     li {
       font-size: 0.8rem;
@@ -151,7 +151,7 @@ export const ButtonGroup = styled.div`
       color: #333333;
     }
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       padding: 0.5rem 1.2rem;
       font-size: 0.85rem;
     }
@@ -177,7 +177,7 @@ export const ButtonGroup = styled.div`
       color: #1a1a1a;
     }
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       padding: 0.5rem 1rem;
       font-size: 0.85rem;
     }
@@ -199,7 +199,7 @@ export const HeroSection = styled.section`
   justify-content: center;
   padding-top: 80px;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     height: 70vh;
     padding-top: 60px;
   }
@@ -221,7 +221,7 @@ export const HeroOverlay = styled.div`
   text-align: center;
   padding: 0 1.5rem;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     padding: 0 1rem;
   }
 
@@ -241,7 +241,7 @@ export const HeroContent = styled.div`
     line-height: 1.3;
     margin-bottom: 1rem;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 2rem;
     }
 
@@ -256,7 +256,7 @@ export const HeroContent = styled.div`
     color: #eaeaea;
     margin-bottom: 2rem;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 0.95rem;
     }
 
@@ -279,7 +279,7 @@ export const HeroContent = styled.div`
       background-color: #67940b;
     }
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       padding: 0.7rem 1.6rem;
       font-size: 0.9rem;
     }
@@ -302,7 +302,7 @@ export const HeroIcons = styled.div`
     width: 90px;
     opacity: 0.9;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       width: 60px;
     }
 
@@ -315,7 +315,7 @@ export const HeroIcons = styled.div`
     top: 3rem;
     left: 3rem;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       top: 1.5rem;
       left: 1.5rem;
     }
@@ -330,7 +330,7 @@ export const HeroIcons = styled.div`
     bottom: 3rem;
     left: 3rem;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       bottom: 1.5rem;
       left: 1.5rem;
     }
@@ -353,7 +353,7 @@ export const ApiSection = styled.section`
     font-weight: 800;
     margin-bottom: 1rem;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 1.6rem;
     }
 
@@ -367,7 +367,7 @@ export const ApiSection = styled.section`
     line-height: 1.6;
     color: #333;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 0.9rem;
     }
 
@@ -429,7 +429,7 @@ export const TransparencySection = styled.section`
     font-weight: 800;
     margin-bottom: 1rem;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 1.6rem;
       width: 100%;
     }
@@ -445,7 +445,7 @@ export const TransparencySection = styled.section`
     line-height: 1.6;
     color: #ffffff;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 0.9rem;
       max-width: 90%;
     }
@@ -456,7 +456,7 @@ export const TransparencySection = styled.section`
     }
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     width: 95%;
     padding: 4rem 1rem;
   }
@@ -476,7 +476,7 @@ export const TransparencyCardGrid = styled.div`
   width: 100%;
   max-width: 950px;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
@@ -487,7 +487,6 @@ export const TransparencyCardGrid = styled.div`
   }
 `;
 
-/* TransparencyCard */
 export const TransparencyCard = styled.div`
   background: #ffffff;
   color: #1a1a1a;
@@ -520,7 +519,7 @@ export const TransparencyCard = styled.div`
     color: #444;
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     text-align: center;
     padding: 1.8rem;
 
@@ -550,7 +549,6 @@ export const TransparencyCard = styled.div`
     }
   }
 `;
-/* TraceaidSection */
 export const TraceaidSection = styled.section`
   position: relative;
   width: 100%;
@@ -570,7 +568,7 @@ export const TraceaidSection = styled.section`
     font-weight: 800;
     margin-bottom: 1.5rem;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 1.6rem;
     }
 
@@ -585,7 +583,7 @@ export const TraceaidSection = styled.section`
     line-height: 1.6;
     color: #333;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 0.9rem;
       max-width: 95%;
     }
@@ -596,7 +594,7 @@ export const TraceaidSection = styled.section`
     }
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     padding: 4rem 2rem;
     margin-top: 2rem;
   }
@@ -607,7 +605,6 @@ export const TraceaidSection = styled.section`
   }
 `;
 
-/* TraceaidCardGrid */
 export const TraceaidCardGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -616,7 +613,7 @@ export const TraceaidCardGrid = styled.div`
   width: 100%;
   max-width: 1100px;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
@@ -676,7 +673,7 @@ export const TraceaidCard = styled.div`
     line-height: 1.5;
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     text-align: center;
 
     .iconfirst,
@@ -705,7 +702,6 @@ export const TraceaidCard = styled.div`
   }
 `;
 
-/* FundraisingSection */
 export const FundraisingSection = styled.section`
   width: 100%;
   height: max-content;
@@ -723,7 +719,7 @@ export const FundraisingSection = styled.section`
     padding: 4rem 5%;
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     padding: 3rem 4%;
     gap: 2rem;
   }
@@ -734,7 +730,6 @@ export const FundraisingSection = styled.section`
   }
 `;
 
-/* FundraisingContent */
 export const FundraisingContent = styled.div`
   flex: 1;
   display: flex;
@@ -749,7 +744,7 @@ export const FundraisingContent = styled.div`
     color: #3b4f25;
     margin-bottom: 1.2rem;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 1.8rem;
       text-align: center;
       width: 100%;
@@ -769,7 +764,7 @@ export const FundraisingContent = styled.div`
     max-width: 450px;
     margin-bottom: 2rem;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       max-width: 90%;
       text-align: center;
       font-size: 0.9rem;
@@ -797,7 +792,7 @@ export const FundraisingContent = styled.div`
       color: #000;
     }
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       padding: 0.8rem 1.8rem;
       font-size: 0.9rem;
     }
@@ -808,7 +803,7 @@ export const FundraisingContent = styled.div`
     }
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     align-items: center;
     text-align: center;
   }
@@ -819,7 +814,6 @@ export const FundraisingContent = styled.div`
   }
 `;
 
-/* FundraisingImage */
 export const FundraisingImage = styled.div`
   flex: 1;
   display: flex;
@@ -834,7 +828,7 @@ export const FundraisingImage = styled.div`
     object-fit: cover;
     border-radius: 10px;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       max-width: 85%;
     }
 
@@ -843,7 +837,7 @@ export const FundraisingImage = styled.div`
     }
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     margin-top: 2rem;
   }
 
@@ -851,7 +845,6 @@ export const FundraisingImage = styled.div`
     margin-top: 2.5rem;
   }
 `;
-/* ImageDividerSection */
 export const ImageDividerSection = styled.section`
   width: 100%;
   margin-top: 3rem;
@@ -865,7 +858,7 @@ export const ImageDividerSection = styled.section`
     object-fit: cover;
     display: block;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       height: 5rem;
     }
 
@@ -875,7 +868,6 @@ export const ImageDividerSection = styled.section`
   }
 `;
 
-/* JoinUsSection */
 export const JoinUsSection = styled.div`
   width: 100%;
   text-align: center;
@@ -886,7 +878,7 @@ export const JoinUsSection = styled.div`
     font-weight: 800;
     color: #000000;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 2rem;
     }
 
@@ -896,7 +888,6 @@ export const JoinUsSection = styled.div`
   }
 `;
 
-/* CommunitySection */
 export const CommunitySection = styled.section`
   width: 100%;
   padding: 4rem 8%;
@@ -905,7 +896,7 @@ export const CommunitySection = styled.section`
   justify-content: center;
   align-items: center;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     padding: 3rem 4%;
   }
 
@@ -914,7 +905,6 @@ export const CommunitySection = styled.section`
   }
 `;
 
-/* CommunityGrid */
 export const CommunityGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -932,7 +922,7 @@ export const CommunityGrid = styled.div`
     object-fit: cover;
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     grid-template-columns: 1fr;
     height: auto;
 
@@ -951,7 +941,6 @@ export const CommunityGrid = styled.div`
   }
 `;
 
-/* CommunityContent */
 export const CommunityContent = styled.div`
   grid-column: 2 / 3;
   grid-row: 1 / span 2;
@@ -973,7 +962,7 @@ export const CommunityContent = styled.div`
     margin-bottom: 0.5rem;
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
 
@@ -1001,13 +990,12 @@ export const CommunityContent = styled.div`
   }
 `;
 
-/* CommunityStat */
 export const CommunityStat = styled.h1`
   font-size: 5rem;
   font-weight: 900;
   color: #9aba58;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     font-size: 3rem;
   }
 
@@ -1016,7 +1004,6 @@ export const CommunityStat = styled.h1`
   }
 `;
 
-/* CommunityButton */
 export const CommunityButton = styled.button`
   background-color: #1a1a1a;
   border: none;
@@ -1034,7 +1021,7 @@ export const CommunityButton = styled.button`
     color: #1a1a1a;
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     width: 150px;
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
@@ -1047,7 +1034,6 @@ export const CommunityButton = styled.button`
   }
 `;
 
-/* FooterContainer */
 export const FooterContainer = styled.footer`
   width: 100%;
   background-color: #1a1a1a;
@@ -1058,7 +1044,7 @@ export const FooterContainer = styled.footer`
   align-items: center;
   margin-top: 4.5rem;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     padding: 3rem 4%;
   }
 
@@ -1067,7 +1053,6 @@ export const FooterContainer = styled.footer`
   }
 `;
 
-/* FooterContent */
 export const FooterContent = styled.div`
   width: 100%;
   display: flex;
@@ -1076,7 +1061,7 @@ export const FooterContent = styled.div`
   align-items: flex-start;
   gap: 2rem;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     flex-direction: column;
     align-items: center;
     text-align: center;
@@ -1089,7 +1074,6 @@ export const FooterContent = styled.div`
   }
 `;
 
-/* FooterLogo */
 export const FooterLogo = styled.div`
   flex: 1;
   width: 100%;
@@ -1104,7 +1088,7 @@ export const FooterLogo = styled.div`
     object-fit: contain;
     margin-bottom: 1rem;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       width: 100px;
       height: 35px;
     }
@@ -1121,7 +1105,7 @@ export const FooterLogo = styled.div`
     font-size: 1.3rem;
     font-weight: 600;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 1.1rem;
     }
 
@@ -1137,7 +1121,7 @@ export const FooterLogo = styled.div`
     margin-bottom: 1.2rem;
     width: 100%;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 0.8rem;
     }
 
@@ -1147,7 +1131,6 @@ export const FooterLogo = styled.div`
   }
 `;
 
-/* SocialIcons */
 export const SocialIcons = styled.div`
   display: flex;
   gap: 1rem;
@@ -1164,7 +1147,7 @@ export const SocialIcons = styled.div`
     font-size: 1.2rem;
     transition: all 0.3s ease;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       width: 30px;
       height: 30px;
       font-size: 1rem;
@@ -1178,7 +1161,6 @@ export const SocialIcons = styled.div`
   }
 `;
 
-/* FooterColumn */
 export const FooterColumn = styled.div`
   flex: 1;
   min-width: 180px;
@@ -1189,7 +1171,7 @@ export const FooterColumn = styled.div`
     margin-bottom: 1rem;
     font-weight: 600;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 0.9rem;
     }
 
@@ -1214,7 +1196,7 @@ export const FooterColumn = styled.div`
         color: #ffffff;
       }
 
-      @media (min-width: 480px) and (max-width: 768px) {
+      @media (min-width: 300px) and (max-width: 768px) {
         font-size: 0.8rem;
       }
 
@@ -1225,7 +1207,6 @@ export const FooterColumn = styled.div`
   }
 `;
 
-/* FooterCopyright */
 export const FooterCopyright = styled.div`
   width: 100%;
   text-align: center;
@@ -1236,7 +1217,7 @@ export const FooterCopyright = styled.div`
   color: #ffffff;
   letter-spacing: 0.3px;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 350px) and (max-width: 768px) {
     font-size: 0.8rem;
     margin-top: 4rem;
   }

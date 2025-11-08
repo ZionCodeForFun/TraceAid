@@ -1,7 +1,8 @@
-import React from "react";
+// import React from "react";
 import styled from "styled-components";
 import HeaderNav from "../../pages/HeaderNav";
 import Footer from "../../pages/Footer";
+
 const TermsAndConditions = () => {
   return (
     <Container>
@@ -230,16 +231,20 @@ export default TermsAndConditions;
 const Container = styled.div`
   width: 100%;
   margin: 0 auto;
-  
   color: #222;
   font-family: "Arial", sans-serif;
   line-height: 1.6;
-  article{
-       padding: 70px;
-       margin-top: 2rem;
 
-   }
+  article {
+    padding: 70px;
+    margin-top: 2rem;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
   h2 {
+    margin-top: 1.8rem;
     font-size: 22px;
     font-weight: 700;
     margin-bottom: 10px;
@@ -263,5 +268,63 @@ const Container = styled.div`
   a {
     color: #0066cc;
     text-decoration: none;
+  }
+
+
+  @media (max-width: 350px) {
+    article {
+      padding: 20px;
+    }
+    
+    h2 {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+    p,
+    li {
+      font-size: 14px;
+    }
+
+    ul {
+      margin-left: 15px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    article {
+      padding: 30px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    h3 {
+      font-size: 17px;
+    }
+
+    p,
+    li {
+      font-size: 15px;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 1024px) {
+    article {
+      padding: 50px;
+    }
+
+    h2 {
+      font-size: 21px;
+    }
+
+    h3 {
+      font-size: 17.5px;
+    }
   }
 `;

@@ -30,7 +30,6 @@ const RoleModal = ({ onClose }) => {
 
         <section className="select_wrapper">
           <section className="select_holder">
-           
             <div
               className={`select1 ${
                 activeRole === "individual" ? "active" : ""
@@ -38,10 +37,11 @@ const RoleModal = ({ onClose }) => {
               onClick={() => handleSelect("individual")}
             >
               <p className="individual">Individual</p>
-              <p className="text">Select this if you’re a person looking to volunteer, donate.</p>
+              <p className="text">
+                Select this if you’re a person looking to volunteer, donate.
+              </p>
             </div>
 
-           
             <div
               className={`select2 ${
                 activeRole === "organization" ? "active" : ""
@@ -50,14 +50,15 @@ const RoleModal = ({ onClose }) => {
             >
               <p className="organization">Organization</p>
               <p className="text">
-               Select this if you’re an NGO looking to create campaigns and raise funds
+                Select this if you’re an NGO looking to create campaigns and
+                raise funds
               </p>
             </div>
           </section>
 
           <footer className="already">
             <p>Already have an account?</p>
-             <span  onClick={()=>navigate("/login")}>Log In</span>
+            <span onClick={() => navigate("/login")}>Log In</span>
           </footer>
         </section>
       </article>
@@ -67,14 +68,14 @@ const RoleModal = ({ onClose }) => {
 
 export default RoleModal;
 
-
- const Container = styled.div`
+const Container = styled.div`
   position: fixed;
   inset: 0;
   z-index: 9999;
   width: 100%;
   height: 100vh;
   display: flex;
+  gap: 20px;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -96,7 +97,7 @@ export default RoleModal;
 
       img {
         object-fit: contain;
-        height: 29px;
+        height: 35px;
         transition: all 0.3s ease;
       }
     }
@@ -112,14 +113,14 @@ export default RoleModal;
       text-align: center;
 
       .big_text {
-        font-size: 40px;
+        font-size: 35px;
         font-weight: 700;
         color: var(--NeutralGrey4-Text);
       }
 
       .small_text {
         font-weight: 500;
-        font-size: 24px;
+        font-size: 20px;
         color: var(--Primary700);
       }
     }
@@ -192,8 +193,8 @@ export default RoleModal;
           color: var(--Primary700);
           color: #4ec03f;
           cursor: pointer;
-          
-          &:hover{
+
+          &:hover {
             color: var(--Primary700);
           }
         }
@@ -201,7 +202,6 @@ export default RoleModal;
     }
   }
 
-  /* 💻 Tablets (600px - 900px) */
   @media (min-width: 600px) and (max-width: 900px) {
     .wrapper {
       width: 70%;
@@ -229,7 +229,6 @@ export default RoleModal;
     }
   }
 
-  /* 📱 Mobile (max-width: 600px) */
   @media (max-width: 600px) {
     padding: 15px;
 
@@ -249,11 +248,11 @@ export default RoleModal;
       gap: 10px;
 
       .big_text {
-        font-size: 26px;
+        font-size: 20px;
       }
 
       .small_text {
-        font-size: 16px;
+        font-size: 10px;
       }
     }
 
@@ -290,7 +289,6 @@ export default RoleModal;
     }
   }
 
-  /* 🖥 Small Laptops (900px - 1200px) */
   @media (min-width: 900px) and (max-width: 1200px) {
     .wrapper {
       width: 50%;

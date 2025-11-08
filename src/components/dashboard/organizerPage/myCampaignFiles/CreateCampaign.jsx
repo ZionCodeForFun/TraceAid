@@ -263,7 +263,7 @@ const CreateCampaign = ({ onClose }) => {
               className="choose_file"
               onClick={() => document.getElementById("file-upload").click()}
             >
-              Choose file
+              Add file
             </p>
 
             <div className="name_holder" style={{ marginBottom: "15px" }}>
@@ -492,7 +492,7 @@ export const Container = styled.div`
       display: flex;
       align-items: center;
       gap: 16px;
-      margin-left: 70px;
+      margin-left: 50px;
       cursor: pointer;
 
       .iconn {
@@ -564,8 +564,20 @@ export const Container = styled.div`
           border-radius: 12px;
           border: 1px solid var(--Neutral_Grey1);
           outline: none;
-          color: #8d8d8d;
+          color: #000000;
           background-color: #f9f9f9;
+          transition: all 0.3s ease;
+
+          &::after {
+            background-color: #fff; 
+            color: #000; 
+            border-color: var(--PrimaryBase); 
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+          }
+
+          &::placeholder {
+            color: #b3b3b3;
+          }
         }
 
         .custom_select {
@@ -691,7 +703,7 @@ export const Container = styled.div`
     .alrt_holder {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 8px;
       margin-top: 30px;
 
       .add {
@@ -863,16 +875,144 @@ export const Container = styled.div`
     }
   }
   .modal_overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
- 
-}
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
+  @media (max-width: 400px) {
+    .goback {
+      width: 90%;
+      padding-top: 40px;
+      .icon_holder {
+        margin-left: 20px;
+        gap: 8px;
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .right {
+      width: 95%;
+      height: auto;
+      padding: 20px;
+      border-radius: 20px;
+      margin-bottom: 40px;
+
+      .title .bigtext {
+        font-size: 24px;
+      }
+      .title .smalltext {
+        font-size: 14px;
+      }
+
+      .input_holder {
+        width: 100%;
+        gap: 14px;
+        .name_holder label {
+          font-size: 13px;
+        }
+        input,
+        select {
+          font-size: 14px;
+          height: 42px;
+        }
+      }
+
+      .btn_holder {
+        height: 40px;
+        .btn {
+          font-size: 14px;
+        }
+      }
+
+      .holder .reciept_holder {
+        width: 90%;
+        height: auto;
+        padding: 20px;
+        .content-holder i {
+          width: 48px;
+          height: 48px;
+          font-size: 24px;
+        }
+        .content-holder .bigtext {
+          font-size: 16px;
+        }
+        .content-holder .smalltext {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 370px) and (max-width: 768px) {
+    .right {
+      width: 100%;
+      height: auto;
+      padding: 30px;
+      border-radius: 24px;
+      .title .bigtext {
+        font-size: 32px;
+      }
+      .title .smalltext {
+        font-size: 15px;
+      }
+
+      .input_holder {
+        width: 95%;
+        gap: 16px;
+        input,
+        select {
+          font-size: 15px;
+          height: 45px;
+        }
+      }
+
+      .btn_holder {
+        .btn {
+          font-size: 15px;
+        }
+      }
+    }
+
+    .goback .icon_holder {
+      margin-left: 40px;
+      p {
+        font-size: 15px;
+      }
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .right {
+      width: 75%;
+      height: auto;
+      padding: 35px;
+      .title .bigtext {
+        font-size: 34px;
+      }
+      .input_holder {
+        width: 90%;
+      }
+    }
+  }
+  @media (max-width: 370px) {
+    .name_holder {
+      .choose_file {
+        font-size: 0;
+      }
+
+      .choose_file::after {
+        content: "📎";
+        font-size: 18px;
+      }
+    }
+  }
 `;

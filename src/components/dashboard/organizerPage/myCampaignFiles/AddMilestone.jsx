@@ -21,7 +21,6 @@ const AddMilestone = ({ onClose, existingMilestone = null }) => {
     if (existingMilestone) {
       setMilestone(existingMilestone);
     }
- 
   }, [existingMilestone]);
 
   const handleChange = (e) => {
@@ -165,17 +164,13 @@ const AddMilestone = ({ onClose, existingMilestone = null }) => {
 export default AddMilestone;
 
 const Container = styled.div`
-
   display: flex;
   justify-content: center;
   align-items: center;
- 
 
-  
   .right {
     position: fixed;
     top: 5%;
-     
     width: 550px;
     height: 80%;
     padding: 20px 20px;
@@ -304,6 +299,139 @@ const Container = styled.div`
       cursor: pointer;
       font-size: 24px;
       color: #333333;
+    }
+  }
+
+  /* ------------------ Extra Small Devices (≤480px) ------------------ */
+  @media (max-width: 340px) {
+    .right {
+      width: 70%;
+      height: 85%;
+      padding: 15px;
+      padding-top: 25px;
+      border-radius: 20px;
+      gap: 15px;
+
+      .title .bigtext {
+        font-size: 22px;
+      }
+
+      .title .smalltext {
+        font-size: 12.5px;
+      }
+
+      .input_holder {
+        width: 100%;
+        gap: 10px;
+
+        .name_holder label {
+          font-size: 12.5px;
+        }
+
+        .name_holder input {
+          height: 32px;
+          font-size: 12.5px;
+          padding: 8px 12px;
+        }
+
+        .btn_holder .btn {
+          height: 32px;
+          font-size: 13px;
+        }
+      }
+
+      .reciept_holder {
+        width: 90%;
+        padding: 20px;
+      }
+
+      .exit {
+        top: 10px;
+        right: 20px;
+        font-size: 20px;
+      }
+    }
+  }
+
+  /* ------------------ Small Tablets (481px–768px) ------------------ */
+  @media (min-width: 360px) and (max-width: 768px) {
+    .right {
+      width: 80%;
+      height: 80%;
+      padding: 20px;
+      border-radius: 25px;
+
+      .title .bigtext {
+        font-size: 26px;
+        display: flex;
+        justify-content: start;
+        margin-bottom: 10px;
+      }
+
+      .title .smalltext {
+        font-size: 13px;
+      }
+
+      .input_holder .name_holder input {
+        height: 34px;
+        font-size: 13.5px;
+      }
+
+      .btn_holder .btn {
+        height: 34px;
+        font-size: 14px;
+      }
+
+      .reciept_holder {
+        width: 80%;
+        padding: 25px;
+      }
+
+      .exit {
+        right: 25px;
+        font-size: 22px;
+      }
+    }
+  }
+
+  /* ------------------ Tablets (769px–1024px) ------------------ */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .right {
+      width: 65%;
+      height: 75%;
+      padding: 25px;
+      border-radius: 30px;
+
+      .title .bigtext {
+        font-size: 30px;
+      }
+
+      .title .smalltext {
+        font-size: 13.5px;
+      }
+
+      .input_holder .name_holder input {
+        height: 36px;
+        font-size: 14px;
+      }
+
+      .btn_holder .btn {
+        height: 36px;
+        font-size: 15px;
+      }
+
+      .reciept_holder {
+        width: 70%;
+      }
+    }
+  }
+
+  /* ------------------ Large Screens (≥1025px) ------------------ */
+  @media (min-width: 1025px) {
+    .right {
+      width: 550px;
+      height: 80%;
+      border-radius: 40px;
     }
   }
 `;

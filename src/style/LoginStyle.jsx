@@ -120,7 +120,7 @@ export const Container = styled.div`
             border-color: #a5d35d;
           }
 
-          @media (min-width: 480px) and (max-width: 768px) {
+          @media (min-width: 300px) and (max-width: 768px) {
             font-size: 0.85rem;
             padding: 0.55rem 1rem;
             gap: 6px;
@@ -246,7 +246,7 @@ export const Container = styled.div`
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 300px) {
       width: 95%;
       padding: 15px;
       border-radius: 18px;
@@ -261,7 +261,7 @@ export const Container = styled.div`
 
       .footer .google_btn {
         font-size: 12px;
-        padding: 8px 10px;
+        padding: 7px 9px;
         width: 100%;
       }
 

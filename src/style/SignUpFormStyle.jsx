@@ -70,6 +70,7 @@
 //       font-size: 16px;
 //       height: 43px;
 //       border-radius: 8px;
+
 //       &:hover {
 //         background-color: var(--PrimaryBase);
 //         color: var(--NeutralBlack);
@@ -77,7 +78,12 @@
 //     }
 
 //     .google_holder {
+//       display: flex;
+//       flex-direction: column;
+//       align-items: center;
+//       width: 100%;
 //       gap: 20px;
+
 //       .google_btn {
 //         background-color: white;
 //         border: 2px solid var(--Primary700);
@@ -86,10 +92,24 @@
 //         font-weight: 600;
 //         padding: 12px 30px;
 //         height: 44px;
+//         width: 100%;
+//         border-radius: 8px;
+//         transition: all 0.3s ease;
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//         gap: 10px;
+
 //         &:hover {
 //           background-color: var(--Primary200);
 //         }
+
+//         img {
+//           height: 20px;
+//           width: 20px;
+//         }
 //       }
+
 //       .line-text {
 //         display: flex;
 //         align-items: center;
@@ -100,52 +120,67 @@
 //         font-weight: 400;
 //         font-size: 16px;
 //         width: 400px;
+//         max-width: 100%;
 //       }
+
 //       .line-text::before,
 //       .line-text::after {
 //         content: "";
 //         flex: 1;
 //         border-bottom: 1px solid #c0c0c0;
-//         background-color: #333;
 //       }
+
 //       p {
 //         font-weight: 400;
 //         font-size: 16px;
 //       }
 //     }
+
 //     .custom-checkbox {
 //       color: #333;
 //       font-weight: 500;
+
 //       a {
 //         color: var(--NeutralBlack);
 //       }
+
 //       .ant-checkbox-inner {
 //         border-color: #c0c0c0;
 //       }
+
 //       .ant-checkbox-checked .ant-checkbox-inner {
 //         background-color: var(--NeutralBlack);
 //         border-color: var(--NeutralGrey4-Text);
 //       }
 //     }
+
 //     .already {
 //       font-size: 14px;
 //       margin-top: 20px;
 //       display: flex;
+//       justify-content: center;
 //       gap: 8px;
-//       p {
-//         font-size: 14px;
-//       }
+//       flex-wrap: wrap;
+
+//       p,
 //       span {
 //         font-size: 14px;
 //       }
 //     }
 //   }
 
-//   @media screen and (max-width: 768px) {
+//   @media (min-width: 350px) and (max-width: 768px) {
+//     padding: 30px 15px;
+
 //     .wrapper {
 //       width: 95%;
 //       padding: 25px;
 //       border-radius: 20px;
+//       gap: 15px;
+//     }
+
+//     .img_holder img {
+//       height: 22px;
 //     }
 
 //     .content_holder .title .sign {
@@ -158,21 +193,56 @@
 
 //     .input,
 //     .signup_btn,
-//     .google_btn {
+//     .google_holder .google_btn {
 //       height: 38px;
 //       font-size: 13px;
+//       padding: 10px;
+//     }
+
+//     .google_holder .line-text {
+//       width: 90%;
+//       font-size: 13px;
+//     }
+
+//     .already {
+//       font-size: 12px;
+//       gap: 5px;
+//     }
+//   }
+
+//   @media (min-width: 600px) and (max-width: 900px) {
+//     .wrapper {
+//       width: 80%;
+//       padding: 35px;
+//       border-radius: 22px;
+//     }
+
+//     .img_holder img {
+//       height: 30px;
+//     }
+
+//     .content_holder .title .sign {
+//       font-size: 24px;
+//     }
+
+//     .content_holder .title .text {
+//       font-size: 13.5px;
+//     }
+
+//     .input,
+//     .signup_btn,
+//     .google_holder .google_btn {
+//       height: 40px;
+//       font-size: 14px;
+//       padding: 10px 20px;
+//     }
+
+//     .google_holder .line-text {
+//       width: 85%;
+//       font-size: 14px;
 //     }
 //   }
 // `;
-
-
-
-
-
-
-
-
-
 
 
 
@@ -256,7 +326,6 @@ export const Container = styled.div`
       }
     }
 
-    /* 🌐 Google Section */
     .google_holder {
       display: flex;
       flex-direction: column;
@@ -349,12 +418,53 @@ export const Container = styled.div`
     }
   }
 
-  /* 📱 MOBILE VIEW: 480px - 768px */
-  @media (min-width: 480px) and (max-width: 768px) {
+  /* ------------------ Extra Small Devices (Phones ≤ 480px) ------------------ */
+  @media (max-width: 480px) {
+    padding: 20px 10px;
+
+    .wrapper {
+      width: 100%;
+      padding: 20px;
+      gap: 12px;
+      border-radius: 16px;
+    }
+
+    .img_holder img {
+      height: 20px;
+    }
+
+    .content_holder .title .sign {
+      font-size: 20px;
+    }
+
+    .content_holder .title .text {
+      font-size: 12.5px;
+    }
+
+    .input,
+    .signup_btn,
+    .google_holder .google_btn {
+      height: 36px;
+      font-size: 13px;
+      padding: 8px;
+    }
+
+    .google_holder .line-text {
+      width: 90%;
+      font-size: 12.5px;
+    }
+
+    .already {
+      font-size: 12px;
+      gap: 5px;
+    }
+  }
+
+   @media (min-width: 400px) and (max-width: 768px) {
     padding: 30px 15px;
 
     .wrapper {
-      width: 95%;
+      width: 90%;
       padding: 25px;
       border-radius: 20px;
       gap: 15px;
@@ -377,7 +487,6 @@ export const Container = styled.div`
     .google_holder .google_btn {
       height: 38px;
       font-size: 13px;
-      padding: 10px;
     }
 
     .google_holder .line-text {
@@ -386,29 +495,23 @@ export const Container = styled.div`
     }
 
     .already {
-      font-size: 12px;
-      gap: 5px;
+      font-size: 13px;
     }
   }
 
-  /* 💻 TABLET VIEW: 600px - 900px */
-  @media (min-width: 600px) and (max-width: 900px) {
+  @media (min-width: 600px) and (max-width: 1024px) {
     .wrapper {
-      width: 80%;
+      width: 75%;
       padding: 35px;
       border-radius: 22px;
     }
 
     .img_holder img {
-      height: 30px;
+      height: 28px;
     }
 
     .content_holder .title .sign {
-      font-size: 24px;
-    }
-
-    .content_holder .title .text {
-      font-size: 13.5px;
+      font-size: 25px;
     }
 
     .input,
@@ -422,6 +525,12 @@ export const Container = styled.div`
     .google_holder .line-text {
       width: 85%;
       font-size: 14px;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .wrapper {
+      width: 480px;
     }
   }
 `;

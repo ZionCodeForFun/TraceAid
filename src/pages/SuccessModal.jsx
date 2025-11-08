@@ -11,8 +11,10 @@ const SuccessModal = ({ close = () => {}, reference }) => {
       <ModalBox>
         <IoCheckmarkCircle className="icon" />
         <h2>Payment Successful!</h2>
-        <p>Your donation has been processed successfully.  
-        Thank you for making a difference 🫶</p>
+        <p>
+          Your donation has been processed successfully. Thank you for making a
+          difference{" "}
+        </p>
 
         <button
           className="btn"
@@ -30,7 +32,6 @@ const SuccessModal = ({ close = () => {}, reference }) => {
 
 export default SuccessModal;
 
-
 const fadeIn = keyframes`
   0% { transform: scale(0.4); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
@@ -38,9 +39,11 @@ const fadeIn = keyframes`
 
 const Overlay = styled.div`
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,7 +51,7 @@ const Overlay = styled.div`
 `;
 
 const ModalBox = styled.div`
-  width: 420px;
+  width: 350px;
   background: #fff;
   border-radius: 18px;
   padding: 35px 30px;
@@ -70,7 +73,7 @@ const ModalBox = styled.div`
 
   .icon {
     font-size: 90px;
-    color: #4BB543;
+    color: #4bb543;
     margin-bottom: 5px;
   }
 

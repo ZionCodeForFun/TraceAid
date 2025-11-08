@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
   gap: 28px;
   background: #ffffff;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     padding: 20px 0;
     gap: 22px;
     margin-top: 2rem;
@@ -41,7 +41,7 @@ export const UploadLabel = styled.label`
     object-fit: cover;
     transition: 0.3s ease;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       width: 100px;
       height: 100px;
     }
@@ -66,7 +66,7 @@ export const UploadLabel = styled.label`
     font-size: 12px;
     color: #555;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 11px;
     }
 
@@ -84,7 +84,7 @@ export const ProfileImage = styled.img`
   border: 2px solid #d6d6d6;
   background: #d6d6d6;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     width: 100px;
     height: 100px;
   }
@@ -102,8 +102,9 @@ export const SectionTitle = styled.h2`
   font-style: Bold;
   font-size: 2rem;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     font-size: 1.6rem;
+    margin-left: 10px;
   }
 
   @media (min-width: 600px) and (max-width: 900px) {
@@ -121,8 +122,9 @@ export const FormRow = styled.div`
     flex-direction: column;
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     gap: 15px;
+    padding-left: 10px;
   }
 
   @media (min-width: 600px) and (max-width: 900px) {
@@ -150,7 +152,7 @@ export const InputGroup = styled.div`
     color: #707070;
     pointer-events: none;
 
-    @media (min-width: 480px) and (max-width: 768px) {
+    @media (min-width: 300px) and (max-width: 768px) {
       font-size: 16px;
     }
 
@@ -167,8 +169,9 @@ export const Label = styled.label`
   margin-bottom: 6px;
   font-weight: 500;
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     font-size: 12px;
+    margin-left: 10px;
   }
 
   @media (min-width: 600px) and (max-width: 900px) {
@@ -197,7 +200,7 @@ export const Input = styled.input`
     font-size: 14px;
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     font-size: 13px;
     padding: 11px 12px;
     padding-left: 38px;
@@ -216,16 +219,19 @@ export const ButtonGroup = styled.div`
   justify-content: flex-end;
   gap: 14px;
   margin-top: 20px;
-  margin-bottom: 2rem;
+  margin-bottom: 1.6rem;
 
   @media (max-width: 500px) {
     flex-direction: column;
+    align-items: center;
     button {
-      width: 100%;
+      width: 95%;
+
+
     }
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     gap: 10px;
     margin-top: 18px;
   }
@@ -247,10 +253,11 @@ export const OutlineBtn = styled.button`
   color: #333333;
 
   &:hover {
-    background: #ffffff;
+    background: #c1e86e;
+    color: #000;
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     padding: 10px 20px;
     font-size: 0.85rem;
   }
@@ -265,8 +272,8 @@ export const OutlineBtn = styled.button`
 export const PrimaryBtn = styled.button`
   padding: 12px 24px;
   border: none;
-  background: #1A1A1A;
-  color: #C1E86E;
+  background: #1a1a1a;
+  color: #c1e86e;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
@@ -274,6 +281,8 @@ export const PrimaryBtn = styled.button`
 
   &:hover {
     opacity: 0.85;
+    background-color: #c1e86e;
+    color: #000000;
   }
 
   &:disabled {
@@ -281,7 +290,7 @@ export const PrimaryBtn = styled.button`
     cursor: not-allowed;
   }
 
-  @media (min-width: 480px) and (max-width: 768px) {
+  @media (min-width: 300px) and (max-width: 768px) {
     padding: 10px 20px;
     font-size: 12px;
   }

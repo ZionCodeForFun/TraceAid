@@ -37,51 +37,6 @@ const MySavedCampaigns = () => {
 
 export default MySavedCampaigns;
 
-// const SavedContainer = styled.div`
-//   width: 100%;
-//   padding: 5rem 8%;
-//   margin-top: 3rem;
-// `;
-
-// const GoBack = styled.div`
-//   display: flex;
-//   align-items: center;
-//   gap: 7px;
-//   font-size: 0.95rem;
-//   cursor: pointer;
-//   color: #444;
-//   margin-bottom: 2rem;
-
-//   span {
-//     margin-top: 2px;
-//   }
-
-//   &:hover {
-//     color: #000;
-//   }
-// `;
-
-// const Heading = styled.h2`
-//   font-size: 1.2rem;
-//   font-weight: 600;
-//   color: #000000;
-//   margin-top: 5rem;
-// `;
-
-// const SubText = styled.p`
-//   color: #6a6a6a;
-//   font-size: 0.8rem;
-//   margin-top: 0.5rem;
-//   color: #000000;
-// `;
-
-
-
-
-
-
-
-
 
 
  const SavedContainer = styled.div`
@@ -90,7 +45,7 @@ export default MySavedCampaigns;
   margin-top: clamp(1.5rem, 3vw, 3rem);
   display: flex;
   flex-direction: column;
-  gap: clamp(1rem, 3vw, 3rem); /* Fluid spacing between child elements */
+  gap: clamp(1rem, 3vw, 3rem);
 `;
 
  const GoBack = styled.div`
