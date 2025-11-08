@@ -121,10 +121,6 @@ export default SavedMappedCampaign;
 
 export const SavedMappedSection = styled.section`
   width: 100%;
-  /* padding: 5rem 8%; */
-  /* width: 90%; */
-  /* margin: 0 auto; */
-  /* padding-top: 2.5rem; */
   margin-top: 4rem;
   background-color: #ffffff;
 `;
