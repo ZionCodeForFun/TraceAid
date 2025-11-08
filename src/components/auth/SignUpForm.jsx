@@ -32,7 +32,7 @@ const SignUpForm = () => {
         }/register`,
         values
       );
-      console.log("zion sign up",res?.data?.data?.user?.role)
+      console.log("zion sign up", res?.data?.data?.user?.role)
       toast.success(res?.data?.message || "Registration successful");
       form.resetFields();
       console.log(res?.data?.data?.user);

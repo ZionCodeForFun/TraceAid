@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../../../common/InputField";
 import Button from "../../../common/Button";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import ReactDOM from "react-dom";
+import { IoCloseSharp } from "react-icons/io5";
 
-const AddMilestone = ({ onClose }) => {
+const AddMilestone = ({ onClose, existingMilestone = null }) => {
   const [milestone, setMilestone] = useState({
     title: "",
     amount: "",
@@ -14,34 +15,46 @@ const AddMilestone = ({ onClose }) => {
   });
   const [error, setError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const isEdit = !!existingMilestone;
 
+  useEffect(() => {
+    if (existingMilestone) {
+      setMilestone(existingMilestone);
+    }
  
+  }, [existingMilestone]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setMilestone((prev) => ({ ...prev, [name]: value }));
     setError(false);
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const { title, amount, duration, description } = milestone;
 
-    if (!title.trim()) {
+    if (
+      !title.trim() ||
+      !amount.trim() ||
+      !duration.trim() ||
+      !description.trim()
+    ) {
       setError(true);
+      toast.error("All fields are required");
       return;
     }
 
-    toast.success("Milestone saved successfully");
+    if (isEdit) {
+      toast.success("Milestone updated successfully");
+    } else {
+      toast.success("Milestone saved successfully");
+    }
+
     setShowSuccess(true);
 
     setTimeout(() => {
-      onClose(true, {
-        title,
-        description,
-        amount,
-        duration,
-      });
+      onClose(true, milestone, isEdit);
     }, 1000);
   };
 
@@ -49,8 +62,14 @@ const AddMilestone = ({ onClose }) => {
     <Container>
       <aside className="right">
         <div className="title">
-          <p className="bigtext">Add Milestone</p>
-          <p className="smalltext">Define a milestone for your campaign</p>
+          <p className="bigtext">
+            {isEdit ? "Edit Milestone" : "Add Milestone"}
+          </p>
+          <p className="smalltext">
+            {isEdit
+              ? "Update the details of your milestone"
+              : "Define a milestone for your campaign"}
+          </p>
         </div>
 
         {!showSuccess ? (
@@ -69,22 +88,24 @@ const AddMilestone = ({ onClose }) => {
             <div className="name_holder">
               <label>Amount</label>
               <InputField
-                type="text"
+                type="number"
                 name="amount"
                 placeholder="Enter target amount"
                 value={milestone.amount}
                 onChange={handleChange}
+                min="1"
               />
             </div>
 
             <div className="name_holder">
               <label>Duration (days)</label>
               <InputField
-                type="text"
+                type="number"
                 name="duration"
                 placeholder="Enter milestone duration"
                 value={milestone.duration}
                 onChange={handleChange}
+                min="1"
               />
             </div>
 
@@ -101,21 +122,29 @@ const AddMilestone = ({ onClose }) => {
 
             {error && (
               <p style={{ color: "#e50914", fontSize: 12 }}>
-                Milestone title is required
+                All fields are required
               </p>
             )}
 
             <div className="btn_holder">
-              <Button text="Save Milestone" className="btn" type="submit" />
+              <Button
+                text={isEdit ? "Update Milestone" : "Save Milestone"}
+                className="btn"
+                type="submit"
+              />
             </div>
           </form>
         ) : (
           <div className="holder">
             <div className="reciept_holder">
               <div className="content-holder">
-                <p className="bigtext">Milestone Submitted</p>
+                <p className="bigtext">
+                  {isEdit ? "Milestone Updated" : "Milestone Submitted"}
+                </p>
                 <p className="smalltext">
-                  Milestone achievement has been submitted for verification
+                  {isEdit
+                    ? "Milestone has been updated successfully"
+                    : "Milestone achievement has been submitted for verification"}
                 </p>
               </div>
               <Button
@@ -126,6 +155,7 @@ const AddMilestone = ({ onClose }) => {
             </div>
           </div>
         )}
+        <IoCloseSharp onClick={() => onClose(false)} className="exit" />
       </aside>
     </Container>,
     document.body
@@ -135,20 +165,20 @@ const AddMilestone = ({ onClose }) => {
 export default AddMilestone;
 
 const Container = styled.div`
+
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  background-color: rgba(141, 141, 141, 0.5);
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 9999;
+ 
 
+  
   .right {
-    width: 650px;
-    height: 90vh;
-    padding: 20px 40px;
+    position: fixed;
+    top: 5%;
+     
+    width: 550px;
+    height: 80%;
+    padding: 20px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -156,7 +186,6 @@ const Container = styled.div`
     border-radius: 40px;
     border: 1px solid var(--Neutral_Grey1);
     background-color: var(--Neutral_Offwhite);
-    position: relative;
 
     .title {
       display: flex;
@@ -198,19 +227,10 @@ const Container = styled.div`
           border-radius: 8px;
           border: 1px solid var(--Neutral_Grey1);
           outline: none;
-          height: 45px;
+          height: 35px;
           font-size: 14px;
           color: #333;
         }
-      }
-
-      .btn_close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-        font-size: 24px;
-        color: #8d8d8d;
       }
 
       .btn_holder {
@@ -218,7 +238,7 @@ const Container = styled.div`
 
         .btn {
           width: 100%;
-          height: 43px;
+          height: 35px;
           border-radius: 8px;
           background-color: var(--NeutralBlack);
           color: var(--PrimaryBase);
@@ -256,12 +276,6 @@ const Container = styled.div`
         .content-holder {
           text-align: center;
 
-          i {
-            font-size: 48px;
-            color: #00a63e;
-            margin-bottom: 10px;
-          }
-
           .bigtext {
             font-size: 18px;
             font-weight: 700;
@@ -281,6 +295,15 @@ const Container = styled.div`
           font-weight: 600;
         }
       }
+    }
+
+    .exit {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      cursor: pointer;
+      font-size: 24px;
+      color: #333333;
     }
   }
 `;

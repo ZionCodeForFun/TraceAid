@@ -7,7 +7,8 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const RequestWithdraw = () => {
   const [show, setShow] = useState({
@@ -18,12 +19,18 @@ const RequestWithdraw = () => {
 
   const [selectedCampaign, setSelectedCampaign] = useState("");
   const [selectedMilestone, setSelectedMilestone] = useState("");
+  const [amount, setAmount] = useState("");
+  const [note, setNote] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const nav = useNavigate();
+  const token = useSelector((state) => state.auth.user?.token);
+  const fundraiserId = useSelector((state) => state.auth.user?._id); 
 
   const campaigns = [
-    "Stationery For The Children Of Makoko Nursery School",
-    "Food For All",
-    "Medical Support Campaign",
+    { id: "672f7be53d8dca5312b0ef1d", name: "Stationery For The Children Of Makoko Nursery School" },
+    { id: "672f7be53d8dca5312b0ef2a", name: "Food For All" },
+    { id: "672f7be53d8dca5312b0ef3b", name: "Medical Support Campaign" },
   ];
 
   const milestones = [
@@ -49,21 +56,48 @@ const RequestWithdraw = () => {
     setShow((prev) => ({ ...prev, milestone: false }));
   };
 
-  const handleSubmit = () => {
-    if (!selectedCampaign || !selectedMilestone) {
-      toast.error(
-        "Please select both campaign and milestone before submitting."
-      );
+  const handleSubmit = async () => {
+    if (!selectedCampaign || !selectedMilestone || !amount) {
+      toast.error("Please fill all fields before submitting.");
       return;
     }
-    setShow((prev) => ({ ...prev, success: true }));
+
+    try {
+      setLoading(true);
+
+      const payload = {
+        fundraiserId,
+        campaignId: selectedCampaign.id,
+        amount: Number(amount),
+        note: note || `Withdrawal request for ${selectedMilestone}`,
+      };
+
+      const res = await axios.post(
+        `${import.meta.env.VITE_BaseUrl2}/wallet/request-payout`,
+        payload,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (res.status === 200 || res.status === 201) {
+        toast.success("Withdrawal request submitted successfully!");
+        setShow((prev) => ({ ...prev, success: true }));
+        console.log(" zion res",res.data?.data)
+      }
+    } catch (err) {
+      console.error("Error details:", err.response?.data);
+      toast.error(err.response?.data?.message || "Failed to submit request.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Container>
       <article className="wrapper">
         <div className="goback">
-          <div className="icon" onClick={() => nav("/organizationdashboard/wallet")}>
+          <div className="icon" onClick={() => nav("/organization/wallet")}>
             <IoArrowBackOutline className="i" />
             <p>Go back</p>
           </div>
@@ -85,7 +119,7 @@ const RequestWithdraw = () => {
                   type="text"
                   placeholder="Select campaign"
                   className="input"
-                  value={selectedCampaign}
+                  value={selectedCampaign?.name || ""}
                   readOnly
                 />
                 <i
@@ -100,13 +134,14 @@ const RequestWithdraw = () => {
                 <div className="dropdown_menu1">
                   {campaigns.map((item, index) => (
                     <p key={index} onClick={() => handleSelectCampaign(item)}>
-                      {item}
+                      {item.name}
                     </p>
                   ))}
                 </div>
               )}
             </div>
 
+          
             <div className="dropdown_section">
               <label>Select milestone you are withdrawing funds from</label>
               <div className="input_wrapper">
@@ -135,11 +170,41 @@ const RequestWithdraw = () => {
                 </div>
               )}
             </div>
+
+      
+            <div className="dropdown_section">
+              <label>Enter withdrawal amount</label>
+              <InputField
+                type="number"
+                placeholder="Enter amount"
+                className="inpu"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </div>
+
+       
+            <div className="dropdown_section">
+              <label>Note (optional)</label>
+              <InputField
+                type="text"
+                placeholder="Enter a note"
+                className="inpu"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </div>
           </article>
 
-          <Button onClick={handleSubmit} text="Submit" className="btn" />
+          <Button
+            onClick={handleSubmit}
+            text={loading ? "Submitting..." : "Submit"}
+            className="btn"
+            disabled={loading}
+          />
         </div>
 
+    
         {show.success && (
           <div className="holder">
             <div className="reciept_holder">
@@ -151,11 +216,12 @@ const RequestWithdraw = () => {
                 <p className="smalltext">
                   Withdrawal request has been submitted for <br /> verification.
                 </p>
-              </div>
+              </div >
               <Button
-                onClick={() => nav("/organizationdashboard/wallet")}
+                onClick={() => nav("/organization/wallet")}
                 text="Close"
                 className="close_btn"
+                
               />
             </div>
           </div>
