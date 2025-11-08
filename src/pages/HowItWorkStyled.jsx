@@ -17,20 +17,26 @@ export const StepSection = styled.section`
   padding: 0 8%;
 
   h2 {
-    font-weight: 800;
+    font-family: Anton;
+    font-style: Regular;
+    font-weight: bold;
     color: #333333;
-    font-size: 2.5rem;
+    font-size: 3.5rem;
   }
 
   h3 {
-    font-weight: 600;
+    font-family: Inter;
+    font-weight: 400;
+    font-style: medium;
     color: #333333;
     font-size: 1.3rem;
   }
 
   p {
     color: #333333;
+    font-weight: 500;
     margin-top: 0.6rem;
+
   }
 
   @media (max-width: 768px) {

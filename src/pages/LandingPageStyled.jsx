@@ -141,15 +141,19 @@ export const HeroContent = styled.div`
   max-width: 650px;
 
   h1 {
-    font-size: 2.8rem;
-    font-weight: 800;
-    line-height: 1.3;
+    font-family: Anton;
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 100%;
     margin-bottom: 1rem;
+    font-style: Regular;
   }
 
   p {
+    font-family: Inter;
+    font-weight: 700;
+    font-style: bold;
     font-size: 1rem;
-    line-height: 1.6;
     color: #eaeaea;
     margin-bottom: 2rem;
   }
@@ -225,17 +229,20 @@ export const Header = styled.div`
   margin-top: 4rem;
 
   h1 {
-  font-family: Inter, sans-serif;
+  font-family: Anton;
   font-size: 2.9rem;
-  font-weight: 700;
+  font-weight: 400;
   color: #000000;
+  font-style: Regular;
   }
 
   p {
   color: #000000;
+  font-family: Inter;
   margin-top: 0.5rem;
-  font-weight: 500;
-  font-size: 1.2rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  font-style: bold;
   }
 `;
 
@@ -267,9 +274,10 @@ export const TransparencySection = styled.section`
   }
 
   h2 {
-    font-size: 2rem;
-    font-weight: 800;
+    font-size: 2.9rem;
+    font-weight: 400;
     margin-bottom: 1rem;
+    font-family: Anton;
   }
 
   p {
@@ -296,7 +304,7 @@ export const TransparencyCardGrid = styled.div`
 
 export const TransparencyCard = styled.div`
   background: #ffffff;
-  color: #1a1a1a;
+  color: #000000;
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -315,15 +323,19 @@ export const TransparencyCard = styled.div`
   }
 
   h3 {
+    font-family: Anton;
+    color: #000000;
     font-weight: 700;
     margin-bottom: 0.8rem;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+    font-style: Regular;
   }
 
   p {
     font-size: 0.95rem;
+    font-weight: 400;
     line-height: 1.6;
-    color: #444;
+    color: #000000;
   }
 
   @media (max-width: 768px) {
@@ -488,9 +500,10 @@ export const FundraisingContent = styled.div`
   margin-top: -1.5rem;
 
   h2 {
-    font-size: 2.3rem;
-    font-weight: 800;
-    color: #3b4f25; 
+    font-family: Inter;
+    font-size: 3rem;
+    font-weight: 400;
+    color: #3A4621; 
     margin-bottom: 1.2rem;
   }
 
@@ -503,12 +516,12 @@ export const FundraisingContent = styled.div`
   }
 
   button {
-    background-color: #000;
+    background-color: #1A1A1A;
     color: #c1e86e;
     font-weight: 600;
     border: none;
     border-radius: 6px;
-    padding: 0.9rem 2rem;
+    padding: 0.9rem 3rem;
     cursor: pointer;
     transition: 0.3s ease;
 
@@ -573,9 +586,11 @@ export const JoinUsSection = styled.div`
   /* margin-bottom: -3.5rem; */
 
   h2 {
-    font-size: 2.8rem;
-    font-weight: 800;
+    font-family: Anton;
+    font-size: 3.5rem;
+    font-weight: 400;
     color: #000000;
+    font-style: Regular;
   }
 
   @media (max-width: 768px) {

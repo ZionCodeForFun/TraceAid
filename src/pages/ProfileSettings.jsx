@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FiEdit2 } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../global/authSlice";
 import { LuUserRound } from "react-icons/lu";
@@ -131,7 +132,11 @@ const ProfileSettings = () => {
             }
             alt="profile"
           />
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <input type="file" accept="image/*" onChange={handleImageChange}  id="file upload"/>
+
+           <label htmlFor="profile-upload" className="edit-icon">
+    <FiEdit2 />
+  </label>
         </UploadLabel>
 
         <SectionTitle>Basic Information</SectionTitle>
