@@ -77,7 +77,7 @@ const LandingPage = () => {
               Know where your support goes and the change it makes through
               trackable milestones.
             </p>
-            <button onClick={() => nav("/explore")}>Give a Donation</button>
+            <button onClick={() => nav("/campaign_data")}>Give a Donation</button>
           </HeroContent>
 
           <HeroIcons>

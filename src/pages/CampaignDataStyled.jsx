@@ -5,25 +5,6 @@ export const Container = styled.div`
   background-color: #ffffff;
 `;
 
-// export const Header = styled.div`
-//   text-align: center;
-//   margin-bottom: 2rem;
-//   margin-top: 4rem;
-
-//   h1 {
-//     font-family: Inter, sans-serif;
-//     font-size: 2.9rem;
-//     font-weight: 700;
-//     color: #000000;
-//   }
-
-//   p {
-//     color: #000000;
-//     margin-top: 0.5rem;
-//     font-weight: 500;
-//     font-size: 1.2rem;
-//   }
-// `;
 
 export const ExploreHeader = styled.div`
   text-align: center;
@@ -163,6 +144,9 @@ export const CampaignImage = styled.div`
 
 export const CampaignContent = styled.div`
   padding: 1.2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column; 
 
   .topRow {
     display: flex;
@@ -218,6 +202,13 @@ export const ProgressWrapper = styled.div`
   color: #333;
   margin-top: 0.6rem;
   background-color: #f9fdf2;
+
+   .money {
+  margin-top: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #222;
+}
 `;
 
 export const ProgressBar = styled.div`
@@ -233,12 +224,17 @@ export const ProgressBar = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    width: ${({ $progress }) => $progress || 0}%;
+    width: ${({ $progress }) =>
+      typeof $progress === "number" && !isNaN($progress)
+        ? `${$progress}%`
+        : "0%"};
     height: 100%;
-    background: linear-gradient(to right, #f8d34a, #f9c700);
-    transition: width 0.4s ease;
+    background: ${({ $color }) => $color || "#f8d34a"};
+    transition: width 0.4s ease, background 0.3s ease;
   }
 `;
+
+
 
 export const ProgressRow = styled.div`
   display: flex;
@@ -267,6 +263,7 @@ export const DonateButton = styled.button`
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 
   &:hover {
       background: #c1e86e;

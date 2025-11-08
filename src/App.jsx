@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import SignUpForm from "./components/auth/SignUpForm";
 import ResetPassword from "./components/auth/ResetPassword";
@@ -52,9 +52,10 @@ import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc";
 import CampaignData from "./pages/CampaignData";
 import ScrollToTop from "./components/common/ScrollToTop";
 import SuccessModal from "./pages/SuccessModal";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 
 const App = () => (
-  <BrowserRouter>
+  <HashRouter>
     <ScrollToTop />
     <Routes>
       <Route path="/" element={<LandingPage />} />
@@ -116,10 +117,9 @@ const App = () => (
       <Route path="/saved_campaigns" element={<SavedCampaign />} />
       <Route path="/profile_settings" element={<ProfileSettings />} />
       <Route path="/contact_us" element={<ContactUsPage />} />
-      <Route path="/payment-success" element={<SuccessModal />} />
+      <Route path="/payment_success" element={<PaymentSuccessPage />} />
 
-
-      <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
 
       {/* ADMIN ROUTES AND PAGES BELOW, DON'T ADD ROUTES THATS NOT ADMIN'S */}
@@ -146,7 +146,7 @@ const App = () => (
     </Routes>
 
     <ToastContainer position="top-center" autoClose={2000} />
-  </BrowserRouter>
+  </HashRouter>
 );
 
 export default App;
