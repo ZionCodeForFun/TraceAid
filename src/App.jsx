@@ -119,7 +119,7 @@ const App = () => (
       <Route path="/contact_us" element={<ContactUsPage />} />
       <Route path="/payment_success" element={<PaymentSuccessPage />} />
 
-      <Route path="/reset-password/:token/:id" element={<ResetPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
 
       {/* ADMIN ROUTES AND PAGES BELOW, DON'T ADD ROUTES THATS NOT ADMIN'S */}
