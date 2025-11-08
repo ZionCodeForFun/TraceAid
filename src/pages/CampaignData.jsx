@@ -56,7 +56,9 @@ const CampaignData = () => {
 
   const getCampaigns = async () => {
     try {
-      const res = await axios.get(`${VITE_campaignBaseUrl}/get-all-active-campaign`);
+      const res = await axios.get(
+        `${VITE_campaignBaseUrl}/get-all-active-campaign`
+      );
       setCampaigns(res.data.data.active);
     } catch (err) {
       setError("Failed to load campaigns");
@@ -214,9 +216,17 @@ const CampaignData = () => {
                 </CampaignCard>
               ))
             : currentCards?.map((item) => {
-                const goal = item.totalCampaignGoalAmount || 0;
-                const raised = item.amountRaised || 0;
-                const progress = item.progressPercentage || 0;
+                const goal = Number(item.totalCampaignGoalAmount) || 0;
+                const raised = Number(item.amountRaised) || 0;
+                const progress =
+                  goal > 0
+                    ? Math.min(Math.round((raised / goal) * 100), 100)
+                    : 0;
+
+                let progressColor = "#ff4d4f"; 
+
+                if (progress >= 40 && progress < 100) progressColor = "#f8d34a";
+                if (progress === 100) progressColor = "#4CAF50";
 
                 return (
                   <CampaignCard key={item._id} style={{ cursor: "pointer" }}>
@@ -255,13 +265,13 @@ const CampaignData = () => {
                           <p className="money"> ₦{goal.toLocaleString()}</p>
                         </span>
                         <span>
-                          <strong>Raised:</strong> 
+                          <strong>Raised:</strong>
                           <p className="money">₦{raised.toLocaleString()}</p>
                         </span>
                       </ProgressWrapper>
 
                       <ProgressRow>
-                        <ProgressBar $progress={progress} />
+                        <ProgressBar $progress={progress} $color={progressColor} />
                         <ProgressPercent>{progress}%</ProgressPercent>
                       </ProgressRow>
                     </CampaignContent>
