@@ -14,12 +14,12 @@ const ResetPassword = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post(
+      const response = await axios.put(
        `${
           role === "organization"
             ? import.meta.env.VITE_BaseUrl2
             : import.meta.env.VITE_BaseUrl
-        }/reset-password/${token}/${id}`,
+        }/reset-password/${token}`,
         values
       );
       

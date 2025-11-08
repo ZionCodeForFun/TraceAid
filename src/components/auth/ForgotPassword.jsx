@@ -24,8 +24,10 @@ const ForgotPassword = () => {
         }/forgot-password`,
         values
       );
-      toast.success("Verification code sent to your email!");
-      nav("/reset-password/:token/:id");
+      toast.success("Password reset link sent to your email!");
+
+      console.log("user forgot password", response)
+      // nav("/reset-password/:token/:id");
      
     } catch (error) {
       setLoading(false);

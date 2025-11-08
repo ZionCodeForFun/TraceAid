@@ -32,40 +32,43 @@ const Wallet = () => {
     totalWithdrawn: 0,
   });
 
-  useEffect(() => {
-    const fetchWalletData = async () => {
-      try {
-        setLoading(true);
-        setError("");
+  const fetchWalletData = async () => {
+    try {
+      setLoading(true);
+      setError("");
 
-        const res = await axios.get(`${import.meta.env.VITE_BaseUrl2}/wallet/summary`, {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BaseUrl2}/wallet/summary`,
+        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
+        }
+      );
 
-        const data = res.data?.data;
-        setTransactions(data?.transactions || []);
-        setWalletSummary({
-          activeBalance: data?.balance || 0,
-          totalWithdrawn: data?.withdrawn || 0,
-        });
-      } catch (err) {
-        setError(err.response?.data?.message || "Failed to load wallet data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (token) fetchWalletData();
-  }, [token]);
+      const data = res.data?.data;
+      setTransactions(data?.transactions || []);
+      setWalletSummary({
+        activeBalance: data?.balance || 0,
+        totalWithdrawn: data?.withdrawn || 0,
+      });
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to load wallet data");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredData = transactions.filter(
     (item) =>
       item.refId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.details?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+  useEffect(() => {
+    if (token && isMainWallet) {
+      fetchWalletData();
+    }
+  }, [token, isMainWallet, location.key]);
   return (
     <Container>
       <article className="wrapper">
@@ -85,7 +88,9 @@ const Wallet = () => {
               <div className="card" style={{ background: "#EBF5FF" }}>
                 <div className="top">
                   <p>Active Balance</p>
-                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>₦</span>
+                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>
+                    ₦
+                  </span>
                 </div>
                 <div className="down">
                   {loading ? (
@@ -99,7 +104,9 @@ const Wallet = () => {
               <div className="card" style={{ background: "#E8FFF9" }}>
                 <div className="top">
                   <p>Total Withdrawn</p>
-                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>₦</span>
+                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>
+                    ₦
+                  </span>
                 </div>
                 <div className="down">
                   {loading ? (
@@ -111,7 +118,9 @@ const Wallet = () => {
               </div>
             </div>
 
-            <label style={{padding:"10px 0"}}>Select campaign to view details</label>
+            <label style={{ padding: "10px 0" }}>
+              Select campaign to view details
+            </label>
             <div className="select_control">
               <InputField
                 type="text"
@@ -187,7 +196,10 @@ const Wallet = () => {
                   <tbody>
                     {filteredData.length === 0 ? (
                       <tr>
-                        <td colSpan="5" style={{ textAlign: "center", color: "#777" }}>
+                        <td
+                          colSpan="5"
+                          style={{ textAlign: "center", color: "#777" }}
+                        >
                           No transactions available
                         </td>
                       </tr>
@@ -212,7 +224,12 @@ const Wallet = () => {
 
       <style jsx>{`
         .skeleton {
-          background: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+          background: linear-gradient(
+            90deg,
+            #e0e0e0 25%,
+            #f5f5f5 50%,
+            #e0e0e0 75%
+          );
           background-size: 200% 100%;
           animation: shimmer 1.6s infinite;
           border-radius: 8px;
