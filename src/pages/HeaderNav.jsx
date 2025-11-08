@@ -99,7 +99,7 @@ const HeaderNav = () => {
 
       {!userData ? (
         <ButtonGroup>
-          <button className="login" onClick={() => nav("/login")}>
+          <button className="login" onClick={() => nav("/payment-success")}>
             Login
           </button>
           <button className="create" onClick={() => nav("/role_modal")}>
