@@ -1,3 +1,357 @@
+// import React from "react";
+// import styled from "styled-components";
+// import { IoClose } from "react-icons/io5";
+// import { PiCameraFill } from "react-icons/pi";
+
+// const FundDisbursementPending = ({ onClose, onApprove, onReject }) => {
+//   const pictures = [
+//     {
+//       id: 1,
+//       title: "Crayons and Erasers 5,000 saplings",
+//       image:
+//         "https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=600&q=60",
+//     },
+//     {
+//       id: 2,
+//       title: "Pencils and Notepads 2,000 saplings",
+//       image:
+//         "https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=600&q=60",
+//     },
+//     {
+//       id: 3,
+//       title: "Color Pens and Markers 3,500 saplings",
+//       image:
+//         "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=600&q=60",
+//     },
+//     {
+//       id: 4,
+//       title: "Books and Sheets 4,000 saplings",
+//       image:
+//         "https://images.unsplash.com/photo-1553729784-e91953dec042?auto=format&fit=crop&w=600&q=60",
+//     },
+//   ];
+
+//   const data = {
+//     campaign: "Clean Water Initiative",
+//     milestone: "Phase 1: Well Construction",
+//     campaignId: "CMP-001",
+//     ngo: "Hope Foundation",
+//     amount: "₦20,000",
+//     description:
+//       "Request for disbursement of funds for completed Phase 1 milestone. All 5 water wells have been constructed and are operational.",
+//     pictures,
+//   };
+
+//   return (
+//     <Overlay>
+//       <ModalContainer>
+//         <Header>
+//           <h2>Funds Disbursement Request</h2>
+//           <IoClose className="close-icon" onClick={onClose} />
+//           <p>Review details of this pending disbursement</p>
+//         </Header>
+
+//         <Content>
+//           <Section>
+//             <Label>Campaign Name</Label>
+//             <Value>{data.campaign}</Value>
+//             <Label>Milestone</Label>
+//             <Value>{data.milestone}</Value>
+//             <Label>Campaign ID</Label>
+//             <Value>{data.campaignId}</Value>
+//             <Label>NGO</Label>
+//             <Value>{data.ngo}</Value>
+//             <Label>Requested Amount</Label>
+//             <Value>{data.amount}</Value>
+//           </Section>
+
+//           <Divider />
+
+//           <Section>
+//             <Label>Disbursement Description</Label>
+//             <Value>{data.description}</Value>
+//           </Section>
+
+//           <Divider />
+
+//           <Section>
+//             <Label>Bank Account Details</Label>
+//             <BankBox>
+//               <div>
+//                 <span>Account Name:</span>
+//                 <strong>Hope Foundation</strong>
+//               </div>
+//               <div>
+//                 <span>Account Number:</span>
+//                 <strong>1234567890</strong>
+//               </div>
+//             </BankBox>
+//           </Section>
+
+//           <Divider />
+
+//           <PictureEvidence>
+//             <div className="header">
+//               <h3>Picture Evidence</h3>
+//               <div className="badge">
+//                 <PiCameraFill /> {pictures.length}/5 Uploaded
+//               </div>
+//             </div>
+
+//             <div className="grid">
+//               {pictures.map((item, index) => (
+//                 <div className="card" key={item.id}>
+//                   <div className="image-box">
+//                     <img src={item.image} alt={item.title} />
+//                   </div>
+//                   <div className="image_disc">
+//                     <span className="img-label">Image {index + 1}</span>
+//                     <p>{item.title}</p>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           </PictureEvidence>
+//         </Content>
+
+//         <Footer>
+//           <button className="reject-btn" onClick={() => onReject(data)}>
+//             Reject
+//           </button>
+//           <button className="approve-btn" onClick={() => onApprove(data)}>
+//             Approve
+//           </button>
+//         </Footer>
+//       </ModalContainer>
+//     </Overlay>
+//   );
+// };
+
+// export default FundDisbursementPending;
+
+
+// const Overlay = styled.div`
+//   position: fixed;
+//   inset: 0;
+//   background-color: rgba(0, 0, 0, 0.5);
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
+
+// const ModalContainer = styled.div`
+//   width: 500px;
+//   height: 600px;
+//   background: #fff;
+//   border-radius: 12px;
+//   display: flex;
+//   flex-direction: column;
+//   overflow: hidden;
+// `;
+
+// const Header = styled.div`
+//   position: relative;
+//   padding: 20px 24px;
+//   border-bottom: 1px solid #e6e6e6;
+
+//   h2 {
+//     font-size: 18px;
+//     font-weight: 600;
+//     color: #111;
+//     margin-bottom: 4px;
+//   }
+
+//   p {
+//     font-size: 14px;
+//     color: #666;
+//   }
+
+//   .close-icon {
+//     position: absolute;
+//     top: 22px;
+//     right: 24px;
+//     font-size: 20px;
+//     color: #444;
+//     cursor: pointer;
+//   }
+// `;
+
+// const Content = styled.div`
+//   flex: 1;
+//   padding: 20px 24px;
+//   overflow-y: auto;
+//   scrollbar-width: none;
+//   -ms-overflow-style: none;
+
+//   &::-webkit-scrollbar {
+//     display: none;
+//   }
+// `;
+
+// const Section = styled.div`
+//   margin-bottom: 20px;
+// `;
+
+// const Label = styled.div`
+//   font-size: 13px;
+//   color: #888;
+//   margin-bottom: 2px;
+// `;
+
+// const Value = styled.div`
+//   font-size: 14px;
+//   color: #222;
+//   font-weight: 500;
+//   margin-bottom: 8px;
+// `;
+
+// const Divider = styled.hr`
+//   border: none;
+//   border-top: 1px solid #eee;
+//   margin: 16px 0;
+// `;
+
+// const BankBox = styled.div`
+//   background: #fafafa;
+//   border: 1px solid #eee;
+//   border-radius: 8px;
+//   padding: 12px;
+
+//   div {
+//     margin-bottom: 6px;
+//     display: flex;
+//     justify-content: space-between;
+//     font-size: 14px;
+
+//     span {
+//       color: #666;
+//     }
+
+//     strong {
+//       color: #000;
+//     }
+//   }
+// `;
+
+// const PictureEvidence = styled.div`
+//   margin-top: 1rem;
+
+//   .header {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     margin-bottom: 12px;
+
+//     h3 {
+//       font-size: 15px;
+//       font-weight: 600;
+//       color: #222;
+//     }
+
+//     .badge {
+//       display: flex;
+//       align-items: center;
+//       gap: 6px;
+//       font-size: 12px;
+//       background: #111;
+//       color: #fff;
+//       padding: 6px 10px;
+//       border-radius: 20px;
+//     }
+//   }
+
+//   .grid {
+//     display: grid;
+//     grid-template-columns: repeat(2, 1fr);
+//     gap: 16px;
+//   }
+
+//   .card {
+//     text-align: left;
+//     display: flex;
+//     flex-direction: column;
+
+//     .image-box {
+//       width: 100%;
+//       height: 120px;
+//       border-radius: 10px;
+//       overflow: hidden;
+//       box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+//       margin-bottom: 8px;
+//       background: #fff;
+
+//       img {
+//         width: 100%;
+//         height: 100%;
+//         object-fit: cover;
+//       }
+//     }
+
+//     .image_disc {
+//       display: flex;
+//       align-items: center;
+
+//       .img-label {
+//         display: flex;
+//         background: #fff;
+//         box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+//         justify-content: center;
+//         color: #1a1a1a;
+//         font-size: 11px;
+//         height: 20px;
+//         border-radius: 20px;
+//         margin-right: 4px;
+//         width: 60px;
+//       }
+
+//       p {
+//         font-size: 10px;
+//         color: #333;
+//         margin: 0;
+//       }
+//     }
+//   }
+// `;
+
+// const Footer = styled.div`
+//   padding: 16px 24px;
+//   border-top: 1px solid #eee;
+//   display: flex;
+//   justify-content: flex-end;
+//   background: #fff;
+//   gap: 10px;
+
+//   button {
+//     padding: 10px 18px;
+//     border-radius: 8px;
+//     font-weight: 500;
+//     cursor: pointer;
+//     border: none;
+//     font-size: 14px;
+//   }
+
+//   .reject-btn {
+//     background: #f5f5f5;
+//     color: #333;
+//     border: 1px solid #ddd;
+
+//     &:hover {
+//       background: #eee;
+//     }
+//   }
+
+//   .approve-btn {
+//     background: #2b7a0b;
+//     color: #fff;
+
+//     &:hover {
+//       background: #256809;
+//     }
+//   }
+// `;
+
+
+
 import React from "react";
 import styled from "styled-components";
 import { IoClose } from "react-icons/io5";
@@ -129,7 +483,7 @@ const FundDisbursementPending = ({ onClose, onApprove, onReject }) => {
 
 export default FundDisbursementPending;
 
-
+// Styled Components (Responsive)
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
@@ -137,48 +491,73 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
+  z-index: 999;
 `;
 
 const ModalContainer = styled.div`
-  width: 500px;
-  height: 600px;
+  width: 90%;
+  max-width: 32rem;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
+  max-height: 90vh;
   overflow: hidden;
+
+  @media (min-width: 768px) {
+    max-width: 36rem;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 40rem;
+  }
+
+  @media (min-width: 1440px) {
+    max-width: 44rem;
+  }
 `;
 
 const Header = styled.div`
   position: relative;
-  padding: 20px 24px;
+  padding: 1.25rem 1.5rem;
   border-bottom: 1px solid #e6e6e6;
+  text-align: left;
 
   h2 {
-    font-size: 18px;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #111;
-    margin-bottom: 4px;
+    margin-bottom: 0.25rem;
   }
 
   p {
-    font-size: 14px;
+    font-size: 0.85rem;
     color: #666;
   }
 
   .close-icon {
     position: absolute;
-    top: 22px;
-    right: 24px;
-    font-size: 20px;
+    top: 1.2rem;
+    right: 1.5rem;
+    font-size: 1.3rem;
     color: #444;
     cursor: pointer;
+  }
+
+  @media (min-width: 768px) {
+    h2 {
+      font-size: 1.25rem;
+    }
+    p {
+      font-size: 0.9rem;
+    }
   }
 `;
 
 const Content = styled.div`
   flex: 1;
-  padding: 20px 24px;
+  padding: 1.25rem 1.5rem;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -186,42 +565,54 @@ const Content = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  @media (min-width: 1024px) {
+    padding: 1.5rem 2rem;
+  }
 `;
 
 const Section = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 `;
 
 const Label = styled.div`
-  font-size: 13px;
+  font-size: 0.8rem;
   color: #888;
-  margin-bottom: 2px;
+  margin-bottom: 0.2rem;
+
+  @media (min-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const Value = styled.div`
-  font-size: 14px;
+  font-size: 0.9rem;
   color: #222;
   font-weight: 500;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
+
+  @media (min-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const Divider = styled.hr`
   border: none;
   border-top: 1px solid #eee;
-  margin: 16px 0;
+  margin: 1rem 0;
 `;
 
 const BankBox = styled.div`
   background: #fafafa;
   border: 1px solid #eee;
-  border-radius: 8px;
-  padding: 12px;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
 
   div {
-    margin-bottom: 6px;
+    margin-bottom: 0.5rem;
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 0.9rem;
 
     span {
       color: #666;
@@ -240,10 +631,12 @@ const PictureEvidence = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 
     h3 {
-      font-size: 15px;
+      font-size: 1rem;
       font-weight: 600;
       color: #222;
     }
@@ -251,33 +644,40 @@ const PictureEvidence = styled.div`
     .badge {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 12px;
+      gap: 0.4rem;
+      font-size: 0.75rem;
       background: #111;
       color: #fff;
-      padding: 6px 10px;
-      border-radius: 20px;
+      padding: 0.4rem 0.75rem;
+      border-radius: 1rem;
     }
   }
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    @media (min-width: 480px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .card {
-    text-align: left;
     display: flex;
     flex-direction: column;
 
     .image-box {
       width: 100%;
-      height: 120px;
-      border-radius: 10px;
+      height: 10rem;
+      border-radius: 0.6rem;
       overflow: hidden;
       box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-      margin-bottom: 8px;
+      margin-bottom: 0.5rem;
       background: #fff;
 
       img {
@@ -292,42 +692,45 @@ const PictureEvidence = styled.div`
       align-items: center;
 
       .img-label {
-        display: flex;
         background: #fff;
         box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-        justify-content: center;
         color: #1a1a1a;
-        font-size: 11px;
-        height: 20px;
-        border-radius: 20px;
-        margin-right: 4px;
-        width: 60px;
+        font-size: 0.7rem;
+        height: 1.5rem;
+        border-radius: 1rem;
+        margin-right: 0.4rem;
+        width: 3.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       p {
-        font-size: 10px;
+        font-size: 0.75rem;
         color: #333;
         margin: 0;
+        flex: 1;
       }
     }
   }
 `;
 
 const Footer = styled.div`
-  padding: 16px 24px;
+  padding: 1rem 1.5rem;
   border-top: 1px solid #eee;
   display: flex;
   justify-content: flex-end;
   background: #fff;
-  gap: 10px;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 
   button {
-    padding: 10px 18px;
-    border-radius: 8px;
+    padding: 0.6rem 1.25rem;
+    border-radius: 0.5rem;
     font-weight: 500;
     cursor: pointer;
     border: none;
-    font-size: 14px;
+    font-size: 0.9rem;
   }
 
   .reject-btn {
@@ -346,6 +749,13 @@ const Footer = styled.div`
 
     &:hover {
       background: #256809;
+    }
+  }
+
+  @media (min-width: 768px) {
+    button {
+      font-size: 1rem;
+      padding: 0.7rem 1.5rem;
     }
   }
 `;

@@ -93,7 +93,7 @@ const LandingPage = () => {
 
       <Header>
         <h1>Real Stories. Real Change.</h1>
-        <p>See the impact your giving creates in real communities.</p>
+        <p>See the impact your giving creates <br />in real communities.</p>
       </Header>
 
       <CampaignData />

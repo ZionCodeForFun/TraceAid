@@ -1,176 +1,237 @@
 import React from 'react';
-import { FaFacebook, FaInstagram} from "react-icons/fa";
+import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { RiTwitterXLine } from "react-icons/ri";
 import styled from 'styled-components';
-import  FooterImg from "../assets/logo1.png";
-
+import FooterImg from "../assets/logo2.png"; 
 import { useNavigate } from 'react-router-dom';
 
-const Footer = () => {
 
-  const nav = useNavigate();
-  return (
-   <FooterContainer>
-             <FooterContent>
-               <FooterLogo>
-                 <img src={FooterImg} alt="TraceAid Logo" />
-                 <h3>Join our Community</h3>
-                 <p>Get exclusive updates from the TraceAid community,explore <br />
-                 the social impact landscape across Africa and beyond.</p>
-                 <SocialIcons>
-                   <a href="#" aria-label="Facebook">
-                     <FaFacebook />
-                   </a>
-                   <a href="#" aria-label="Instagram">
-                     <FaInstagram />
-                   </a>
-                   <a href="#" aria-label="Twitter">
-                     <RiTwitterXLine />
-                   </a>
-                 </SocialIcons>
-               </FooterLogo>
-               <FooterColumn>
-                 <h4>Product</h4>
-                 <ul>
-                   <li>For Individuals</li>
-                   <li>For Organizations</li>
-                   <li>Pricing</li>
-                   <li>Explore Campaigns</li>
-                 </ul>
-               </FooterColumn>
-               <FooterColumn>
-                 <h4>Company</h4>
-                 <ul>
-                   <li onClick={()=> nav("/about")}>About</li>
-                   <li>Blog</li>
-                   <li onClick={()=> nav("/termsandcon")}>Terms & Conditions</li>
-                   <li onClick={()=> nav("/contact_us")}>Contact Us</li>
-                 </ul>
-               </FooterColumn>
-           </FooterContent>
-   
-           <FooterCopyright>© 2025 TraceAid|All rights reserved.</FooterCopyright>
-           </FooterContainer>
-   
-  );
+const Footer = () => {
+    const nav = useNavigate();
+    
+    const NavLink = ({ to, children }) => (
+        <li onClick={() => nav(to)}>{children}</li>
+    );
+
+    return (
+        <FooterContainer>
+            <FooterContent>
+                <CommunitySection>
+                    <Logo>
+                        <img src={FooterImg} alt="TraceAid Logo" />
+                        <span>TraceAid</span>
+                    </Logo>
+
+                    <CommunityText>
+                        <CommunityHeading>Join Our Community</CommunityHeading>
+                        <p>
+                            Get exclusive updates from the TraceAid community, explore the social impact landscape across Africa and beyond.
+                        </p>
+                    </CommunityText>
+
+                    <SocialIcons>
+                        <a href="#" aria-label="Facebook"><FaFacebookF /></a>
+                        <a href="#" aria-label="Instagram"><FaInstagram /></a>
+                        <a href="#" aria-label="Twitter"><RiTwitterXLine /></a>
+                    </SocialIcons>
+                </CommunitySection>
+
+                <FooterColumn>
+                    <ColumnTitle>Product</ColumnTitle>
+                    <ul>
+                        <li>For Individuals</li>
+                        <li>For Organisations</li>
+                        <li>Pricing</li>
+                        <li>Explore Campaigns</li>
+                    </ul>
+                </FooterColumn>
+
+                <FooterColumn>
+                    <ColumnTitle>Company</ColumnTitle>
+                    <ul>
+                        <NavLink to="/about">About</NavLink>
+                        <li>Blog</li>
+                        <NavLink to="/termsandcon">Terms & Conditions</NavLink>
+                        <NavLink to="/contact_us">Contact Us</NavLink>
+                    </ul>
+                </FooterColumn>
+
+            </FooterContent>
+            
+            <FooterCopyright>
+                © 2025 TraceAid | All Rights Reserved
+            </FooterCopyright>
+        </FooterContainer>
+    );
 };
 
 export default Footer;
 
 export const FooterContainer = styled.footer`
-  width: 100%;
-  background-color: #1a1a1a;
-  color: #ffffff;
-  padding: 4rem 8%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    width: 100%;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 3rem 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media (min-width: 1024px) {
+        padding: 4rem 10%;
+    }
 `;
 
 export const FooterContent = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 2rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem; 
+    
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+        > * {
+            flex-basis: 100%;
+        }
+    }
 
-  @media (max-width: 900px) {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+    @media (min-width: 1025px) {
+        > div:first-child { 
+            flex-basis: 40%;
+        }
+        > div:nth-child(2),
+        > div:nth-child(3) {
+            flex-basis: 25%;
+        }
+        justify-content: flex-start;
+        gap: 8%;
+    }
 `;
 
-export const FooterLogo = styled.div`
-  flex: 1;
-  width: 100%;
-  min-width: 450px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+export const CommunitySection = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    min-width: unset; 
+    
+    @media (max-width: 768px) {
+        align-items: flex-start;
+    }
+`;
 
-  img {
-    width: 120px;
-    height: 40px;
-    object-fit: contain;
-    margin-bottom: 1rem;
-  }
+export const Logo = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    
+    img {
+        width: 20px; 
+        height: 20px;
+        object-fit: contain;
+        margin-right: 0.5rem;
+    }
+    
+    span {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #ffffff;
+    }
+`;
 
-  h3 {
+export const CommunityText = styled.div`
+    margin-bottom: 1.5rem;
+
+    p {
+        color: #aaaaaa;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        max-width: 450px; 
+    }
+`;
+
+export const CommunityHeading = styled.h3`
     color: #ffffff;
     margin-bottom: 0.8rem;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 600;
-  }
-
-  p {
-    color: #ffffff;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 1.2rem;
-    width: 100%;
-  }
 `;
 
 export const SocialIcons = styled.div`
-  display: flex;
-  gap: 1rem;
-
-  a {
-    color: #000000;
-    background: #ffffff;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
+    gap: 1rem;
+    margin-top: 1rem;
 
-  }
+    a {
+        color: #000000;
+        background: #ffffff;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease;
+        
+        &:hover {
+            background-color: #dddddd;
+        }
+    }
 `;
 
 export const FooterColumn = styled.div`
-  flex: 1;
-  min-width: 180px;
+    min-width: 150px;
+    
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+    
+    ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 0;
 
-  h4 {
+        li {
+            font-size: 0.95rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: #aaaaaa;
+            cursor: pointer;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: #ffffff;
+            }
+        }
+    }
+`;
+
+export const ColumnTitle = styled.h4`
     color: #ffffff;
     font-size: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     font-weight: 600;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-
-    li {
-      font-size: 0.9rem;
-      font-weight: 300;
-      margin-bottom: 0.6rem;
-      color: #ffffff;
-      cursor: pointer;
-      transition: color 0.3s ease;
-
-      &:hover {
-        color: #ffffff;
-      }
-    }
-  }
+    text-transform: capitalize;
 `;
 
 export const FooterCopyright = styled.div`
-  width: 100%;
-  text-align: center;
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #3b3b3b;
-  font-size: 0.9rem;
-  color: #ffffff;
-  letter-spacing: 0.3px;
-  margin-top: 5.5rem;
-`;
+    width: 100%;
+    text-align: left;
+    margin-top: 5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #3b3b3b;
+    font-size: 0.9rem;
+    color: #aaaaaa;
+    letter-spacing: 0.3px;
 
+    @media (max-width: 768px) {
+        margin-top: 3rem;
+    }
+`;

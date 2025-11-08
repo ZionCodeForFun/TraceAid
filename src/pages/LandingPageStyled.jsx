@@ -3,7 +3,6 @@ import TransparencyImage from "../assets/trustgreen.png";
 import TraceaidBg from "../assets/FrameImg.png";
 import HeroBg from "../assets/HandsImg.jpg";
 
-/* Landing Container */
 export const LandingContainer = styled.div`
   width: 100%;
   min-height: 100vh;
@@ -20,7 +19,6 @@ export const LandingContainer = styled.div`
   }
 `;
 
-/* Navbar */
 export const NavBar = styled.nav`
   width: 100%;
   padding: 1rem 3%;
@@ -39,7 +37,6 @@ export const NavBar = styled.nav`
   }
 `;
 
-/* Left Section */
 export const LeftSection = styled.div`
   display: flex;
   align-items: center;
@@ -54,7 +51,6 @@ export const LeftSection = styled.div`
   }
 `;
 
-/* Logo Container */
 export const LogoContainer = styled.div`
   display: flex;
   align-items: center;
@@ -103,7 +99,6 @@ export const LogoContainer = styled.div`
   }
 `;
 
-/* Nav Links */
 export const NavLinks = styled.ul`
   display: flex;
   align-items: center;
@@ -137,7 +132,6 @@ export const NavLinks = styled.ul`
   }
 `;
 
-/* Button Group */
 export const ButtonGroup = styled.div`
   display: flex;
   gap: 1rem;
@@ -195,7 +189,6 @@ export const ButtonGroup = styled.div`
   }
 `;
 
-/* Hero Section */
 export const HeroSection = styled.section`
   width: 100%;
   height: 90vh;
@@ -217,7 +210,6 @@ export const HeroSection = styled.section`
   }
 `;
 
-/* Hero Overlay */
 export const HeroOverlay = styled.div`
   position: absolute;
   inset: 0;
@@ -238,7 +230,6 @@ export const HeroOverlay = styled.div`
   }
 `;
 
-/* Hero Content */
 export const HeroContent = styled.div`
   color: #fff;
   z-index: 2;
@@ -396,6 +387,7 @@ export const Header = styled.div`
     font-size: 2.9rem;
     font-weight: 700;
     color: #000000;
+
   }
 
   p {
@@ -439,6 +431,7 @@ export const TransparencySection = styled.section`
 
     @media (min-width: 480px) and (max-width: 768px) {
       font-size: 1.6rem;
+      width: 100%;
     }
 
     @media (min-width: 600px) and (max-width: 900px) {
