@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { X } from "lucide-react";
-
 const CampaignDetailsModal = ({ campaign, onClose }) => {
   if (!campaign) return null;
+
+  const isApproved = campaign.isActive;
 
   return (
     <Overlay>
@@ -13,55 +14,43 @@ const CampaignDetailsModal = ({ campaign, onClose }) => {
             <Title>Campaign Details</Title>
             <Subtitle>Review campaign information and make a decision</Subtitle>
           </div>
-          <CloseBtn onClick={onClose}>
-            <X size={18} strokeWidth={2} />
-          </CloseBtn>
+          <CloseBtn onClick={onClose}><X size={18} strokeWidth={2} /></CloseBtn>
         </Header>
 
         <Body>
           <DetailsGrid>
             <DetailItem>
               <DetailLabel>Campaign Name</DetailLabel>
-              <DetailValue>{campaign.CampaignName}</DetailValue>
+              <DetailValue>{campaign.campaignTitle}</DetailValue>
             </DetailItem>
             <DetailItem>
               <DetailLabel>Goal Amount</DetailLabel>
-              <DetailValue>{campaign.Goal}</DetailValue>
-            </DetailItem>
-            <DetailItem>
-              <DetailLabel>Deadline</DetailLabel>
-              <DetailValue>{campaign.Deadline}</DetailValue>
+              <DetailValue>
+                {campaign.totalCampaignGoalAmount ? `₦${campaign.totalCampaignGoalAmount}` : "—"}
+              </DetailValue>
             </DetailItem>
             <DetailItem>
               <DetailLabel>Created Date</DetailLabel>
-              <DetailValue>{campaign.CreatedDate}</DetailValue>
+              <DetailValue>{new Date(campaign.createdAt).toLocaleDateString()}</DetailValue>
+            </DetailItem>
+            <DetailItem>
+              <DetailLabel>Status</DetailLabel>
+              <DetailValue>{isApproved ? "Approved" : "Pending"}</DetailValue>
             </DetailItem>
           </DetailsGrid>
-
-          <Section>
-            <SectionTitle>Description</SectionTitle>
-            <Description>{campaign.Description}</Description>
-          </Section>
-
-          <NGOSection>
-            <SectionTitle>NGO Information</SectionTitle>
-            <NGORow>
-              <NGOName>{campaign.NGO}</NGOName>
-            </NGORow>
-          </NGOSection>
         </Body>
 
         <Footer>
-          <StatusBadge className={campaign.Status.toLowerCase()}>
-            {campaign.Status}
+          <StatusBadge className={isApproved ? "approved" : "pending"}>
+            {isApproved ? "Approved" : "Pending"}
           </StatusBadge>
-
           <CloseButton onClick={onClose}>Close</CloseButton>
         </Footer>
       </Container>
     </Overlay>
   );
 };
+
 
 export default CampaignDetailsModal;
 
