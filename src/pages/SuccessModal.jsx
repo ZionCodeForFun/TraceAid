@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-const SuccessModal = ({ close = () => {} }) => {
+const SuccessModal = ({ close = () => {}, reference }) => {
   const nav = useNavigate();
 
   return (
