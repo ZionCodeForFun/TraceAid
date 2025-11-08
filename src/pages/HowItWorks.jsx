@@ -1,5 +1,6 @@
 import React from "react";
 import { CiSearch } from "react-icons/ci";
+import { IoMegaphoneOutline } from "react-icons/io5";
 import { FaArrowTrendUp, FaLock } from "react-icons/fa6";
 import { MdOutlineVerifiedUser } from "react-icons/md";
 import { HiOutlineShare } from "react-icons/hi";
@@ -35,7 +36,7 @@ const HowItWorks = () => {
       <StepSection>
         <h2>How TraceAid Works</h2>
         <p>
-          Transparent giving made simple. From donation to impact, every step is
+          Transparent giving made simple. From donation to impact, every <br />step is
           tracked and verified.
         </p>
       </StepSection>
@@ -83,7 +84,7 @@ const HowItWorks = () => {
       <StepSection>
         <h3>For Fundraisers</h3>
         <p>
-          Simple steps to launch your campaign and build donor trust through
+          Simple steps to launch your campaign and build donor trust <br />through
           transparency
         </p>
 
@@ -101,7 +102,7 @@ const HowItWorks = () => {
 
           <InfoCard>
             <Icon5>
-              <CiSearch size={30} color="#000000" />
+              <IoMegaphoneOutline  size={30} color="#000000" />
             </Icon5>
             <h4>Create Your Campaign</h4>
             <p>

@@ -21,9 +21,21 @@ margin-top: 4.5rem;
     display: none;
   }
 
-  &:hover img {
-    opacity: 0.85;
-    border-color: #000;
+  .edit-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #617437;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
   }
 
   &::after {

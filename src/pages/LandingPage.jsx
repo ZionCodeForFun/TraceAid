@@ -29,7 +29,6 @@ import {
   CommunityButton,
 } from "./LandingPageStyled.jsx";
 
-
 import CampaignData from "./CampaignData.jsx";
 import Img1 from "../assets/Rectangle 10.png";
 import Img2 from "../assets/Rectangle 11.png";
@@ -74,10 +73,12 @@ const LandingPage = () => {
               See the Difference <br /> Your Giving Makes
             </h1>
             <p>
-              Know where your support goes and the change it makes through
-              trackable milestones.
+              Know where your support goes and the <br />
+              change it makes through trackable milestones.
             </p>
-            <button onClick={() => nav("/campaign_data")}>Give a Donation</button>
+            <button onClick={() => nav("/campaign_data")}>
+              Give a Donation
+            </button>
           </HeroContent>
 
           <HeroIcons>
@@ -100,13 +101,11 @@ const LandingPage = () => {
 
       <TransparencySection>
         <h2>
-          See How We Make <br />
-          Giving Transparent
+          Give with Confidence, <br /> See Real Change
         </h2>
         <p>
-          TraceAid bridges the gap between giving and impact — empowering
-          fundraisers to build trust and enabling donors to see exactly how
-          their support makes a difference.
+          Built for donors who value transparency, proof,
+          <br /> and meaningful results.
         </p>
 
         <TransparencyCardGrid>
@@ -151,8 +150,9 @@ const LandingPage = () => {
             </div>
             <h3>Celebrate Change</h3>
             <p>
-              Witness the transformation your contributions bring — celebrate
-              every milestone of change.
+              Discover verified causes in health, education, and community
+              growth. Choose a story that matters to you and see milestones turn
+              into real, measurable impact.
             </p>
           </TransparencyCard>
         </TransparencyCardGrid>
@@ -256,5 +256,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
-
