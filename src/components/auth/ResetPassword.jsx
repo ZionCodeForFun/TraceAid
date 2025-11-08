@@ -19,7 +19,7 @@ const ResetPassword = () => {
           role === "organization"
             ? import.meta.env.VITE_BaseUrl2
             : import.meta.env.VITE_BaseUrl
-        }/reset-password/${token}/${id}`,
+        }/reset-password/${token}`,
         values
       );
       
