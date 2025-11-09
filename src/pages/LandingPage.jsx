@@ -29,6 +29,11 @@ import {
   CommunityButton,
 } from "./LandingPageStyled.jsx";
 
+import {
+  CampaignGrid,
+  CampaignCard,
+} from "./CampaignDataStyled.jsx";
+
 import CampaignData from "./CampaignData.jsx";
 import Img1 from "../assets/Rectangle 10.png";
 import Img2 from "../assets/Rectangle 11.png";
@@ -97,7 +102,7 @@ const LandingPage = () => {
         <p>See the impact your giving creates in real communities.</p>
       </Header>
 
-      <CampaignData />
+      <CampaignData  mode="scroll"/>
 
       <TransparencySection>
         <h2>

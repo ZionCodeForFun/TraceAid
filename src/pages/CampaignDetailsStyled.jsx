@@ -19,6 +19,13 @@ export const CampaignTop = styled.div`
     padding: 3.5rem 6%;
     gap: 2rem;
   }
+
+  @media (max-width: 480px) {
+    margin-top: 4rem;
+    padding: 2rem 5%;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
 `;
 
 export const CampaignLeft = styled.div`
@@ -60,6 +67,32 @@ export const CampaignLeft = styled.div`
     object-fit: cover;
     max-height: 520px;
   }
+
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 1.35rem;
+      line-height: 1.3;
+      margin-bottom: 0.8rem;
+    }
+
+    .org {
+      gap: 0.45rem;
+
+      img {
+        width: 26px;
+        height: 26px;
+      }
+
+      span {
+        font-size: 0.92rem;
+      }
+    }
+
+    .campaign-image {
+      max-height: 270px;
+      border-radius: 8px;
+    }
+  }
 `;
 
 export const CampaignRight = styled.div`
@@ -89,6 +122,17 @@ export const CampaignRight = styled.div`
     font-size: 1rem;
     font-weight: 700;
     color: #111;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 1.2rem;
+    border-radius: 10px;
+
+    h3 {
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+    }
   }
 `;
 
@@ -143,6 +187,35 @@ export const DonationBox = styled.div`
     border-radius: 12px;
     border: 1px solid #ececec;
   }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+
+    .donation-summary {
+      padding: 1rem;
+      border-radius: 10px;
+    }
+
+    .goal-info {
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .goal-info p {
+      width: 100%;
+      font-size: 0.9rem;
+    }
+
+    small {
+      margin-top: 0.35rem;
+      font-size: 0.8rem;
+    }
+
+    .donation-actions {
+      padding: 1rem;
+      border-radius: 10px;
+    }
+  }
 `;
 
 export const ProgressBar = styled.div`
@@ -158,6 +231,11 @@ export const ProgressBar = styled.div`
     background: linear-gradient(90deg, #5d7a52, #4c6644);
     border-radius: 999px;
     transition: width 0.35s ease;
+  }
+
+  @media (max-width: 480px) {
+    height: 8px;
+    margin: 0.8rem 0;
   }
 `;
 
@@ -206,6 +284,23 @@ export const AmountButtons = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+
+    .amount-box {
+      padding: 1rem 0;
+
+      p {
+        font-size: 0.85rem;
+      }
+
+      h3 {
+        font-size: 1rem;
+      }
+    }
   }
 `;
 
@@ -261,11 +356,31 @@ export const DonationForm = styled.div`
       background: #000;
     }
   }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+
+    input {
+      padding: 0.55rem;
+      font-size: 0.86rem;
+    }
+
+    label {
+      font-size: 0.83rem;
+      margin: 0.42rem 0;
+    }
+
+    button {
+      padding: 0.8rem;
+      font-size: 0.92rem;
+      border-radius: 9px;
+    }
+  }
 `;
 
 export const DonorSection = styled.div`
   margin-top: 0.2rem;
-  background: #F8F9FA;
+  background: #f8f9fa;
   padding: 1.2rem;
   border-radius: 12px;
   border: 1px solid #e0e0e0;
@@ -295,6 +410,22 @@ export const DonorSection = styled.div`
 
     &:hover {
       background: #eef1ed;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+    border-radius: 10px;
+
+    h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .view-all {
+      padding: 0.65rem;
+      font-size: 0.9rem;
+      border-width: 1.7px;
     }
   }
 `;
@@ -361,6 +492,25 @@ export const DonorItem = styled.div`
     font-size: 0.9rem;
     color: #666;
   }
+
+  @media (max-width: 480px) {
+    padding: 0.7rem;
+    gap: 0.6rem;
+
+    .avatar-circle {
+      width: 34px;
+      height: 34px;
+      font-size: 13px;
+    }
+
+    span {
+      font-size: 0.87rem;
+    }
+
+    p {
+      font-size: 0.78rem;
+    }
+  }
 `;
 
 export const MilestoneContainer = styled.div`
@@ -382,6 +532,10 @@ export const MilestoneContainer = styled.div`
       gap: 0.5rem;
     }
   }
+
+  @media (max-width: 480px) {
+    margin-top: 1.2rem;
+  }
 `;
 
 export const TabHeader = styled.button`
@@ -394,6 +548,11 @@ export const TabHeader = styled.button`
   cursor: pointer;
   transition: 0.25s ease;
   white-space: nowrap;
+
+  @media (max-width: 480px) {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.9rem;
+  }
 `;
 
 export const MilestoneList = styled.div`
@@ -401,6 +560,11 @@ export const MilestoneList = styled.div`
   flex-direction: column;
   gap: 1rem;
   margin-top: 1.1rem;
+
+  @media (max-width: 480px) {
+    gap: 0.8rem;
+    margin-top: 0.9rem;
+  }
 `;
 
 export const MilestoneItem = styled.div`
@@ -447,6 +611,25 @@ export const MilestoneItem = styled.div`
       font-size: 0.92rem;
       color: #3b3b3b;
       margin-bottom: 0.15rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.85rem;
+    gap: 0.75rem;
+
+    .number {
+      min-width: 34px;
+      min-height: 34px;
+      font-size: 0.9rem;
+    }
+
+    .content h4 {
+      font-size: 0.95rem;
+    }
+
+    .content p {
+      font-size: 0.86rem;
     }
   }
 `;

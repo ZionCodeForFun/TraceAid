@@ -1,10 +1,13 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
   padding: 4rem 8%;
   background-color: #ffffff;
-`;
 
+   @media (max-width: 480px) {
+    padding: 2.8rem 0;
+  }
+`;
 
 export const ExploreHeader = styled.div`
   text-align: center;
@@ -25,6 +28,21 @@ export const ExploreHeader = styled.div`
     margin: 0 auto;
     line-height: 1.6;
   }
+
+   @media (max-width: 480px) {
+    margin-top: 3rem;
+
+    h1 {
+      font-size: 1.9rem;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 0.9rem;
+      max-width: 90%;
+      line-height: 1.45rem;
+    }
+  }
 `;
 
 export const ExploreTopBar = styled.div`
@@ -36,6 +54,14 @@ export const ExploreTopBar = styled.div`
   gap: 1.2rem;
   margin-top: 5rem;
   flex-wrap: wrap;
+
+    @media (max-width: 480px) {
+    width: 100%;
+    margin-top: 2rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
 `;
 
 export const SearchWrapper = styled.div`
@@ -49,6 +75,15 @@ export const SearchWrapper = styled.div`
     transform: translateY(-50%);
     font-size: 1.2rem;
     color: #777;
+  }
+
+   @media (max-width: 480px) {
+    width: 90%;
+
+    .search-icon {
+      font-size: 1.1rem;
+      left: 14px;
+    }
   }
 `;
 
@@ -64,6 +99,12 @@ export const SearchInput = styled.input`
 
   &:focus {
     border-color: #333333;
+  }
+
+  @media (max-width: 480px) {
+    height: 48px;
+    font-size: 0.95rem;
+    border-radius: 10px;
   }
 `;
 
@@ -81,6 +122,13 @@ export const CategorySelect = styled.select`
   &:focus {
     border-color: #efefef;
   }
+
+   @media (max-width: 480px) {
+    width: 90%;
+    height: 48px;
+    font-size: 0.95rem;
+    border-radius: 10px;
+  }
 `;
 
 export const ExploreDividerLine = styled.hr`
@@ -90,7 +138,6 @@ export const ExploreDividerLine = styled.hr`
   border: none;
   margin: 3rem 0;
 `;
-
 
 export const CampaignGrid = styled.div`
   display: grid;
@@ -106,17 +153,48 @@ export const CampaignGrid = styled.div`
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
   }
+
+  ${({ $mode }) =>
+    $mode === "scroll" &&
+    css`
+      @media (max-width: 480px) {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1.2rem;
+        padding: 0 1rem 1rem;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    `}
 `;
 
 export const CampaignCard = styled.div`
   background: #ffffff;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+  box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px,
+    rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
   display: flex;
   flex-direction: column;
   border: 1px solid gray;
-  height: 480px; 
+  height: 480px;
+
+  ${({ $mode }) =>
+    $mode === "scroll" &&
+    css`
+      @media (max-width: 480px) {
+        flex: 0 0 100%;
+        scroll-snap-align: center;
+        height: auto;
+        display: flex;        
+        flex-direction: column;
+      }
+    `}
 `;
 
 export const CampaignImage = styled.div`
@@ -146,7 +224,7 @@ export const CampaignContent = styled.div`
   padding: 1.2rem;
   flex: 1;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 
   .topRow {
     display: flex;
@@ -203,12 +281,12 @@ export const ProgressWrapper = styled.div`
   margin-top: 0.6rem;
   background-color: #f9fdf2;
 
-   .money {
-  margin-top: 4px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: #222;
-}
+  .money {
+    margin-top: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #222;
+  }
 `;
 
 export const ProgressBar = styled.div`
@@ -233,8 +311,6 @@ export const ProgressBar = styled.div`
     transition: width 0.4s ease, background 0.3s ease;
   }
 `;
-
-
 
 export const ProgressRow = styled.div`
   display: flex;
@@ -266,8 +342,15 @@ export const DonateButton = styled.button`
   flex-shrink: 0;
 
   &:hover {
-      background: #c1e86e;
-      color: #1a1a1a;
+    background: #c1e86e;
+    color: #1a1a1a;
+  }
+
+    @media (max-width: 480px) {
+    width: 92%;
+    padding: 0.95rem;
+    font-size: 0.95rem;
+    margin-top: auto;
   }
 `;
 
@@ -279,7 +362,7 @@ export const SeeMoreWrapper = styled.div`
 `;
 
 export const SeeMoreButton = styled.button`
-  background: #FFFFFF;
+  background: #ffffff;
   color: #333333;
   padding: 0.7rem 2rem;
   border: 2px solid #617437;

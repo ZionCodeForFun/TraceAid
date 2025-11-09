@@ -8,6 +8,8 @@ import { logout, setUser } from "../global/authSlice";
 import { AiOutlineGift } from "react-icons/ai";
 import { CiBookmark, CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
+import { HiMenuAlt3 } from "react-icons/hi";    
+import { IoClose } from "react-icons/io5";      
 import axios from "axios";
 
 const HeaderNav = () => {
@@ -19,6 +21,10 @@ const HeaderNav = () => {
 
   const [openDropdown, setOpenDropdown] = useState(false);
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
+
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const openMobile = () => setMobileMenu(true);
+  const closeMobile = () => setMobileMenu(false);
 
   const isLoggedIn = !!userData;
   const isFundraiser = userData?.role === "fundraiser";
@@ -71,90 +77,154 @@ const HeaderNav = () => {
   const logoutUser = () => {
     dispatch(logout());
     setOpenDropdown(false);
+    closeMobile();
     nav("/");
   };
 
+  const go = (path) => {
+    nav(path);
+    closeMobile();
+  };
+
   return (
-    <NavBar>
-      <LeftSection>
-        <LogoContainer onClick={() => nav("/")}>
-          <img src={logoImg} alt="TraceAid Logo" />
-          <div className="divider"></div>
-        </LogoContainer>
+    <>
+      <NavBar>
+        <LeftSection>
+          <LogoContainer onClick={() => nav("/")}>
+            <img src={logoImg} alt="TraceAid Logo" />
+            <div className="divider"></div>
+          </LogoContainer>
 
-    <NavLinks>
-  <li onClick={() => nav("/campaign_data")}>Explore Campaigns</li>
-  <li onClick={() => nav("/how_it_works")}>How it Works</li>
+          <NavLinks>
+            <li onClick={() => nav("/campaign_data")}>Explore Campaigns</li>
+            <li onClick={() => nav("/how_it_works")}>How it Works</li>
 
-  {isLoggedIn && isFundraiser && (
-    <li onClick={() => nav("/createcampaign")}>Start a Campaign</li>
-  )}
+            {isLoggedIn && isFundraiser && (
+              <li onClick={() => nav("/createcampaign")}>Start a Campaign</li>
+            )}
 
-  {!isLoggedIn && (
-    <li onClick={() => nav("/role_modal")}>Start a Campaign</li>
-  )}
-</NavLinks>
+            {!isLoggedIn && (
+              <li onClick={() => nav("/role_modal")}>Start a Campaign</li>
+            )}
+          </NavLinks>
+        </LeftSection>
 
-      </LeftSection>
+        {!userData ? (
+          <ButtonGroup>
+            <button className="login" onClick={() => nav("/login")}>
+              Login
+            </button>
+            <button className="create" onClick={() => nav("/role_modal")}>
+              Create an Account
+            </button>
+          </ButtonGroup>
+        ) : (
+          <ProfileWrapper onClick={toggleDropdown}>
+            {userData?.profilePicture?.imageUrl ? (
+              <img
+                src={`${userData.profilePicture.imageUrl}?t=${Date.now()}`}
+                className="profile-img"
+                alt="profile"
+              />
+            ) : (
+              <div className="initials">{initials}</div>
+            )}
 
-      {!userData ? (
-        <ButtonGroup>
-          <button className="login" onClick={() => nav("/login")}>
-            Login
-          </button>
-          <button className="create" onClick={() => nav("/role_modal")}>
-            Create an Account
-          </button>
-        </ButtonGroup>
-      ) : (
-        <ProfileWrapper onClick={toggleDropdown}>
-          {userData?.profilePicture?.imageUrl ? (
-            <img
-              src={`${userData.profilePicture.imageUrl}?t=${Date.now()}`}
-              className="profile-img"
-              alt="profile"
-            />
-          ) : (
-            <div className="initials">{initials}</div>
-          )}
+            <div className="info">
+              <h4>{fullName}</h4>
+              <p>{userData?.email}</p>
+            </div>
 
-          <div className="info">
-            <h4>{fullName}</h4>
-            <p>{userData?.email}</p>
+            <RiArrowDropDownLine className={`arrow ${openDropdown ? "rotate" : ""}`} />
+
+            {openDropdown && (
+              <DropdownMenu>
+                {userData.role === "donor" && (
+                  <li onClick={() => nav("/my_donations")}>
+                    <AiOutlineGift className="icon" /> My Donations
+                  </li>
+                )}
+                {userData.role === "fundraiser" && (
+                  <li onClick={() => nav("/organization")}>
+                    <AiOutlineGift className="icon" />
+                    Fundraiser Dashboard
+                  </li>
+                )}
+
+                <li onClick={() => nav("/saved_campaigns")}>
+                  <CiBookmark className="icon" /> Saved Campaigns
+                </li>
+
+                <li onClick={() => nav("/profile_settings")}>
+                  <CiSettings className="icon" /> My Account Settings
+                </li>
+
+                <li onClick={logoutUser} className="logout">
+                  <MdOutlineLogout className="icon" /> Logout
+                </li>
+              </DropdownMenu>
+            )}
+          </ProfileWrapper>
+        )}
+
+        <Hamburger aria-label="Open menu" onClick={openMobile}>
+          <HiMenuAlt3 />
+        </Hamburger>
+      </NavBar>
+
+      <MobileMenu data-open={mobileMenu}>
+        <div className="menu-inner">
+          <div className="top">
+            <div className="brand" onClick={() => go("/")}>
+              <img src={logoImg} alt="TraceAid" />
+              <span>TraceAid</span>
+            </div>
+            <button className="close" aria-label="Close menu" onClick={closeMobile}>
+              <IoClose />
+            </button>
           </div>
 
-          <RiArrowDropDownLine className={`arrow ${openDropdown ? "rotate" : ""}`} />
+          <ul className="links">
+            <li onClick={() => go("/campaign_data")}>Explore Campaigns</li>
+            <li onClick={() => go("/how_it_works")}>How it works</li>
 
-          {openDropdown && (
-            <DropdownMenu>
+            {isLoggedIn && isFundraiser && (
+              <li onClick={() => go("/createcampaign")}>Start a Campaign</li>
+            )}
+            {!isLoggedIn && (
+              <li onClick={() => go("/role_modal")}>Start a Campaign</li>
+            )}
+          </ul>
+
+          {!isLoggedIn ? (
+            <div className="cta">
+              <button className="login" onClick={() => go("/login")}>
+                Login
+              </button>
+              <button className="signup" onClick={() => go("/role_modal")}>
+                Sign up
+              </button>
+            </div>
+          ) : (
+            <div className="cta logged">
               {userData.role === "donor" && (
-                <li onClick={() => nav("/my_donations")}>
-                  <AiOutlineGift className="icon" /> My Donations
-                </li>
+                <button className="filled" onClick={() => go("/my_donations")}>
+                  My Donations
+                </button>
               )}
               {userData.role === "fundraiser" && (
-                <li onClick={() => nav("/organization")}>
-                  <AiOutlineGift className="icon" />
+                <button className="filled" onClick={() => go("/organization")}>
                   Fundraiser Dashboard
-                </li>
+                </button>
               )}
-
-              <li onClick={() => nav("/saved_campaigns")}>
-                <CiBookmark className="icon" /> Saved Campaigns
-              </li>
-
-              <li onClick={() => nav("/profile_settings")}>
-                <CiSettings className="icon" /> My Account Settings
-              </li>
-
-              <li onClick={logoutUser} className="logout">
-                <MdOutlineLogout className="icon" /> Logout
-              </li>
-            </DropdownMenu>
+              <button className="outline" onClick={logoutUser}>
+                Logout
+              </button>
+            </div>
           )}
-        </ProfileWrapper>
-      )}
-    </NavBar>
+        </div>
+      </MobileMenu>
+    </>
   );
 };
 
@@ -174,7 +244,6 @@ export const NavBar = styled.nav`
   justify-content: space-between;
   background-color: #f8f9fa;
   transition: box-shadow 0.3s ease;
-  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); */
   cursor: pointer;
 
   &.scrolled {
@@ -186,6 +255,10 @@ export const LeftSection = styled.div`
   display: flex;
   align-items: center;
   gap: 2rem;
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+  }
 `;
 
 export const LogoContainer = styled.div`
@@ -209,6 +282,10 @@ export const LogoContainer = styled.div`
     height: 45px;
     background-color: #a8a8a8;
     margin-left: 0.8rem;
+
+    @media (max-width: 480px) {
+      display: none;
+    }
   }
 `;
 
@@ -228,6 +305,10 @@ export const NavLinks = styled.ul`
     &:hover {
       color: #617437;
     }
+  }
+
+  @media (max-width: 480px) {
+    display: none;
   }
 `;
 
@@ -265,6 +346,10 @@ export const ButtonGroup = styled.div`
       background-color: #c1e86e;
       color: #1a1a1a;
     }
+  }
+
+  @media (max-width: 480px) {
+    display: none;
   }
 `;
 
@@ -319,6 +404,10 @@ export const ProfileWrapper = styled.div`
   .arrow.rotate {
     transform: rotate(180deg);
   }
+
+  @media (max-width: 480px) {
+    display: none; 
+  }
 `;
 
 export const DropdownMenu = styled.ul`
@@ -360,3 +449,152 @@ export const DropdownMenu = styled.ul`
     color: #7a0000;
   }
 `;
+
+export const Hamburger = styled.button`
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  line-height: 0;
+
+  svg {
+    font-size: 28px;
+    color: #1a1a1a;
+  }
+
+  @media (max-width: 480px) {
+    display: inline-flex;
+  }
+`;
+
+export const MobileMenu = styled.aside`
+  position: fixed;
+  inset: 0;
+  background: #617437; 
+  color: #ffffff;
+  z-index: 300;
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+
+  &[data-open="true"] {
+    transform: translateX(0);
+  }
+
+  .menu-inner {
+    width: min(600px, 100%);
+    padding: 20px 22px 28px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+
+    img {
+      height: 24px;
+      filter: brightness(0) invert(1); 
+    }
+
+    span {
+      font-weight: 700;
+      font-size: 18px;
+      color: #fff;
+    }
+  }
+
+  .close {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    line-height: 0;
+  }
+
+  .links {
+    list-style: none;
+    padding: 0;
+    margin: 38px 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    li {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      letter-spacing: 0.2px;
+    }
+  }
+
+  .cta {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    .login {
+      width: 100%;
+      background: #ffffff; 
+      color: #2d2d2d;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .signup {
+      width: 100%;
+      background: transparent;         
+      color: #ffffff;
+      border: 1.6px solid #ffffff;    
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    &.logged {
+      .filled {
+        width: 100%;
+        background: #ffffff;
+        color: #2d2d2d;
+        border: none;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .outline {
+        width: 100%;
+        background: transparent;
+        color: #ffffff;
+        border: 1.6px solid #ffffff;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+  }
+
+  @media (min-width: 481px) {
+    display: none; 
+  }
+`;
+
+
