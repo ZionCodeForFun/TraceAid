@@ -163,4 +163,80 @@ export const Container = styled.div`
       font-size: 13px;
     }
   }
+
+  @media screen and (max-width: 480px) {
+  padding: 20px 10px;
+
+  .wrapper {
+    width: 100%;
+    padding: 22px 18px;
+    border-radius: 18px;
+    box-shadow: none;
+    gap: 16px;
+  }
+
+  .img_holder img {
+    height: 22px;
+  }
+
+  .content_holder {
+    gap: 12px;
+  }
+
+  .title .sign {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .title .text {
+    font-size: 12px;
+    color: #6b6b6b;
+  }
+
+  .input {
+    height: 46px !important;
+    font-size: 13px !important;
+  }
+
+  .signup_btn {
+    height: 46px;
+    font-size: 14px;
+    border-radius: 10px;
+    width: 100%;
+  }
+
+  /* ✅ Center Google section */
+  .google_holder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 14px;
+  }
+
+  .google_btn {
+    width: 100% !important;
+    height: 44px;
+    font-size: 13px;
+  }
+
+  .line-text {
+    width: 100% !important;
+    max-width: 260px;
+    font-size: 11px;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .already {
+    font-size: 12px;
+    margin-top: 12px;
+    justify-content: center;
+  }
+
+  .already p,
+  .already span {
+    font-size: 12px;
+  }
+}
 `;

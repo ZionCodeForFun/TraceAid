@@ -117,7 +117,7 @@ const KycVerification2 = () => {
         <div className="title">
           <p className="bigtext">Complete your profile</p>
           <p className="smalltext">
-            Enter your KYC and Bank account details to continue.
+            Enter your Bank account details to continue.
           </p>
         </div>
 
@@ -484,6 +484,96 @@ const Container = styled.div`
       p {
         font-size: 16px;
         font-weight: 400;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .goback {
+      width: 100%;
+      padding-top: 30px;
+
+      .icon_holder {
+        margin-left: 25px;
+        gap: 10px;
+
+        .iconn {
+          font-size: 18px;
+        }
+
+        p {
+          font-size: 13px;
+        }
+      }
+    }
+
+    .right {
+      width: 95%;
+      padding: 18px;
+      border-radius: 18px;
+      box-shadow: none;
+      gap: 14px;
+
+      .title {
+        margin-bottom: 5px;
+
+        .bigtext {
+          font-size: 22px;
+        }
+
+        .smalltext {
+          font-size: 12px;
+          color: #6b6b6b;
+        }
+      }
+
+      .progress-bar {
+        width: 95%;
+        height: 6px;
+        margin: 15px 0 20px 0;
+
+        .line {
+          height: 5px;
+        }
+
+        .dot {
+          width: 26px;
+          height: 26px;
+          border: 3px solid var(--Neutral_Grey1);
+          font-size: 13px;
+        }
+      }
+
+      .input_holder {
+        width: 100%;
+        gap: 14px;
+
+        .big {
+          font-size: 15px;
+        }
+
+        label {
+          font-size: 12px;
+        }
+
+        input {
+          height: 42px;
+          font-size: 13px;
+          padding: 8px 30px;
+        }
+
+        .btn_holder {
+          flex-direction: column;
+          gap: 10px;
+
+          .btn1,
+          .btn2 {
+            width: 100%;
+            height: 44px;
+            font-size: 14px;
+            border-radius: 10px;
+          }
+        }
       }
     }
   }
