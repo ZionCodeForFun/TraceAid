@@ -196,4 +196,53 @@ const Container = styled.div`
       }
     }
   }
+
+    @media (max-width: 480px) {
+    .wrapper {
+      width: 100%;
+      height: auto;
+      padding: 10px;
+      gap: 30px;
+    }
+
+    .intro .big_text {
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .intro .small_text {
+      font-size: 16px;
+    }
+
+    .select_holder {
+      height: auto;
+      gap: 18px;
+      margin-top: 1rem;
+    }
+
+    .select1,
+    .select2 {
+      height: auto;
+      padding: 18px 15px;
+      gap: 10px;
+    }
+
+    .individual,
+    .organization {
+      font-size: 18px;
+    }
+
+   .text {
+    width: 85%;
+    max-width: 260px;
+    font-size: 13px;
+    line-height: 1.35;
+    text-align: left;
+  }
+
+    .select_wrapper .already p,
+    .select_wrapper .already span {
+      font-size: 14px;
+    }
+  }
 `;

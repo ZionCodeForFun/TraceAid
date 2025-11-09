@@ -8,7 +8,7 @@ import Footer from "./Footer";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useSelector } from "react-redux";
-import user from "../global/authSlice";
+import { toast } from "react-toastify";
 
 import {
   Container,
@@ -27,10 +27,10 @@ import {
   ProgressRow,
   ProgressPercent,
   DonateButton,
-  SeeMoreWrapper,
-  SeeMoreButton,
 } from "./CampaignDataStyled.jsx";
-import { toast } from "react-toastify";
+
+import { PaginationWrapper, PageButton, ArrowButton } from "./PaginationStyled";
+
 
 const CampaignData = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -40,7 +40,6 @@ const CampaignData = () => {
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
-  const [visibleCount, setVisibleCount] = useState(6);
 
   const user = useSelector((state) => state.auth?.user);
   const token = useSelector((state) => state.auth?.token);
@@ -48,19 +47,14 @@ const CampaignData = () => {
   const location = useLocation();
   const isExplorePage = location.pathname === "/campaign_data";
 
-  console.log("My User token:", token);
-
   const VITE_campaignBaseUrl = import.meta.env.VITE_campaignBaseUrl;
-
   const VITE_EngagementBaseUrl = import.meta.env.VITE_EngagementBaseUrl;
 
   const getCampaigns = async () => {
     try {
-      const res = await axios.get(
-        `${VITE_campaignBaseUrl}/get-all-active-campaign`
-      );
+      const res = await axios.get(`${VITE_campaignBaseUrl}/get-all-active-campaign`);
       setCampaigns(res.data.data.active);
-    } catch (err) {
+    } catch {
       setError("Failed to load campaigns");
     } finally {
       setLoading(false);
@@ -72,16 +66,11 @@ const CampaignData = () => {
   }, []);
 
   const toggleEngagement = async (campaignId, actionType, token) => {
-    // console.log("Food is ready", campaignId, actionType, token);
     try {
       const res = await axios.patch(
         `${VITE_EngagementBaseUrl}/${campaignId}/${actionType}`,
         {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       return res.data;
     } catch (error) {
@@ -92,26 +81,13 @@ const CampaignData = () => {
   const handleSave = async (id) => {
     if (!token) return toast("You must be logged in to save a campaign.");
 
-    setSavedCampaigns((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
+    setSavedCampaigns((prev) => ({ ...prev, [id]: !prev[id] }));
 
     try {
       const res = await toggleEngagement(id, "save", token);
-      console.log("SAVE RESPONSE:", res);
-
-      setSavedCampaigns((prev) => ({
-        ...prev,
-        [id]: res.isEngaged,
-      }));
-    } catch (err) {
-      console.error("SAVE ERROR:", err);
-
-      setSavedCampaigns((prev) => ({
-        ...prev,
-        [id]: !prev[id],
-      }));
+      setSavedCampaigns((prev) => ({ ...prev, [id]: res.isEngaged }));
+    } catch {
+      setSavedCampaigns((prev) => ({ ...prev, [id]: !prev[id] }));
     }
   };
 
@@ -132,11 +108,20 @@ const CampaignData = () => {
     return data;
   }, [campaigns, search, category]);
 
-  const currentCards = filteredCampaigns?.slice(0, visibleCount);
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 6;
 
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 6);
-  };
+  const totalPages = Math.ceil(filteredCampaigns.length / cardsPerPage);
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  const currentCards = isExplorePage
+    ? filteredCampaigns.slice(indexOfFirstCard, indexOfLastCard)
+    : filteredCampaigns;
+
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+  const handlePrev = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNext = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   return (
     <>
@@ -162,7 +147,7 @@ const CampaignData = () => {
                   value={search}
                   onChange={(e) => {
                     setSearch(e.target.value);
-                    setVisibleCount(6);
+                    setCurrentPage(1);
                   }}
                 />
               </SearchWrapper>
@@ -171,7 +156,7 @@ const CampaignData = () => {
                 value={category}
                 onChange={(e) => {
                   setCategory(e.target.value);
-                  setVisibleCount(6);
+                  setCurrentPage(1);
                 }}
               >
                 <option value="">All Categories</option>
@@ -186,32 +171,18 @@ const CampaignData = () => {
           </>
         )}
 
-        {error && (
-          <p
-            style={{ color: "red", textAlign: "center", marginBottom: "20px" }}
-          >
-            {error}
-          </p>
-        )}
+        {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
-        <CampaignGrid>
+        <CampaignGrid $mode={isExplorePage ? "grid" : "scroll"}>
           {loading
             ? Array.from({ length: 6 }).map((_, i) => (
                 <CampaignCard key={i}>
                   <Skeleton height={200} />
                   <div style={{ padding: "18px 20px" }}>
                     <Skeleton height={20} width="60%" />
-                    <Skeleton
-                      height={15}
-                      width="90%"
-                      style={{ marginTop: 10 }}
-                    />
+                    <Skeleton height={15} width="90%" style={{ marginTop: 10 }} />
                     <Skeleton height={15} width="80%" />
-                    <Skeleton
-                      height={30}
-                      width="100%"
-                      style={{ marginTop: 15 }}
-                    />
+                    <Skeleton height={30} width="100%" style={{ marginTop: 15 }} />
                   </div>
                 </CampaignCard>
               ))
@@ -223,23 +194,19 @@ const CampaignData = () => {
                     ? Math.min(Math.round((raised / goal) * 100), 100)
                     : 0;
 
-                let progressColor = "#ff4d4f"; 
-
+                let progressColor = "#ff4d4f";
                 if (progress >= 40 && progress < 100) progressColor = "#f8d34a";
                 if (progress === 100) progressColor = "#4CAF50";
 
                 return (
-                  <CampaignCard key={item._id} style={{ cursor: "pointer" }}>
+                  <CampaignCard key={item._id} $mode={isExplorePage ? "grid" : "scroll"}>
                     <CampaignImage>
                       <img
                         src={item.campaignCoverImageOrVideo?.imageUrl}
                         alt={item.campaignTitle}
                       />
 
-                      <div
-                        className="bookmark"
-                        onClick={() => handleSave(item._id)}
-                      >
+                      <div className="bookmark" onClick={() => handleSave(item._id)}>
                         {savedCampaigns[item._id] ? (
                           <RiBookmarkFill style={{ color: "#8133f1" }} />
                         ) : (
@@ -251,9 +218,7 @@ const CampaignData = () => {
                     <CampaignContent>
                       <div className="topRow">
                         <h4>{item.campaignCategory}</h4>
-                        <p className="daysLeft">
-                          {item.durationDays} days left
-                        </p>
+                        <p className="daysLeft">{item.durationDays} days left</p>
                       </div>
 
                       <h3>{item.campaignTitle}</h3>
@@ -276,9 +241,7 @@ const CampaignData = () => {
                       </ProgressRow>
                     </CampaignContent>
 
-                    <DonateButton
-                      onClick={() => nav(`/campaign_details/${item._id}`)}
-                    >
+                    <DonateButton onClick={() => nav(`/campaign_details/${item._id}`)}>
                       Donate Now
                     </DonateButton>
                   </CampaignCard>
@@ -286,11 +249,28 @@ const CampaignData = () => {
               })}
         </CampaignGrid>
 
-        {!loading && currentCards?.length < filteredCampaigns?.length && (
-          <SeeMoreWrapper>
-            <SeeMoreButton onClick={handleLoadMore}>See More</SeeMoreButton>
-          </SeeMoreWrapper>
-        )}
+        {isExplorePage && totalPages > 1 && (
+  <PaginationWrapper>
+    <ArrowButton onClick={handlePrev} disabled={currentPage === 1}>
+      ‹
+    </ArrowButton>
+
+    {[...Array(totalPages)].map((_, index) => (
+      <PageButton
+        key={index}
+        $active={currentPage === index + 1}
+        onClick={() => handlePageChange(index + 1)}
+      >
+        {index + 1}
+      </PageButton>
+    ))}
+
+    <ArrowButton onClick={handleNext} disabled={currentPage === totalPages}>
+      ›
+    </ArrowButton>
+  </PaginationWrapper>
+)}
+
       </Container>
 
       {isExplorePage && <Footer />}
@@ -299,3 +279,4 @@ const CampaignData = () => {
 };
 
 export default CampaignData;
+
