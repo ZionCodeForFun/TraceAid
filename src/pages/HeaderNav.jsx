@@ -8,8 +8,8 @@ import { logout, setUser } from "../global/authSlice";
 import { AiOutlineGift } from "react-icons/ai";
 import { CiBookmark, CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
-import { HiMenuAlt3 } from "react-icons/hi";    
-import { IoClose } from "react-icons/io5";      
+import { HiMenuAlt3 } from "react-icons/hi";
+import { IoClose } from "react-icons/io5";
 import axios from "axios";
 
 const HeaderNav = () => {
@@ -72,7 +72,9 @@ const HeaderNav = () => {
       ? `${userData.firstName} ${userData.lastName}`
       : userData?.organizationName || null;
 
-  const initials = fullName ? getInitials(fullName) : getInitials(userData?.email);
+  const initials = fullName
+    ? getInitials(fullName)
+    : getInitials(userData?.email);
 
   const logoutUser = () => {
     dispatch(logout());
@@ -135,7 +137,9 @@ const HeaderNav = () => {
               <p>{userData?.email}</p>
             </div>
 
-            <RiArrowDropDownLine className={`arrow ${openDropdown ? "rotate" : ""}`} />
+            <RiArrowDropDownLine
+              className={`arrow ${openDropdown ? "rotate" : ""}`}
+            />
 
             {openDropdown && (
               <DropdownMenu>
@@ -155,9 +159,11 @@ const HeaderNav = () => {
                   <CiBookmark className="icon" /> Saved Campaigns
                 </li>
 
-                <li onClick={() => nav("/profile_settings")}>
-                  <CiSettings className="icon" /> My Account Settings
-                </li>
+                {userData.role === "donor" && (
+                  <li onClick={() => nav("/profile_settings")}>
+                    <CiSettings className="icon" /> My Account Settings
+                  </li>
+                )}
 
                 <li onClick={logoutUser} className="logout">
                   <MdOutlineLogout className="icon" /> Logout
@@ -179,7 +185,11 @@ const HeaderNav = () => {
               <img src={logoImg} alt="TraceAid" />
               <span>TraceAid</span>
             </div>
-            <button className="close" aria-label="Close menu" onClick={closeMobile}>
+            <button
+              className="close"
+              aria-label="Close menu"
+              onClick={closeMobile}
+            >
               <IoClose />
             </button>
           </div>
@@ -229,7 +239,6 @@ const HeaderNav = () => {
 };
 
 export default HeaderNav;
-
 
 export const NavBar = styled.nav`
   width: 100%;
@@ -406,7 +415,7 @@ export const ProfileWrapper = styled.div`
   }
 
   @media (max-width: 480px) {
-    display: none; 
+    display: none;
   }
 `;
 
@@ -470,7 +479,7 @@ export const Hamburger = styled.button`
 export const MobileMenu = styled.aside`
   position: fixed;
   inset: 0;
-  background: #617437; 
+  background: #617437;
   color: #ffffff;
   z-index: 300;
   transform: translateX(100%);
@@ -504,7 +513,7 @@ export const MobileMenu = styled.aside`
 
     img {
       height: 24px;
-      filter: brightness(0) invert(1); 
+      filter: brightness(0) invert(1);
     }
 
     span {
@@ -548,7 +557,7 @@ export const MobileMenu = styled.aside`
 
     .login {
       width: 100%;
-      background: #ffffff; 
+      background: #ffffff;
       color: #2d2d2d;
       border: none;
       padding: 12px 16px;
@@ -559,9 +568,9 @@ export const MobileMenu = styled.aside`
 
     .signup {
       width: 100%;
-      background: transparent;         
+      background: transparent;
       color: #ffffff;
-      border: 1.6px solid #ffffff;    
+      border: 1.6px solid #ffffff;
       padding: 12px 16px;
       border-radius: 8px;
       font-weight: 700;
@@ -593,8 +602,6 @@ export const MobileMenu = styled.aside`
   }
 
   @media (min-width: 481px) {
-    display: none; 
+    display: none;
   }
 `;
-
-
