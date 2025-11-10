@@ -23,14 +23,14 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     background-color: var(--Neutral_Offwhite);
-    border-radius: 28px; /* smoother corners */
+    border-radius: 28px;
     border: 0.5px solid var(--Neutral_Grey1);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    height: auto; /* removed fixed 850px */
+    height: auto;
 
     .img_holder {
       width: 100%;
-      height: 60px; /* reduced from 75px */
+      height: 60px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -78,23 +78,12 @@ export const Container = styled.div`
           font-size: 28px;
           font-weight: 700;
           color: var(--NeutralGrey4-Text);
-
-          @media (max-width: 768px) {
-            font-size: 22px;
-          }
-          @media (max-width: 480px) {
-            font-size: 18px;
-          }
         }
 
         .text {
           font-size: 14px;
           color: var(--NeutralGrey4-Text);
           font-weight: 400;
-
-          @media (max-width: 480px) {
-            font-size: 11px;
-          }
         }
       }
 
@@ -110,26 +99,16 @@ export const Container = styled.div`
           background-color: white;
           border: 2px solid var(--Primary700);
           color: var(--NeutralGrey4-Text);
-          font-size: 14px; /* reduced */
+          font-size: 14px;
           font-weight: 600;
           padding: 10px 20px;
           height: 42px;
           width: 400px;
-
           border-radius: 10px;
           transition: all 0.3s ease;
 
           &:hover {
             background-color: var(--Primary200);
-          }
-
-          @media (max-width: 768px) {
-            font-size: 13px;
-          }
-
-          @media (max-width: 480px) {
-            font-size: 12px;
-            padding: 8px 10px;
           }
         }
 
@@ -145,11 +124,6 @@ export const Container = styled.div`
           font-size: 14px;
           width: 100%;
           max-width: 400px;
-
-          @media (max-width: 480px) {
-            font-size: 11px;
-            margin: 10px 0;
-          }
 
           &::before,
           &::after {
@@ -174,15 +148,6 @@ export const Container = styled.div`
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
         }
-
-        @media (max-width: 768px) {
-          font-size: 13px;
-        }
-
-        @media (max-width: 480px) {
-          font-size: 12px;
-          padding: 8px 10px;
-        }
       }
 
       .custom-checkbox {
@@ -202,15 +167,12 @@ export const Container = styled.div`
           background-color: var(--NeutralBlack);
           border-color: var(--NeutralGrey4-Text);
         }
-
-        @media (max-width: 480px) {
-          font-size: 12px;
-        }
       }
+
       .already {
         display: flex;
+        justify-content: center;
         align-items: center;
-
         width: 100%;
         margin-top: 20px;
         gap: 6px;
@@ -219,6 +181,7 @@ export const Container = styled.div`
           font-size: 14px;
           font-weight: 400;
         }
+
         span {
           font-size: 14px;
           font-weight: 500;
@@ -235,8 +198,64 @@ export const Container = styled.div`
 
     @media (max-width: 480px) {
       width: 95%;
-      padding: 15px;
+      padding: 18px;
       border-radius: 18px;
+      box-shadow: none;
+      gap: 16px;
+
+      .title .log {
+        font-size: 20px;
+      }
+
+      .title .text {
+        font-size: 12px;
+      }
+
+      .input {
+        height: 46px !important;
+        font-size: 13px !important;
+      }
+
+      .login_btn {
+        width: 100%;
+        height: 46px;
+        font-size: 14px;
+        border-radius: 10px;
+      }
+
+      .footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 14px;
+      }
+
+      .google_btn {
+        width: 100% !important;
+        height: 44px;
+        font-size: 13px;
+        padding: 8px 10px;
+      }
+
+      .line-text {
+        width: 100% !important;
+        max-width: 260px;
+        font-size: 11px;
+        gap: 6px;
+        justify-content: center;
+      }
+
+      .already {
+        justify-content: center;
+        font-size: 12px;
+        margin-top: 12px;
+      }
+
+      .already p,
+      .already span {
+        font-size: 12px;
+      }
     }
 
     @media screen and (min-width: 600px) and (max-width: 900px) {

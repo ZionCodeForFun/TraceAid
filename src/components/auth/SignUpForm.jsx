@@ -157,7 +157,7 @@ const SignUpForm = () => {
           <div className="title">
             <p className="sign">Sign Up Account</p>
             <p className="text">
-              Enter your details or continue with your preferred option.
+              Enter your details to continue 
             </p>
           </div>
 
@@ -267,7 +267,7 @@ const SignUpForm = () => {
               htmlType="submit"
               loading={loading}
             >
-              {loading ? "Signing Up..." : "Sign Up"}
+              {loading ? "Creating Account..." : "Create an Account"}
             </Button>
           </Form.Item>
 

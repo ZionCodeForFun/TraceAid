@@ -53,6 +53,7 @@ import CampaignData from "./pages/CampaignData";
 import ScrollToTop from "./components/common/ScrollToTop";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import UpdateMilestone from "./components/dashboard/organizerPage/myCampaignFiles/UpdateMilestone";
+import AllDonorsPage from "./pages/AllDonorsPage";
 
 const App = () => (
   <HashRouter>
@@ -119,6 +120,7 @@ const App = () => (
       <Route path="/profile_settings" element={<ProfileSettings />} />
       <Route path="/contact_us" element={<ContactUsPage />} />
       <Route path="/payment_success" element={<PaymentSuccessPage />} />
+      <Route path="/campaign/:id/donors" element={<AllDonorsPage />} />
 
       <Route path="/reset-password/:token" element={<ResetPassword />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />

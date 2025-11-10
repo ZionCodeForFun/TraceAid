@@ -58,9 +58,17 @@ const SavedMappedCampaign = () => {
           </p>
         ) : (
           savedCampaigns.map((card) => {
-            const progress = Math.floor(
-              (card.currentAmount / card.goalAmount) * 100
-            );
+           const goal = Number(card.totalCampaignGoalAmount) || 0;
+                const raised = Number(card.amountRaised) || 0;
+                const progress =
+                  goal > 0
+                    ? Math.min(Math.round((raised / goal) * 100), 100)
+                    : 0;
+
+                let progressColor = "#ff4d4f"; 
+
+                if (progress >= 40 && progress < 100) progressColor = "#f8d34a";
+                if (progress === 100) progressColor = "#4CAF50";
 
             return (
               <CampaignCard key={card._id}>
@@ -100,9 +108,9 @@ const SavedMappedCampaign = () => {
                   </ProgressWrapper>
 
                   <ProgressRow>
-                    <ProgressBar $progress={card.progressPercentage} />
+                    <ProgressBar $progress={progress} $color={progressColor} />
                     <ProgressPercent>
-                      {card.progressPercentage}%
+                      {progress}%
                     </ProgressPercent>
                   </ProgressRow>
                 </CampaignContent>

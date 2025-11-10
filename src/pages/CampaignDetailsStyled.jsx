@@ -19,6 +19,13 @@ export const CampaignTop = styled.div`
     padding: 3.5rem 6%;
     gap: 2rem;
   }
+
+  @media (max-width: 480px) {
+    margin-top: 4rem;
+    padding: 2rem 5%;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
 `;
 
 export const CampaignLeft = styled.div`
@@ -60,6 +67,32 @@ export const CampaignLeft = styled.div`
     object-fit: cover;
     max-height: 520px;
   }
+
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 1.35rem;
+      line-height: 1.3;
+      margin-bottom: 0.8rem;
+    }
+
+    .org {
+      gap: 0.45rem;
+
+      img {
+        width: 26px;
+        height: 26px;
+      }
+
+      span {
+        font-size: 0.92rem;
+      }
+    }
+
+    .campaign-image {
+      max-height: 270px;
+      border-radius: 8px;
+    }
+  }
 `;
 
 export const CampaignRight = styled.div`
@@ -75,10 +108,13 @@ export const CampaignRight = styled.div`
   }
 
   h3 {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #1f1f1f;
+    font-size: 1.3rem;
+    color: #333333;
     margin-bottom: 1.2rem;
+    font-family: Inter;
+    font-weight: 700;
+    font-style: Bold;
+    line-height: 100%;
   }
 
   h4 {
@@ -86,6 +122,17 @@ export const CampaignRight = styled.div`
     font-size: 1rem;
     font-weight: 700;
     color: #111;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 1.2rem;
+    border-radius: 10px;
+
+    h3 {
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+    }
   }
 `;
 
@@ -95,7 +142,7 @@ export const DonationBox = styled.div`
   gap: 1.4rem;
 
   .donation-summary {
-    background: #fafafa;
+    background: #f8f9fa;
     padding: 1.2rem;
     border-radius: 12px;
     border: 1px solid #ececec;
@@ -140,6 +187,35 @@ export const DonationBox = styled.div`
     border-radius: 12px;
     border: 1px solid #ececec;
   }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+
+    .donation-summary {
+      padding: 1rem;
+      border-radius: 10px;
+    }
+
+    .goal-info {
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .goal-info p {
+      width: 100%;
+      font-size: 0.9rem;
+    }
+
+    small {
+      margin-top: 0.35rem;
+      font-size: 0.8rem;
+    }
+
+    .donation-actions {
+      padding: 1rem;
+      border-radius: 10px;
+    }
+  }
 `;
 
 export const ProgressBar = styled.div`
@@ -156,6 +232,11 @@ export const ProgressBar = styled.div`
     border-radius: 999px;
     transition: width 0.35s ease;
   }
+
+  @media (max-width: 480px) {
+    height: 8px;
+    margin: 0.8rem 0;
+  }
 `;
 
 export const AmountButtons = styled.div`
@@ -166,7 +247,7 @@ export const AmountButtons = styled.div`
   margin-top: 1rem;
 
   .amount-box {
-    border: 1.5px solid #cfd1d0;
+    border: 1px solid #617437;
     border-radius: 10px;
     background: #fff;
     text-align: center;
@@ -175,16 +256,19 @@ export const AmountButtons = styled.div`
     transition: all 0.2s ease-in-out;
 
     p {
+      font-family: Inter;
       font-size: 0.9rem;
-      color: #000;
+      color: #333333;
       margin-bottom: 0.35rem;
-      font-weight: 600;
+      font-weight: 400;
+      font-style: regular;
     }
 
     h3 {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: #000;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-style: bold;
+      color: #333333;
     }
 
     &:hover {
@@ -201,6 +285,23 @@ export const AmountButtons = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+
+    .amount-box {
+      padding: 1rem 0;
+
+      p {
+        font-size: 0.85rem;
+      }
+
+      h3 {
+        font-size: 1rem;
+      }
+    }
+  }
 `;
 
 export const DonationForm = styled.div`
@@ -212,7 +313,12 @@ export const DonationForm = styled.div`
   h4 {
     margin-top: 0.6rem;
     font-size: 0.95rem;
-    color: #111;
+    color: #333333;
+    font-family: Inter;
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 14px;
+    line-height: 100%;
   }
 
   input[type="text"],
@@ -220,7 +326,7 @@ export const DonationForm = styled.div`
     width: 100%;
     padding: 0.65rem;
     margin-top: 0.45rem;
-    border: 1px solid #ccc;
+    border: 1px solid #4d4d4d;
     border-radius: 8px;
     font-size: 0.95rem;
   }
@@ -237,8 +343,8 @@ export const DonationForm = styled.div`
   button {
     width: 100%;
     margin-top: 0.9rem;
-    background: #222;
-    color: #fff;
+    background: #1a1a1a;
+    color: #c1e86e;
     padding: 0.9rem;
     border: none;
     border-radius: 8px;
@@ -250,35 +356,76 @@ export const DonationForm = styled.div`
       background: #000;
     }
   }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+
+    input {
+      padding: 0.55rem;
+      font-size: 0.86rem;
+    }
+
+    label {
+      font-size: 0.83rem;
+      margin: 0.42rem 0;
+    }
+
+    button {
+      padding: 0.8rem;
+      font-size: 0.92rem;
+      border-radius: 9px;
+    }
+  }
 `;
 
 export const DonorSection = styled.div`
   margin-top: 0.2rem;
-  background: #f9fdf8;
+  background: #f8f9fa;
   padding: 1.2rem;
   border-radius: 12px;
   border: 1px solid #e0e0e0;
 
   h4 {
-    font-size: 1rem;
+    font-size: 1.4rem;
     font-weight: 800;
     margin-bottom: 0.9rem;
-    color: #222;
+    color: #87a24d;
+    font-family: Inter;
+    font-weight: 600;
+    font-style: Semi Bold;
+    line-height: 100%;
   }
 
   .view-all {
     width: 100%;
-    border: 1px solid #cfd1d0;
-    background: #fff;
+    border: 2px solid #617437;
+    background: #f8f9fa;
     padding: 0.75rem;
     margin-top: 0.8rem;
     border-radius: 8px;
     cursor: pointer;
+    color: #333333;
     font-weight: 700;
     transition: 0.2s ease;
 
     &:hover {
       background: #eef1ed;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+    border-radius: 10px;
+
+    h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .view-all {
+      padding: 0.65rem;
+      font-size: 0.9rem;
+      border-width: 1.7px;
     }
   }
 `;
@@ -298,16 +445,41 @@ export const DonorItem = styled.div`
     background: #f5f7f5;
   }
 
-  .icon {
-    font-size: 1.2rem;
-    background: #e3f4e3;
-    color: #4c6644;
+  .avatar-circle {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    width: 32px;
-    height: 32px;
+    background: #e9e3ff;
+    color: #5b3fe1;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 15px;
+    text-transform: uppercase;
+  }
+
+  .skeleton {
+    background: #e6e6e6;
+    animation: skeletonPulse 1.5s infinite ease-in-out;
+  }
+
+  .skeleton-text {
+    width: 110px;
+    height: 14px;
+    border-radius: 4px;
+  }
+
+  @keyframes skeletonPulse {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 
   span {
@@ -319,6 +491,25 @@ export const DonorItem = styled.div`
   p {
     font-size: 0.9rem;
     color: #666;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.7rem;
+    gap: 0.6rem;
+
+    .avatar-circle {
+      width: 34px;
+      height: 34px;
+      font-size: 13px;
+    }
+
+    span {
+      font-size: 0.87rem;
+    }
+
+    p {
+      font-size: 0.78rem;
+    }
   }
 `;
 
@@ -341,23 +532,26 @@ export const MilestoneContainer = styled.div`
       gap: 0.5rem;
     }
   }
+
+  @media (max-width: 480px) {
+    margin-top: 1.2rem;
+  }
 `;
 
 export const TabHeader = styled.button`
   appearance: none;
-  border: 1px solid ${({ active }) => (active ? "#4c6644" : "#dcdedd")};
-  background: ${({ active }) => (active ? "#4c6644" : "#fff")};
-  color: ${({ active }) => (active ? "#fff" : "#1f1f1f")};
-  font-weight: 800;
+  border: 1px solid ${({ active }) => (active ? "#1A1A1A" : "#f8f9fa")};
+  background: ${({ active }) => (active ? "#1A1A1A" : "#f8f9fa")};
+  color: ${({ active }) => (active ? "#CDED8B" : "#333333")};
+  font-weight: 700;
   padding: 0.6rem 1rem;
-  border-radius: 999px;
   cursor: pointer;
   transition: 0.25s ease;
   white-space: nowrap;
 
-  &:hover {
-    background: ${({ active }) => (active ? "#445c3d" : "#f5f7f5")};
-    border-color: #4c6644;
+  @media (max-width: 480px) {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.9rem;
   }
 `;
 
@@ -366,6 +560,11 @@ export const MilestoneList = styled.div`
   flex-direction: column;
   gap: 1rem;
   margin-top: 1.1rem;
+
+  @media (max-width: 480px) {
+    gap: 0.8rem;
+    margin-top: 0.9rem;
+  }
 `;
 
 export const MilestoneItem = styled.div`
@@ -381,7 +580,7 @@ export const MilestoneItem = styled.div`
     min-width: 38px;
     min-height: 38px;
     border-radius: 50%;
-    border: 2px solid #4c6644;  
+    border: 2px solid #4c6644;
     background: #ffffff;
     color: #4c6644;
     font-weight: 800;
@@ -412,6 +611,25 @@ export const MilestoneItem = styled.div`
       font-size: 0.92rem;
       color: #3b3b3b;
       margin-bottom: 0.15rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.85rem;
+    gap: 0.75rem;
+
+    .number {
+      min-width: 34px;
+      min-height: 34px;
+      font-size: 0.9rem;
+    }
+
+    .content h4 {
+      font-size: 0.95rem;
+    }
+
+    .content p {
+      font-size: 0.86rem;
     }
   }
 `;

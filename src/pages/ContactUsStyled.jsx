@@ -20,6 +20,11 @@ export const ContactWrapper = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+
+   @media (max-width: 480px) {
+    padding: 2rem 1rem;
+    gap: 1rem;
+  }
 `;
 
 export const Title = styled.h1`
@@ -27,6 +32,10 @@ export const Title = styled.h1`
   font-size: 2rem;
   font-weight: 800;
   margin: 0;
+
+   @media (max-width: 480px) {
+    font-size: 2rem;
+  }
 `;
 
 export const Subtitle = styled.p`
@@ -34,6 +43,12 @@ export const Subtitle = styled.p`
   font-size: 0.9rem;
   margin-bottom: 1rem;
   color: #777;
+
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
+    width: 90%;
+    margin: 0 auto 1.5rem;
+  }
 `;
 
 export const Input = styled.input`
@@ -43,6 +58,11 @@ export const Input = styled.input`
   border-radius: 8px;
   font-size: 1rem;
   outline: none;
+
+   @media (max-width: 480px) {
+    height: 60px;
+    font-size: 0.95rem;
+  }
 `;
 
 export const Select = styled.select`
@@ -53,6 +73,10 @@ export const Select = styled.select`
   font-size: 1rem;
   outline: none;
   background: white;
+
+   @media (max-width: 480px) {
+    height: 60px;
+  }
 `;
 
 export const TextArea = styled.textarea`
@@ -64,6 +88,10 @@ export const TextArea = styled.textarea`
   outline: none;
   resize: none;
   height: 150px;
+
+   @media (max-width: 480px) {
+    height: 160px;
+  }
 `;
 
 export const Button = styled.button`
@@ -80,5 +108,11 @@ export const Button = styled.button`
 
   &:hover {
     opacity: 0.8;
+  }
+
+   @media (max-width: 480px) {
+    width: 170px;
+    padding: 0.85rem;
+    font-size: 0.95rem;
   }
 `;
