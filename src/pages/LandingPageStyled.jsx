@@ -2248,7 +2248,6 @@ export const CommunityGrid = styled.div`
     grid-template-columns: 1fr;
   }
 
-  /* ✅ MOBILE FIX FOR 480px */
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
