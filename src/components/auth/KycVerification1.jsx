@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../common/InputField";
 import Button from "../common/Button";
 import { GoPaperclip } from "react-icons/go";
@@ -13,7 +13,7 @@ const KycVerification1 = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     organizationName: "",
     organizationType: "",
     registrationNumber: "",
@@ -21,16 +21,46 @@ const KycVerification1 = () => {
     authorizedRepresentativeFullName: "",
     authorizedRepresentativeId: null,
     organizationAddress: "",
-  });
+  };
+
+
+const [formData, setFormData] = useState(() => {
+  const saved = localStorage.getItem("kycFormData");
+  if (saved) {
+    return {
+      ...initialFormData,      
+      ...JSON.parse(saved)      
+    };
+  }
+  return initialFormData;
+});
+
+useEffect(() => {
+  const textFields = {
+    organizationName: formData.organizationName,
+    organizationType: formData.organizationType,
+    registrationNumber: formData.registrationNumber,
+    authorizedRepresentativeFullName: formData.authorizedRepresentativeFullName,
+    organizationAddress: formData.organizationAddress,
+  };
+  localStorage.setItem("kycFormData", JSON.stringify(textFields));
+}, [
+  formData.organizationName,
+  formData.organizationType,
+  formData.registrationNumber,
+  formData.authorizedRepresentativeFullName,
+  formData.organizationAddress
+]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
-    setFormData((prev) => ({ ...prev, [field]: file }));
+    setFormData(prev => ({ ...prev, [field]: file }));
   };
 
   const handleSubmit = (e) => {
@@ -46,7 +76,7 @@ const KycVerification1 = () => {
     }
 
     dispatch(saveKycStep1(formData));
-
+    localStorage.removeItem("kycFormData");
     nav("/verify_kyc2");
   };
 
@@ -87,7 +117,7 @@ const KycVerification1 = () => {
             />
           </div>
 
-            <div className="name_holder">
+          <div className="name_holder">
             <label>Organization Type</label>
             <select
               name="organizationType"
@@ -197,6 +227,8 @@ const KycVerification1 = () => {
 };
 
 export default KycVerification1;
+
+
 
 
 

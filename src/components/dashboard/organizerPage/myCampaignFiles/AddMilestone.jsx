@@ -265,6 +265,7 @@ const Container = styled.div`
 
       .reciept_holder {
         width: 450px;
+       
         padding: 30px;
         background-color: #fff;
         border-radius: 12px;

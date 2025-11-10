@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../../../common/InputField";
 import Button from "../../../common/Button";
 import { GoPaperclip } from "react-icons/go";
@@ -25,20 +25,50 @@ const CreateCampaign = ({ onClose }) => {
     editingMilestoneIndex: null,
   });
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    goalAmount: "",
-    category: "",
-    duration: "",
+
+  // ✅ Persist text inputs in formData
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem("createCampaignFormData");
+    return saved
+      ? {
+          title: "",
+          description: "",
+          goalAmount: "",
+          category: "",
+          duration: "",
+          ...JSON.parse(saved),
+        }
+      : {
+          title: "",
+          description: "",
+          goalAmount: "",
+          category: "",
+          duration: "",
+        };
   });
 
   const nav = useNavigate();
   const token = useSelector((state) => state.auth?.token);
-
-  // console.log(" token", token);
   const user = useSelector((state) => state.auth.user);
-  console.log(" user", user);
+
+  // ✅ Persist formData changes to localStorage
+  useEffect(() => {
+    const textFields = {
+      title: formData.title,
+      description: formData.description,
+      goalAmount: formData.goalAmount,
+      category: formData.category,
+      duration: formData.duration,
+    };
+    localStorage.setItem("createCampaignFormData", JSON.stringify(textFields));
+  }, [
+    formData.title,
+    formData.description,
+    formData.goalAmount,
+    formData.category,
+    formData.duration,
+  ]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -132,6 +162,7 @@ const CreateCampaign = ({ onClose }) => {
       if (!res.ok) {
         console.error(result);
         toast.error(result.message || "Failed to create campaign.");
+        setLoading(false);
         return;
       }
 
@@ -141,6 +172,9 @@ const CreateCampaign = ({ onClose }) => {
         ...prev,
         showreciept: true,
       }));
+
+      // ✅ Clear persisted formData after successful submit
+      localStorage.removeItem("createCampaignFormData");
     } catch (error) {
       console.error("Error creating campaign:", error);
       toast.error("An unexpected error occurred. Please try again.");
@@ -223,7 +257,6 @@ const CreateCampaign = ({ onClose }) => {
                 required
               >
                 <option value="">Select a category</option>
-
                 <option value="Health & Wellness">Health & Wellness</option>
                 <option value="Education & Schools">Education & Schools</option>
                 <option value="Disaster Relief">Disaster Relief</option>
@@ -477,6 +510,7 @@ const CreateCampaign = ({ onClose }) => {
 
 export default CreateCampaign;
 
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -543,12 +577,12 @@ export const Container = styled.div`
       display: flex;
       flex-direction: column;
       gap: 19px;
-      position: relative;
-
+      
       .name_holder {
         display: flex;
         flex-direction: column;
         gap: 5px;
+        position: relative;
 
         label {
           font-size: 14px;
@@ -609,7 +643,7 @@ export const Container = styled.div`
 
         i {
           position: absolute;
-          top: 56%;
+          top: 30%;
           left: 10px;
           transform: translateY(-50%);
           font-size: 20px;
@@ -618,7 +652,7 @@ export const Container = styled.div`
 
         .choose_file {
           position: absolute;
-          top: 56%;
+          top: 30%;
           right: 4%;
           transform: translateY(-50%);
           font-size: 16px;
@@ -718,7 +752,16 @@ export const Container = styled.div`
         }
       }
     }
-
+   .sec_add{
+    
+      .add {
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        border-bottom: 1px solid #333333;
+        width: fit-content;
+      }
+   }
     .check {
       display: flex;
       align-items: center;

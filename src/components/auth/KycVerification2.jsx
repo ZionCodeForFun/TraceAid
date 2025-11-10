@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../common/InputField";
 import Button from "../common/Button";
 import { IoArrowBackOutline } from "react-icons/io5";
@@ -20,21 +20,33 @@ const KycVerification2 = () => {
   const [loading, setLoading] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
 
-  const [formData, setFormData] = useState({
-    bankAccountName: "",
-    bankAccountNumber: "",
-    bankName: "",
-  });
+ const initialFormData = {
+  bankAccountName: "",
+  bankAccountNumber: "",
+  bankName: "",
+};
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "bankAccountNumber") {
-      const digitsOnly = value.replace(/\D/g, "");
-      return setFormData((prev) => ({ ...prev, [name]: digitsOnly }));
-    }
-    setFormData((prev) => ({ ...prev, [name]: value }));
+const [formData, setFormData] = useState(() => {
+  const saved = localStorage.getItem("kycStep2FormData");
+  return saved ? { ...initialFormData, ...JSON.parse(saved) } : initialFormData;
+});
+
+useEffect(() => {
+  const textFields = {
+    bankAccountName: formData.bankAccountName,
+    bankAccountNumber: formData.bankAccountNumber,
+    bankName: formData.bankName,
   };
+  localStorage.setItem("kycStep2FormData", JSON.stringify(textFields));
+}, [formData.bankAccountName, formData.bankAccountNumber, formData.bankName]);
 
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  const newValue =
+    name === "bankAccountNumber" ? value.replace(/\D/g, "") : value;
+
+  setFormData((prev) => ({ ...prev, [name]: newValue }));
+};
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -91,6 +103,8 @@ const KycVerification2 = () => {
       setLoading(false);
       toast.success("KYC submitted successfully!");
       setShowReceipt(true);
+
+      localStorage.removeItem("kycStep2FormData");
     } catch (err) {
       setLoading(false);
       const msg = err?.response?.data?.message || "Failed to submit KYC.";
@@ -211,6 +225,7 @@ const KycVerification2 = () => {
 };
 
 export default KycVerification2;
+
 
 const Container = styled.div`
   display: flex;

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Radio } from "antd";
+import { Button, Checkbox, Form, Input } from "antd";
 import { Container } from "../../style/SignUpFormStyle";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import { FiBriefcase } from "react-icons/fi";
 import { BsTelephone } from "react-icons/bs";
 import axios from "axios";
 import { setRole, setUser } from "../../global/authSlice";
+import Joi from "joi-browser";
 
 const SignUpForm = () => {
   const dispatch = useDispatch();
@@ -19,9 +20,100 @@ const SignUpForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  console.log("account type", accountType);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [confirmPasswordValid, setConfirmPasswordValid] = useState(false);
+
+  
+  const schema = Joi.object({
+    firstName: Joi.string().min(2).regex(/^[A-Za-z\s]+$/).required(),
+    lastName: Joi.string().min(2).regex(/^[A-Za-z\s]+$/).required(),
+    email: Joi.string().email({ tlds: { allow: false } }).required(),
+    phoneNumber: Joi.string().regex(/^[0-9]{11}$/).required(),
+    password: Joi.string()
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&-])[A-Za-z\d@$!%*#?&]{8,}$/
+      )
+      .required(),
+    confirmPassword: Joi.any().valid(Joi.ref("password")).required(),
+    acceptedTerms: Joi.boolean().valid(true),
+    organizationName:
+      accountType === "organization" ? Joi.string().required() : Joi.any(),
+  });
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    const passwordSchema = Joi.string()
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&-])[A-Za-z\d@$!%*#?&]{8,}$/
+      )
+      .required();
+    const { error } = passwordSchema.validate(value);
+    setPasswordValid(!error);
+
+    form.setFieldsValue({ password: value });
+
+    
+    const confirmValue = form.getFieldValue("confirmPassword");
+    setConfirmPasswordValid(confirmValue && confirmValue === value);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    const password = form.getFieldValue("password");
+    setConfirmPasswordValid(password && value === password);
+
+    form.setFieldsValue({ confirmPassword: value });
+  };
 
   const onFinish = async (values) => {
+    
+    const { error } = schema.validate(values, { abortEarly: false });
+    if (error) {
+      error.details.forEach((err) => {
+        const field = err.path[0];
+        let message = "";
+
+        switch (field) {
+          case "firstName":
+            message =
+              err.type === "string.min"
+                ? "First name must be at least 2 characters"
+                : "First name can only contain letters";
+            break;
+          case "lastName":
+            message =
+              err.type === "string.min"
+                ? "Last name must be at least 2 characters"
+                : "Last name can only contain letters";
+            break;
+          case "email":
+            message = "Please provide a valid email address";
+            break;
+          case "phoneNumber":
+            message = "Phone number must be 11 digits";
+            break;
+          case "password":
+            message =
+              "Password must be at least 8 characters, with uppercase, lowercase, number, and special character";
+            break;
+          case "confirmPassword":
+            message = "Passwords do not match";
+            break;
+          case "acceptedTerms":
+            message = "You must agree to the terms and conditions";
+            break;
+          case "organizationName":
+            message = "Organization name is required";
+            break;
+          default:
+            message = err.message;
+        }
+
+        toast.error(message);
+      });
+      return;
+    }
+
     try {
       setLoading(true);
       const res = await axios.post(
@@ -32,17 +124,16 @@ const SignUpForm = () => {
         }/register`,
         values
       );
-      console.log("zion sign up", res?.data?.data?.user?.role)
       toast.success(res?.data?.message || "Registration successful");
       form.resetFields();
-      console.log(res?.data?.data?.user);
+      setPasswordValid(false);
+      setConfirmPasswordValid(false);
       dispatch(setUser(res?.data?.data?.user));
       dispatch(setRole(res?.data?.data?.user?.role || res?.data?.data?.role));
       nav(`/verify/${res?.data?.data?.user?.email || res?.data?.data?.email}`);
     } catch (err) {
       console.log(err);
       toast.error(err?.response?.data?.data?.message || "Registration failed");
-      setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -57,9 +148,7 @@ const SignUpForm = () => {
         className="wrapper"
         requiredMark={false}
         layout="vertical"
-        labelCol={{
-          style: { marginTop: "5px", padding: "0", color: "#333" },
-        }}
+        labelCol={{ style: { marginTop: "5px", padding: "0", color: "#333" } }}
       >
         <div className="img_holder">
           <img src={logo2} alt="logo" />
@@ -76,12 +165,6 @@ const SignUpForm = () => {
             <Form.Item
               label="Organization Name"
               name="organizationName"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your organization name!",
-                },
-              ]}
               style={{ margin: "0", height: "71px" }}
             >
               <Input
@@ -91,19 +174,10 @@ const SignUpForm = () => {
               />
             </Form.Item>
           ) : (
-            <div
-              style={{
-                display: "flex",
-                gap: "20px",
-                height: "71px",
-              }}
-            >
+            <div style={{ display: "flex", gap: "20px", height: "71px" }}>
               <Form.Item
                 label="First Name"
                 name="firstName"
-                rules={[
-                  { required: true, message: "Please input your first name!" },
-                ]}
                 style={{ flex: 1, margin: "0" }}
               >
                 <Input
@@ -116,9 +190,6 @@ const SignUpForm = () => {
               <Form.Item
                 label="Last Name"
                 name="lastName"
-                rules={[
-                  { required: true, message: "Please input your last name!" },
-                ]}
                 style={{ flex: 1, margin: "0" }}
               >
                 <Input
@@ -133,12 +204,6 @@ const SignUpForm = () => {
           <Form.Item
             label="Email"
             name="email"
-            validateTrigger="onBlur"
-            normalize={(value) => value?.trim()}
-            rules={[
-              { required: true, message: "Please input your email!" },
-              { type: "email", message: "Please enter a valid email address!" },
-            ]}
             style={{ margin: "0", height: "71px" }}
           >
             <Input
@@ -147,15 +212,10 @@ const SignUpForm = () => {
               className="input"
             />
           </Form.Item>
+
           <Form.Item
             label="Phone Number"
             name="phoneNumber"
-            validateTrigger="onBlur"
-            normalize={(value) => value?.trim()}
-            rules={[
-              { required: true, message: "Please input your Phone number!" },
-              { type: " number", message: "Please input  Number!" },
-            ]}
             style={{ margin: "0", height: "71px" }}
           >
             <Input
@@ -169,59 +229,31 @@ const SignUpForm = () => {
             label="Password"
             name="password"
             hasFeedback
-            rules={[
-              { required: true, message: "Please input your password!" },
-              {
-                min: 8,
-                message: "Password must be at least 8 characters long",
-              },
-            ]}
+            validateStatus={passwordValid ? "success" : ""}
             style={{ margin: "0", height: "71px" }}
           >
             <Input.Password
               placeholder="Enter your password"
               className="input"
+              onChange={handlePasswordChange}
             />
           </Form.Item>
 
           <Form.Item
             label="Confirm Password"
             name="confirmPassword"
-            dependencies={["password"]}
             hasFeedback
-            rules={[
-              { required: true, message: "Please confirm your password!" },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error("Passwords do not match!"));
-                },
-              }),
-            ]}
+            validateStatus={confirmPasswordValid ? "success" : ""}
             style={{ margin: "0", height: "71px" }}
           >
             <Input.Password
               placeholder="Re-enter your password"
               className="input"
+              onChange={handleConfirmPasswordChange}
             />
           </Form.Item>
 
-          <Form.Item
-            name="acceptedTerms"
-            valuePropName="checked"
-            rules={[
-              {
-                validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject(
-                        new Error("You must agree to the terms and conditions")
-                      ),
-              },
-            ]}
-          >
+          <Form.Item name="acceptedTerms" valuePropName="checked">
             <Checkbox className="custom-checkbox">
               I agree to the <Link to="/terms">terms and conditions</Link>
             </Checkbox>
@@ -239,18 +271,18 @@ const SignUpForm = () => {
             </Button>
           </Form.Item>
 
-          {accountType === "organization" ? null : (
+          {accountType !== "organization" && (
             <div className="google_holder">
               <div className="line-text" plain>
                 or
               </div>
               <p>Continue with</p>
               <Button block type="primary" className="google_btn">
-                <FcGoogle style={{ fontSize: "20px" }} />
-                Google
+                <FcGoogle style={{ fontSize: "20px" }} /> Google
               </Button>
             </div>
           )}
+
           <div className="already">
             <p>Already have an account?</p>
             <Link to={"/login"}>
