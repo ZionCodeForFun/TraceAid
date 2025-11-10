@@ -22,7 +22,6 @@ const SignUpForm = () => {
   const [passwordValid, setPasswordValid] = useState(false);
   const [confirmPasswordValid, setConfirmPasswordValid] = useState(false);
 
-  // ✅ Dynamic schema depending on account type
   const getSchema = () => {
     if (accountType === "organization") {
       return Joi.object({
@@ -182,7 +181,6 @@ const SignUpForm = () => {
             <p className="text">Enter your details to continue</p>
           </div>
 
-          {/* ✅ Different form layout based on account type */}
           {accountType === "organization" ? (
             <Form.Item
               label="Organization Name"
