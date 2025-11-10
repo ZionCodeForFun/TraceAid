@@ -19,41 +19,54 @@ const SignUpForm = () => {
   const nav = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-
   const [passwordValid, setPasswordValid] = useState(false);
   const [confirmPasswordValid, setConfirmPasswordValid] = useState(false);
 
-  const schema = Joi.object({
-    firstName: Joi.string()
-      .min(2)
-      .regex(/^[A-Za-z\s]+$/)
-      .required(),
-    lastName: Joi.string()
-      .min(2)
-      .regex(/^[A-Za-z\s]+$/)
-      .required(),
-    email: Joi.string()
-      .email({ tlds: { allow: false } })
-      .required(),
-    phoneNumber: Joi.string()
-      .regex(/^[0-9]{11}$/)
-      .required(),
-    password: Joi.string()
-      .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&-])[A-Za-z\d@$!%*#?&]{8,}$/
-      )
-      .required(),
-    confirmPassword: Joi.any().valid(Joi.ref("password")).required(),
-    acceptedTerms: Joi.boolean().valid(true),
-    organizationName:
-      accountType === "organization" ? Joi.string().required() : Joi.any(),
-  });
+  const getSchema = () => {
+    if (accountType === "organization") {
+      return Joi.object({
+        organizationName: Joi.string()
+          .min(3)
+          .max(100)
+ .regex(/^[A-Za-z\s]+$/)           .required(),
+        email: Joi.string().email({ tlds: { allow: false } }).required(),
+        phoneNumber: Joi.string().regex(/^[0-9]{11}$/).required(),
+        password: Joi.string()
+          .regex(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&-])[A-Za-z\d@$!%*#?&-]{8,}$/
+          )
+          .required(),
+        confirmPassword: Joi.any().valid(Joi.ref("password")).required(),
+        acceptedTerms: Joi.boolean().valid(true).required(),
+      });
+    } else {
+      return Joi.object({
+        firstName: Joi.string()
+          .min(2)
+          .regex(/^[A-Za-z\s]+$/)
+          .required(),
+        lastName: Joi.string()
+          .min(2)
+          .regex(/^[A-Za-z\s]+$/)
+          .required(),
+        email: Joi.string().email({ tlds: { allow: false } }).required(),
+        phoneNumber: Joi.string().regex(/^[0-9]{11}$/).required(),
+        password: Joi.string()
+          .regex(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&-])[A-Za-z\d@$!%*#?&-]{8,}$/
+          )
+          .required(),
+        confirmPassword: Joi.any().valid(Joi.ref("password")).required(),
+        acceptedTerms: Joi.boolean().valid(true).required(),
+      });
+    }
+  };
 
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     const passwordSchema = Joi.string()
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&-])[A-Za-z\d@$!%*#?&]{8,}$/
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&-])[A-Za-z\d@$!%*#?&-]{8,}$/
       )
       .required();
     const { error } = passwordSchema.validate(value);
@@ -69,11 +82,11 @@ const SignUpForm = () => {
     const value = e.target.value;
     const password = form.getFieldValue("password");
     setConfirmPasswordValid(password && value === password);
-
     form.setFieldsValue({ confirmPassword: value });
   };
 
   const onFinish = async (values) => {
+    const schema = getSchema();
     const { error } = schema.validate(values, { abortEarly: false });
     if (error) {
       error.details.forEach((err) => {
@@ -93,6 +106,12 @@ const SignUpForm = () => {
                 ? "Last name must be at least 2 characters"
                 : "Last name can only contain letters";
             break;
+          case "organizationName":
+            message =
+              err.type === "string.min"
+                ? "Organization name must be at least 3 characters"
+                : "Organization name can contain letters";
+            break;
           case "email":
             message = "Please provide a valid email address";
             break;
@@ -109,9 +128,6 @@ const SignUpForm = () => {
           case "acceptedTerms":
             message = "You must agree to the terms and conditions";
             break;
-          case "organizationName":
-            message = "Organization name is required";
-            break;
           default:
             message = err.message;
         }
@@ -123,14 +139,13 @@ const SignUpForm = () => {
 
     try {
       setLoading(true);
-      const res = await axios.post(
-        `${
-          accountType === "organization"
-            ? import.meta.env.VITE_BaseUrl2
-            : import.meta.env.VITE_BaseUrl
-        }/register`,
-        values
-      );
+      const baseUrl =
+        accountType === "organization"
+          ? import.meta.env.VITE_BaseUrl2
+          : import.meta.env.VITE_BaseUrl;
+
+      const res = await axios.post(`${baseUrl}/register`, values);
+
       toast.success(res?.data?.message || "Registration successful");
       form.resetFields();
       setPasswordValid(false);
@@ -139,7 +154,7 @@ const SignUpForm = () => {
       dispatch(setRole(res?.data?.data?.user?.role || res?.data?.data?.role));
       nav(`/verify/${res?.data?.data?.user?.email || res?.data?.data?.email}`);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       toast.error(err?.response?.data?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
@@ -155,11 +170,11 @@ const SignUpForm = () => {
         className="wrapper"
         requiredMark={false}
         layout="vertical"
-        labelCol={{ style: { marginTop: "5px", padding: "0", color: "#333" } }}
       >
         <div className="img_holder">
           <img src={logo2} alt="logo" />
         </div>
+
         <div className="content_holder">
           <div className="title">
             <p className="sign">Sign Up Account</p>
@@ -225,7 +240,7 @@ const SignUpForm = () => {
           >
             <Input
               prefix={<BsTelephone style={{ fontSize: "15px" }} />}
-              placeholder="+234 701 987 6543"
+              placeholder="e.g. 08123456789"
               className="input"
             />
           </Form.Item>
@@ -261,10 +276,9 @@ const SignUpForm = () => {
           <Form.Item name="acceptedTerms" valuePropName="checked">
             <Checkbox className="custom-checkbox">
               <div className="terms_holder">
-                {" "}
                 I agree to the{" "}
                 <Link to="/termsandcon">
-                  <p >terms and conditions</p>
+                  <p>terms and conditions</p>
                 </Link>
               </div>
             </Checkbox>
