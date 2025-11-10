@@ -202,6 +202,69 @@ const Container = styled.div`
     }
   }
 
+  @media (min-width: 300px) and (max-width: 480px) {
+    padding: 10px;
+
+    .wrapper {
+      width: 100%;
+      height: auto;
+      padding-top: 15px;
+      gap: 20px;
+    }
+
+    .logo_holder img {
+      padding-top: 10px;
+      height: 20px;
+    }
+
+    .intro {
+      gap: 8px;
+
+      .big_text {
+        font-size: 0.3px;
+      }
+
+      .small_text {
+        padding-bottom: 10px;
+        font-size: 3px;
+      }
+    }
+
+    .select_holder {
+      gap: 10px;
+
+      .select1,
+      .select2 {
+        height: auto;
+        padding: 12px;
+        border-radius: 10px;
+        gap: 8px;
+      }
+
+      .individual,
+      .organization {
+        font-size: 10px;
+      }
+
+      .text {
+        font-size: 11.5px;
+        width: 100%;
+      }
+    }
+
+    .select_wrapper .already {
+      flex-direction: column;
+      text-align: center;
+      gap: 3px;
+
+      p,
+      span {
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
   @media (min-width: 600px) and (max-width: 900px) {
     .wrapper {
       width: 70%;

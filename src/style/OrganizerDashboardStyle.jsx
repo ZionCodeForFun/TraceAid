@@ -80,7 +80,7 @@ export const Container = styled.div`
       height: 100%;
     }
   }
-  @media (max-width: 768px) {
+  @media(min-width:300px) and (max-width: 768px) {
     .wrapper {
       .sider_holder {
         position: relative;
@@ -90,12 +90,13 @@ export const Container = styled.div`
 
         .logo {
           padding-left: 0;
-          justify-content: center;
-          height: 3rem;
-          margin-bottom: 12px;
+          justify-content: end;
+          height: 1rem;
+          margin-bottom: 25px;
+          margin-top: 25px;
 
           img {
-            height: 24px;
+            height: 17px;
           }
         }
 
@@ -156,3 +157,15 @@ export const Container = styled.div`
     }
   }
 `;
+
+
+
+
+
+
+
+
+
+
+
+

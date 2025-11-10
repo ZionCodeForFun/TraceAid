@@ -8,11 +8,10 @@ const Header = () => {
   const location = useLocation();
 
   const token = useSelector((state) => state.auth.token);
-  const userDetails = useSelector((state) => state.auth.user); 
-  const userId = userDetails?._id || userDetails?.userId; 
+  const userDetails = useSelector((state) => state.auth.user);
+  const userId = userDetails?._id || userDetails?.userId;
 
   const [user, setUser] = useState(userDetails || null);
-
 
   const getHeaderText = (pathname) => {
     const p = (pathname || "").toLowerCase();
@@ -104,6 +103,7 @@ const Container = styled.div`
   justify-content: end;
   border-bottom: 1px solid #ccc;
   z-index: 99;
+  background-color: white;
 
   .wrapper {
     width: 100%;
@@ -142,14 +142,14 @@ const Container = styled.div`
       .profile_holder {
         width: 50px;
         height: 50px;
-       
-     
+
         img {
           width: 100%;
           height: 100%;
-          object-fit: contain;
-           border-radius: 50px;
+          object-fit: cover;
+          border-radius: 50%;
         }
+
         .initials {
           width: 50px;
           height: 50px;
@@ -175,6 +175,238 @@ const Container = styled.div`
         .email {
           font-size: 12px;
           font-weight: 400;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 900px) {
+    height: 70px;
+
+    .wrapper {
+      gap: 200px;
+
+      .right {
+        padding-left: 25px;
+
+        .welcome {
+          font-size: 20px;
+        }
+
+        .small {
+          font-size: 13px;
+        }
+      }
+
+      .left {
+        padding-right: 25px;
+
+        .profile_holder {
+          width: 45px;
+          height: 45px;
+        }
+
+        .name_holder {
+          .name {
+            font-size: 13px;
+          }
+          .email {
+            font-size: 11px;
+          }
+        }
+      }
+    }
+  }
+
+  /* ========= MOBILE (480px–600px) ========= */
+  @media (min-width: 480px) and (max-width: 600px) {
+    height: 70px;
+
+    .wrapper {
+      gap: 100px;
+
+      .right {
+        padding-left: 20px;
+
+        .welcome {
+          font-size: 18px;
+        }
+
+        .small {
+          font-size: 12px;
+        }
+      }
+
+      .left {
+        padding-right: 20px;
+        gap: 8px;
+
+        .profile_holder {
+          width: 40px;
+          height: 40px;
+        }
+
+        .name_holder {
+          .name {
+            font-size: 12px;
+          }
+          .email {
+            font-size: 10px;
+          }
+        }
+      }
+    }
+  }
+
+  /* ========= EXTRA SMALL (300px–480px) ========= */
+  /* @media (min-width: 300px) and (max-width: 480px) {
+    height: auto;
+    padding: 10px 0;
+
+    .wrapper {
+      gap: 10px;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+
+      .right {
+        display: "";
+
+        .welcome {
+          font-size: 16px;
+          font-weight: 600;
+        }
+
+        .small {
+          font-size: 11px;
+          line-height: 1.4;
+        }
+      }
+
+      .left {
+        flex-direction: column;
+        padding: 0;
+        gap: 5px;
+
+        .profile_holder {
+          width: 40px;
+          height: 40px;
+        }
+
+        .name_holder {
+          align-items: center;
+
+          .name {
+            font-size: 13px;
+            font-weight: 500;
+          }
+
+          .email {
+            font-size: 11px;
+            color: #666;
+          }
+        }
+      }
+    }
+  } */
+
+  /* ========= MOBILE + EXTRA SMALL (up to 600px) ========= */
+  @media (max-width: 600px) {
+    height: 60px;
+    padding: 0 15px;
+
+    .wrapper {
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0;
+
+      /* Left and right alignment */
+      .right {
+        padding: 0;
+        .welcome {
+          font-size: 18px;
+          font-weight: 600;
+        }
+
+        /* Hide subtitle on mobile */
+        .small {
+          display: none;
+        }
+      }
+
+      .left {
+        padding: 0;
+        gap: 0;
+
+        .profile_holder {
+          width: 40px;
+          height: 40px;
+        }
+
+        /* Hide name and email on mobile */
+        .name_holder {
+          display: none;
+        }
+      }
+    }
+  }
+
+  /* ========= EXTRA SMALL (min-width: 300px to max-width: 480px) ========= */
+  @media (min-width: 300px) and (max-width: 480px) {
+    height: 75px;
+    padding: 0 10px;
+
+    .wrapper {
+      justify-content: space-between;
+      align-items: center;
+      gap: 0;
+
+      .right {
+        .welcome {
+          font-size: 16px;
+          font-weight: 600;
+          padding-left: 75px;
+        }
+        .small {
+          display: none;
+        }
+      }
+
+      .left {
+        .profile_holder {
+          width: 30px;
+          height: 30px;
+          padding-right: 45px;
+        }
+
+        .name_holder {
+          display: none;
+        }
+      }
+    }
+  }
+
+  /* ========= MEDIUM DESKTOP (900px–1200px) ========= */
+  @media (min-width: 900px) and (max-width: 1200px) {
+    .wrapper {
+      gap: 300px;
+
+      .right {
+        padding-left: 40px;
+        .welcome {
+          font-size: 22px;
+        }
+        .small {
+          font-size: 13.5px;
+        }
+      }
+
+      .left {
+        padding-right: 40px;
+        .profile_holder {
+          width: 45px;
+          height: 45px;
         }
       }
     }

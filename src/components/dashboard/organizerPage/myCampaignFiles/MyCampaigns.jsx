@@ -135,7 +135,7 @@ const MyCampaigns = () => {
 
   return (
     <Container>
-      <article className="wrapper">
+      <article className="wrapper" style={{marginLeft:"18px"}} >
         <Outlet />
 
         {isMainWallet && (
@@ -148,10 +148,10 @@ const MyCampaigns = () => {
               />
             </div>
 
-            <div className="card_holder">
-              <div className="card" style={{ background: "#EBF5FF" }}>
+            <div className="card_holder"  >
+              <div className="card" style={{ background: "#EBF5FF",  }}>
                 <div className="top">
-                  <p>Active Campaigns</p>
+                  <p >Active Campaigns</p>
                   <span style={{ background: "#DBEAFE", color: "#8402E3" }}>
                     ₦
                   </span>
