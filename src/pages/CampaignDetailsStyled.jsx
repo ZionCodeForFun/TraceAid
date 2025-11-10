@@ -309,7 +309,11 @@ export const DonationForm = styled.div`
   padding: 1.2rem;
   border-radius: 10px;
   margin-top: 1rem;
-
+  textarea{
+    padding: 10px;
+    margin-top: 8px;
+  
+  }
   h4 {
     margin-top: 0.6rem;
     font-size: 0.95rem;

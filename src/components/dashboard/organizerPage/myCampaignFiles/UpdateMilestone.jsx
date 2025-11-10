@@ -16,7 +16,7 @@ const UpdateMilestone = ({ onClose, campaign }) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 const {token, user} = useSelector((state) => state.auth);
-  console.log("first", token);
+  console.log("first", user);
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     setFiles(selectedFiles);

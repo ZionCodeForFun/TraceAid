@@ -4,7 +4,7 @@ export const Container = styled.div`
   padding: 4rem 8%;
   background-color: #ffffff;
 
-   @media (max-width: 480px) {
+  @media (max-width: 480px) {
     padding: 2.8rem 0;
   }
 `;
@@ -29,7 +29,7 @@ export const ExploreHeader = styled.div`
     line-height: 1.6;
   }
 
-   @media (max-width: 480px) {
+  @media (max-width: 480px) {
     margin-top: 3rem;
 
     h1 {
@@ -55,7 +55,7 @@ export const ExploreTopBar = styled.div`
   margin-top: 5rem;
   flex-wrap: wrap;
 
-    @media (max-width: 480px) {
+  @media (max-width: 480px) {
     width: 100%;
     margin-top: 2rem;
     flex-direction: column;
@@ -77,7 +77,7 @@ export const SearchWrapper = styled.div`
     color: #777;
   }
 
-   @media (max-width: 480px) {
+  @media (max-width: 480px) {
     width: 90%;
 
     .search-icon {
@@ -123,7 +123,7 @@ export const CategorySelect = styled.select`
     border-color: #efefef;
   }
 
-   @media (max-width: 480px) {
+  @media (max-width: 480px) {
     width: 90%;
     height: 48px;
     font-size: 0.95rem;
@@ -182,7 +182,8 @@ export const CampaignCard = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid gray;
-  height: 480px;
+  height: max-content;
+  max-height: 600px;
 
   ${({ $mode }) =>
     $mode === "scroll" &&
@@ -191,7 +192,7 @@ export const CampaignCard = styled.div`
         flex: 0 0 100%;
         scroll-snap-align: center;
         height: auto;
-        display: flex;        
+        display: flex;
         flex-direction: column;
       }
     `}
@@ -217,6 +218,7 @@ export const CampaignImage = styled.div`
     padding: 0.4rem;
     border-radius: 50%;
     font-size: 1.1rem;
+    cursor: pointer;
   }
 `;
 
@@ -251,18 +253,20 @@ export const CampaignContent = styled.div`
     align-items: center;
     gap: 0.25rem;
   }
+  .text_holder {
+    height: 5rem;
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 0.5rem;
+    }
 
-  h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #222;
-    margin-bottom: 0.5rem;
-  }
-
-  p {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 1rem;
+    p {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
   }
 
   .funded {
@@ -346,7 +350,7 @@ export const DonateButton = styled.button`
     color: #1a1a1a;
   }
 
-    @media (max-width: 480px) {
+  @media (max-width: 480px) {
     width: 92%;
     padding: 0.95rem;
     font-size: 0.95rem;

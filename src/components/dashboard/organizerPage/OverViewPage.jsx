@@ -46,6 +46,8 @@ const SkeletonLoader = () => (
 
 const OverViewPage = () => {
   const [dashboardData, setDashboardData] = useState(null);
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const token = useSelector((state) => state.auth.user?.token);
 
@@ -58,7 +60,9 @@ const OverViewPage = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setDashboardData(response.data?.data);
+        const data = response.data?.data;
+        setDashboardData(data);
+        setFilteredTransactions(data?.recentTransactions || []);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
@@ -68,6 +72,21 @@ const OverViewPage = () => {
 
     if (token) fetchDashboard();
   }, [token, location.key]);
+
+  useEffect(() => {
+    if (dashboardData?.recentTransactions) {
+      const filtered = dashboardData.recentTransactions.filter((item) => {
+        const query = searchQuery.toLowerCase();
+        return (
+          item.donorName?.toLowerCase().includes(query) ||
+          item.campaignTitle?.toLowerCase().includes(query) ||
+          item.date?.toLowerCase().includes(query) ||
+          String(item.amount)?.toLowerCase().includes(query)
+        );
+      });
+      setFilteredTransactions(filtered);
+    }
+  }, [searchQuery, dashboardData]);
 
   return (
     <Container>
@@ -141,6 +160,8 @@ const OverViewPage = () => {
             type="text"
             placeholder="Search input"
             className="input"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)} 
           />
         </div>
 
@@ -158,8 +179,8 @@ const OverViewPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {dashboardData?.recentTransactions?.length > 0 ? (
-                  dashboardData.recentTransactions.map((item, index) => (
+                {filteredTransactions?.length > 0 ? (
+                  filteredTransactions.map((item, index) => (
                     <tr key={index}>
                       <td>{item.donorName}</td>
                       <td>{item.campaignTitle}</td>
@@ -169,7 +190,7 @@ const OverViewPage = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4">No transactions found</td>
+                    <td colSpan="4">No matching transactions found</td>
                   </tr>
                 )}
               </tbody>

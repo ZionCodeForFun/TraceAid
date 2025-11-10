@@ -382,6 +382,7 @@ const CampaignDetails = () => {
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Say something to encourage the campaign…"
                     style={{ resize: "vertical", width: "100%" }}
+                    
                   />
 
                   <button type="submit" disabled={donating}>
