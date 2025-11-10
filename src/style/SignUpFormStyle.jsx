@@ -388,7 +388,24 @@ export const Container = styled.div`
     .custom-checkbox {
       color: #333;
       font-weight: 500;
+<<<<<<< HEAD
 
+=======
+      .terms_holder{
+
+        display: flex;
+        gap: 4px;
+        p{
+          cursor: pointer;
+
+          color: #617437;
+           font-weight: 700;
+           &:hover{
+            text-decoration: underline;
+           }
+        }
+      }
+>>>>>>> 77aa2080c1b0b9a751bf7920ba82f85340a90e25
       a {
         color: var(--NeutralBlack);
       }
@@ -575,7 +592,6 @@ export const Container = styled.div`
     width: 100%;
   }
 
-  /* ✅ Center Google section */
   .google_holder {
     display: flex;
     flex-direction: column;

@@ -26,7 +26,6 @@ const CreateCampaign = ({ onClose }) => {
   });
   const [loading, setLoading] = useState(false);
 
-  // ✅ Persist text inputs in formData
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem("createCampaignFormData");
     return saved
@@ -51,7 +50,6 @@ const CreateCampaign = ({ onClose }) => {
   const token = useSelector((state) => state.auth?.token);
   const user = useSelector((state) => state.auth.user);
 
-  // ✅ Persist formData changes to localStorage
   useEffect(() => {
     const textFields = {
       title: formData.title,
@@ -173,7 +171,6 @@ const CreateCampaign = ({ onClose }) => {
         showreciept: true,
       }));
 
-      // ✅ Clear persisted formData after successful submit
       localStorage.removeItem("createCampaignFormData");
     } catch (error) {
       console.error("Error creating campaign:", error);

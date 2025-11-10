@@ -48,6 +48,9 @@ const MyCampaigns = () => {
     popupPosition: { top: 40, left: 20 },
   });
 
+  const [searchQuery, setSearchQuery] = useState(""); // ✅ added for search
+  const [filteredCampaigns, setFilteredCampaigns] = useState([]); // ✅ local filtered list
+
   const dispatch = useDispatch();
   const nav = useNavigate();
   const location = useLocation();
@@ -71,7 +74,6 @@ const MyCampaigns = () => {
       dispatch(setLoading(true));
       const response = await GetAllCampaignsAPI(token);
       dispatch(setCampaigns(response.data.data));
-      
     } catch (err) {
       dispatch(
         setError(err?.response?.data?.message || "Failed to fetch campaigns")
@@ -84,6 +86,18 @@ const MyCampaigns = () => {
   useEffect(() => {
     if (token) fetchCampaigns();
   }, [token]);
+
+  // ✅ Whenever all campaigns or search changes, filter
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredCampaigns(all);
+    } else {
+      const filtered = all.filter((item) =>
+        item.campaignTitle.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredCampaigns(filtered);
+    }
+  }, [searchQuery, all]);
 
   const VITE_campaignBaseUrl = `https://traceaid.com/campaign/${selectedCampaign?._id}`;
 
@@ -231,8 +245,10 @@ const MyCampaigns = () => {
             <div className="recent_text">
               <InputField
                 type="text"
-                placeholder="search input"
+                placeholder="Search campaigns..."
                 className="input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)} // ✅ functional search
               />
               <div className="dropdwn">
                 <p>All Status</p>
@@ -244,9 +260,11 @@ const MyCampaigns = () => {
 
             {loading && <SkeletonLoader />}
 
-            {!loading && all.length === 0 && <p>No campaigns found.</p>}
+            {!loading && filteredCampaigns.length === 0 && (
+              <p>No campaigns found.</p>
+            )}
 
-            {!loading && all.length > 0 && (
+            {!loading && filteredCampaigns.length > 0 && (
               <div className="table-container">
                 <table className="custom-table">
                   <thead>
@@ -261,7 +279,7 @@ const MyCampaigns = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {all.map((item, index) => (
+                    {filteredCampaigns.map((item, index) => (
                       <tr key={index}>
                         <td className="details">{item.campaignTitle}</td>
                         <td>

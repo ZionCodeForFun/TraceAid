@@ -221,8 +221,10 @@ const CampaignData = () => {
                         <p className="daysLeft">{item.durationDays} days left</p>
                       </div>
 
-                      <h3>{item.campaignTitle}</h3>
+                     <div className="text_holder">
+                         <h3>{item.campaignTitle}</h3>
                       <p>{item.campaignDescription}</p>
+                     </div>
 
                       <ProgressWrapper>
                         <span>

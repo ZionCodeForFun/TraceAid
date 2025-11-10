@@ -20,33 +20,35 @@ const KycVerification2 = () => {
   const [loading, setLoading] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
 
- const initialFormData = {
-  bankAccountName: "",
-  bankAccountNumber: "",
-  bankName: "",
-};
-
-const [formData, setFormData] = useState(() => {
-  const saved = localStorage.getItem("kycStep2FormData");
-  return saved ? { ...initialFormData, ...JSON.parse(saved) } : initialFormData;
-});
-
-useEffect(() => {
-  const textFields = {
-    bankAccountName: formData.bankAccountName,
-    bankAccountNumber: formData.bankAccountNumber,
-    bankName: formData.bankName,
+  const initialFormData = {
+    bankAccountName: "",
+    bankAccountNumber: "",
+    bankName: "",
   };
-  localStorage.setItem("kycStep2FormData", JSON.stringify(textFields));
-}, [formData.bankAccountName, formData.bankAccountNumber, formData.bankName]);
 
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  const newValue =
-    name === "bankAccountNumber" ? value.replace(/\D/g, "") : value;
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem("kycStep2FormData");
+    return saved
+      ? { ...initialFormData, ...JSON.parse(saved) }
+      : initialFormData;
+  });
 
-  setFormData((prev) => ({ ...prev, [name]: newValue }));
-};
+  useEffect(() => {
+    const textFields = {
+      bankAccountName: formData.bankAccountName,
+      bankAccountNumber: formData.bankAccountNumber,
+      bankName: formData.bankName,
+    };
+    localStorage.setItem("kycStep2FormData", JSON.stringify(textFields));
+  }, [formData.bankAccountName, formData.bankAccountNumber, formData.bankName]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const newValue =
+      name === "bankAccountNumber" ? value.replace(/\D/g, "") : value;
+
+    setFormData((prev) => ({ ...prev, [name]: newValue }));
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -208,7 +210,7 @@ const handleChange = (e) => {
                   Your fundraiser account has been created successfully
                 </p>
               </div>
-              <Button2
+              <Button
                 onClick={handleStartCampaign}
                 className="close_btn"
                 text="Start a Campaign"
@@ -225,7 +227,6 @@ const handleChange = (e) => {
 };
 
 export default KycVerification2;
-
 
 const Container = styled.div`
   display: flex;
@@ -338,7 +339,7 @@ const Container = styled.div`
 
         input {
           width: 100%;
-          padding: 10px 20px; 
+          padding: 10px 20px;
           border-radius: 12px;
           border: 1px solid var(--Neutral_Grey1);
           outline: none;
