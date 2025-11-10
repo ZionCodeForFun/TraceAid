@@ -1,51 +1,52 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "../../../../style/SettingsStyle";
 import InputField from "../../../common/InputField";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const KycVerify = () => {
-  const fileInputRef = useRef(null);
   const { user, token } = useSelector((state) => state.auth);
-
   const [isVerified, setIsVerified] = useState(false);
   const [loading, setLoading] = useState(true);
-
   const [formData, setFormData] = useState({
     registrationNumber: "",
     address: "",
     certificate: null,
   });
-
+  const nav = useNavigate();
   const baseUrl = import.meta.env.VITE_BaseUrl_Kyc_Auto;
-
   useEffect(() => {
     const fetchKycStatus = async () => {
       try {
-        const res = await axios.post(`${baseUrl}/add-kyc/${user._id}`, {
+        const res = await axios.get(`${baseUrl}/get-kyc-by-fundraiser`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        if (res.data?.data?.verificationStatus === "verified") {
+        const data = res.data?.data;
+
+        if (data?.verificationStatus === "verified") {
           setIsVerified(true);
           setFormData({
-            registrationNumber: res.data.registrationNumber,
-            address: res.data.organizationAddress,
-            certificate: res.data.registrationCertificate || null,
+            registrationNumber: data.registrationNumber || "",
+            address: data.organizationAddress || "",
+            certificate: data.registrationCertificate?.imageUrl || null,
+            organizationName: data.organizationName || "",
           });
         } else {
           setIsVerified(false);
         }
       } catch (err) {
         console.error("Error fetching KYC:", err);
+        toast.error("Failed to fetch KYC details.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchKycStatus();
-  }, []);
+  }, [token, user._id]);
 
   if (loading)
     return <p style={{ marginLeft: "100px" }}>Loading KYC details...</p>;
@@ -89,7 +90,7 @@ const KycVerify = () => {
                 marginTop: "20px",
               }}
             >
-              KYC Verified
+              ✅ KYC Verified
             </p>
           </form>
         ) : (
@@ -97,6 +98,22 @@ const KycVerify = () => {
             <p style={{ fontWeight: "bold", color: "red", fontSize: "18px" }}>
               Your KYC is not verified yet.
             </p>
+            <button
+              onClick={() => nav("/verify_kyc1")}
+              style={{
+                fontWeight: "bold",
+                color: "white",
+                fontSize: "16px",
+                padding: "15px",
+                background: "green",
+                borderRadius: "12px",
+                marginTop: "20px",
+                cursor: "pointer",
+                border: "none",
+              }}
+            >
+              Verify Now
+            </button>
           </div>
         )}
       </aside>

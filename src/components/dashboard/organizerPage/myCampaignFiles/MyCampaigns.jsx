@@ -359,7 +359,7 @@ const MyCampaigns = () => {
               </div>
               <div className="btn_holder">
                 <Button
-                  onClick={() => nav("/organizationdashboard/")}
+                  onClick={() => nav("/organization")}
                   text="Keep Campaign"
                   className="close_btn1"
                 />
