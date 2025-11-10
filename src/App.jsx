@@ -66,15 +66,15 @@ const App = () => (
         <Route index element={<OverViewPage />} />
         <Route path="myCampaigns" element={<MyCampaigns />}>
           <Route
-            path="camp_details_ongoing"
+            path="ongoing/:id"
             element={<CampaignDetails4org_ongoing />}
           />
           <Route
-            path="camp_details_pending"
+            path="pending/:id"
             element={<CampaignDetails4org_pending />}
           />
           <Route
-            path="camp_details_completed"
+            path="completed/:id"
             element={<CampaignDetails4org_completed />}
           />
         </Route>

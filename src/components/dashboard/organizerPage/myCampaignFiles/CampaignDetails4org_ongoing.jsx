@@ -1,42 +1,126 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "../../../../style/CampaignDetail4orgStyle";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { IoArrowBackOutline } from "react-icons/io5";
-import { TbHeartFilled, TbHeartPlus } from "react-icons/tb";
-import { BsGift } from "react-icons/bs";
 import Button from "../../../common/Button";
 import MilestoneTimeline from "./OngoingMilestone";
-import { getCampaignMilestones } from "../../../../api/campaignDeatils"; 
+import { getCampaignMilestones } from "../../../../api/campaignDeatils";
+import { BsGift } from "react-icons/bs";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const CampaignDetails4org_ongoing = () => {
   const [campaignData, setCampaignData] = useState(null);
-  const [showMilestone, setShowMilestone] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showMilestone, setShowMilestone] = useState(false);
+  const [topDonors, setTopDonors] = useState([]);
+  const [loadingTopDonors, setLoadingTopDonors] = useState(true);
+  const [allDonors, setAllDonors] = useState([]);
+  const [loadingAllDonors, setLoadingAllDonors] = useState(true);
 
+  const { id } = useParams();
   const nav = useNavigate();
   const location = useLocation();
-  const campaign = location.state?.campaign; 
+  const campaignFromState = location.state?.campaign;
+
+  const token = useSelector((state) => state.auth.token);
+  const VITE_Payemt_BaseUrl = import.meta.env.VITE_Payemt_BaseUrl;
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!campaign?.id) return; 
+    const fetchCampaignData = async () => {
+      if (!id && !campaignFromState?._id) return;
       try {
-        const data = await getCampaignMilestones(campaign.id);
+        const campaignId = id || campaignFromState._id;
+        const data = await getCampaignMilestones(campaignId);
         setCampaignData(data);
       } catch (err) {
         console.error(err);
+        toast.error("Failed to fetch campaign details");
       } finally {
         setLoading(false);
       }
     };
+    fetchCampaignData();
+  }, [id, campaignFromState]);
 
-    fetchData();
-  }, [campaign]);
+  useEffect(() => {
+    const fetchTopDonors = async () => {
+      if (!id && !campaignFromState?._id) return;
+      try {
+        setLoadingTopDonors(true);
+        const campaignId = id || campaignFromState._id;
+        const res = await axios.get(
+          `${VITE_Payemt_BaseUrl}/campaign/donors/top/${campaignId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
-  if (loading) return <p>Waiting for API call</p>;
+        if (res?.data?.statusCode) {
+          const donorsData = res.data.data.map((d) => ({
+            ...d,
+            donorName: d.donorName?.trim() || "Anonymous",
+          }));
+          setTopDonors(donorsData.slice(0, 3)); 
+        } else {
+          toast.error(res?.data?.message || "Failed to load top donors");
+        }
+      } catch (err) {
+        console.error("Top donors error:", err?.response?.data);
+        toast.error("Unable to fetch top donors");
+      } finally {
+        setLoadingTopDonors(false);
+      }
+    };
+    fetchTopDonors();
+  }, [id, campaignFromState, token, VITE_Payemt_BaseUrl]);
+
+  useEffect(() => {
+    const fetchAllDonors = async () => {
+      if (!id && !campaignFromState?._id) return;
+      try {
+        setLoadingAllDonors(true);
+        const campaignId = id || campaignFromState._id;
+        const res = await axios.get(
+          `${VITE_Payemt_BaseUrl}/campaign/${campaignId}/donations`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (res?.data?.statusCode) {
+          const donorsData = res.data.data.map((d) => ({
+            donorId: d.donor?._id || "N/A",
+            donorName: d.donor?.name?.trim() || "Anonymous",
+            totalDonated: d.amount || 0,
+            donationCount: 1, 
+          }));
+          setAllDonors(donorsData);
+        } else {
+          toast.error(res?.data?.message || "Failed to load all donors");
+        }
+      } catch (err) {
+        console.error("All donors error:", err?.response?.data);
+        toast.error("Unable to fetch all donors");
+      } finally {
+        setLoadingAllDonors(false);
+      }
+    };
+    fetchAllDonors();
+  }, [id, campaignFromState, token, VITE_Payemt_BaseUrl]);
+
+  if (loading) return <p>Loading campaign details...</p>;
   if (!campaignData) return <p>Failed to load campaign details.</p>;
 
-  const { campaign: campaignInfo, milestones, evidence } = campaignData;
+  const { campaign: campaignInfo, milestones } = campaignData;
+
+  const getInitials = (name) => {
+    if (!name || !name.trim()) return "AN";
+    const parts = name.trim().split(" ");
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+  };
 
   return (
     <Container>
@@ -50,9 +134,15 @@ const CampaignDetails4org_ongoing = () => {
       <article className="wrapper">
         <div className="left">
           <div className="top_left">
-            <p>{campaignInfo?.title}</p>
+            <p>{campaignInfo?.campaignTitle}</p>
             <div className="img_holder">
-              <img src={campaignInfo?.image || "/default.png"} alt="Campaign visual" />
+              <img
+                src={
+                  campaignInfo?.campaignCoverImageOrVideo?.imageUrl ||
+                  "/default.png"
+                }
+                alt="Campaign visual"
+              />
             </div>
           </div>
 
@@ -75,17 +165,77 @@ const CampaignDetails4org_ongoing = () => {
             {!showMilestone ? (
               <div className="coment_holder">
                 <p className="title">{campaignInfo?.status}</p>
-                <p className="comment">{campaignInfo?.description}</p>
-                <p className="date">Created {campaignInfo?.createdAt}</p>
+                <p className="comment">{campaignInfo?.campaignDescription}</p>
+                <p className="date">
+                  Duration: {campaignInfo?.durationDays} days
+                </p>
+                <p className="date">
+                  Goal: ₦
+                  {campaignInfo?.totalCampaignGoalAmount?.toLocaleString()}
+                </p>
               </div>
             ) : (
-              <MilestoneTimeline milestones={milestones} evidence={evidence} />
+              <MilestoneTimeline milestones={milestones} />
             )}
 
             <Button text="Share" className="share_btn" />
           </div>
         </div>
 
+        <div className="right">
+          <p className="p_top">Top Donors</p>
+          <div className="top_right">
+            {loadingTopDonors ? (
+              <p>Loading top donors...</p>
+            ) : topDonors.length === 0 ? (
+              <p>No donors yet.</p>
+            ) : (
+              topDonors.map((donor) => (
+                <div key={donor.donorId} className="name_holder">
+                  <i>
+                    <BsGift />
+                  </i>
+                  <div className="name">
+                    <p>{donor.donorName}</p>
+                    <p>
+                      Donated ₦{donor.totalDonated?.toLocaleString()} |{" "}
+                      {donor.donationCount}{" "}
+                      {donor.donationCount > 1 ? "Donations" : "Donation"}
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          <p className="p_all">All Donors</p>
+          <div className="down_right">
+            {loadingAllDonors ? (
+              <p>Loading all donors...</p>
+            ) : allDonors.length === 0 ? (
+              <p>No donors yet.</p>
+            ) : (
+              allDonors.map((donor) => {
+                const initials = getInitials(donor.donorName);
+                return (
+                  <div key={donor.donorId} className="name_holder">
+                    <i>
+                      <BsGift />
+                    </i>
+                    <div className="name">
+                      <p>{donor.donorName}</p>
+                      <p>
+                        Donated ₦{donor.totalDonated?.toLocaleString() || "0"} |{" "}
+                        {donor.donationCount}{" "}
+                        {donor.donationCount > 1 ? "Donations" : "Donation"}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </div>
       </article>
     </Container>
   );

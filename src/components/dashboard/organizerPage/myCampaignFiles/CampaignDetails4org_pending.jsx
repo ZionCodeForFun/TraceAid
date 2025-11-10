@@ -4,10 +4,10 @@ import { TbHeartFilled, TbHeartPlus } from "react-icons/tb";
 import Button from "../../../common/Button";
 import { BsGift } from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
-import PendingMilestone from "./PendingMilestone";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { getCampaignMilestones } from "../../../../api/campaignDeatils";
+import PendingMilestone from "./PendingMilestone";
 
 const CampaignDetails4org_pending = () => {
   const [campaignData, setCampaignData] = useState(null);
@@ -22,14 +22,15 @@ const CampaignDetails4org_pending = () => {
 
   useEffect(() => {
     const fetchCampaignMilestones = async () => {
-      if (!campaign?.id) {
+      if (!campaign?._id) {
         setError("No campaign ID found.");
         setLoading(false);
         return;
       }
 
       try {
-        const data = await getCampaignMilestones(campaign.id, token);
+        const data = await getCampaignMilestones(campaign._id, token);
+        console.log("Fetched milestones: ", data.milestones);
         setCampaignData(data);
       } catch (err) {
         setError(err.response?.data?.message || "Failed to load campaign details.");
@@ -45,7 +46,7 @@ const CampaignDetails4org_pending = () => {
   if (error) return <p style={{ color: "red" }}>{error}</p>;
   if (!campaignData) return <p>No campaign data found.</p>;
 
-  const { campaign: campaignInfo, milestones, evidence, donors, topDonors } = campaignData;
+  const { campaign: campaignInfo, milestones, topDonors, donors } = campaignData;
 
   return (
     <Container>
@@ -103,7 +104,7 @@ const CampaignDetails4org_pending = () => {
                 </div>
               </div>
             ) : (
-              <PendingMilestone milestones={milestones} evidence={evidence} />
+              <PendingMilestone milestones={milestones} />
             )}
 
             <Button text="Share" className="share_btn" />
@@ -141,7 +142,6 @@ const CampaignDetails4org_pending = () => {
                     </div>
                   </div>
                 ))}
-                <Button text="Share" className="share_btn" />
               </div>
             </>
           )}

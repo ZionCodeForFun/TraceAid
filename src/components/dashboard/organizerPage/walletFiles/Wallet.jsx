@@ -12,18 +12,20 @@ const Wallet = () => {
   const nav = useNavigate();
   const location = useLocation();
   const isMainWallet = location.pathname.endsWith("/wallet");
-
   const token = useSelector((state) => state.auth.user?.token);
 
   const [selectedCampaign, setSelectedCampaign] = useState("");
   const [showCategoryDrop, setShowCategoryDrop] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   const [walletSummary, setWalletSummary] = useState({
-    activeBalance: 0,
+    availableBalance: 0,
     totalWithdrawn: 0,
+    perCampaign: [],
+    totals: {},
+    recentTransactions: [],
   });
 
   const [campaigns, setCampaigns] = useState([]);
@@ -33,21 +35,22 @@ const Wallet = () => {
       setLoading(true);
       setError("");
 
-      const res = await axios.get(
-        `${import.meta.env.VITE_BaseUrl2}/wallet/summary`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.get(`${import.meta.env.VITE_BaseUrl2}/wallet/summary`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       const data = res.data?.data;
-      setTransactions(data?.transactions || []);
+      console.log("Wallet API data:", data);
+
       setWalletSummary({
-        activeBalance: data?.balance || 0,
-        totalWithdrawn: data?.withdrawn || 0,
+        availableBalance: data?.availableBalance || 0,
+        totalWithdrawn: data?.totalWithdrawn || 0,
+        perCampaign: data?.perCampaign || [],
+        totals: data?.totals || {},
+        recentTransactions: data?.recentTransactions || [],
       });
+
+      setCampaigns((data?.perCampaign || []).map((c) => c.campaignTitle));
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load wallet data");
     } finally {
@@ -55,38 +58,16 @@ const Wallet = () => {
     }
   };
 
-  const fetchCampaigns = async () => {
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BaseUrl_Campaign1}/get-all-campaign-and-milestone-of-fundraiser`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const campaignsData = Array.isArray(res.data?.data)
-        ? res.data.data
-        : [];
-
-      setCampaigns(campaignsData.map((c) => c.campaignTitle));
-    } catch (err) {
-      console.error("Error fetching campaigns:", err);
-    }
-  };
-
   useEffect(() => {
     if (token && isMainWallet) {
       fetchWalletData();
-      fetchCampaigns();
     }
   }, [token, isMainWallet, location.key]);
 
-  const filteredData = transactions.filter(
+  const filteredTransactions = walletSummary.recentTransactions.filter(
     (item) =>
-      item.refId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.details?.toLowerCase().includes(searchTerm.toLowerCase())
+      item.reference?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.note?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -107,16 +88,14 @@ const Wallet = () => {
             <div className="card_holder">
               <div className="card" style={{ background: "#EBF5FF" }}>
                 <div className="top">
-                  <p>Active Balance</p>
-                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>
-                    ₦
-                  </span>
+                  <p>Available Balance</p>
+                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>₦</span>
                 </div>
                 <div className="down">
                   {loading ? (
                     <div className="skeleton skeleton-text"></div>
                   ) : (
-                    <p>₦{walletSummary.activeBalance.toLocaleString()}</p>
+                    <p>₦{walletSummary.availableBalance.toLocaleString()}</p>
                   )}
                 </div>
               </div>
@@ -124,9 +103,7 @@ const Wallet = () => {
               <div className="card" style={{ background: "#E8FFF9" }}>
                 <div className="top">
                   <p>Total Withdrawn</p>
-                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>
-                    ₦
-                  </span>
+                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>₦</span>
                 </div>
                 <div className="down">
                   {loading ? (
@@ -138,9 +115,7 @@ const Wallet = () => {
               </div>
             </div>
 
-            <label style={{ padding: "10px 0" }}>
-              Select campaign to view details
-            </label>
+            <label style={{ padding: "10px 0" }}>Select campaign to view details</label>
             <div className="select_control">
               <InputField
                 type="text"
@@ -199,48 +174,59 @@ const Wallet = () => {
                 }}
               >
                 <Loader2 className="animate-spin" size={36} color="#8402E3" />
-                <p style={{ marginTop: "1rem", color: "#555" }}>
-                  Loading wallet data...
-                </p>
+                <p style={{ marginTop: "1rem", color: "#555" }}>Loading wallet data...</p>
               </div>
             ) : error ? (
               <p style={{ color: "red", textAlign: "center" }}>{error}</p>
             ) : (
-              <div className="table-container">
-                <table className="custom-table">
-                  <thead>
-                    <tr>
-                      <th>Reference ID</th>
-                      <th>Campaign</th>
-                      <th>Date</th>
-                      <th>Amount</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredData.length === 0 ? (
+              <>
+                <div style={{ margin: "2rem 0" }}>
+            
+                  {walletSummary.perCampaign.length === 0 ? (
+                    <p>No campaigns available</p>
+                  ) : (
+                    walletSummary.perCampaign.map((c, i) => (
+                      <div key={i} style={{ padding: "0.5rem 0" }}>
+                        <strong>{c.campaignTitle}</strong> - ₦{c.availableAmount?.toLocaleString() || 0}
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                <div className="table-container">
+                  <h3>Recent Transactions</h3>
+                  <table className="custom-table">
+                    <thead>
                       <tr>
-                        <td
-                          colSpan="5"
-                          style={{ textAlign: "center", color: "#777" }}
-                        >
-                          No transactions available
-                        </td>
+                        <th>Reference ID</th>
+                        <th>Campaign</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
                       </tr>
-                    ) : (
-                      filteredData.map((item, index) => (
-                        <tr key={index}>
-                          <td>{item.refId || "—"}</td>
-                          <td className="details">{item.details || "—"}</td>
-                          <td>{new Date(item.date).toLocaleDateString()}</td>
-                          <td>₦{item.amount?.toLocaleString()}</td>
-                          <td>{item.status || "Pending"}</td>
+                    </thead>
+                    <tbody>
+                      {filteredTransactions.length === 0 ? (
+                        <tr>
+                          <td colSpan="5" style={{ textAlign: "center", color: "#777" }}>
+                            No transactions available
+                          </td>
                         </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                      ) : (
+                        filteredTransactions.map((item, index) => (
+                          <tr key={item._id || index}>
+                            <td>{item.reference || "—"}</td>
+                            <td>{item.campaign?.campaignTitle || "—"}</td>
+                            <td>{new Date(item.createdAt || item.date).toLocaleDateString()}</td>
+                            <td>₦{item.amount?.toLocaleString() || 0}</td>
+                            <td>{item.status || "successfull"}</td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </>
             )}
           </>
         )}

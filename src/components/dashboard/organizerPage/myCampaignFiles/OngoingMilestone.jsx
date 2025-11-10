@@ -1,48 +1,43 @@
 import React from "react";
 import styled from "styled-components";
 
-const MilestoneTimeline = () => {
-  const milestones = [
-    {
-      id: 1,
-      title: "Acquire 500 school bags",
-      description:
-        "This item is the first item to be purchased so stationery items can be packed into the bags. These bags will be school bags that’ll be distributed to students.",
-      completionDate: "October 17, 2024",
-      amount: 2200000,
-    },
-    {
-      id: 2,
-      title: "Acquire 500 school bags",
-      description:
-        "This item is the first item to be purchased so stationery items can be packed into the bags. These bags will be school bags that’ll be distributed to students.",
-      completionDate: "October 17, 2024",
-      amount: 1800000,
-    },
-    {
-      id: 3,
-      title: "Acquire 500 school bags",
-      description:
-        "This item is the first item to be purchased so stationery items can be packed into the bags. These bags will be school bags that’ll be distributed to students.",
-      completionDate: "October 17, 2024",
-      amount: 2200000,
-    },
-  ];
+const MilestoneTimeline = ({ milestones }) => {
+  if (!milestones?.length)
+    return <p style={{ padding: "1rem" }}>No milestones available yet.</p>;
 
   return (
     <TimelineContainer>
       {milestones.map((milestone, index) => (
-        <TimelineItem key={milestone.id}>
+        <TimelineItem key={milestone._id}>
           <Line />
           <Circle>{index + 1}</Circle>
           <Card>
-            <h3>{milestone.title}</h3>
-            <p className="label">Milestone Description</p>
-            <p className="desc">{milestone.description}</p>
-            <p className="label">Completion date</p>
-            <p className="info">{milestone.completionDate}</p>
-            <p className="label">Amount disbursed</p>
-            <p className="info">₦{milestone.amount.toLocaleString()}</p>
+            <h3>{milestone.milestoneTitle}</h3>
+            <p className="label">Description</p>
+            <p className="desc">{milestone.milestoneDescription}</p>
+
+            <p className="label">Target Amount</p>
+            <p className="info">₦{milestone.targetAmount.toLocaleString()}</p>
+
+            {milestone.evidences?.length > 0 && (
+              <>
+                <p className="label">Evidences</p>
+                <ul>
+                  {milestone.evidences.map((evi) => (
+                    <li key={evi._id}>
+                      {evi.description}{" "}
+                      {evi.media?.imageUrl && (
+                        <img
+                          src={evi.media.imageUrl}
+                          alt="evidence"
+                          style={{ width: "80px", borderRadius: "6px", marginLeft: "6px" }}
+                        />
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </Card>
         </TimelineItem>
       ))}
