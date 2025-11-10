@@ -23,12 +23,21 @@ const SignUpForm = () => {
   const [passwordValid, setPasswordValid] = useState(false);
   const [confirmPasswordValid, setConfirmPasswordValid] = useState(false);
 
-  
   const schema = Joi.object({
-    firstName: Joi.string().min(2).regex(/^[A-Za-z\s]+$/).required(),
-    lastName: Joi.string().min(2).regex(/^[A-Za-z\s]+$/).required(),
-    email: Joi.string().email({ tlds: { allow: false } }).required(),
-    phoneNumber: Joi.string().regex(/^[0-9]{11}$/).required(),
+    firstName: Joi.string()
+      .min(2)
+      .regex(/^[A-Za-z\s]+$/)
+      .required(),
+    lastName: Joi.string()
+      .min(2)
+      .regex(/^[A-Za-z\s]+$/)
+      .required(),
+    email: Joi.string()
+      .email({ tlds: { allow: false } })
+      .required(),
+    phoneNumber: Joi.string()
+      .regex(/^[0-9]{11}$/)
+      .required(),
     password: Joi.string()
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&-])[A-Za-z\d@$!%*#?&]{8,}$/
@@ -52,7 +61,6 @@ const SignUpForm = () => {
 
     form.setFieldsValue({ password: value });
 
-    
     const confirmValue = form.getFieldValue("confirmPassword");
     setConfirmPasswordValid(confirmValue && confirmValue === value);
   };
@@ -66,7 +74,6 @@ const SignUpForm = () => {
   };
 
   const onFinish = async (values) => {
-    
     const { error } = schema.validate(values, { abortEarly: false });
     if (error) {
       error.details.forEach((err) => {
@@ -156,9 +163,7 @@ const SignUpForm = () => {
         <div className="content_holder">
           <div className="title">
             <p className="sign">Sign Up Account</p>
-            <p className="text">
-              Enter your details to continue 
-            </p>
+            <p className="text">Enter your details to continue</p>
           </div>
 
           {accountType === "organization" ? (
@@ -255,7 +260,13 @@ const SignUpForm = () => {
 
           <Form.Item name="acceptedTerms" valuePropName="checked">
             <Checkbox className="custom-checkbox">
-              I agree to the <Link to="/terms">terms and conditions</Link>
+              <div className="terms_holder">
+                {" "}
+                I agree to the{" "}
+                <Link to="/termsandcon">
+                  <p >terms and conditions</p>
+                </Link>
+              </div>
             </Checkbox>
           </Form.Item>
 

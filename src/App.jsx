@@ -52,14 +52,12 @@ import AdminKyc from "./components/dashboard/adminDashboard/AdminKyc";
 import CampaignData from "./pages/CampaignData";
 import ScrollToTop from "./components/common/ScrollToTop";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
-import UpdateMilestone from "./components/dashboard/organizerPage/myCampaignFiles/UpdateMilestone";
 import AllDonorsPage from "./pages/AllDonorsPage";
 
 const App = () => (
   <HashRouter>
     <ScrollToTop />
     <Routes>
-      <Route path="/upload" element={<UpdateMilestone />} />
       <Route path="/" element={<LandingPage />} />
       <Route path="/termsandcon" element={<TermsAndConditions />} />
       <Route path="/createcampaign" element={<CreateCampaign />} />
