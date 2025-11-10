@@ -227,11 +227,6 @@ const handleChange = (e) => {
 export default KycVerification2;
 
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -507,25 +502,6 @@ const Container = styled.div`
     }
   }
 
-<<<<<<< HEAD
-  @media screen and (max-width: 768px) {
-    .right {
-      width: 90%;
-      padding: 20px;
-      border-radius: 20px;
-      .title .bigtext {
-        font-size: 28px;
-      }
-      .title .smalltext {
-        font-size: 14px;
-      }
-      .input_holder .btn_holder {
-        flex-direction: column;
-        gap: 15px;
-        .btn1,
-        .btn2 {
-          width: 100%;
-=======
   @media (max-width: 480px) {
     .goback {
       width: 100%;
@@ -541,59 +517,10 @@ const Container = styled.div`
 
         p {
           font-size: 13px;
->>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
         }
       }
     }
 
-<<<<<<< HEAD
-    .holder .reciept_holder {
-      width: 90%;
-      top: 20%;
-      left: 5%;
-      transform: none;
-    }
-
-    .goback {
-      width: 100%;
-      display: flex;
-      justify-content: flex-start;
-      padding: 20px 20px 0 20px;
-
-      .icon_holder {
-        border: none;
-        border-radius: 8px;
-        padding: 10px 18px;
-        font-size: 14px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        margin: 0;
-        width: fit-content;
-      }
-
-      .iconn {
-        font-size: 16px;
-      }
-
-      p {
-        display: none;
-      }
-    }
-  }
-
-  @media screen and (min-width: 600px) and (max-width: 900px) {
-    .right {
-      width: 80%;
-      padding: 30px;
-      .title .bigtext {
-        font-size: 32px;
-      }
-      .title .smalltext {
-        font-size: 15px;
-=======
     .right {
       width: 95%;
       padding: 18px;
@@ -661,7 +588,6 @@ const Container = styled.div`
             border-radius: 10px;
           }
         }
->>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
       }
     }
   }

@@ -53,7 +53,8 @@ import ScrollToTop from "./components/common/ScrollToTop";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import UpdateMilestone from "./components/dashboard/organizerPage/myCampaignFiles/UpdateMilestone";
 import AllDonorsPage from "./pages/AllDonorsPage";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const App = () => (
   <HashRouter>
     <ScrollToTop />

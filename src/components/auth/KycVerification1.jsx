@@ -79,10 +79,7 @@ useEffect(() => {
     }
 
     dispatch(saveKycStep1(formData));
-<<<<<<< HEAD
-=======
     localStorage.removeItem("kycFormData");
->>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
     nav("/verify_kyc2");
   };
 
@@ -247,13 +244,10 @@ useEffect(() => {
 
 export default KycVerification1;
 
-<<<<<<< HEAD
-=======
 
 
 
 
->>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
 const Container = styled.div`
   display: flex;
   background-color: #fff;

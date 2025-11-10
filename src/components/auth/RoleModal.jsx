@@ -202,179 +202,15 @@ const Container = styled.div`
     }
   }
 
-<<<<<<< HEAD
-  @media (min-width: 300px) and (max-width: 480px) {
-    padding: 10px;
-
-    .wrapper {
-      width: 100%;
-      height: auto;
-      padding-top: 15px;
-      gap: 20px;
-    }
-
-    .logo_holder img {
-      padding-top: 10px;
-      height: 20px;
-    }
-
-    .intro {
-      gap: 8px;
-
-      .big_text {
-        font-size: 0.3px;
-      }
-
-      .small_text {
-        padding-bottom: 10px;
-        font-size: 3px;
-      }
-    }
-
-    .select_holder {
-      gap: 10px;
-
-      .select1,
-      .select2 {
-        height: auto;
-        padding: 12px;
-        border-radius: 10px;
-        gap: 8px;
-      }
-
-      .individual,
-      .organization {
-        font-size: 10px;
-      }
-
-      .text {
-        font-size: 11.5px;
-        width: 100%;
-      }
-    }
-
-    .select_wrapper .already {
-      flex-direction: column;
-      text-align: center;
-      gap: 3px;
-
-      p,
-      span {
-        font-size: 12px;
-        margin-bottom: 10px;
-      }
-    }
-  }
-
-  @media (min-width: 600px) and (max-width: 900px) {
-    .wrapper {
-      width: 70%;
-      height: auto;
-      padding: 30px;
-=======
     @media (max-width: 480px) {
     .wrapper {
       width: 100%;
       height: auto;
       padding: 10px;
->>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
       gap: 30px;
     }
 
     .intro .big_text {
-<<<<<<< HEAD
-      font-size: 32px;
-    }
-
-    .intro .small_text {
-      font-size: 20px;
-    }
-
-    .select_holder .individual,
-    .select_holder .organization {
-      font-size: 20px;
-    }
-
-    .select_holder .text {
-      font-size: 13.5px;
-      max-width: 100%;
-    }
-  }
-
-  @media (max-width: 600px) {
-    padding: 15px;
-
-    .wrapper {
-      width: 95%;
-      height: auto;
-      padding: 20px;
-      gap: 25px;
-    }
-
-    .logo_holder img {
-      height: 22px;
-    }
-
-    .intro {
-      height: auto;
-      gap: 10px;
-
-      .big_text {
-        font-size: 20px;
-      }
-
-      .small_text {
-        font-size: 10px;
-      }
-    }
-
-    .select_holder {
-      gap: 15px;
-
-      .select1,
-      .select2 {
-        height: auto;
-        padding: 15px;
-        gap: 10px;
-      }
-
-      .individual,
-      .organization {
-        font-size: 18px;
-      }
-
-      .text {
-        font-size: 12.5px;
-        width: 100%;
-      }
-    }
-
-    .select_wrapper .already {
-      flex-direction: column;
-      gap: 4px;
-      font-size: 13px;
-
-      p,
-      span {
-        font-size: 13px;
-      }
-    }
-  }
-
-  @media (min-width: 900px) and (max-width: 1200px) {
-    .wrapper {
-      width: 50%;
-      height: auto;
-      padding: 35px;
-    }
-
-    .intro .big_text {
-      font-size: 34px;
-    }
-
-    .intro .small_text {
-      font-size: 22px;
-=======
       font-size: 26px;
       line-height: 1.2;
     }
@@ -412,7 +248,6 @@ const Container = styled.div`
     .select_wrapper .already p,
     .select_wrapper .already span {
       font-size: 14px;
->>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
     }
   }
 `;

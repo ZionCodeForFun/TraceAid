@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import logoImg from "../assets/logo2.png";
 import { useNavigate } from "react-router-dom";
-import { RiArrowDropDownLine, RiMenuLine } from "react-icons/ri";
+import { RiArrowDropDownLine } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, setUser } from "../global/authSlice";
 import { AiOutlineGift } from "react-icons/ai";
@@ -12,19 +12,15 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import axios from "axios";
 
-const breakpoint = "769px";
-
 const HeaderNav = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
+
   const auth = useSelector((state) => state.auth);
   const userData = auth.user;
 
   const [openDropdown, setOpenDropdown] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
-
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
-  const toggleMenu = () => setShowMenu((prev) => !prev);
 
   const [mobileMenu, setMobileMenu] = useState(false);
   const openMobile = () => setMobileMenu(true);
@@ -246,15 +242,15 @@ export default HeaderNav;
 
 export const NavBar = styled.nav`
   width: 100%;
-  height: 65px; 
+  height: 70px;
   position: fixed;
-  padding: 0 4%; 
+  padding: 1rem 2%;
   top: 0;
   left: 0;
   z-index: 200;
   display: flex;
   align-items: center;
-  justify-content: space-between; 
+  justify-content: space-between;
   background-color: #f8f9fa;
   transition: box-shadow 0.3s ease;
   cursor: pointer;
@@ -262,14 +258,9 @@ export const NavBar = styled.nav`
   &.scrolled {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
   }
-
-  @media (min-width: ${breakpoint}) {
-    height: 70px; 
-    padding: 1rem 2%; 
-  }
 `;
 
-const LeftSection = styled.div`
+export const LeftSection = styled.div`
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -279,22 +270,23 @@ const LeftSection = styled.div`
   }
 `;
 
-const LogoContainer = styled.div`
+export const LogoContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  cursor: pointer;
 
   img {
-    height: 40px; 
-    
-    @media (min-width: ${breakpoint}) {
-      height: 35px; 
-    }
+    height: 35px;
+    object-fit: contain;
+  }
+
+  span {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #000000;
   }
 
   .divider {
-    display: none;
     width: 1.5px;
     height: 45px;
     background-color: #a8a8a8;
@@ -306,31 +298,18 @@ const LogoContainer = styled.div`
   }
 `;
 
-const NavLinks = styled.ul`
-  display: ${({ showMenu }) => (showMenu ? "flex" : "none")};
-  flex-direction: column;
-  position: absolute;
-  top: 65px;
-  left: 0;
-  width: 100%;
-  background: #f8f9fa;
-  padding: 1rem 4%;
+export const NavLinks = styled.ul`
+  display: flex;
+  align-items: center;
   list-style: none;
-  gap: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  gap: 1.2rem;
 
   li {
-    font-size: 1rem; 
+    font-size: 0.9rem;
+    color: #333333;
     font-weight: bold;
     cursor: pointer;
     transition: color 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-
-    .icon {
-      font-size: 1.2rem;
-    }
 
     &:hover {
       color: #617437;
@@ -342,52 +321,23 @@ const NavLinks = styled.ul`
   }
 `;
 
-const MobileLinksWrapper = styled.div`
+export const ButtonGroup = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-
-  @media (min-width: ${breakpoint}) {
-    display: none; 
-  }
-`;
-
-const MobileOnlyDivider = styled.div`
-  height: 1px;
-  width: 100%;
-  background-color: #e0e0e0;
-
-  @media (min-width: ${breakpoint}) {
-    display: none; 
-  }
-`;
-
-const MobileButtonRow = styled.div`
-  display: flex;
-  flex-direction: row;
   gap: 1rem;
-  width: 100%;
-
-  .login,
-  .create {
-    flex: 1; 
-    font-weight: bold;
-    padding: 0.8rem 1.5rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    font-size: 0.9rem; 
-    text-align: center;
-  }
 
   .login {
     border: 2px solid #617437;
     background: #ffffff;
     color: #333333;
+    font-weight: bold;
+    padding: 0.6rem 1.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
 
     &:hover {
       background-color: #d5e3b9ff;
+      color: #333333;
     }
   }
 
@@ -395,6 +345,11 @@ const MobileButtonRow = styled.div`
     background-color: #1a1a1a;
     border: none;
     color: #c1e86e;
+    font-weight: bold;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
 
     &:hover {
       background-color: #c1e86e;
@@ -407,14 +362,56 @@ const MobileButtonRow = styled.div`
   }
 `;
 
-const Hamburger = styled.div`
+export const ProfileWrapper = styled.div`
   display: flex;
   align-items: center;
-  font-size: 1.8rem;
+  gap: 0.8rem;
   cursor: pointer;
+  position: relative;
 
-  @media (min-width: ${breakpoint}) {
-    display: none; 
+  .profile-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .initials {
+    width: 42px;
+    height: 42px;
+    background-color: #354f25;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    p {
+      font-size: 0.75rem;
+      color: #555;
+    }
+  }
+
+  .arrow {
+    font-size: 1.4rem;
+    color: #1a1a1a;
+    transition: transform 0.3s ease;
+  }
+
+  .arrow.rotate {
+    transform: rotate(180deg);
   }
 
   @media (max-width: 480px) {
@@ -422,91 +419,12 @@ const Hamburger = styled.div`
   }
 `;
 
-const ButtonGroupDesktop = styled.div`
-  display: none; 
-
-  @media (min-width: ${breakpoint}) {
-    display: flex;
-    gap: 1rem;
-
-    .login {
-      border: 2px solid #617437;
-      background: #ffffff;
-      color: #333333;
-      font-weight: bold;
-      padding: 0.6rem 1.6rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.3s ease;
-
-      &:hover {
-        background-color: #d5e3b9ff;
-        color: #333333;
-      }
-    }
-
-    .create {
-      background-color: #1a1a1a;
-      border: none;
-      color: #c1e86e;
-      font-weight: bold;
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.3s ease;
-
-      &:hover {
-        background-color: #c1e86e;
-        color: #1a1a1a;
-      }
-    }
-  }
-`;
-
-const ProfileWrapper = styled.div`
-  display: none; 
-
-  @media (min-width: ${breakpoint}) {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    cursor: pointer;
-    position: relative;
-
-    .profile-img,
-    .initials {
-      width: 42px;
-      height: 42px;
-    }
-
-    .initials {
-      font-size: 0.95rem;
-    }
-
-    .info {
-      display: block; 
-    }
-
-    .info h4 {
-      font-size: 0.9rem;
-    }
-
-    .info p {
-      font-size: 0.75rem;
-    }
-
-    .arrow {
-      font-size: 1.4rem;
-    }
-  }
-`;
-
-const DropdownMenu = styled.ul`
+export const DropdownMenu = styled.ul`
   position: absolute;
   top: 60px;
   right: 0;
   width: 250px;
-  height: 200px; 
+  height: 200px;
   background: #fff;
   border-radius: 8px;
   padding: 0.9rem 1.2rem;
@@ -523,6 +441,12 @@ const DropdownMenu = styled.ul`
 
     .icon {
       font-size: 1.1rem;
+      color: #3b7a57;
+      transition: color 0.3s ease;
+    }
+
+    &:hover .icon {
+      color: #000;
     }
   }
 
