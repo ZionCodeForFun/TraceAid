@@ -68,17 +68,18 @@ const Footer = () => {
 export default Footer;
 
 export const FooterContainer = styled.footer`
-    width: 100%;
-    background-color: #000000;
-    color: #ffffff;
-    padding: 3rem 5%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 100%;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  padding: 4rem 8%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    @media (min-width: 1024px) {
-        padding: 4rem 10%;
-    }
+    @media (max-width: 480px) {
+    padding: 3rem 6%;
+    align-items: flex-start;
+  }
 `;
 
 export const FooterContent = styled.div`
@@ -100,17 +101,18 @@ export const FooterContent = styled.div`
         }
     }
 
-    @media (min-width: 1025px) {
-        > div:first-child { 
-            flex-basis: 40%;
-        }
-        > div:nth-child(2),
-        > div:nth-child(3) {
-            flex-basis: 25%;
-        }
-        justify-content: flex-start;
-        gap: 8%;
-    }
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+    @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 3rem;
+  }
 `;
 
 export const CommunitySection = styled.div`
@@ -161,29 +163,45 @@ export const CommunityHeading = styled.h3`
     margin-bottom: 0.8rem;
     font-size: 1.2rem;
     font-weight: 600;
+  }
+
+  p {
+    color: #ffffff;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    min-width: 100%;
+
+    p {
+      width: 95%;
+      font-size: 0.9rem;
+      line-height: 1.45rem;
+    }
+  }
 `;
 
 export const SocialIcons = styled.div`
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+  }
+
+    @media (max-width: 480px) {
+    justify-content: flex-start;
+    margin: 1rem 0 2rem;
 
     a {
-        color: #000000;
-        background: #ffffff;
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.1rem;
-        transition: background-color 0.3s ease;
-        
-        &:hover {
-            background-color: #dddddd;
-        }
+      width: 42px;
+      height: 42px;
+      font-size: 1.35rem;
     }
+  }
 `;
 
 export const FooterColumn = styled.div`
@@ -218,20 +236,58 @@ export const ColumnTitle = styled.h4`
     font-size: 1rem;
     margin-bottom: 1.2rem;
     font-weight: 600;
-    text-transform: capitalize;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      font-size: 0.9rem;
+      font-weight: 300;
+      margin-bottom: 0.6rem;
+      color: #ffffff;
+      cursor: pointer;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #ffffff;
+      }
+    }
+  }
+
+   @media (max-width: 480px) {
+    width: 100%;
+    min-width: 100%;
+    text-align: left;
+
+    ul li {
+      font-size: 0.95rem;
+      margin-bottom: 0.85rem;
+    }
+  }
 `;
 
 export const FooterCopyright = styled.div`
-    width: 100%;
-    text-align: left;
-    margin-top: 5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #3b3b3b;
-    font-size: 0.9rem;
-    color: #aaaaaa;
-    letter-spacing: 0.3px;
+  width: 100%;
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #3b3b3b;
+  font-size: 0.9rem;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  margin-top: 5.5rem;
 
-    @media (max-width: 768px) {
-        margin-top: 3rem;
-    }
+   @media (max-width: 480px) {
+    margin-top: 4rem;
+    padding-top: 1.4rem;
+    font-size: 0.85rem;
+    text-align: center;
+  }
 `;
+
+
+
+
+

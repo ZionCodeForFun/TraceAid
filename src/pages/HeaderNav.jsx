@@ -8,6 +8,8 @@ import { logout, setUser } from "../global/authSlice";
 import { AiOutlineGift } from "react-icons/ai";
 import { CiBookmark, CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { IoClose } from "react-icons/io5";
 import axios from "axios";
 
 const breakpoint = "769px";
@@ -23,6 +25,10 @@ const HeaderNav = () => {
 
   const toggleDropdown = () => setOpenDropdown((prev) => !prev);
   const toggleMenu = () => setShowMenu((prev) => !prev);
+
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const openMobile = () => setMobileMenu(true);
+  const closeMobile = () => setMobileMenu(false);
 
   const isLoggedIn = !!userData;
   const isFundraiser = userData?.role === "fundraiser";
@@ -70,133 +76,175 @@ const HeaderNav = () => {
       ? `${userData.firstName} ${userData.lastName}`
       : userData?.organizationName || null;
 
-  const initials = fullName ? getInitials(fullName) : getInitials(userData?.email);
+  const initials = fullName
+    ? getInitials(fullName)
+    : getInitials(userData?.email);
 
   const logoutUser = () => {
     dispatch(logout());
     setOpenDropdown(false);
-    setShowMenu(false); 
+    closeMobile();
     nav("/");
   };
 
-  const handleNav = (path) => {
+  const go = (path) => {
     nav(path);
-    setShowMenu(false);
-    setOpenDropdown(false);
+    closeMobile();
   };
 
   return (
-    <NavBar>
-      <LeftSection>
-        <LogoContainer onClick={() => handleNav("/")}>
-          <img src={logoImg} alt="TraceAid Logo" />
-          <div className="divider"></div>
-        </LogoContainer>
+    <>
+      <NavBar>
+        <LeftSection>
+          <LogoContainer onClick={() => nav("/")}>
+            <img src={logoImg} alt="TraceAid Logo" />
+            <div className="divider"></div>
+          </LogoContainer>
 
-        <NavLinks showMenu={showMenu}>
-          <li onClick={() => handleNav("/campaign_data")}>Explore Campaigns</li>
-          <li onClick={() => handleNav("/how_it_works")}>How it Works</li>
-          
-          {isLoggedIn && isFundraiser && (
-            <li onClick={() => handleNav("/createcampaign")}>Start a Campaign</li>
-          )}
-          
-          {!isLoggedIn && (
-            <li onClick={() => handleNav("/role_modal")}>Start a Campaign</li>
-          )}
+          <NavLinks>
+            <li onClick={() => nav("/campaign_data")}>Explore Campaigns</li>
+            <li onClick={() => nav("/how_it_works")}>How it Works</li>
 
-          <MobileLinksWrapper>
-            <MobileOnlyDivider />
-
-            {!userData && (
-              <MobileButtonRow>
-                <button className="login" onClick={() => handleNav("/login")}>
-                  Login
-                </button>
-                <button className="create" onClick={() => handleNav("/role_modal")}>
-                  Create an Account
-                </button>
-              </MobileButtonRow>
+            {isLoggedIn && isFundraiser && (
+              <li onClick={() => nav("/createcampaign")}>Start a Campaign</li>
             )}
 
-            {userData && (
-              <>
-                <li onClick={() => handleNav("/my_donations")}>
-                  <AiOutlineGift className="icon" /> My Donations
-                </li>
-              </>
+            {!isLoggedIn && (
+              <li onClick={() => nav("/role_modal")}>Start a Campaign</li>
             )}
-          </MobileLinksWrapper>
-        </NavLinks>
-      </LeftSection>
+          </NavLinks>
+        </LeftSection>
 
-      <Hamburger onClick={toggleMenu}>
-        <RiMenuLine />
-      </Hamburger>
+        {!userData ? (
+          <ButtonGroup>
+            <button className="login" onClick={() => nav("/login")}>
+              Login
+            </button>
+            <button className="create" onClick={() => nav("/role_modal")}>
+              Create an Account
+            </button>
+          </ButtonGroup>
+        ) : (
+          <ProfileWrapper onClick={toggleDropdown}>
+            {userData?.profilePicture?.imageUrl ? (
+              <img
+                src={`${userData.profilePicture.imageUrl}?t=${Date.now()}`}
+                className="profile-img"
+                alt="profile"
+              />
+            ) : (
+              <div className="initials">{initials}</div>
+            )}
 
-      {!userData && (
-        <ButtonGroupDesktop>
-          <button className="login" onClick={() => handleNav("/login")}>
-            Login
-          </button>
-          <button className="create" onClick={() => handleNav("/role_modal")}>
-            Create an Account
-          </button>
-        </ButtonGroupDesktop>
-      )}
+            <div className="info">
+              <h4>{fullName}</h4>
+              <p>{userData?.email}</p>
+            </div>
 
-      {userData && (
-        <ProfileWrapper onClick={toggleDropdown}>
-          {userData?.profilePicture?.imageUrl ? (
-            <img
-              src={`${userData.profilePicture.imageUrl}?t=${Date.now()}`}
-              className="profile-img"
-              alt="profile"
+            <RiArrowDropDownLine
+              className={`arrow ${openDropdown ? "rotate" : ""}`}
             />
-          ) : (
-            <div className="initials">{initials}</div>
-          )}
 
-          <div className="info">
-            <h4>{fullName}</h4>
-            <p>{userData?.email}</p>
+            {openDropdown && (
+              <DropdownMenu>
+                {userData.role === "donor" && (
+                  <li onClick={() => nav("/my_donations")}>
+                    <AiOutlineGift className="icon" /> My Donations
+                  </li>
+                )}
+                {userData.role === "fundraiser" && (
+                  <li onClick={() => nav("/organization")}>
+                    <AiOutlineGift className="icon" />
+                    Fundraiser Dashboard
+                  </li>
+                )}
+
+                <li onClick={() => nav("/saved_campaigns")}>
+                  <CiBookmark className="icon" /> Saved Campaigns
+                </li>
+
+                {userData.role === "donor" && (
+                  <li onClick={() => nav("/profile_settings")}>
+                    <CiSettings className="icon" /> My Account Settings
+                  </li>
+                )}
+
+                <li onClick={logoutUser} className="logout">
+                  <MdOutlineLogout className="icon" /> Logout
+                </li>
+              </DropdownMenu>
+            )}
+          </ProfileWrapper>
+        )}
+
+        <Hamburger aria-label="Open menu" onClick={openMobile}>
+          <HiMenuAlt3 />
+        </Hamburger>
+      </NavBar>
+
+      <MobileMenu data-open={mobileMenu}>
+        <div className="menu-inner">
+          <div className="top">
+            <div className="brand" onClick={() => go("/")}>
+              <img src={logoImg} alt="TraceAid" />
+              <span>TraceAid</span>
+            </div>
+            <button
+              className="close"
+              aria-label="Close menu"
+              onClick={closeMobile}
+            >
+              <IoClose />
+            </button>
           </div>
 
-          <RiArrowDropDownLine className={`arrow ${openDropdown ? "rotate" : ""}`} />
+          <ul className="links">
+            <li onClick={() => go("/campaign_data")}>Explore Campaigns</li>
+            <li onClick={() => go("/how_it_works")}>How it works</li>
 
-          {openDropdown && (
-            <DropdownMenu>
+            {isLoggedIn && isFundraiser && (
+              <li onClick={() => go("/createcampaign")}>Start a Campaign</li>
+            )}
+            {!isLoggedIn && (
+              <li onClick={() => go("/role_modal")}>Start a Campaign</li>
+            )}
+          </ul>
+
+          {!isLoggedIn ? (
+            <div className="cta">
+              <button className="login" onClick={() => go("/login")}>
+                Login
+              </button>
+              <button className="signup" onClick={() => go("/role_modal")}>
+                Sign up
+              </button>
+            </div>
+          ) : (
+            <div className="cta logged">
               {userData.role === "donor" && (
-                <li onClick={() => handleNav("/my_donations")}>
-                  <AiOutlineGift className="icon" /> My Donations
-                </li>
+                <button className="filled" onClick={() => go("/my_donations")}>
+                  My Donations
+                </button>
               )}
               {userData.role === "fundraiser" && (
-                <li onClick={() => handleNav("/organization")}>
-                  <AiOutlineGift className="icon" />
+                <button className="filled" onClick={() => go("/organization")}>
                   Fundraiser Dashboard
-                </li>
+                </button>
               )}
-              <li onClick={() => handleNav("/saved_campaigns")}>
-                <CiBookmark className="icon" /> Saved Campaigns
-              </li>
-              <li onClick={() => handleNav("/profile_settings")}>
-                <CiSettings className="icon" /> My Account Settings
-              </li>
-              <li onClick={logoutUser} className="logout">
-                <MdOutlineLogout className="icon" /> Logout
-              </li>
-            </DropdownMenu>
+              <button className="outline" onClick={logoutUser}>
+                Logout
+              </button>
+            </div>
           )}
-        </ProfileWrapper>
-      )}
-    </NavBar>
+        </div>
+      </MobileMenu>
+    </>
   );
 };
 
 export default HeaderNav;
 
-const NavBar = styled.nav`
+export const NavBar = styled.nav`
   width: 100%;
   height: 65px; 
   position: fixed;
@@ -209,6 +257,7 @@ const NavBar = styled.nav`
   justify-content: space-between; 
   background-color: #f8f9fa;
   transition: box-shadow 0.3s ease;
+  cursor: pointer;
 
   &.scrolled {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
@@ -223,10 +272,10 @@ const NavBar = styled.nav`
 const LeftSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 2rem; 
-  
-  @media (max-width: ${breakpoint}) {
-    gap: 0.5rem;
+  gap: 2rem;
+
+  @media (max-width: 480px) {
+    gap: 1rem;
   }
 `;
 
@@ -249,9 +298,10 @@ const LogoContainer = styled.div`
     width: 1.5px;
     height: 45px;
     background-color: #a8a8a8;
+    margin-left: 0.8rem;
 
-    @media (min-width: ${breakpoint}) {
-      display: block; 
+    @media (max-width: 480px) {
+      display: none;
     }
   }
 `;
@@ -287,22 +337,8 @@ const NavLinks = styled.ul`
     }
   }
 
-  @media (min-width: ${breakpoint}) {
-    display: flex !important; 
-    flex-direction: row;
-    position: static;
-    width: auto;
-    background: transparent;
-    padding: 0;
-    gap: 1.2rem;
-    box-shadow: none;
-
-    li {
-      font-size: 0.9rem;
-      .icon {
-        display: none;
-      }
-    }
+  @media (max-width: 480px) {
+    display: none;
   }
 `;
 
@@ -365,6 +401,10 @@ const MobileButtonRow = styled.div`
       color: #1a1a1a;
     }
   }
+
+  @media (max-width: 480px) {
+    display: none;
+  }
 `;
 
 const Hamburger = styled.div`
@@ -375,6 +415,10 @@ const Hamburger = styled.div`
 
   @media (min-width: ${breakpoint}) {
     display: none; 
+  }
+
+  @media (max-width: 480px) {
+    display: none;
   }
 `;
 
@@ -480,5 +524,160 @@ const DropdownMenu = styled.ul`
     .icon {
       font-size: 1.1rem;
     }
+  }
+
+  .logout .icon {
+    color: #b30000;
+  }
+
+  .logout:hover .icon {
+    color: #7a0000;
+  }
+`;
+
+export const Hamburger = styled.button`
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  line-height: 0;
+
+  svg {
+    font-size: 28px;
+    color: #1a1a1a;
+  }
+
+  @media (max-width: 480px) {
+    display: inline-flex;
+  }
+`;
+
+export const MobileMenu = styled.aside`
+  position: fixed;
+  inset: 0;
+  background: #617437;
+  color: #ffffff;
+  z-index: 300;
+  transform: translateX(100%);
+  transition: transform 0.35s ease;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+
+  &[data-open="true"] {
+    transform: translateX(0);
+  }
+
+  .menu-inner {
+    width: min(600px, 100%);
+    padding: 20px 22px 28px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+
+    img {
+      height: 24px;
+      filter: brightness(0) invert(1);
+    }
+
+    span {
+      font-weight: 700;
+      font-size: 18px;
+      color: #fff;
+    }
+  }
+
+  .close {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    line-height: 0;
+  }
+
+  .links {
+    list-style: none;
+    padding: 0;
+    margin: 38px 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    li {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      letter-spacing: 0.2px;
+    }
+  }
+
+  .cta {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    .login {
+      width: 100%;
+      background: #ffffff;
+      color: #2d2d2d;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .signup {
+      width: 100%;
+      background: transparent;
+      color: #ffffff;
+      border: 1.6px solid #ffffff;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    &.logged {
+      .filled {
+        width: 100%;
+        background: #ffffff;
+        color: #2d2d2d;
+        border: none;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .outline {
+        width: 100%;
+        background: transparent;
+        color: #ffffff;
+        border: 1.6px solid #ffffff;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+  }
+
+  @media (min-width: 481px) {
+    display: none;
   }
 `;

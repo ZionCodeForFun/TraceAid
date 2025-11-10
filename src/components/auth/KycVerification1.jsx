@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../common/InputField";
 import Button from "../common/Button";
 import { GoPaperclip } from "react-icons/go";
@@ -16,7 +16,7 @@ const KycVerification1 = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     organizationName: "",
     organizationType: "",
     registrationNumber: "",
@@ -24,16 +24,46 @@ const KycVerification1 = () => {
     authorizedRepresentativeFullName: "",
     authorizedRepresentativeId: null,
     organizationAddress: "",
-  });
+  };
+
+
+const [formData, setFormData] = useState(() => {
+  const saved = localStorage.getItem("kycFormData");
+  if (saved) {
+    return {
+      ...initialFormData,      
+      ...JSON.parse(saved)      
+    };
+  }
+  return initialFormData;
+});
+
+useEffect(() => {
+  const textFields = {
+    organizationName: formData.organizationName,
+    organizationType: formData.organizationType,
+    registrationNumber: formData.registrationNumber,
+    authorizedRepresentativeFullName: formData.authorizedRepresentativeFullName,
+    organizationAddress: formData.organizationAddress,
+  };
+  localStorage.setItem("kycFormData", JSON.stringify(textFields));
+}, [
+  formData.organizationName,
+  formData.organizationType,
+  formData.registrationNumber,
+  formData.authorizedRepresentativeFullName,
+  formData.organizationAddress
+]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
-    setFormData((prev) => ({ ...prev, [field]: file }));
+    setFormData(prev => ({ ...prev, [field]: file }));
   };
 
   const handleSubmit = (e) => {
@@ -49,6 +79,10 @@ const KycVerification1 = () => {
     }
 
     dispatch(saveKycStep1(formData));
+<<<<<<< HEAD
+=======
+    localStorage.removeItem("kycFormData");
+>>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
     nav("/verify_kyc2");
   };
 
@@ -213,6 +247,13 @@ const KycVerification1 = () => {
 
 export default KycVerification1;
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
 const Container = styled.div`
   display: flex;
   background-color: #fff;
@@ -387,6 +428,17 @@ const Container = styled.div`
           font-size: 16px;
           cursor: pointer;
         }
+         .select_input {
+          width: 100%;
+          padding: 10px 35px;
+          border-radius: 12px;
+          border: 1px solid var(--Neutral_Grey1);
+          outline: none;
+          color: #8d8d8d;
+          height: 48px;
+          font-size: 16px;
+          cursor: pointer;
+         }
       }
 
       .btn_holder {
@@ -506,4 +558,104 @@ const Container = styled.div`
       }
     }
   }
+
+ @media (max-width: 480px) {
+    .goback {
+      width: 100%;
+      padding-top: 30px;
+
+      .icon_holder {
+        margin-left: 25px;
+        gap: 10px;
+
+        .iconn {
+          font-size: 18px;
+        }
+
+        p {
+          font-size: 13px;
+        }
+      }
+    }
+
+    .right {
+      width: 95%;
+      padding: 18px;
+      border-radius: 18px;
+      box-shadow: none;
+      gap: 14px;
+
+      .title {
+        margin-bottom: 5px;
+
+        .bigtext {
+          font-size: 22px;
+        }
+
+        .smalltext {
+          font-size: 12px;
+          color: #6b6b6b;
+        }
+      }
+
+      .progress-bar {
+        width: 95%;
+        height: 6px;
+        margin: 15px 0 20px 0;
+
+        .line {
+          height: 5px;
+        }
+
+        .dot {
+          width: 26px;
+          height: 26px;
+          border: 3px solid var(--Neutral_Grey1);
+        }
+      }
+
+      .input_holder {
+        width: 100%;
+        gap: 14px;
+
+        .big {
+          font-size: 15px;
+        }
+
+        label {
+          font-size: 12px;
+        }
+
+        input {
+          height: 44px;
+          font-size: 13px;
+          padding: 10px 30px;
+        }
+
+        .select_input {
+          background-position: right 10px center;
+          background-size: 10px;
+          line-height: 1.2;
+          font-weight: 400;
+        }
+
+        i {
+          font-size: 16px;
+          top: 50%;
+        }
+
+        .choose_file {
+          font-size: 12px;
+          right: 3%;
+        }
+
+        .btn_holder .btn {
+          height: 44px;
+          font-size: 14px;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
 `;
+

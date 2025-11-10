@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../common/InputField";
 import Button from "../common/Button";
 import { IoArrowBackOutline } from "react-icons/io5";
@@ -20,21 +20,33 @@ const KycVerification2 = () => {
   const [loading, setLoading] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
 
-  const [formData, setFormData] = useState({
-    bankAccountName: "",
-    bankAccountNumber: "",
-    bankName: "",
-  });
+ const initialFormData = {
+  bankAccountName: "",
+  bankAccountNumber: "",
+  bankName: "",
+};
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "bankAccountNumber") {
-      const digitsOnly = value.replace(/\D/g, "");
-      return setFormData((prev) => ({ ...prev, [name]: digitsOnly }));
-    }
-    setFormData((prev) => ({ ...prev, [name]: value }));
+const [formData, setFormData] = useState(() => {
+  const saved = localStorage.getItem("kycStep2FormData");
+  return saved ? { ...initialFormData, ...JSON.parse(saved) } : initialFormData;
+});
+
+useEffect(() => {
+  const textFields = {
+    bankAccountName: formData.bankAccountName,
+    bankAccountNumber: formData.bankAccountNumber,
+    bankName: formData.bankName,
   };
+  localStorage.setItem("kycStep2FormData", JSON.stringify(textFields));
+}, [formData.bankAccountName, formData.bankAccountNumber, formData.bankName]);
 
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  const newValue =
+    name === "bankAccountNumber" ? value.replace(/\D/g, "") : value;
+
+  setFormData((prev) => ({ ...prev, [name]: newValue }));
+};
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -91,6 +103,8 @@ const KycVerification2 = () => {
       setLoading(false);
       toast.success("KYC submitted successfully!");
       setShowReceipt(true);
+
+      localStorage.removeItem("kycStep2FormData");
     } catch (err) {
       setLoading(false);
       const msg = err?.response?.data?.message || "Failed to submit KYC.";
@@ -117,7 +131,7 @@ const KycVerification2 = () => {
         <div className="title">
           <p className="bigtext">Complete your profile</p>
           <p className="smalltext">
-            Enter your KYC and Bank account details to continue.
+            Enter your Bank account details to continue.
           </p>
         </div>
 
@@ -213,8 +227,11 @@ const KycVerification2 = () => {
 export default KycVerification2;
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -490,6 +507,7 @@ const Container = styled.div`
     }
   }
 
+<<<<<<< HEAD
   @media screen and (max-width: 768px) {
     .right {
       width: 90%;
@@ -507,10 +525,28 @@ const Container = styled.div`
         .btn1,
         .btn2 {
           width: 100%;
+=======
+  @media (max-width: 480px) {
+    .goback {
+      width: 100%;
+      padding-top: 30px;
+
+      .icon_holder {
+        margin-left: 25px;
+        gap: 10px;
+
+        .iconn {
+          font-size: 18px;
+        }
+
+        p {
+          font-size: 13px;
+>>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
         }
       }
     }
 
+<<<<<<< HEAD
     .holder .reciept_holder {
       width: 90%;
       top: 20%;
@@ -557,6 +593,75 @@ const Container = styled.div`
       }
       .title .smalltext {
         font-size: 15px;
+=======
+    .right {
+      width: 95%;
+      padding: 18px;
+      border-radius: 18px;
+      box-shadow: none;
+      gap: 14px;
+
+      .title {
+        margin-bottom: 5px;
+
+        .bigtext {
+          font-size: 22px;
+        }
+
+        .smalltext {
+          font-size: 12px;
+          color: #6b6b6b;
+        }
+      }
+
+      .progress-bar {
+        width: 95%;
+        height: 6px;
+        margin: 15px 0 20px 0;
+
+        .line {
+          height: 5px;
+        }
+
+        .dot {
+          width: 26px;
+          height: 26px;
+          border: 3px solid var(--Neutral_Grey1);
+          font-size: 13px;
+        }
+      }
+
+      .input_holder {
+        width: 100%;
+        gap: 14px;
+
+        .big {
+          font-size: 15px;
+        }
+
+        label {
+          font-size: 12px;
+        }
+
+        input {
+          height: 42px;
+          font-size: 13px;
+          padding: 8px 30px;
+        }
+
+        .btn_holder {
+          flex-direction: column;
+          gap: 10px;
+
+          .btn1,
+          .btn2 {
+            width: 100%;
+            height: 44px;
+            font-size: 14px;
+            border-radius: 10px;
+          }
+        }
+>>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
       }
     }
   }

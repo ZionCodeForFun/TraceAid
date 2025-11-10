@@ -50,6 +50,21 @@ export const AboutIntro = styled.div`
       font-size: 0.95rem;
     }
   }
+
+  @media (max-width: 480px) {
+    margin: 4rem 0 2rem 0;
+
+    h1 {
+      font-size: 2rem;
+      line-height: 1.25;
+    }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      max-width: 90%;
+    }
+  }
 `;
 
 export const VisionMissionSection = styled.section`
@@ -59,10 +74,9 @@ export const VisionMissionSection = styled.section`
   justify-content: center;
   align-items: flex-start;
 
-  @media (max-width: 900px) {
-    flex-direction: column;
-    align-items: center;
-    padding: 3rem 1rem;
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 2.5rem 1rem;
   }
 `;
 
@@ -76,6 +90,11 @@ export const VisionMissionWrapper = styled.div`
   @media (max-width: 900px) {
     flex-direction: column;
     align-items: center;
+    gap: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
     gap: 2rem;
   }
 `;
@@ -164,6 +183,28 @@ export const VisionMissionText = styled.div`
       max-width: 90%;
     }
   }
+
+   @media (max-width: 480px) {
+    h2 {
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .vision,
+    .mission {
+      width: 100%;
+      padding: 1rem 1rem 1rem 1.2rem;
+    }
+
+    h3 {
+      font-size: 0.9rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+      max-width: 100%;
+    }
+  }
 `;
 
 export const VisionMissionImage = styled.div`
@@ -190,6 +231,13 @@ export const VisionMissionImage = styled.div`
       max-width: 90%;
     }
   }
+
+   @media (max-width: 480px) {
+    img {
+      max-width: 95%;
+      border-radius: 10px;
+    }
+  }
 `;
 
 export const CoreValuesSection = styled.section`
@@ -202,12 +250,8 @@ export const CoreValuesSection = styled.section`
   align-items: center;
   text-align: center;
 
-  @media (max-width: 1024px) {
-    padding: 4rem 5%;
-  }
-
-  @media (max-width: 768px) {
-    padding: 3rem 2%;
+   @media (max-width: 480px) {
+    padding: 4rem 4%;
   }
 `;
 
@@ -241,6 +285,18 @@ export const CoreValuesHeader = styled.div`
       font-size: 0.9rem;
     }
   }
+
+   @media (max-width: 480px) {
+    h2 {
+      font-size: 1.8rem;
+    }
+    p {
+      font-size: 0.95rem;
+      max-width: 90%;
+      margin: 0 auto;
+      line-height: 1.4rem;
+    }
+  }
 `;
 
 export const ValuesGrid = styled.div`
@@ -249,6 +305,13 @@ export const ValuesGrid = styled.div`
   gap: 2rem;
   width: 100%;
   max-width: 900px;
+
+    @media (max-width: 480px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+    width: 100%;
+  }
 `;
 
 export const ValueCard = styled.div`
@@ -297,6 +360,28 @@ export const ValueCard = styled.div`
 
     @media (max-width: 480px) {
       font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 2rem 1.4rem;
+
+    .icon {
+      width: 55px;
+      height: 55px;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+      line-height: 1.45rem;
     }
   }
 `;
@@ -357,5 +442,32 @@ export const WhyExistSection = styled.section`
 
   @media (max-width: 768px) {
     width: 90%;
+  }
+
+    @media (max-width: 480px) {
+    width: 100%;
+    margin: 4rem 0;
+    padding: 0 1rem;
+
+    h2 {
+      font-size: 1.9rem;
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1.4rem;
+      line-height: 1.45rem;
+      padding: 0 0.5rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+      line-height: 1.45rem;
+      padding: 0 0.4rem;
+      text-align: center;
+      max-width: 95%;
+    }
   }
 `;

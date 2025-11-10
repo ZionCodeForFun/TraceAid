@@ -17,25 +17,50 @@ export const StepSection = styled.section`
   padding: 0 8%;
 
   h2 {
-    font-weight: 800;
+    font-family: Anton;
+    font-style: Regular;
+    font-weight: bold;
     color: #333333;
-    font-size: 2.5rem;
+    font-size: 3.5rem;
   }
 
   h3 {
-    font-weight: 600;
+    font-family: Inter;
+    font-weight: 400;
+    font-style: medium;
     color: #333333;
     font-size: 1.3rem;
   }
 
   p {
     color: #333333;
+    font-weight: 500;
     margin-top: 0.6rem;
+
   }
 
   @media (max-width: 768px) {
     h2, h3 {
       font-size: 1.6rem;
+    }
+  }
+
+   @media (max-width: 480px) {
+    h2 {
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      margin-top: 0.4rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+      max-width: 90%;
+      margin: 0.5rem auto 0;
+      line-height: 1.45rem;
     }
   }
 `;
@@ -48,6 +73,13 @@ export const InfoContainer = styled.div`
   margin-top: 2.5rem;
   border-top: 1px solid transparent;
   flex-wrap: wrap;
+
+    @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    width: 100%;
+  }
 `;
 
 export const InfoCard = styled.div`
@@ -87,6 +119,25 @@ export const InfoCard = styled.div`
 
     &:last-child {
       border-bottom: none;
+    }
+  }
+    @media (max-width: 480px) {
+    border-right: none;
+    border-bottom: none;
+    width: 100%;
+    max-width: 95%;
+    padding: 1.5rem 0;
+
+    h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 0.92rem;
+      line-height: 1.45rem;
+      width: 85%;
+      margin: 0.4rem auto 0;
     }
   }
 `;

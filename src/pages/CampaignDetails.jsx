@@ -47,6 +47,42 @@ const CampaignDetails = () => {
   const [errText, setErrText] = useState("");
 
   const VITE_campaignBaseUrl = import.meta.env.VITE_campaignBaseUrl;
+  const VITE_Payemt_BaseUrl = import.meta.env.VITE_Payemt_BaseUrl;
+
+  const [topDonors, setTopDonors] = useState([]);
+  const [loadingDonors, setLoadingDonors] = useState(true);
+
+  const fetchTopDonors = async () => {
+    try {
+      setLoadingDonors(true);
+      const res = await axios.get(
+        `${VITE_Payemt_BaseUrl}/campaign/donors/top/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res?.data?.statusCode) {
+        setTopDonors(res.data.data || []);
+      } else {
+        toast.error(res?.data?.message || "Failed to load donors");
+      }
+    } catch (err) {
+      console.error("Top donors error:", err?.response?.data);
+      toast.error("Unable to fetch top donors");
+    } finally {
+      setLoadingDonors(false);
+    }
+  };
+
+  const getInitials = (name) => {
+    if (!name || !name.trim()) return "AN";
+    const parts = name.trim().split(" ");
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+  };
 
   const fetchCampaignDetails = async () => {
     try {
@@ -69,7 +105,10 @@ const CampaignDetails = () => {
   };
 
   useEffect(() => {
-    if (id) fetchCampaignDetails();
+    if (id) {
+      fetchCampaignDetails();
+      fetchTopDonors();
+    }
   }, [id]);
 
   const formatAmount = (num) => "₦" + Number(num || 0).toLocaleString();
@@ -109,8 +148,6 @@ const CampaignDetails = () => {
         message: message?.trim() || "Supporting this cause!",
       };
 
-      const VITE_Payemt_BaseUrl = import.meta.env.VITE_Payemt_BaseUrl;
-
       const res = await axios.post(`${VITE_Payemt_BaseUrl}/donate`, payload, {
         headers: {
           "Content-Type": "application/json",
@@ -148,7 +185,9 @@ const CampaignDetails = () => {
 
         <CampaignTop>
           <CampaignLeft>
-            <h2><Skeleton width={300} height={25} /></h2>
+            <h2>
+              <Skeleton width={300} height={25} />
+            </h2>
             <Skeleton width={200} height={18} />
 
             <Skeleton height={300} style={{ marginTop: "1rem" }} />
@@ -157,7 +196,9 @@ const CampaignDetails = () => {
           </CampaignLeft>
 
           <CampaignRight>
-            <h3><Skeleton width={200} height={25} /></h3>
+            <h3>
+              <Skeleton width={200} height={25} />
+            </h3>
 
             <Skeleton height={200} />
 
@@ -340,7 +381,7 @@ const CampaignDetails = () => {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Say something to encourage the campaign…"
-                    style={{ resize: "vertical" }}
+                    style={{ resize: "vertical", width: "100%" }}
                   />
 
                   <button type="submit" disabled={donating}>
@@ -352,16 +393,48 @@ const CampaignDetails = () => {
 
             <DonorSection>
               <h4>Top Donors</h4>
-              {[1, 2, 3].map((n) => (
-                <DonorItem key={n}>
-                  <div className="icon">💚</div>
-                  <div>
-                    <span>Anonymous</span>
-                    <p>Donated {formatAmount(2000)}</p>
-                  </div>
-                </DonorItem>
-              ))}
-              <button className="view-all">View all donors</button>
+
+              {loadingDonors ? (
+                <>
+                  {[1, 2, 3].map((n) => (
+                    <DonorItem key={n}>
+                      <div className="avatar-circle skeleton" />
+                      <div className="text">
+                        <span className="skeleton skeleton-text" />
+                        <p className="skeleton skeleton-text" />
+                      </div>
+                    </DonorItem>
+                  ))}
+                </>
+              ) : topDonors.length > 0 ? (
+                topDonors.map((donor, i) => {
+                  const name = donor?.donorName?.trim() || "Anonymous";
+                  const initials = getInitials(name);
+
+                  return (
+                    <DonorItem key={i}>
+                      <div className="avatar-circle">{initials}</div>
+                      <div>
+                        <span>{name}</span>
+                        <p>
+                          Donated {formatAmount(donor?.totalDonated)} ·{" "}
+                          {donor?.donationCount}{" "}
+                          {donor?.donationCount > 1 ? "donations" : "donation"}
+                        </p>
+                      </div>
+                    </DonorItem>
+                  );
+                })
+              ) : (
+                <p>No donors yet.</p>
+              )}
+
+              <button
+                className="view-all"
+                onClick={() => nav(`/campaign/${id}/donors`)}
+              >
+                View all donors
+              </button>
             </DonorSection>
           </DonationBox>
         </CampaignRight>
@@ -374,24 +447,6 @@ const CampaignDetails = () => {
 
 export default CampaignDetails;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import React, { useEffect, useState } from "react";
 // import { useParams } from "react-router-dom";
 // import axios from "axios";
@@ -399,6 +454,7 @@ export default CampaignDetails;
 // import Footer from "./Footer.jsx";
 // import { useSelector } from "react-redux";
 // import { toast } from "react-toastify";
+// import Skeleton from "react-loading-skeleton";
 // import "react-loading-skeleton/dist/skeleton.css";
 // import { useNavigate } from "react-router-dom";
 // import {
@@ -438,7 +494,6 @@ export default CampaignDetails;
 //   const [donating, setDonating] = useState(false);
 
 //   const [errText, setErrText] = useState("");
-
 
 //   const VITE_campaignBaseUrl = import.meta.env.VITE_campaignBaseUrl;
 
@@ -505,14 +560,6 @@ export default CampaignDetails;
 
 //       const VITE_Payemt_BaseUrl = import.meta.env.VITE_Payemt_BaseUrl;
 
-//       console.log("Sending payload:", {
-//         campaignId: id,
-//         amount: parseAmountToNumber(donationAmount),
-//         isAnonymous,
-//         message,
-//       });
-//       console.log("Token:", token);
-
 //       const res = await axios.post(`${VITE_Payemt_BaseUrl}/donate`, payload, {
 //         headers: {
 //           "Content-Type": "application/json",
@@ -527,13 +574,10 @@ export default CampaignDetails;
 //         toast.success(
 //           res?.data?.message || "Donation initialized successfully."
 //         );
-//     window.location.href = checkoutUrl;
-      
+//         window.location.href = checkoutUrl;
 //       } else {
 //         throw new Error(res?.data?.message || "Failed to initialize donation.");
 //       }
-
-//       console.log("Donation API Error Response:", err?.response?.data);
 //     } catch (err) {
 //       console.error("Donate error:", err);
 //       const msg =
@@ -546,6 +590,43 @@ export default CampaignDetails;
 //     }
 //   };
 
+//   if (loading) {
+//     return (
+//       <CampaignDetailSection>
+//         <HeaderNav />
+
+//         <CampaignTop>
+//           <CampaignLeft>
+//             <h2><Skeleton width={300} height={25} /></h2>
+//             <Skeleton width={200} height={18} />
+
+//             <Skeleton height={300} style={{ marginTop: "1rem" }} />
+
+//             <Skeleton count={4} height={14} style={{ marginTop: "2rem" }} />
+//           </CampaignLeft>
+
+//           <CampaignRight>
+//             <h3><Skeleton width={200} height={25} /></h3>
+
+//             <Skeleton height={200} />
+
+//             <Skeleton
+//               count={4}
+//               height={40}
+//               style={{ marginTop: "2rem", borderRadius: "8px" }}
+//             />
+
+//             <Skeleton width={120} height={35} style={{ marginTop: "2rem" }} />
+//           </CampaignRight>
+//         </CampaignTop>
+
+//         <Footer />
+//       </CampaignDetailSection>
+//     );
+//   }
+
+//   if (errText)
+//     return <p style={{ textAlign: "center", color: "red" }}>{errText}</p>;
 //   if (!campaign)
 //     return <p style={{ textAlign: "center" }}>Campaign not found.</p>;
 
@@ -741,4 +822,3 @@ export default CampaignDetails;
 // };
 
 // export default CampaignDetails;
-

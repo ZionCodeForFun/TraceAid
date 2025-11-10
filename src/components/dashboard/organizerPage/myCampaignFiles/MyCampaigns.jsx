@@ -22,7 +22,6 @@ import {
 } from "../../../../global/funCampaignSlice";
 import { GetAllCampaignsAPI } from "../../../../global/GetAllCampaignsData";
 
-// ✅ Skeleton Loader Component
 const SkeletonLoader = () => (
   <div className="skeleton-container">
     {[1, 2, 3, 4, 5].map((i) => (
@@ -72,6 +71,7 @@ const MyCampaigns = () => {
       dispatch(setLoading(true));
       const response = await GetAllCampaignsAPI(token);
       dispatch(setCampaigns(response.data.data));
+      
     } catch (err) {
       dispatch(
         setError(err?.response?.data?.message || "Failed to fetch campaigns")
@@ -359,7 +359,7 @@ const MyCampaigns = () => {
               </div>
               <div className="btn_holder">
                 <Button
-                  onClick={() => nav("/organizationdashboard/")}
+                  onClick={() => nav("/organization")}
                   text="Keep Campaign"
                   className="close_btn1"
                 />

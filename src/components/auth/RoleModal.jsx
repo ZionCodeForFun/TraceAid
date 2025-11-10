@@ -202,6 +202,7 @@ const Container = styled.div`
     }
   }
 
+<<<<<<< HEAD
   @media (min-width: 300px) and (max-width: 480px) {
     padding: 10px;
 
@@ -270,10 +271,18 @@ const Container = styled.div`
       width: 70%;
       height: auto;
       padding: 30px;
+=======
+    @media (max-width: 480px) {
+    .wrapper {
+      width: 100%;
+      height: auto;
+      padding: 10px;
+>>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
       gap: 30px;
     }
 
     .intro .big_text {
+<<<<<<< HEAD
       font-size: 32px;
     }
 
@@ -365,6 +374,45 @@ const Container = styled.div`
 
     .intro .small_text {
       font-size: 22px;
+=======
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .intro .small_text {
+      font-size: 16px;
+    }
+
+    .select_holder {
+      height: auto;
+      gap: 18px;
+      margin-top: 1rem;
+    }
+
+    .select1,
+    .select2 {
+      height: auto;
+      padding: 18px 15px;
+      gap: 10px;
+    }
+
+    .individual,
+    .organization {
+      font-size: 18px;
+    }
+
+   .text {
+    width: 85%;
+    max-width: 260px;
+    font-size: 13px;
+    line-height: 1.35;
+    text-align: left;
+  }
+
+    .select_wrapper .already p,
+    .select_wrapper .already span {
+      font-size: 14px;
+>>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
     }
   }
 `;

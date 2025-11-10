@@ -437,8 +437,18 @@ export const Container = styled.div`
 
     .otpResend {
       text-decoration: underline;
+<<<<<<< HEAD
       cursor: pointer;
       color: #3a4621;
+=======
+
+      text-align: center;
+
+      cursor: pointer;
+      color: #3a4621;
+
+      gap: 5px;
+>>>>>>> a62cfda61f1ae1114d9ba1c98a0101fa84a18017
     }
 
     .holder {
@@ -620,6 +630,68 @@ export const Container = styled.div`
 
     .holder .content-holder .small {
       font-size: 12px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .wrapper {
+      width: 95%;
+      padding: 1.5rem 1rem;
+      border-radius: 18px;
+      box-shadow: none;
+      background-color: var(--Neutral_Offwhite);
+      gap: 16px;
+
+      img {
+        width: 90px;
+        height: 26px;
+        margin-bottom: 10px;
+      }
+
+      .title .sign {
+        font-size: 22px;
+        height: auto;
+      }
+
+      .title .text {
+        font-size: 12px;
+        color: #6b6b6b;
+      }
+
+      .otp_inputs {
+        margin: 1rem 0;
+        gap: 10px;
+
+        input {
+          width: 2.6rem;
+          height: 3rem;
+          font-size: 1.2rem;
+          border-radius: 8px;
+        }
+      }
+
+      .verify_btn {
+        width: 100%;
+        height: 46px;
+        font-size: 14px;
+        border-radius: 10px;
+      }
+
+      .otpResendHolder {
+        font-size: 12px;
+        gap: 4px;
+      }
+
+      .otpResend {
+        font-size: 12px;
+      }
+
+      .goBack {
+        font-size: 12px;
+        margin-top: 8px;
+        border-bottom: none;
+        text-decoration: underline;
+      }
     }
   }
 `;

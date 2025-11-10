@@ -10,15 +10,6 @@ export const LandingContainer = styled.div`
   flex-direction: column;
   padding-top: 80px;
 
-  @media (min-width: 300px) and (max-width: 768px) {
-    padding-top: 65px;
-  }
-
-  @media (min-width: 600px) and (max-width: 900px) {
-    padding-top: 70px;
-  }
-`;
-
 export const NavBar = styled.nav`
   width: 100%;
   padding: 1rem 3%;
@@ -28,27 +19,10 @@ export const NavBar = styled.nav`
   background-color: #f8f9fa;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 
-  @media (min-width: 300px) and (max-width: 768px) {
-    padding: 0.8rem 5%;
-  }
-
-  @media (min-width: 600px) and (max-width: 900px) {
-    padding: 0.9rem 4%;
-  }
-`;
-
 export const LeftSection = styled.div`
   display: flex;
   align-items: center;
   gap: 2rem;
-
-  @media (min-width: 300px) and (max-width: 768px) {
-    gap: 1rem;
-  }
-
-  @media (min-width: 600px) and (max-width: 900px) {
-    gap: 1.5rem;
-  }
 `;
 
 export const LogoContainer = styled.div`
@@ -73,14 +47,6 @@ export const LogoContainer = styled.div`
     font-size: 1.3rem;
     font-weight: 700;
     color: #000;
-
-    @media (min-width: 300px) and (max-width: 768px) {
-      font-size: 1rem;
-    }
-
-    @media (min-width: 600px) and (max-width: 900px) {
-      font-size: 1.15rem;
-    }
   }
 
   .divider {
@@ -116,21 +82,6 @@ export const NavLinks = styled.ul`
       color: #3b7a57;
     }
   }
-
-  @media (min-width: 300px) and (max-width: 768px) {
-    gap: 0.8rem;
-    li {
-      font-size: 0.8rem;
-    }
-  }
-
-  @media (min-width: 600px) and (max-width: 900px) {
-    gap: 1rem;
-    li {
-      font-size: 0.85rem;
-    }
-  }
-`;
 
 export const ButtonGroup = styled.div`
   display: flex;
@@ -199,14 +150,10 @@ export const HeroSection = styled.section`
   justify-content: center;
   padding-top: 80px;
 
-  @media (min-width: 300px) and (max-width: 768px) {
-    height: 70vh;
+  @media (max-width: 480px) {
+    height: 75vh;
     padding-top: 60px;
-  }
-
-  @media (min-width: 600px) and (max-width: 900px) {
-    height: 80vh;
-    padding-top: 70px;
+    background-position: center top;
   }
 `;
 
@@ -221,12 +168,8 @@ export const HeroOverlay = styled.div`
   text-align: center;
   padding: 0 1.5rem;
 
-  @media (min-width: 300px) and (max-width: 768px) {
+  @media (max-width: 480px) {
     padding: 0 1rem;
-  }
-
-  @media (min-width: 600px) and (max-width: 900px) {
-    padding: 0 1.2rem;
   }
 `;
 
@@ -236,9 +179,10 @@ export const HeroContent = styled.div`
   max-width: 650px;
 
   h1 {
-    font-size: 2.8rem;
-    font-weight: 800;
-    line-height: 1.3;
+    font-family: Anton;
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 100%;
     margin-bottom: 1rem;
 
     @media (min-width: 300px) and (max-width: 768px) {
@@ -251,8 +195,9 @@ export const HeroContent = styled.div`
   }
 
   p {
+    font-family: Inter;
+    font-weight: 700;
     font-size: 1rem;
-    line-height: 1.6;
     color: #eaeaea;
     margin-bottom: 2rem;
 
@@ -279,14 +224,32 @@ export const HeroContent = styled.div`
       background-color: #67940b;
     }
 
-    @media (min-width: 300px) and (max-width: 768px) {
-      padding: 0.7rem 1.6rem;
-      font-size: 0.9rem;
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.4rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    max-width: 95%;
+
+    h1 {
+      font-size: 1.8rem;
+      line-height: 110%;
+      margin-bottom: 0.7rem;
     }
 
-    @media (min-width: 600px) and (max-width: 900px) {
-      padding: 0.8rem 1.8rem;
-      font-size: 0.95rem;
+    p {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1.6rem;
+    }
+
+    button {
+      width: 80%;
+      padding: 0.8rem 0;
+      font-size: 0.9rem;
+      border-radius: 8px;
     }
   }
 `;
@@ -330,9 +293,20 @@ export const HeroIcons = styled.div`
     bottom: 3rem;
     left: 3rem;
 
-    @media (min-width: 300px) and (max-width: 768px) {
-      bottom: 1.5rem;
-      left: 1.5rem;
+  @media (max-width: 480px) {
+    img {
+      width: 50px;
+      opacity: 0.7;
+    }
+
+    .top-icon {
+      top: 1rem;
+      left: 1rem;
+    }
+
+    .bottom-icon {
+      bottom: 1rem;
+      left: 1rem;
     }
 
     @media (min-width: 600px) and (max-width: 900px) {
@@ -383,18 +357,47 @@ export const Header = styled.div`
   margin-top: 4rem;
 
   h1 {
-    font-family: Inter, sans-serif;
+    font-family: Anton;
     font-size: 2.9rem;
-    font-weight: 700;
+    font-weight: 400;
     color: #000000;
-
+    font-style: Regular;
   }
 
   p {
     color: #000000;
+    font-family: Inter;
     margin-top: 0.5rem;
-    font-weight: 500;
-    font-size: 1.2rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    font-style: bold;
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.2rem;
+    }
+    p {
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 2.8rem;
+    margin-bottom: 1.5rem;
+
+    h1 {
+      font-size: 1.6rem;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 0.85rem;
+      font-weight: 600;
+      width: 85%;
+      margin: 0.4rem auto 0 auto;
+      line-height: 1.3rem;
+    }
   }
 `;
 export const TransparencySection = styled.section`
@@ -425,18 +428,10 @@ export const TransparencySection = styled.section`
   }
 
   h2 {
-    font-size: 2rem;
-    font-weight: 800;
+    font-size: 2.9rem;
+    font-weight: 400;
     margin-bottom: 1rem;
-
-    @media (min-width: 300px) and (max-width: 768px) {
-      font-size: 1.6rem;
-      width: 100%;
-    }
-
-    @media (min-width: 600px) and (max-width: 900px) {
-      font-size: 1.8rem;
-    }
+    font-family: Anton;
   }
 
   p {
@@ -461,9 +456,20 @@ export const TransparencySection = styled.section`
     padding: 4rem 1rem;
   }
 
-  @media (min-width: 600px) and (max-width: 900px) {
-    width: 90%;
-    padding: 5rem 3%;
+  @media (max-width: 480px) {
+    padding: 3rem 1rem;
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.6rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+      width: 90%;
+      margin: 0 auto;
+      line-height: 1.35rem;
+    }
   }
 `;
 
@@ -476,20 +482,16 @@ export const TransparencyCardGrid = styled.div`
   width: 100%;
   max-width: 950px;
 
-  @media (min-width: 300px) and (max-width: 768px) {
+  @media (max-width: 480px) {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  @media (min-width: 600px) and (max-width: 900px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.8rem;
+    gap: 1.4rem;
+    margin-top: 2rem;
   }
 `;
 
 export const TransparencyCard = styled.div`
   background: #ffffff;
-  color: #1a1a1a;
+  color: #000000;
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -508,15 +510,19 @@ export const TransparencyCard = styled.div`
   }
 
   h3 {
+    font-family: Anton;
+    color: #000000;
     font-weight: 700;
     margin-bottom: 0.8rem;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+    font-style: Regular;
   }
 
   p {
     font-size: 0.95rem;
+    font-weight: 400;
     line-height: 1.6;
-    color: #444;
+    color: #000000;
   }
 
   @media (min-width: 300px) and (max-width: 768px) {
@@ -546,6 +552,20 @@ export const TransparencyCard = styled.div`
 
     p {
       font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem;
+
+    h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+      line-height: 1.35rem;
     }
   }
 `;
@@ -599,9 +619,21 @@ export const TraceaidSection = styled.section`
     margin-top: 2rem;
   }
 
-  @media (min-width: 600px) and (max-width: 900px) {
-    padding: 5rem 5%;
-    margin-top: 3rem;
+  @media (max-width: 480px) {
+    padding: 3rem 1.2rem;
+    margin-top: 4rem;
+
+    h2 {
+      font-size: 1.4rem;
+      line-height: 1.3;
+    }
+
+    p {
+      font-size: 0.85rem;
+      line-height: 1.35rem;
+      width: 90%;
+      margin: 0 auto;
+    }
   }
 `;
 
@@ -622,6 +654,12 @@ export const TraceaidCardGrid = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: 1.8rem;
   }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+    margin-top: 2.2rem;
+  }
 `;
 
 /* TraceaidCard */
@@ -630,9 +668,36 @@ export const TraceaidCard = styled.div`
   border-radius: 12px;
   text-align: left;
 
-  .iconfirst,
-  .iconsecond,
-  .iconthird,
+  .iconfirst {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffb3ba;
+  }
+  .iconsecond {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffdfba;
+  }
+  .iconthird {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #baffc9;
+  }
   .iconfourth {
     width: 40px;
     height: 40px;
@@ -641,18 +706,6 @@ export const TraceaidCard = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  .iconfirst {
-    background-color: #ffb3ba;
-  }
-  .iconsecond {
-    background-color: #ffdfba;
-  }
-  .iconthird {
-    background-color: #baffc9;
-  }
-  .iconfourth {
     background-color: #bae1ff;
   }
 
@@ -700,6 +753,27 @@ export const TraceaidCard = styled.div`
       font-size: 0.9rem;
     }
   }
+
+  @media (max-width: 480px) {
+    text-align: center;
+    padding: 1.5rem 1rem;
+
+    .iconfirst,
+    .iconsecond,
+    .iconthird,
+    .iconfourth {
+      margin: 0 auto 0.8rem;
+    }
+
+    h3 {
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+      line-height: 1.35rem;
+    }
+  }
 `;
 
 export const FundraisingSection = styled.section`
@@ -719,14 +793,10 @@ export const FundraisingSection = styled.section`
     padding: 4rem 5%;
   }
 
-  @media (min-width: 300px) and (max-width: 768px) {
-    padding: 3rem 4%;
+  @media (max-width: 480px) {
+    padding: 3rem 1.2rem;
+    margin-top: 3rem;
     gap: 2rem;
-  }
-
-  @media (min-width: 600px) and (max-width: 900px) {
-    padding: 4rem 5%;
-    gap: 3rem;
   }
 `;
 
@@ -739,9 +809,10 @@ export const FundraisingContent = styled.div`
   margin-top: -1.5rem;
 
   h2 {
-    font-size: 2.3rem;
-    font-weight: 800;
-    color: #3b4f25;
+    font-family: Inter;
+    font-size: 3rem;
+    font-weight: 400;
+    color: #3a4621;
     margin-bottom: 1.2rem;
 
     @media (min-width: 300px) and (max-width: 768px) {
@@ -778,12 +849,12 @@ export const FundraisingContent = styled.div`
   }
 
   button {
-    background-color: #000;
+    background-color: #1a1a1a;
     color: #c1e86e;
     font-weight: 600;
     border: none;
     border-radius: 6px;
-    padding: 0.9rem 2rem;
+    padding: 0.9rem 3rem;
     cursor: pointer;
     transition: 0.3s ease;
 
@@ -811,6 +882,25 @@ export const FundraisingContent = styled.div`
   @media (min-width: 600px) and (max-width: 900px) {
     align-items: center;
     text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 1.8rem;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    p {
+      font-size: 0.9rem;
+      max-width: 95%;
+      margin-bottom: 1.6rem;
+    }
+
+    button {
+      padding: 0.85rem 2.2rem;
+      font-size: 0.9rem;
+    }
   }
 `;
 
@@ -844,6 +934,15 @@ export const FundraisingImage = styled.div`
   @media (min-width: 600px) and (max-width: 900px) {
     margin-top: 2.5rem;
   }
+
+  @media (max-width: 480px) {
+    margin-top: 1.5rem;
+
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  }
 `;
 export const ImageDividerSection = styled.section`
   width: 100%;
@@ -857,14 +956,6 @@ export const ImageDividerSection = styled.section`
     height: 7rem;
     object-fit: cover;
     display: block;
-
-    @media (min-width: 300px) and (max-width: 768px) {
-      height: 5rem;
-    }
-
-    @media (min-width: 600px) and (max-width: 900px) {
-      height: 6rem;
-    }
   }
 `;
 
@@ -874,9 +965,12 @@ export const JoinUsSection = styled.div`
   margin-top: 4rem;
 
   h2 {
-    font-size: 2.8rem;
-    font-weight: 800;
+    font-family: Anton;
+    font-size: 3.5rem;
+    font-weight: 400;
     color: #000000;
+    font-style: Regular;
+  }
 
     @media (min-width: 300px) and (max-width: 768px) {
       font-size: 2rem;
@@ -896,48 +990,8 @@ export const CommunitySection = styled.section`
   justify-content: center;
   align-items: center;
 
-  @media (min-width: 300px) and (max-width: 768px) {
-    padding: 3rem 4%;
-  }
-
-  @media (min-width: 600px) and (max-width: 900px) {
-    padding: 3.5rem 5%;
-  }
-`;
-
-export const CommunityGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: repeat(2, auto);
-  gap: 1.5rem;
-  align-items: center;
-  justify-items: center;
-  width: 100%;
-  height: 450px;
-
-  img {
-    width: 100%;
-    max-width: 280px;
-    border-radius: 12px;
-    object-fit: cover;
-  }
-
-  @media (min-width: 300px) and (max-width: 768px) {
-    grid-template-columns: 1fr;
-    height: auto;
-
-    img {
-      max-width: 90%;
-    }
-  }
-
-  @media (min-width: 600px) and (max-width: 900px) {
-    grid-template-columns: 1fr 1fr;
-    height: auto;
-
-    img {
-      max-width: 80%;
-    }
+  @media (max-width: 480px) {
+    padding: 2.5rem 1.2rem;
   }
 `;
 
@@ -962,31 +1016,93 @@ export const CommunityContent = styled.div`
     margin-bottom: 0.5rem;
   }
 
-  @media (min-width: 300px) and (max-width: 768px) {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
-
+  @media (max-width: 480px) {
     h3 {
-      font-size: 1rem;
       white-space: normal;
+      line-height: 1.4;
+      font-size: 0.95rem;
     }
 
     p {
-      font-size: 1rem;
+      font-size: 0.9rem;
+      margin-top: 0.4rem;
+    }
+  }
+`;
+
+export const CommunityGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: repeat(2, auto);
+  gap: 1.5rem;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  height: 450px;
+
+  img {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    height: auto;
+
+    img {
+      max-width: 90%;
     }
   }
 
   @media (min-width: 600px) and (max-width: 900px) {
-    grid-column: 1 / 3;
-    grid-row: 2 / 3;
+    grid-template-columns: 1fr 1fr;
+    height: auto;
 
-    h3 {
-      font-size: 1.05rem;
+    img {
+      max-width: 80%;
+    }
+  }
+
+  /* ✅ MOBILE FIX FOR 480px */
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    gap: 1.2rem;
+
+    img {
+      max-width: 100%;
     }
 
-    p {
-      font-size: 1.05rem;
+    ${CommunityContent} {
+      grid-column: 1;
+      grid-row: auto;
+      margin: 1rem 0 2rem;
     }
+  }
+`;
+
+export const CommunityStat = styled.h1`
+  font-size: 5rem;
+  font-weight: 900;
+  color: #9aba58;
+`;
+export const CommunityButton = styled.button`
+  background-color: #1a1a1a;
+  border: none;
+  color: #c1e86e;
+  font-weight: 700;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 1rem;
+  width: 200px;
+
+  &:hover {
+    background-color: #c1e86e;
+    color: #1a1a1a;
   }
 `;
 
@@ -1146,18 +1262,6 @@ export const SocialIcons = styled.div`
     justify-content: center;
     font-size: 1.2rem;
     transition: all 0.3s ease;
-
-    @media (min-width: 300px) and (max-width: 768px) {
-      width: 30px;
-      height: 30px;
-      font-size: 1rem;
-    }
-
-    @media (min-width: 600px) and (max-width: 900px) {
-      width: 34px;
-      height: 34px;
-      font-size: 1.05rem;
-    }
   }
 `;
 

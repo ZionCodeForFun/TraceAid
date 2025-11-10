@@ -34,27 +34,21 @@ export const UploadLabel = styled.label`
     display: none;
   }
 
-  img {
-    width: 125px;
-    height: 125px;
+  .edit-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #617437;
+    color: #fff;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    object-fit: cover;
-    transition: 0.3s ease;
-
-    @media (min-width: 300px) and (max-width: 768px) {
-      width: 100px;
-      height: 100px;
-    }
-
-    @media (min-width: 600px) and (max-width: 900px) {
-      width: 110px;
-      height: 110px;
-    }
-  }
-
-  &:hover img {
-    opacity: 0.85;
-    border-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
   }
 
   &::after {

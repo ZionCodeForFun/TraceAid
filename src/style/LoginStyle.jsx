@@ -96,17 +96,15 @@ export const Container = styled.div`
         margin-top: 10px;
 
         .google_btn {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          background-color: #ffffff;
-          color: #333333;
-          border: 1.5px solid #c1e86e;
+          background-color: white;
+          border: 2px solid var(--Primary700);
+          color: var(--NeutralGrey4-Text);
+          font-size: 14px;
           font-weight: 600;
-          padding: 0.6rem 1.2rem;
-          font-size: 1rem;
-          border-radius: 6px;
+          padding: 10px 20px;
+          height: 42px;
+          width: 400px;
+          border-radius: 10px;
           transition: all 0.3s ease;
           width: 300px;
           max-width: 400px;
@@ -118,24 +116,6 @@ export const Container = styled.div`
           &:hover {
             background-color: #f3f8e4;
             border-color: #a5d35d;
-          }
-
-          @media (min-width: 300px) and (max-width: 768px) {
-            font-size: 0.85rem;
-            padding: 0.55rem 1rem;
-            gap: 6px;
-            svg {
-              font-size: 1rem;
-            }
-          }
-
-          @media (min-width: 600px) and (max-width: 900px) {
-            font-size: 0.9rem;
-            padding: 0.6rem 1.1rem;
-            gap: 7px;
-            svg {
-              font-size: 1.1rem;
-            }
           }
         }
 
@@ -198,6 +178,7 @@ export const Container = styled.div`
 
       .already {
         display: flex;
+        justify-content: center;
         align-items: center;
         width: 100%;
         margin-top: 20px;
@@ -207,6 +188,7 @@ export const Container = styled.div`
           font-size: 14px;
           font-weight: 400;
         }
+
         span {
           font-size: 14px;
           font-weight: 500;
@@ -215,7 +197,75 @@ export const Container = styled.div`
       }
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
+      width: 85%;
+      padding: 25px;
+      border-radius: 20px;
+    }
+
+    @media (max-width: 480px) {
+      width: 95%;
+      padding: 18px;
+      border-radius: 18px;
+      box-shadow: none;
+      gap: 16px;
+
+      .title .log {
+        font-size: 20px;
+      }
+
+      .title .text {
+        font-size: 12px;
+      }
+
+      .input {
+        height: 46px !important;
+        font-size: 13px !important;
+      }
+
+      .login_btn {
+        width: 100%;
+        height: 46px;
+        font-size: 14px;
+        border-radius: 10px;
+      }
+
+      .footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 14px;
+      }
+
+      .google_btn {
+        width: 100% !important;
+        height: 44px;
+        font-size: 13px;
+        padding: 8px 10px;
+      }
+
+      .line-text {
+        width: 100% !important;
+        max-width: 260px;
+        font-size: 11px;
+        gap: 6px;
+        justify-content: center;
+      }
+
+      .already {
+        justify-content: center;
+        font-size: 12px;
+        margin-top: 12px;
+      }
+
+      .already p,
+      .already span {
+        font-size: 12px;
+      }
+    }
+
+    @media screen and (min-width: 600px) and (max-width: 900px) {
       max-width: 600px;
       padding: 35px;
 

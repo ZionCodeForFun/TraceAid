@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "../../../../style/RequestWithdrawStyle";
 import InputField from "../../../common/InputField";
 import Button from "../../../common/Button";
@@ -17,81 +17,109 @@ const RequestWithdraw = () => {
     success: false,
   });
 
-  const [selectedCampaign, setSelectedCampaign] = useState("");
-  const [selectedMilestone, setSelectedMilestone] = useState("");
-  const [amount, setAmount] = useState("");
-  const [note, setNote] = useState("");
+  const [campaigns, setCampaigns] = useState([]);
+  const [milestonesMap, setMilestonesMap] = useState({});
+  const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [selectedMilestone, setSelectedMilestone] = useState(null);
+  const [inputs, setInputs] = useState({ campaign: "", milestoneAmount: "" });
   const [loading, setLoading] = useState(false);
 
   const nav = useNavigate();
-  const token = useSelector((state) => state.auth.user?.token);
-  const fundraiserId = useSelector((state) => state.auth.user?._id); 
+  const { user, token } = useSelector((state) => state.auth);
+  const fundraiserId = user?._id;
 
-  const campaigns = [
-    { id: "672f7be53d8dca5312b0ef1d", name: "Stationery For The Children Of Makoko Nursery School" },
-    { id: "672f7be53d8dca5312b0ef2a", name: "Food For All" },
-    { id: "672f7be53d8dca5312b0ef3b", name: "Medical Support Campaign" },
-  ];
+  useEffect(() => {
+    if (!token) return;
 
-  const milestones = [
-    "Milestone 1 - Acquire 500 school bags",
-    "Milestone 2 - Buy 1,000 notebooks and 2,000 pens",
-    "Milestone 3 - Buy 6,000 textbooks",
-  ];
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          `${
+            import.meta.env.VITE_BaseUrl_Campaign1
+          }/get-all-campaign-and-milestone-of-fundraiser`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
-  const toggleShow = (key) => {
-    setShow((prev) => ({
+        const campaignsData = Array.isArray(res.data?.data?.all)
+          ? res.data.data.all
+          : Array.isArray(res.data?.data)
+          ? res.data.data
+          : [];
+
+        setCampaigns(campaignsData);
+
+        const tempMap = {};
+        campaignsData.forEach((camp) => {
+          tempMap[camp._id.toString()] = Array.isArray(camp.milestones)
+            ? camp.milestones
+            : [];
+        });
+        setMilestonesMap(tempMap);
+      } catch (err) {
+        toast.error("Failed to fetch campaigns or milestones");
+      }
+    };
+
+    fetchData();
+  }, [token]);
+
+  const toggleShow = (key) =>
+    setShow((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  const handleSelectCampaign = (campaign) => {
+    setSelectedCampaign(campaign);
+    setSelectedMilestone(null);
+    setInputs({ campaign: campaign.campaignTitle, milestoneAmount: "" });
+    setShow((prev) => ({ ...prev, campaign: false, milestone: true }));
+  };
+
+  const handleSelectMilestone = (milestone) => {
+    setSelectedMilestone(milestone);
+    setInputs((prev) => ({
       ...prev,
-      [key]: !prev[key],
+      milestoneAmount: `${milestone.milestoneTitle} - ₦${milestone.targetAmount}`,
     }));
-  };
-
-  const handleSelectCampaign = (item) => {
-    setSelectedCampaign(item);
-    setShow((prev) => ({ ...prev, campaign: false }));
-  };
-
-  const handleSelectMilestone = (item) => {
-    setSelectedMilestone(item);
     setShow((prev) => ({ ...prev, milestone: false }));
   };
 
   const handleSubmit = async () => {
-    if (!selectedCampaign || !selectedMilestone || !amount) {
-      toast.error("Please fill all fields before submitting.");
+    if (!selectedCampaign || !selectedMilestone) {
+      toast.error("Please select both campaign and milestone.");
       return;
     }
 
     try {
       setLoading(true);
-
       const payload = {
         fundraiserId,
-        campaignId: selectedCampaign.id,
-        amount: Number(amount),
-        note: note || `Withdrawal request for ${selectedMilestone}`,
+        campaignId: selectedCampaign._id,
+        milestoneId: selectedMilestone._id,
+        amount: selectedMilestone.targetAmount,
       };
 
       const res = await axios.post(
         `${import.meta.env.VITE_BaseUrl2}/wallet/request-payout`,
         payload,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       if (res.status === 200 || res.status === 201) {
         toast.success("Withdrawal request submitted successfully!");
         setShow((prev) => ({ ...prev, success: true }));
-        console.log(" zion res",res.data?.data)
+        setSelectedCampaign(null);
+        setSelectedMilestone(null);
+        setInputs({ campaign: "", milestoneAmount: "" });
       }
     } catch (err) {
-      console.error("Error details:", err.response?.data);
-      toast.error(err.response?.data?.message || "Failed to submit request.");
+      toast.error(err.response?.data?.message);
     } finally {
       setLoading(false);
     }
   };
+
+  const currentMilestones = selectedCampaign
+    ? milestonesMap[selectedCampaign._id]
+    : [];
 
   return (
     <Container>
@@ -117,10 +145,10 @@ const RequestWithdraw = () => {
               <div className="input_wrapper">
                 <InputField
                   type="text"
+                  value={inputs.campaign}
+                  readOnly
                   placeholder="Select campaign"
                   className="input"
-                  value={selectedCampaign?.name || ""}
-                  readOnly
                 />
                 <i
                   className={`drop1 ${show.campaign ? "rotate" : ""}`}
@@ -129,28 +157,29 @@ const RequestWithdraw = () => {
                   <MdKeyboardArrowDown />
                 </i>
               </div>
-
-              {show.campaign && (
+              {show.campaign && campaigns.length > 0 && (
                 <div className="dropdown_menu1">
-                  {campaigns.map((item, index) => (
-                    <p key={index} onClick={() => handleSelectCampaign(item)}>
-                      {item.name}
+                  {campaigns.map((item) => (
+                    <p
+                      key={item._id}
+                      onClick={() => handleSelectCampaign(item)}
+                    >
+                      {item.campaignTitle}
                     </p>
                   ))}
                 </div>
               )}
             </div>
 
-          
             <div className="dropdown_section">
               <label>Select milestone you are withdrawing funds from</label>
               <div className="input_wrapper">
                 <InputField
                   type="text"
+                  value={inputs.milestoneAmount}
+                  readOnly
                   placeholder="Select milestone"
                   className="input"
-                  value={selectedMilestone}
-                  readOnly
                 />
                 <i
                   className={`drop2 ${show.milestone ? "rotate" : ""}`}
@@ -159,40 +188,18 @@ const RequestWithdraw = () => {
                   <MdKeyboardArrowDown />
                 </i>
               </div>
-
-              {show.milestone && (
+              {show.milestone && currentMilestones.length > 0 && (
                 <div className="dropdown_menu2">
-                  {milestones.map((item, index) => (
-                    <p key={index} onClick={() => handleSelectMilestone(item)}>
-                      {item}
+                  {currentMilestones.map((item) => (
+                    <p
+                      key={item._id}
+                      onClick={() => handleSelectMilestone(item)}
+                    >
+                      {item.milestoneTitle} - ₦{item.targetAmount}
                     </p>
                   ))}
                 </div>
               )}
-            </div>
-
-      
-            <div className="dropdown_section">
-              <label>Enter withdrawal amount</label>
-              <InputField
-                type="number"
-                placeholder="Enter amount"
-                className="inpu"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              />
-            </div>
-
-       
-            <div className="dropdown_section">
-              <label>Note (optional)</label>
-              <InputField
-                type="text"
-                placeholder="Enter a note"
-                className="inpu"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-              />
             </div>
           </article>
 
@@ -204,7 +211,6 @@ const RequestWithdraw = () => {
           />
         </div>
 
-    
         {show.success && (
           <div className="holder">
             <div className="reciept_holder">
@@ -216,12 +222,11 @@ const RequestWithdraw = () => {
                 <p className="smalltext">
                   Withdrawal request has been submitted for <br /> verification.
                 </p>
-              </div >
+              </div>
               <Button
                 onClick={() => nav("/organization/wallet")}
                 text="Close"
                 className="close_btn"
-                
               />
             </div>
           </div>

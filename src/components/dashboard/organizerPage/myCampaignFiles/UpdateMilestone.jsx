@@ -6,25 +6,70 @@ import { IoCloseSharp } from "react-icons/io5";
 import styled from "styled-components";
 import { CiCircleAlert } from "react-icons/ci";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const UpdateMilestone = ({ onClose, campaign }) => {
   const [fileCount, setFileCount] = useState(0);
+  const [files, setFiles] = useState([]);
+  const [description, setDescription] = useState("");
   const [error, setError] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+const {token, user} = useSelector((state) => state.auth);
+  console.log("first", token);
   const handleFileChange = (e) => {
-    const files = e.target.files;
-    setFileCount(files.length);
-    setError(files.length < 5);
+    const selectedFiles = Array.from(e.target.files);
+    setFiles(selectedFiles);
+    setFileCount(selectedFiles.length);
+    setError(selectedFiles.length < 5);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (fileCount < 5) {
       setError(true);
       return;
     }
-    toast.success("saved successuflleful");
-    onClose(true);
+
+    if (!description) {
+      toast.error("Please enter a description for the milestone evidence.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("description", description);
+
+      files.forEach((file) => formData.append("evidenceFiles", file));
+
+      const metadata = files.map((_, idx) => ({
+        latitude: "6.5244",
+        longitude: "3.3792",
+      }));
+      formData.append("fileMetadata", JSON.stringify(metadata));
+
+      const res = await axios.post(
+        `${import.meta.env.VITE_BaseUrl_UploadMiles}/milestones/evidence/${
+          user._id
+        }`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success("Milestone evidence uploaded successfully!");
+      setLoading(false);
+      onClose(true);
+    } catch (err) {
+      console.error(err.response?.data);
+      toast.error("Failed to upload milestone evidence.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -36,8 +81,13 @@ const UpdateMilestone = ({ onClose, campaign }) => {
 
         <form className="input_holder" onSubmit={handleSubmit}>
           <div className="name_holder">
-            <label>Milestone Title</label>
-            <InputField type="text" placeholder="Stationaries" />
+            <label>Milestone Title / Description</label>
+            <InputField
+              type="text"
+              placeholder="Completed foundation work and initial framing"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
           </div>
 
           <div className="name_holder">
@@ -81,7 +131,11 @@ const UpdateMilestone = ({ onClose, campaign }) => {
           </div>
 
           <div className="btn_holder">
-            <Button text="Save Milestone" className="btn" type="submit" />
+            <Button
+              text={loading ? "Uploading..." : "Save Milestone"}
+              className="btn"
+              type="submit"
+            />
           </div>
 
           <IoCloseSharp onClick={() => onClose()} className="btn_close" />
@@ -160,7 +214,7 @@ const Container = styled.div`
 
         i {
           position: absolute;
-          top: 52%;
+          top: 55%;
           left: 2%;
           color: #8d8d8d;
           font-size: 20px;
@@ -168,7 +222,7 @@ const Container = styled.div`
 
         .choose_file {
           position: absolute;
-          top: 50%;
+          top: 55%;
           right: 4%;
           color: var(--PrimaryBase);
           font-weight: 400;
@@ -199,7 +253,7 @@ const Container = styled.div`
         top: -37%;
         right: 4%;
         cursor: pointer;
-        font-size: 84px;
+        font-size: 24px;
         color: #8d8d8d;
       }
     }
