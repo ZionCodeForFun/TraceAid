@@ -207,6 +207,7 @@ const Wallet = () => {
               </div>
             )}
 
+              <p style={{fontSize:"24px", marginBottom:"10px"}}>Recent Transactions</p>
             <div className="recent_text">
               <InputField
                 type="text"
@@ -240,7 +241,6 @@ const Wallet = () => {
             ) : (
               <>
                 <div className="table-container">
-                  <h3>Recent Transactions</h3>
                   <table className="custom-table">
                     <thead>
                       <tr>
