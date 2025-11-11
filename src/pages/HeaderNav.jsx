@@ -196,13 +196,23 @@ const HeaderNav = () => {
 
           <ul className="links">
             <li onClick={() => go("/campaign_data")}>Explore Campaigns</li>
-            <li onClick={() => go("/how_it_works")}>How it works</li>
+            <li onClick={() => go("/how_it_works")}>How it Works</li>
 
             {isLoggedIn && isFundraiser && (
               <li onClick={() => go("/createcampaign")}>Start a Campaign</li>
             )}
+
             {!isLoggedIn && (
               <li onClick={() => go("/role_modal")}>Start a Campaign</li>
+            )}
+
+            {isLoggedIn && (
+              <li onClick={() => go("/saved_campaigns")}>
+                <CiBookmark
+                  style={{ marginRight: "8px", verticalAlign: "middle" }}
+                />
+                Saved Campaigns
+              </li>
             )}
           </ul>
 
@@ -532,21 +542,18 @@ export const MobileMenu = styled.aside`
     line-height: 0;
   }
 
-  .links {
-    list-style: none;
-    padding: 0;
-    margin: 38px 0 28px;
+  .links li {
+    font-size: 1rem;
+    padding: 0.8rem 0;
     display: flex;
-    flex-direction: column;
-    gap: 22px;
+    align-items: center;
+    gap: 0.5rem;
+  }
 
-    li {
-      font-size: 18px;
-      font-weight: 600;
-      color: #fff;
-      cursor: pointer;
-      letter-spacing: 0.2px;
-    }
+  .links li svg {
+    font-size: 1.3rem;
+    color: #ffffff;
+    background: transparent;
   }
 
   .cta {
