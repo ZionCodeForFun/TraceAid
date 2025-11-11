@@ -8,7 +8,7 @@ export const Container = styled.div`
 
   .wrapper {
     display: flex;
-    width: 95%;
+    width: 80%;
     height: 100%;
     flex-direction: column;
     justify-content: center;
@@ -32,8 +32,9 @@ export const Container = styled.div`
 
       @media (max-width: 768px) {
         height: auto;
+        margin-top: 19px;
         margin-bottom: 24px;
-        justify-content: center;
+        justify-content: start;
       }
 
       @media (min-width: 600px) and (max-width: 900px) {
@@ -48,14 +49,16 @@ export const Container = styled.div`
         color: var(--PrimaryBase);
         font-size: 18px;
         font-weight: 700;
+        outline: none;
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
 
         @media (max-width: 768px) {
-          width: 100%;
+          width: 90%;
           height: 42px;
           font-size: 16px;
+          border: none;
         }
 
         @media (min-width: 600px) and (max-width: 900px) {
@@ -65,6 +68,8 @@ export const Container = styled.div`
         }
 
         &:hover {
+          color: #000;
+          background-color: var(--PrimaryBase);
           opacity: 0.9;
         }
       }
@@ -100,7 +105,7 @@ export const Container = styled.div`
         padding: 24px 20px;
 
         @media (max-width: 768px) {
-          width: 100%;
+          width: 85%;
           height: 140px;
           padding: 16px;
           border-radius: 10px;
@@ -190,14 +195,12 @@ export const Container = styled.div`
       display: flex;
       height: 36px;
       justify-content: space-between;
-      border: 1px solid var(--sidebarBg);
       gap: 15px;
       margin-bottom: 20px;
 
       @media (max-width: 768px) {
-        flex-direction: column;
         height: auto;
-        gap: 10px;
+        width: 88%;
       }
 
       @media (min-width: 600px) and (max-width: 900px) {
@@ -215,8 +218,9 @@ export const Container = styled.div`
         justify-content: space-around;
 
         @media (max-width: 768px) {
-          width: 100%;
+          width: 30%;
           height: 36px;
+          border-bottom: none;
         }
 
         p {
@@ -251,7 +255,7 @@ export const Container = styled.div`
         font-family: Arial, Helvetica, sans-serif;
 
         @media (max-width: 768px) {
-          width: 100%;
+          width: 85%;
           height: 36px;
           padding: 4px 10px 4px 32px;
           font-size: 13px;
@@ -282,6 +286,10 @@ export const Container = styled.div`
         outline: none;
         border: none;
       }
+      @media (max-width: 768px) {
+        border-radius: 8px;
+        width: 85%;
+      }
     }
     .cartigory_drop {
       display: flex;
@@ -303,11 +311,15 @@ export const Container = styled.div`
         }
       }
     }
+
     .table-container {
       width: 100%;
       border-radius: 10px;
       border: 0.5px solid #cccccc;
-      overflow-x: auto;
+      overflow-x: auto; 
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #c0c0c0 transparent;
 
       @media (max-width: 768px) {
         border-radius: 8px;
@@ -316,15 +328,21 @@ export const Container = styled.div`
 
     .custom-table {
       width: 100%;
-      min-width: 650px;
       border-collapse: collapse;
       color: #1f2937;
+      table-layout: auto; 
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+        min-width: 500px;
+      }
 
       .details {
-        width: 350px;
+        width: auto;
 
         @media (max-width: 768px) {
-          width: 250px;
+          width: 200px;
+          white-space: nowrap; /* prevent awkward wrapping */
         }
       }
 

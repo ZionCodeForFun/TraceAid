@@ -240,7 +240,7 @@ export const Container = styled.div`
     }
     @media (max-width: 768px) {
       .content_holder {
-        width: 100%;
+        width: 95%;
         height: auto;
         padding: 16px;
         gap: 32px;
@@ -275,11 +275,11 @@ export const Container = styled.div`
         .btn {
           height: 40px;
           font-size: 15px;
+          border: none;
         }
       }
 
-      .dropdown_menu1,
-      .dropdown_menu2 {
+      .dropdown_menu1,.dropdown_menu2  {
         width: calc(100% - 32px);
         left: 16px;
         height: auto;
@@ -293,17 +293,18 @@ export const Container = styled.div`
       }
 
       .goback {
-        height: 80px;
+        height: 40px;
         padding: 0 16px;
 
         .icon {
-          gap: 12px;
+          gap: 7px;
 
           .i {
             font-size: 18px;
           }
           p {
             font-size: 14px;
+            
           }
         }
       }

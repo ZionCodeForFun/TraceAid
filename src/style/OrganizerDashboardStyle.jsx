@@ -83,8 +83,9 @@ export const Container = styled.div`
   @media(min-width:300px) and (max-width: 768px) {
     .wrapper {
       .sider_holder {
-        position: relative;
-        height: auto;
+        position: relative;                                                                                                                                                                                                                                                                                                                    ;
+        position: fixed;                                                                                                                                                                                                                                                                                                                    ;
+        height: 100vh;
         padding-top: 16px;
         width: 100%;
 
@@ -114,7 +115,7 @@ export const Container = styled.div`
 
       .contentoutline_holder {
         width: 100%;
-        margin-left: 0;
+        margin-left: 60px;
         margin-top: 75px;
         padding: 12px;
       }

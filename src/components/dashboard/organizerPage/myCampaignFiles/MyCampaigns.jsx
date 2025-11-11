@@ -251,8 +251,8 @@ const MyCampaigns = () => {
                 onChange={(e) => setSearchQuery(e.target.value)} // ✅ functional search
               />
               <div className="dropdwn">
-                <p>All Status</p>
-                <i>
+                <p className="stat">All Status</p>
+                <i className="dropdownicon">
                   <RiArrowDropDownLine />
                 </i>
               </div>

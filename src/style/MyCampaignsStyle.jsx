@@ -40,6 +40,14 @@ export const Container = styled.div`
         font-size: 18px;
         font-weight: 700;
         border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        
+        &:hover {
+          background-color: var(--PrimaryBase);
+          color: var(--NeutralBlack);
+        }
+
       }
     }
 

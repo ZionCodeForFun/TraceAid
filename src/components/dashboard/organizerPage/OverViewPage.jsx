@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "../../../style/OverViewStyle";
 import { GoGift } from "react-icons/go";
+import { CiSearch } from "react-icons/ci";
 import { FiFlag } from "react-icons/fi";
 import { CiCircleAlert } from "react-icons/ci";
 import InputField from "../../common/InputField";
@@ -156,13 +157,16 @@ const OverViewPage = () => {
 
         <div className="recent_text">
           <p>Recent Transactions</p>
-          <InputField
-            type="text"
-            placeholder="Search input"
-            className="input"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} 
-          />
+          <div className="search_wrapper">
+            <CiSearch className="search_icon" />
+            <InputField
+              type="text"
+              placeholder="Search input"
+              className="search_input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="table-container">

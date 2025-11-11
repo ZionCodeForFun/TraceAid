@@ -117,7 +117,7 @@ const Wallet = () => {
                     <div className="skeleton skeleton-text"></div>
                   ) : (
                     <p>₦{walletSummary.activeBalance.toLocaleString()}</p>
-                  )}
+                  )} 
                 </div>
               </div>
 
@@ -134,7 +134,7 @@ const Wallet = () => {
                   ) : (
                     <p>₦{walletSummary.totalWithdrawn.toLocaleString()}</p>
                   )}
-                </div>
+                </div>  
               </div>
             </div>
 

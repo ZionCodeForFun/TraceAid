@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 export const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -7,7 +8,7 @@ export const Container = styled.div`
   margin-top: 40px;
 
   @media (max-width: 768px) {
-    margin-top: 24px;
+    margin-top: 10px;
   }
 
   @media (min-width: 600px) and (max-width: 900px) {
@@ -33,7 +34,7 @@ export const Container = styled.div`
     .card_holder {
       display: flex;
       flex-wrap: wrap;
-      width: 100%;
+      width: 85%;
       height: 57vh;
       gap: 34px;
       margin-bottom: 30px;
@@ -92,8 +93,9 @@ export const Container = styled.div`
         flex-direction: column;
         height: auto;
         gap: 16px;
+        width: auto;
         .card {
-          width: 100%;
+          width: 84%;
           height: auto;
           padding: 16px;
         }
@@ -128,6 +130,29 @@ export const Container = styled.div`
         }
       }
 
+      .search_wrapper {
+        position: relative;
+        width: 100%;
+
+        @media (max-width: 768px) {
+          width: 99%;
+        }
+      }
+
+      .search_icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #4a5565;
+        font-size: 18px;
+
+        @media (max-width: 768px) {
+          left: 10px;
+          font-size: 16px;
+        }
+      }
+
       input {
         outline: none;
         border: 0.5px;
@@ -139,9 +164,11 @@ export const Container = styled.div`
         font-size: 14px;
         font-family: Arial, Helvetica, sans-serif;
         border-radius: 6px;
+        box-sizing: border-box;
 
         @media (max-width: 768px) {
           height: 34px;
+          width: 80%;
           padding: 4px 10px 4px 32px;
           font-size: 13px;
         }
@@ -160,6 +187,7 @@ export const Container = styled.div`
 
       @media (max-width: 768px) {
         border-radius: 8px;
+        width: 84%;
       }
     }
 
