@@ -77,9 +77,9 @@ const CampaignDetails = () => {
     }
   };
 
-  const getInitials = (name) => {
-    if (!name || !name.trim()) return "AN";
-    const parts = name.trim().split(" ");
+  const getInitials = (nameOrFullName) => {
+    if (!nameOrFullName) return "AN";
+    const parts = nameOrFullName.trim().split(" ");
     if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
     return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
   };
@@ -382,7 +382,6 @@ const CampaignDetails = () => {
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Say something to encourage the campaign…"
                     style={{ resize: "vertical", width: "100%" }}
-                    
                   />
 
                   <button type="submit" disabled={donating}>
@@ -408,19 +407,27 @@ const CampaignDetails = () => {
                   ))}
                 </>
               ) : topDonors.length > 0 ? (
-                topDonors.map((donor, i) => {
-                  const name = donor?.donorName?.trim() || "Anonymous";
-                  const initials = getInitials(name);
+                topDonors.map((item, i) => {
+            
+                  const donor = item?.donor || {};
+                  const first = donor?.firstName || "";
+                  const last = donor?.lastName || "";
+                  const hasName = first || last;
+
+                  const fullName = hasName
+                    ? `${first} ${last}`.trim()
+                    : "Anonymous";
+                  const initials = getInitials(fullName);
 
                   return (
                     <DonorItem key={i}>
                       <div className="avatar-circle">{initials}</div>
                       <div>
-                        <span>{name}</span>
+                        <span>{fullName}</span>
                         <p>
-                          Donated {formatAmount(donor?.totalDonated)} ·{" "}
-                          {donor?.donationCount}{" "}
-                          {donor?.donationCount > 1 ? "donations" : "donation"}
+                          Donated {formatAmount(item?.totalDonated)} ·{" "}
+                          {item?.donationCount}{" "}
+                          {item?.donationCount > 1 ? "donations" : "donation"}
                         </p>
                       </div>
                     </DonorItem>
