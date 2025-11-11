@@ -163,6 +163,7 @@ const CreateCampaign = ({ onClose }) => {
         setLoading(false);
         return;
       }
+      console.log("Campaign milesss zion:", result);
 
       toast.success("Campaign created successfully!");
       setLoading(false);

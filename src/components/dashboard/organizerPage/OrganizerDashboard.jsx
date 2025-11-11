@@ -3,7 +3,7 @@ import { LuLayoutDashboard, LuWalletCards } from "react-icons/lu";
 import { GoMegaphone } from "react-icons/go";
 import { FiSettings } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
-import { Layout, Menu, theme } from "antd";
+import { Layout, Menu } from "antd";
 import { Container } from "../../../style/OrganizerDashboardStyle";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -56,11 +56,11 @@ const OrganizerDashboard = () => {
     },
   ];
 
-  const selectedKey =
-    items.find(
-      (item) =>
-        item.label.props.to === location.pathname.replace("/organizer/", "")
-    )?.key || "1";
+  // Ensure selectedKey matches the current path even after refresh
+  const selectedKey = items.find(
+    (item) =>
+      item.label.props?.to && location.pathname.includes(item.label.props.to)
+  )?.key || "1";
 
   return (
     <Container>
@@ -77,7 +77,7 @@ const OrganizerDashboard = () => {
           </div>
           <Menu
             className="content_holder"
-            defaultSelectedKeys={[selectedKey]}
+            selectedKeys={[selectedKey]} // dynamically selected
             items={items}
           />
         </Sider>

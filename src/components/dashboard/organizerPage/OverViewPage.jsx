@@ -96,6 +96,7 @@ const OverViewPage = () => {
           <div className="card">
             <div className="top">
               <p>Total Donations</p>
+              <span style={{ background: "#DBEAFE", color: "#8402E3" }}>₦</span>
             </div>
             <div className="down">
               {loading ? (

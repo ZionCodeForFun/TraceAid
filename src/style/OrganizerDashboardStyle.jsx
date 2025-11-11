@@ -21,6 +21,9 @@ export const Container = styled.div`
         background-color: var(--NeutralBlack) !important;
         color: var(--PrimaryBase) !important;
       }
+      .ant-menu-item-selected a {
+        color: var(--PrimaryBase) !important;
+      }
       .logo {
         display: flex;
         width: 100%;
