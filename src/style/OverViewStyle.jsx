@@ -130,4 +130,113 @@ export const Container = styled.div`
       padding-left: 12px;
     }
   }
+
+  @media (max-width: 480px) {
+  margin-top: 20px;
+  justify-content: flex-start;
+  align-items: center;
+
+  .wrapper {
+    width: 100%;
+    padding: 0 10px;
+    gap: 20px;
+    
+    .card_holder {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      height: auto;
+      margin-bottom: 20px;
+
+      .card {
+        width: 100%;
+        height: 130px;
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        background-color: #f9fafb;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .top {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          p {
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.3;
+          }
+
+          span {
+            font-size: 12px;
+            font-weight: 500;
+            color: #6b21a8;
+            background-color: #f3e8ff;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+
+        .down {
+          font-size: 20px;
+          font-weight: 600;
+          color: #111827;
+        }
+      }
+    }
+
+    .recent_text {
+      gap: 8px;
+      padding: 0;
+      p {
+        font-size: 18px;
+        font-weight: 600;
+        color: #111827;
+      }
+
+      input {
+        width: 100%;
+        height: 38px;
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        background-color: #f9fafb;
+      }
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+
+      .custom-table {
+        width: 700px;
+        font-size: 14px;
+
+        th {
+          font-size: 13px;
+          font-weight: 600;
+          background-color: #f3f4f6;
+          color: #111827;
+        }
+
+        td {
+          font-size: 13px;
+          color: #4b5563;
+          padding: 10px;
+        }
+      }
+    }
+  }
+}
+
 `;

@@ -916,4 +916,130 @@ export const Container = styled.div`
  
 }
 
+@media (max-width: 480px) {
+    .goback {
+      width: 100%;
+      padding-top: 40px;
+
+      .icon_holder {
+        margin-left: 20px;
+        gap: 8px;
+
+        .iconn {
+          font-size: 18px;
+        }
+
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .right {
+      width: 95%;
+      height: auto;
+      padding: 20px;
+      margin-bottom: 40px;
+      border-radius: 20px;
+      gap: 16px;
+
+      .title {
+        .bigtext {
+          font-size: 28px;
+          padding-top: 20px;
+        }
+
+        .smalltext {
+          font-size: 14px;
+        }
+      }
+
+      .input_holder {
+        width: 100%;
+        gap: 15px;
+
+        .name_holder {
+          label {
+            font-size: 13px;
+          }
+
+          input,
+          select {
+            height: 45px;
+            font-size: 14px;
+            padding: 8px 30px;
+          }
+
+          .choose_file {
+            right: 6%;
+            font-size: 14px;
+          }
+        }
+      }
+
+      .btn_holder {
+        flex-direction: column;
+        height: auto;
+        gap: 12px;
+
+        .btn {
+          height: 45px;
+          font-size: 15px;
+        }
+      }
+
+      .milestone_dropdown {
+        .milestone_title {
+          font-size: 14px;
+          padding: 10px;
+        }
+
+        .milestone_content p {
+          font-size: 14px;
+        }
+      }
+
+      .alrt_holder .add,
+      .sec_add .add {
+        font-size: 14px;
+      }
+
+      .check {
+        font-size: 13px;
+
+        input[type="checkbox"] {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .holder .reciept_holder {
+        width: 90%;
+        height: auto;
+        padding: 25px;
+
+        .content-holder {
+          i {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+          }
+
+          .bigtext {
+            font-size: 16px;
+          }
+
+          .smalltext {
+            font-size: 13px;
+          }
+        }
+
+        .close_btn {
+          width: 100%;
+          height: 40px;
+          font-size: 15px;
+        }
+      }
+    }
+  }
 `;

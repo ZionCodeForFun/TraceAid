@@ -10,7 +10,7 @@ const PaymentSuccessPage = () => {
   return (
     <div>
       <SuccessModal reference={reference}
-      close={() => nav("/")} />
+      close={() => nav("/my_donations")} />
     </div>
   );
 };
