@@ -17,7 +17,7 @@ const Wallet = () => {
   const [selectedCampaign, setSelectedCampaign] = useState("");
   const [showCategoryDrop, setShowCategoryDrop] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const [walletSummary, setWalletSummary] = useState({
@@ -35,13 +35,15 @@ const Wallet = () => {
       setLoading(true);
       setError("");
 
-      const res = await axios.get(`${import.meta.env.VITE_BaseUrl2}/wallet/summary`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_BaseUrl2}/wallet/summary`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       const data = res.data?.data;
-      console.log("Wallet API data:", data);
-
+    
       setWalletSummary({
         availableBalance: data?.availableBalance || 0,
         totalWithdrawn: data?.totalWithdrawn || 0,
@@ -50,7 +52,14 @@ const Wallet = () => {
         recentTransactions: data?.recentTransactions || [],
       });
 
-      setCampaigns((data?.perCampaign || []).map((c) => c.campaignTitle));
+      setCampaigns(
+        (data?.perCampaign || []).map((item) => {
+          const campaignTitle =
+            item?.campaign?.campaignTitle || "Untitled Campaign";
+          const campaignId = item?.campaign?._id || "";
+          return { title: campaignTitle, id: campaignId };
+        })
+      );
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load wallet data");
     } finally {
@@ -65,9 +74,17 @@ const Wallet = () => {
   }, [token, isMainWallet, location.key]);
 
   const filteredTransactions = walletSummary.recentTransactions.filter(
-    (item) =>
-      item.reference?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.note?.toLowerCase().includes(searchTerm.toLowerCase())
+    (item) => {
+      const matchesSearch =
+        item.reference?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.note?.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesCampaign = selectedCampaign
+        ? item.campaign?.campaignTitle === selectedCampaign
+        : true;
+
+      return matchesSearch && matchesCampaign;
+    }
   );
 
   return (
@@ -89,11 +106,21 @@ const Wallet = () => {
               <div className="card" style={{ background: "#EBF5FF" }}>
                 <div className="top">
                   <p>Available Balance</p>
-                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>₦</span>
+                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>
+                    ₦
+                  </span>
                 </div>
                 <div className="down">
                   {loading ? (
-                    <div className="skeleton skeleton-text"></div>
+                    <div    style={{
+                        width: "60px",
+                        height: "20px",
+                        borderRadius: "4px",
+                        background:
+                          "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+                        backgroundSize: "200% 100%",
+                        animation: "loading 1.2s ease-in-out infinite",
+                      }}></div>
                   ) : (
                     <p>₦{walletSummary.availableBalance.toLocaleString()}</p>
                   )}
@@ -103,11 +130,21 @@ const Wallet = () => {
               <div className="card" style={{ background: "#E8FFF9" }}>
                 <div className="top">
                   <p>Total Withdrawn</p>
-                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>₦</span>
+                  <span style={{ background: "#DBEAFE", color: "#8402E3" }}>
+                    ₦
+                  </span>
                 </div>
                 <div className="down">
                   {loading ? (
-                    <div className="skeleton skeleton-text"></div>
+                    <div   style={{
+                        width: "60px",
+                        height: "20px",
+                        borderRadius: "4px",
+                        background:
+                          "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+                        backgroundSize: "200% 100%",
+                        animation: "loading 1.2s ease-in-out infinite",
+                      }}></div>
                   ) : (
                     <p>₦{walletSummary.totalWithdrawn.toLocaleString()}</p>
                   )}
@@ -115,7 +152,9 @@ const Wallet = () => {
               </div>
             </div>
 
-            <label style={{ padding: "10px 0" }}>Select campaign to view details</label>
+            <label style={{ padding: "10px 0" }}>
+              Select campaign to view details
+            </label>
             <div className="select_control">
               <InputField
                 type="text"
@@ -132,20 +171,38 @@ const Wallet = () => {
 
             {showCategoryDrop && (
               <div className="cartigory_drop">
-                {campaigns.length === 0 ? (
-                  <p style={{ color: "#777" }}>No campaigns available</p>
-                ) : (
+                {campaigns.length > 0 ? (
                   campaigns.map((c, i) => (
                     <p
                       key={i}
                       onClick={() => {
-                        setSelectedCampaign(c);
+                        if (!c?.title) return;
+                        setSelectedCampaign(c.title);
                         setShowCategoryDrop(false);
                       }}
+                      style={{
+                        fontWeight:
+                          selectedCampaign === c.title ? "600" : "400",
+                        background:
+                          selectedCampaign === c.title
+                            ? "#f0f0f0"
+                            : "transparent",
+                      }}
                     >
-                      {c}
+                      {c?.title || "Untitled Campaign"}
                     </p>
                   ))
+                ) : (
+                  <p style={{ color: "#888" }}>No campaigns available</p>
+                )}
+
+                {selectedCampaign && (
+                  <p
+                    onClick={() => setSelectedCampaign("")}
+                    style={{ color: "#ff0000", marginTop: "0.5rem" }}
+                  >
+                    Clear Selection
+                  </p>
                 )}
               </div>
             )}
@@ -174,25 +231,14 @@ const Wallet = () => {
                 }}
               >
                 <Loader2 className="animate-spin" size={36} color="#8402E3" />
-                <p style={{ marginTop: "1rem", color: "#555" }}>Loading wallet data...</p>
+                <p style={{ marginTop: "1rem", color: "#555" }}>
+                  Loading wallet data...
+                </p>
               </div>
             ) : error ? (
               <p style={{ color: "red", textAlign: "center" }}>{error}</p>
             ) : (
               <>
-                <div style={{ margin: "2rem 0" }}>
-            
-                  {walletSummary.perCampaign.length === 0 ? (
-                    <p>No campaigns available</p>
-                  ) : (
-                    walletSummary.perCampaign.map((c, i) => (
-                      <div key={i} style={{ padding: "0.5rem 0" }}>
-                        <strong>{c.campaignTitle}</strong> - ₦{c.availableAmount?.toLocaleString() || 0}
-                      </div>
-                    ))
-                  )}
-                </div>
-
                 <div className="table-container">
                   <h3>Recent Transactions</h3>
                   <table className="custom-table">
@@ -206,23 +252,19 @@ const Wallet = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredTransactions.length === 0 ? (
-                        <tr>
-                          <td colSpan="5" style={{ textAlign: "center", color: "#777" }}>
-                            No transactions available
+                      {filteredTransactions.map((item, index) => (
+                        <tr key={item._id || index}>
+                          <td>{item.reference || "—"}</td>
+                          <td>{item.campaign?.campaignTitle || "—"}</td>
+                          <td>
+                            {new Date(
+                              item.createdAt || item.date
+                            ).toLocaleDateString()}
                           </td>
+                          <td>₦{item.amount?.toLocaleString() || 0}</td>
+                          <td>{item.status || "successful"}</td>
                         </tr>
-                      ) : (
-                        filteredTransactions.map((item, index) => (
-                          <tr key={item._id || index}>
-                            <td>{item.reference || "—"}</td>
-                            <td>{item.campaign?.campaignTitle || "—"}</td>
-                            <td>{new Date(item.createdAt || item.date).toLocaleDateString()}</td>
-                            <td>₦{item.amount?.toLocaleString() || 0}</td>
-                            <td>{item.status || "successfull"}</td>
-                          </tr>
-                        ))
-                      )}
+                      ))}
                     </tbody>
                   </table>
                 </div>

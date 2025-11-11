@@ -5,7 +5,6 @@ const CompletedCampaignTimeline = ({ milestones = [] }) => {
   const [completedMilestones, setCompletedMilestones] = useState([]);
 
   useEffect(() => {
-    // Keep only completed milestones
     const completed = milestones?.filter((m) => m.status === "completed") || [];
     setCompletedMilestones(completed);
     

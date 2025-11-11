@@ -9,6 +9,25 @@ import { BsGift } from "react-icons/bs";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import styled, { keyframes } from "styled-components";
+
+// Spinner animation
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+const Spinner = styled.div`
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: ${spin} 1s linear infinite;
+  margin: auto;
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+`;
 
 const CampaignDetails4org_ongoing = () => {
   const [campaignData, setCampaignData] = useState(null);
@@ -27,6 +46,7 @@ const CampaignDetails4org_ongoing = () => {
   const token = useSelector((state) => state.auth.token);
   const VITE_Payemt_BaseUrl = import.meta.env.VITE_Payemt_BaseUrl;
 
+  // Fetch campaign + milestones
   useEffect(() => {
     const fetchCampaignData = async () => {
       if (!id && !campaignFromState?._id) return;
@@ -44,6 +64,7 @@ const CampaignDetails4org_ongoing = () => {
     fetchCampaignData();
   }, [id, campaignFromState]);
 
+  // Fetch top donors
   useEffect(() => {
     const fetchTopDonors = async () => {
       if (!id && !campaignFromState?._id) return;
@@ -62,7 +83,7 @@ const CampaignDetails4org_ongoing = () => {
             ...d,
             donorName: d.donorName?.trim() || "Anonymous",
           }));
-          setTopDonors(donorsData.slice(0, 3)); 
+          setTopDonors(donorsData.slice(0, 3));
         } else {
           toast.error(res?.data?.message || "Failed to load top donors");
         }
@@ -76,6 +97,7 @@ const CampaignDetails4org_ongoing = () => {
     fetchTopDonors();
   }, [id, campaignFromState, token, VITE_Payemt_BaseUrl]);
 
+  // Fetch all donors
   useEffect(() => {
     const fetchAllDonors = async () => {
       if (!id && !campaignFromState?._id) return;
@@ -94,7 +116,7 @@ const CampaignDetails4org_ongoing = () => {
             donorId: d.donor?._id || "N/A",
             donorName: d.donor?.name?.trim() || "Anonymous",
             totalDonated: d.amount || 0,
-            donationCount: 1, 
+            donationCount: 1,
           }));
           setAllDonors(donorsData);
         } else {
@@ -110,7 +132,7 @@ const CampaignDetails4org_ongoing = () => {
     fetchAllDonors();
   }, [id, campaignFromState, token, VITE_Payemt_BaseUrl]);
 
-  if (loading) return <p>Loading campaign details...</p>;
+  if (loading) return <Spinner />;
   if (!campaignData) return <p>Failed to load campaign details.</p>;
 
   const { campaign: campaignInfo, milestones } = campaignData;
@@ -186,7 +208,7 @@ const CampaignDetails4org_ongoing = () => {
           <p className="p_top">Top Donors</p>
           <div className="top_right">
             {loadingTopDonors ? (
-              <p>Loading top donors...</p>
+              <Spinner />
             ) : topDonors.length === 0 ? (
               <p>No donors yet.</p>
             ) : (
@@ -211,7 +233,7 @@ const CampaignDetails4org_ongoing = () => {
           <p className="p_all">All Donors</p>
           <div className="down_right">
             {loadingAllDonors ? (
-              <p>Loading all donors...</p>
+              <Spinner />
             ) : allDonors.length === 0 ? (
               <p>No donors yet.</p>
             ) : (

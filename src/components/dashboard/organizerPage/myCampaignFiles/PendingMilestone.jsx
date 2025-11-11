@@ -37,7 +37,7 @@ const PendingMilestone = ({ milestones = [] }) => {
                 color: "white",
               }}
             >
-              {item.status || "Pending"}
+              {item.status }
             </span>
 
             <div

@@ -95,6 +95,7 @@ const OverViewPage = () => {
           <div className="card">
             <div className="top">
               <p>Total Donations</p>
+              <span style={{ background: "#DBEAFE", color: "#8402E3" }}>₦</span>
             </div>
             <div className="down">
               {loading ? (
@@ -161,7 +162,7 @@ const OverViewPage = () => {
             placeholder="Search input"
             className="input"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} 
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 

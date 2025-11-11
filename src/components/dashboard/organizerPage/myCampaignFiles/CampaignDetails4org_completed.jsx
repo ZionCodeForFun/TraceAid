@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "../../../../style/CampaignDetail4orgStyle";
-import { TbHeartFilled, TbHeartPlus } from "react-icons/tb";
 import Button from "../../../common/Button";
 import { BsGift } from "react-icons/bs";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
@@ -11,14 +10,31 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getCampaignMilestones } from "../../../../api/campaignDeatils";
+import styled, { keyframes } from "styled-components";
+
+// Spinner animation
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+const Spinner = styled.div`
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: ${spin} 1s linear infinite;
+  margin: auto;
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+`;
 
 const CampaignDetails4org_completed = () => {
   const [campaignData, setCampaignData] = useState(null);
   const [loadingCampaign, setLoadingCampaign] = useState(true);
-
   const [topDonors, setTopDonors] = useState([]);
   const [allDonors, setAllDonors] = useState([]);
-
   const [loadingTopDonors, setLoadingTopDonors] = useState(true);
   const [loadingAllDonors, setLoadingAllDonors] = useState(true);
   const [showMilestone, setShowMilestone] = useState(false);
@@ -27,7 +43,6 @@ const CampaignDetails4org_completed = () => {
   const nav = useNavigate();
   const location = useLocation();
   const campaignFromState = location.state?.campaign;
-
   const token = useSelector((state) => state.auth.token);
   const VITE_Payemt_BaseUrl = import.meta.env.VITE_Payemt_BaseUrl;
 
@@ -49,11 +64,14 @@ const CampaignDetails4org_completed = () => {
   }, [id, campaignFromState]);
 
   useEffect(() => {
-    const fetchAllDonors = async () => {
+    const fetchDonors = async () => {
       if (!id && !campaignFromState?._id) return;
+      const campaignId = id || campaignFromState._id;
+
       try {
         setLoadingAllDonors(true);
-        const campaignId = id || campaignFromState._id;
+        setLoadingTopDonors(true);
+
         const res = await axios.get(
           `${VITE_Payemt_BaseUrl}/campaign/${campaignId}/donations`,
           { headers: { Authorization: `Bearer ${token}` } }
@@ -66,6 +84,7 @@ const CampaignDetails4org_completed = () => {
           donorsRaw.forEach((d) => {
             const donorId = d.donor?._id || "N/A";
             const donorName = d.donor?.name?.trim() || "Anonymous";
+
             if (!donorsMap[donorId]) {
               donorsMap[donorId] = {
                 donorId,
@@ -97,15 +116,11 @@ const CampaignDetails4org_completed = () => {
         setLoadingTopDonors(false);
       }
     };
-    fetchAllDonors();
+
+    fetchDonors();
   }, [id, campaignFromState, token, VITE_Payemt_BaseUrl]);
 
-useEffect(() => {
-  if (campaignData?.milestones) {
-    console.log("Fetched milestones:", campaignData.milestones);
-  }
-}, [campaignData]);
-  if (loadingCampaign) return <p>Loading campaign details...</p>;
+  if (loadingCampaign) return <Spinner />;
   if (!campaignData) return <p>Failed to load campaign details.</p>;
 
   const { campaign: campaignInfo, milestones } = campaignData;
@@ -174,7 +189,7 @@ useEffect(() => {
           <p className="p_top">Top Donors</p>
           <div className="top_right">
             {loadingTopDonors ? (
-              <p>Loading top donors...</p>
+              <Spinner />
             ) : topDonors.length === 0 ? (
               <p>No donors yet.</p>
             ) : (
@@ -199,7 +214,7 @@ useEffect(() => {
           <p className="p_all">All Donors</p>
           <div className="down_right">
             {loadingAllDonors ? (
-              <p>Loading all donors...</p>
+              <Spinner />
             ) : allDonors.length === 0 ? (
               <p>No donors yet.</p>
             ) : (
