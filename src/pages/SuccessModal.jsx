@@ -18,7 +18,7 @@ const SuccessModal = ({ close = () => {}, reference }) => {
           className="btn"
           onClick={() => {
             close();
-            nav("/");
+            nav("/my_donations");
           }}
         >
           Go to Dashboard
