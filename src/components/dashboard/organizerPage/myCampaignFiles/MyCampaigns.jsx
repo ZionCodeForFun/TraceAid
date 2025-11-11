@@ -248,7 +248,7 @@ const MyCampaigns = () => {
                 placeholder="Search campaigns..."
                 className="input"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)} // ✅ functional search
+                onChange={(e) => setSearchQuery(e.target.value)} 
               />
               <div className="dropdwn">
                 <p>All Status</p>
