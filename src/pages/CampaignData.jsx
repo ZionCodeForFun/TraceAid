@@ -159,11 +159,13 @@ const CampaignData = () => {
                   setCurrentPage(1);
                 }}
               >
-                <option value="">All Categories</option>
+                <option value="">All Category</option>
+                <option value="Health & Wellness">Health & Wellness</option>
                 <option value="Education & Schools">Education & Schools</option>
-                <option value="Health">Health</option>
-                <option value="Community">Community</option>
-                <option value="Food">Food</option>
+                <option value="Disaster Relief">Disaster Relief</option>
+                <option value="Community Development">
+                  Community Development
+                </option>
               </CategorySelect>
             </ExploreTopBar>
 

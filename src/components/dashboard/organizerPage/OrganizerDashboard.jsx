@@ -57,10 +57,11 @@ const OrganizerDashboard = () => {
   ];
 
   // Ensure selectedKey matches the current path even after refresh
-  const selectedKey = items.find(
-    (item) =>
-      item.label.props?.to && location.pathname.includes(item.label.props.to)
-  )?.key || "1";
+  const selectedKey =
+    items.find(
+      (item) =>
+        item.label.props?.to && location.pathname.includes(item.label.props.to)
+    )?.key || "1";
 
   return (
     <Container>
@@ -77,8 +78,13 @@ const OrganizerDashboard = () => {
           </div>
           <Menu
             className="content_holder"
-            selectedKeys={[selectedKey]} // dynamically selected
+            selectedKeys={[selectedKey]}
             items={items}
+            onClick={(info) => {
+              if (info.key === "5") {
+                handleLogout();
+              }
+            }}
           />
         </Sider>
 

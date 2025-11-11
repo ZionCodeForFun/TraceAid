@@ -37,7 +37,6 @@ const LoginForm = () => {
 
       const token = data?.token;
       if (token) {
-      
         dispatch(setToken(token));
       }
 
@@ -69,7 +68,11 @@ const LoginForm = () => {
         layout="vertical"
         requiredMark={false}
       >
-        <div className="img_holder">
+        <div
+          className="img_holder"
+          onClick={() => nav("/")}
+          style={{ cursor: "pointer" }}
+        >
           <img src={logo2} alt="logo" />
         </div>
 

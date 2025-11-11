@@ -117,7 +117,7 @@ export const Container = styled.div`
           position: absolute;
           top: 50%;
           right: 30%;
-          background-color: #E7F6CB;
+          background-color: #e7f6cb;
           font-size: 24px;
           border-radius: 50px;
           cursor: pointer;
@@ -275,7 +275,190 @@ export const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px 12px;
+    height: auto;
+    overflow-x: hidden;
+
+    .wrapper {
+      flex-direction: column;
+      width: 100%;
+      gap: 24px;
+      padding-top: 20px;
+      align-items: center;
+      margin-left: 10px;
+    }
+
+    .left {
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background-color: var(--Neutral_Offwhite);
+      align-items: center;
+      gap: 20px;
+    }
+
+    .right {
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      padding: 20px 16px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background-color: var(--Neutral_Offwhite);
+      gap: 24px;
+
+      .title p {
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+        color: #111827;
+      }
+
+      .input_holder {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .name_holder {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          position: relative;
+
+          label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            line-height: 1.5;
+          }
+
+          input {
+            width: 100%;
+            height: 48px;
+            padding: 0 14px 0 42px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            font-size: 15px;
+            color: #111827;
+            background-color: #fff;
+            box-sizing: border-box;
+            line-height: normal;
+            display: block;
+
+            &::placeholder {
+              color: #9ca3af;
+              font-size: 14px;
+            }
+
+            &:focus {
+              border-color: var(--PrimaryBase);
+              outline: none;
+              box-shadow: 0 0 0 2px rgba(132, 2, 227, 0.15);
+            }
+          }
+
+          i {
+            position: absolute;
+            top: 50%;
+            left: 14px;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #6b7280;
+            pointer-events: none;
+            line-height: 1;
+          }
+
+          .choose_file {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            color: var(--PrimaryBase);
+            font-weight: 500;
+            cursor: pointer;
+            line-height: 1;
+          }
+        }
+      }
+
+      .btn_holder {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        margin-top: 16px;
+
+        .btn_left,
+        .btn_right {
+          width: 100%;
+          height: 48px;
+          font-size: 15px;
+          border-radius: 8px;
+        }
+
+        .btn_left {
+          border: 1px solid #617437;
+        }
+      }
+    }
+
+    .account_card {
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      max-width: 360px;
+      padding: 14px;
+      height: auto;
+      border-radius: 10px;
+      gap: 12px;
+      border: 1px solid var(--NeutralBlack);
+
+      .radio_col input {
+        width: 18px;
+        height: 18px;
+      }
+
+      .account_info {
+        margin-left: 10px;
+        gap: 4px;
+        flex: 1;
+
+        .number,
+        .name {
+          font-size: 14px;
+        }
+
+        .bank {
+          font-size: 12px;
+        }
+      }
+
+      .actions {
+        gap: 12px;
+        .icon {
+          font-size: 20px;
+        }
+      }
+    }
+
+    * {
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: visible !important;
+    }
+  }
 `;
+
 //this style is for security component
 export const Aside_holder = styled.div`
   width: 669px;
@@ -361,6 +544,7 @@ export const Aside_holder = styled.div`
       }
     }
   }
+
 `;
 //this style is for payoutdetails component
 export const Aside_holder2 = styled.div`
