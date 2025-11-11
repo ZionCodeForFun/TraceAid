@@ -5,6 +5,32 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+
+// Skeleton animation
+const shimmer = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;
+
+const Skeleton = styled.div`
+  width: ${({ width }) => width || "100%"};
+  height: ${({ height }) => height || "20px"};
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.2s ease-in-out infinite;
+  margin-bottom: 12px;
+`;
 
 const KycVerify = () => {
   const { user, token } = useSelector((state) => state.auth);
@@ -17,6 +43,7 @@ const KycVerify = () => {
   });
   const nav = useNavigate();
   const baseUrl = import.meta.env.VITE_BaseUrl_Kyc_Auto;
+
   useEffect(() => {
     const fetchKycStatus = async () => {
       try {
@@ -48,9 +75,6 @@ const KycVerify = () => {
     fetchKycStatus();
   }, [token, user._id]);
 
-  if (loading)
-    return <p style={{ marginLeft: "100px" }}>Loading KYC details...</p>;
-
   return (
     <Container>
       <aside className="right">
@@ -58,7 +82,14 @@ const KycVerify = () => {
           <p>KYC Verification</p>
         </div>
 
-        {isVerified ? (
+        {loading ? (
+          <div style={{ width: "100%" }}>
+            <Skeleton height="30px" />
+            <Skeleton height="30px" />
+            <Skeleton height="30px" />
+            <Skeleton height="30px" />
+          </div>
+        ) : isVerified ? (
           <form className="input_holder">
             <div className="name_holder">
               <label>Registration Number</label>

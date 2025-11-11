@@ -11,7 +11,7 @@ import UpdateMilestone from "./UpdateMilestone";
 import { FaFacebookF, FaLink } from "react-icons/fa";
 import { TbBrandInstagramFilled } from "react-icons/tb";
 import { FaXTwitter } from "react-icons/fa6";
-import { LuCopy } from "react-icons/lu";
+import { LuCopy, LuUpload } from "react-icons/lu";
 import { toast } from "react-toastify";
 import { IoCloseSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,8 +48,8 @@ const MyCampaigns = () => {
     popupPosition: { top: 40, left: 20 },
   });
 
-  const [searchQuery, setSearchQuery] = useState(""); // ✅ added for search
-  const [filteredCampaigns, setFilteredCampaigns] = useState([]); // ✅ local filtered list
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredCampaigns, setFilteredCampaigns] = useState([]);
 
   const dispatch = useDispatch();
   const nav = useNavigate();
@@ -87,7 +87,6 @@ const MyCampaigns = () => {
     if (token) fetchCampaigns();
   }, [token]);
 
-  // ✅ Whenever all campaigns or search changes, filter
   useEffect(() => {
     if (!searchQuery.trim()) {
       setFilteredCampaigns(all);
@@ -124,19 +123,24 @@ const MyCampaigns = () => {
     }
     window.open(shareUrl, "_blank");
   };
-
   const handleViewDetails = () => {
     if (!selectedCampaign) return;
 
+    const id = selectedCampaign._id;
+
     switch (selectedCampaign.status) {
       case "pending":
-        nav("camp_details_pending", { state: { campaign: selectedCampaign } });
+        nav(`/organization/myCampaigns/pending/${id}`, {
+          state: { campaign: selectedCampaign },
+        });
         break;
       case "active":
-        nav("camp_details_ongoing", { state: { campaign: selectedCampaign } });
+        nav(`/organization/myCampaigns/ongoing/${id}`, {
+          state: { campaign: selectedCampaign },
+        });
         break;
       case "completed":
-        nav("camp_details_completed", {
+        nav(`/organization/myCampaigns/completed/${id}`, {
           state: { campaign: selectedCampaign },
         });
         break;
@@ -248,7 +252,7 @@ const MyCampaigns = () => {
                 placeholder="Search campaigns..."
                 className="input"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)} 
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <div className="dropdwn">
                 <p>All Status</p>
@@ -285,9 +289,28 @@ const MyCampaigns = () => {
                         <td>
                           ₦{item.totalCampaignGoalAmount.toLocaleString()}
                         </td>
-                        <td>0</td>
+                        <td>{item.donorCount}</td>
                         <td>{item.status}</td>
-                        <td>—</td>
+                        <td
+                          className="upload_cell"
+                          onClick={() => {
+                            if (item.status === "completed") {
+                              setState((prev) => ({
+                                ...prev,
+                                selectedCampaign: item,
+                                showMilestone: true,
+                              
+                              }));
+                          
+                            } else {
+                              toast.info(
+                                "Milestones can only be updated for completed campaigns"
+                              );
+                            }
+                          }}
+                        >
+                          upload <LuUpload style={{ cursor: "pointer",  }} />
+                        </td>
                         <td>{item.durationDays} days</td>
                         <td
                           className="icon"

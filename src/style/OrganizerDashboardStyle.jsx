@@ -18,7 +18,10 @@ export const Container = styled.div`
       z-index: 999;
 
       .ant-menu-item-selected {
-        background-color: var(--NeutralBlack) !important; 
+        background-color: var(--NeutralBlack) !important;
+        color: var(--PrimaryBase) !important;
+      }
+      .ant-menu-item-selected a {
         color: var(--PrimaryBase) !important;
       }
       .logo {
@@ -45,7 +48,7 @@ export const Container = styled.div`
         max-width: 1200px;
         height: 80%;
         gap: 20px;
-        
+
         .menu {
           height: 48px;
           display: flex;

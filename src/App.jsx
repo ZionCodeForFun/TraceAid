@@ -41,7 +41,7 @@ import MyDonations from "./pages/MyDonations";
 import SavedCampaign from "./pages/SavedCampaign";
 import ProfileSettings from "./pages/ProfileSettings";
 import ContactUsPage from "./pages/ContactUs";
-
+import { useAutoLogout } from "./hooks/useAutoLogout";
 import AdminDashboard from "./components/dashboard/adminDashboard/Admin";
 import DashboardManagement from "./components/dashboard/adminDashboard/DashboardManagement";
 import AdminUsers from "./components/dashboard/adminDashboard/AdminUsers";
@@ -54,100 +54,108 @@ import ScrollToTop from "./components/common/ScrollToTop";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import AllDonorsPage from "./pages/AllDonorsPage";
 
-const App = () => (
-  <HashRouter>
-    <ScrollToTop />
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/termsandcon" element={<TermsAndConditions />} />
-      <Route path="/createcampaign" element={<CreateCampaign />} />
+const App = () => {
+  useAutoLogout();
+  return (
+    <HashRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/termsandcon" element={<TermsAndConditions />} />
+        <Route path="/createcampaign" element={<CreateCampaign />} />
 
-      <Route path="/organization" element={<OrganizerDashboard />}>
-        <Route index element={<OverViewPage />} />
-        <Route path="myCampaigns" element={<MyCampaigns />}>
-          <Route
-            path="camp_details_ongoing"
-            element={<CampaignDetails4org_ongoing />}
-          />
-          <Route
-            path="camp_details_pending"
-            element={<CampaignDetails4org_pending />}
-          />
-          <Route
-            path="camp_details_completed"
-            element={<CampaignDetails4org_completed />}
-          />
+        <Route path="/organization" element={<OrganizerDashboard />}>
+          <Route index element={<OverViewPage />} />
+          <Route path="myCampaigns" element={<MyCampaigns />}>
+            <Route
+              path="ongoing/:id"
+              element={<CampaignDetails4org_ongoing />}
+            />
+            <Route
+              path="pending/:id"
+              element={<CampaignDetails4org_pending />}
+            />
+            <Route
+              path="completed/:id"
+              element={<CampaignDetails4org_completed />}
+            />
+          </Route>
+
+          <Route path="wallet" element={<Wallet />}>
+            <Route path="requestwithdraw" element={<RequestWithraw />} />
+          </Route>
+
+          <Route path="settings" element={<Settings />}>
+            <Route index element={<PersonalInfo />} />
+            <Route path="kycverify" element={<KycVerify />} />
+            <Route path="security" element={<Security />} />
+            <Route path="payoutdetails" element={<PayoutDetails />} />
+            <Route path="notification" element={<Notification />} />
+          </Route>
         </Route>
 
-        <Route path="wallet" element={<Wallet />}>
-          <Route path="requestwithdraw" element={<RequestWithraw />} />
+        <Route path="/admin_register" element={<AdminRegister />} />
+        <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
+        <Route path="/admin_login" element={<AdminLogin />} />
+        <Route
+          path="/admin-forgot-password"
+          element={<AdminForgotPassword />}
+        />
+        <Route
+          path="/admin-request-password/:token/:id"
+          element={<AdminRequestPassword />}
+        />
+
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/verify_kyc1" element={<KycVerification1 />} />
+        <Route path="/verify_kyc2" element={<KycVerification2 />} />
+        <Route path="/verify/:email" element={<VerifyOtp />} />
+        <Route path="/signup" element={<SignUpForm />} />
+
+        <Route path="/how_it_works" element={<HowItWorks />} />
+        <Route path="/explore" element={<ExploreCampaign />} />
+        <Route path="/campaign_data" element={<CampaignData />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/campaign_details/:id" element={<CampaignDetails />} />
+        <Route path="/role_modal" element={<RoleModal />} />
+        <Route path="/my_donations" element={<MyDonations />} />
+        <Route path="/saved_campaigns" element={<SavedCampaign />} />
+        <Route path="/profile_settings" element={<ProfileSettings />} />
+        <Route path="/contact_us" element={<ContactUsPage />} />
+        <Route path="/payment_success" element={<PaymentSuccessPage />} />
+        <Route path="/campaign/:id/donors" element={<AllDonorsPage />} />
+
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
+
+        {/* ADMIN ROUTES AND PAGES BELOW, DON'T ADD ROUTES THATS NOT ADMIN'S */}
+        <Route path="/admin_register" element={<AdminRegister />} />
+        <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
+        <Route path="/admin_login" element={<AdminLogin />} />
+        <Route
+          path="/admin-forgot-password"
+          element={<AdminForgotPassword />}
+        />
+        <Route
+          path="/admin-request-password/:token/:id"
+          element={<AdminRequestPassword />}
+        />
+
+        <Route path="/admin" element={<AdminDashboard />}>
+          <Route path="" element={<DashboardManagement />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="verification" element={<AdminVerification />} />
+          <Route path="campaign" element={<AdminCampaignManagement />} />
+          <Route path="reports" element={<ReportDashboard />} />
+          <Route path="Kyc" element={<AdminKyc />} />
         </Route>
+        {/* ADD ADMINS ROUTES BEWTWEEN, NO OTHER ROUTES FOR CLARIITY */}
 
-        <Route path="settings" element={<Settings />}>
-          <Route index element={<PersonalInfo />} />
-          <Route path="kycverify" element={<KycVerify />} />
-          <Route path="security" element={<Security />} />
-          <Route path="payoutdetails" element={<PayoutDetails />} />
-          <Route path="notification" element={<Notification />} />
-        </Route>
-      </Route>
+        <Route path="*" element={<RouterError />} />
+      </Routes>
 
-      <Route path="/admin_register" element={<AdminRegister />} />
-      <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
-      <Route path="/admin_login" element={<AdminLogin />} />
-      <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
-      <Route
-        path="/admin-request-password/:token/:id"
-        element={<AdminRequestPassword />}
-      />
-
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/verify_kyc1" element={<KycVerification1 />} />
-      <Route path="/verify_kyc2" element={<KycVerification2 />} />
-      <Route path="/verify/:email" element={<VerifyOtp />} />
-      <Route path="/signup" element={<SignUpForm />} />
-
-      <Route path="/how_it_works" element={<HowItWorks />} />
-      <Route path="/explore" element={<ExploreCampaign />} />
-      <Route path="/campaign_data" element={<CampaignData />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/campaign_details/:id" element={<CampaignDetails />} />
-      <Route path="/role_modal" element={<RoleModal />} />
-      <Route path="/my_donations" element={<MyDonations />} />
-      <Route path="/saved_campaigns" element={<SavedCampaign />} />
-      <Route path="/profile_settings" element={<ProfileSettings />} />
-      <Route path="/contact_us" element={<ContactUsPage />} />
-      <Route path="/payment_success" element={<PaymentSuccessPage />} />
-      <Route path="/campaign/:id/donors" element={<AllDonorsPage />} />
-
-      <Route path="/reset-password/:token" element={<ResetPassword />} />
-      <Route path="/forgotpassword" element={<ForgotPassword />} />
-
-      {/* ADMIN ROUTES AND PAGES BELOW, DON'T ADD ROUTES THATS NOT ADMIN'S */}
-      <Route path="/admin_register" element={<AdminRegister />} />
-      <Route path="/admin_verify_otp" element={<AdminVerifyOTP />} />
-      <Route path="/admin_login" element={<AdminLogin />} />
-      <Route path="/admin-forgot-password" element={<AdminForgotPassword />} />
-      <Route
-        path="/admin-request-password/:token/:id"
-        element={<AdminRequestPassword />}
-      />
-
-      <Route path="/admin" element={<AdminDashboard />}>
-        <Route path="" element={<DashboardManagement />} />
-        <Route path="users" element={<AdminUsers />} />
-        <Route path="verification" element={<AdminVerification />} />
-        <Route path="campaign" element={<AdminCampaignManagement />} />
-        <Route path="reports" element={<ReportDashboard />} />
-        <Route path="Kyc" element={<AdminKyc />} />
-      </Route>
-      {/* ADD ADMINS ROUTES BEWTWEEN, NO OTHER ROUTES FOR CLARIITY */}
-
-      <Route path="*" element={<RouterError />} />
-    </Routes>
-
-    <ToastContainer position="top-center" autoClose={2000} />
-  </HashRouter>
-);
-
+      <ToastContainer position="top-center" autoClose={2000} />
+    </HashRouter>
+  );
+};
 export default App;

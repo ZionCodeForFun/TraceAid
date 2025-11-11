@@ -1,38 +1,75 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import InputField from "../../../common/InputField";
 import Button from "../../../common/Button";
 import { GoPaperclip } from "react-icons/go";
 import { IoCloseSharp } from "react-icons/io5";
-import styled from "styled-components";
 import { CiCircleAlert } from "react-icons/ci";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 const UpdateMilestone = ({ onClose, campaign }) => {
-  const [fileCount, setFileCount] = useState(0);
-  const [files, setFiles] = useState([]);
+  const { token } = useSelector((state) => state.auth);
   const [description, setDescription] = useState("");
-  const [error, setError] = useState(false);
+  const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
-const {token, user} = useSelector((state) => state.auth);
-  console.log("first", user);
+  const [milestones, setMilestones] = useState([]);
+  const [selectedMilestone, setSelectedMilestone] = useState("");
+
+  useEffect(() => {
+    const fetchMilestones = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BaseUrl_UploadMiles}/campaigns/milestones/${
+            campaign._id
+          }`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(" zion testing", res.data.data);
+        if (res.data.statusCode && Array.isArray(res.data.data)) {
+          setMilestones(res.data.data);
+        } else {
+          toast.error("Failed to load milestones.");
+        }
+      } catch (error) {
+        console.error("Milestone fetch error:", error);
+        toast.error("Could not fetch milestones for this campaign.");
+      }
+    };
+
+    if (campaign?._id) fetchMilestones();
+  }, [campaign, token]);
+
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    setFiles(selectedFiles);
-    setFileCount(selectedFiles.length);
-    setError(selectedFiles.length < 5);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (fileCount < 5) {
-      setError(true);
+    if (files.length + selectedFiles.length > 10) {
+      toast.error("You can upload a maximum of 10 files.");
       return;
     }
+    setFiles((prev) => [...prev, ...selectedFiles]);
+  };
 
+  const handleRemoveFile = (index) => {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleUpload = async () => {
+    if (!selectedMilestone) {
+      toast.error("Please select a milestone.");
+      return;
+    }
     if (!description) {
       toast.error("Please enter a description for the milestone evidence.");
+      return;
+    }
+    if (files.length < 5) {
+      toast.error("You must select at least 5 files.");
       return;
     }
 
@@ -40,19 +77,12 @@ const {token, user} = useSelector((state) => state.auth);
       setLoading(true);
       const formData = new FormData();
       formData.append("description", description);
-
-      files.forEach((file) => formData.append("evidenceFiles", file));
-
-      const metadata = files.map((_, idx) => ({
-        latitude: "6.5244",
-        longitude: "3.3792",
-      }));
-      formData.append("fileMetadata", JSON.stringify(metadata));
+      files.forEach((file) => formData.append("files", file));
 
       const res = await axios.post(
-        `${import.meta.env.VITE_BaseUrl_UploadMiles}/milestones/evidence/${
-          user._id
-        }`,
+        `${
+          import.meta.env.VITE_BaseUrl_UploadMiles
+        }/milestones/evidence/${selectedMilestone}`,
         formData,
         {
           headers: {
@@ -61,54 +91,73 @@ const {token, user} = useSelector((state) => state.auth);
           },
         }
       );
-
       toast.success("Milestone evidence uploaded successfully!");
-      setLoading(false);
+      setFiles([]);
+      setDescription("");
+      setSelectedMilestone("");
       onClose(true);
     } catch (err) {
       console.error(err.response?.data);
-      toast.error("Failed to upload milestone evidence.");
+      toast.error(
+        err.response?.data?.message || "Failed to upload milestone evidence."
+      );
+    } finally {
       setLoading(false);
     }
   };
 
   return (
     <Container>
-      <aside className="right">
+      <div className="right">
         <div className="title">
           <p>Milestone Update</p>
         </div>
 
-        <form className="input_holder" onSubmit={handleSubmit}>
+        <div className="input_holder">
+
           <div className="name_holder">
-            <label>Milestone Title / Description</label>
+            <label>Select Milestone</label>
+            <select
+              value={selectedMilestone}
+              onChange={(e) => setSelectedMilestone(e.target.value)}
+            >
+              <option value="">-- Choose a milestone --</option>
+              {milestones.map((m) => (
+                <option key={m._id} value={m._id}>
+                  {m.milestoneTitle} ({m.status})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="name_holder">
+            <label>Description</label>
             <InputField
               type="text"
-              placeholder="Completed foundation work and initial framing"
+              placeholder="Enter milestone description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
 
           <div className="name_holder">
-            <label>Document Upload</label>
-
+            <label>Upload Documents</label>
             <input
               type="file"
-              id="file-upload"
               multiple
-              onChange={handleFileChange}
               style={{ display: "none" }}
+              id="file-upload"
+              onChange={handleFileChange}
             />
-
-            <InputField
+            <input
               type="text"
-              placeholder={`${
-                fileCount > 0
-                  ? `${fileCount} file${fileCount > 1 ? "s" : ""} selected`
-                  : "File upload"
-              }`}
               readOnly
+              placeholder={
+                files.length > 0
+                  ? `${files.length} file(s) selected`
+                  : "Select files"
+              }
+              onClick={() => document.getElementById("file-upload").click()}
             />
             <i>
               <GoPaperclip />
@@ -117,83 +166,93 @@ const {token, user} = useSelector((state) => state.auth);
               className="choose_file"
               onClick={() => document.getElementById("file-upload").click()}
             >
-              Choose file
+              Choose File
             </p>
 
-            <div className={`alrt ${error ? "error" : ""}`}>
+            <div className="alrt">
               <CiCircleAlert className="alrt_icon" />
-              <p>
-                {error
-                  ? "Upload at least 5 proof evidence files!"
-                  : "Minimum of 5 proof evidence upload"}
-              </p>
+              <p>Upload at least 5 documents (Max 10)</p>
             </div>
           </div>
 
+          {files.length > 0 && (
+            <ul>
+              {files.map((file, index) => (
+                <li key={index}>
+                  {file.name}{" "}
+                  <span
+                    style={{ cursor: "pointer", color: "red" }}
+                    onClick={() => handleRemoveFile(index)}
+                  >
+                    Remove
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+
           <div className="btn_holder">
             <Button
-              text={loading ? "Uploading..." : "Save Milestone"}
+              text={loading ? "Uploading..." : "Upload Files"}
+              onClick={handleUpload}
               className="btn"
-              type="submit"
             />
           </div>
-
-          <IoCloseSharp onClick={() => onClose()} className="btn_close" />
-        </form>
-      </aside>
+        </div>
+          <i className="btn_close" onClick={() => onClose()}>
+            <IoCloseSharp />
+          </i>
+      </div>
     </Container>
   );
 };
 
 export default UpdateMilestone;
-
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: rgb(141, 141, 141, 0.5);
-
+  background-color: rgba(141, 141, 141, 0.5);
   width: 100%;
   position: fixed;
   top: 0;
-  left: 0%;
+  left: 0;
   z-index: 9999;
 
   .right {
-    width: 650px;
-    height: 450px;
-    padding: 40px;
+    position: relative;
+    width: 600px;
+    max-width: 90%;
+    max-height: 90%;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    border-radius: 40px;
+    border-radius: 30px;
     border: 1px solid var(--Neutral_Grey1);
     background-color: var(--Neutral_Offwhite);
+    overflow-y: auto;
 
     .title p {
       color: var(--NeutralGrey4-Text);
-      font-size: 40px;
+      font-size: 32px;
       font-weight: 700;
-      padding-top: 40px;
+      padding-top: 20px;
+      text-align: center;
     }
 
     .input_holder {
-      width: 90%;
-      height: 80%;
+      width: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: end;
-      position: relative;
-      gap: 19px;
-
+      gap: 15px;
       .name_holder {
         display: flex;
         flex-direction: column;
-        height: 61px;
-        position: relative;
         gap: 5px;
+        position: relative;
 
         label {
           font-size: 14px;
@@ -201,29 +260,33 @@ const Container = styled.div`
           color: var(--NeutralGrey4-Text);
         }
 
-        input {
+        input,
+        select {
           width: 100%;
           padding: 10px 35px;
           border-radius: 12px;
           border: 1px solid var(--Neutral_Grey1);
           outline: none;
           color: #8d8d8d;
-          height: 48px;
+          height: 45px;
           font-size: 16px;
+          background-color: #fff;
         }
 
         i {
           position: absolute;
-          top: 55%;
+          top: 50%;
           left: 2%;
+          transform: translateY(-50%);
           color: #8d8d8d;
           font-size: 20px;
         }
 
         .choose_file {
           position: absolute;
-          top: 55%;
+          top: 50%;
           right: 4%;
+          transform: translateY(-50%);
           color: var(--PrimaryBase);
           font-weight: 400;
           font-size: 16px;
@@ -248,35 +311,76 @@ const Container = styled.div`
         }
       }
 
-      .btn_close {
-        position: absolute;
-        top: -37%;
-        right: 4%;
-        cursor: pointer;
-        font-size: 24px;
-        color: #8d8d8d;
-      }
+    }
+    
+    ul {
+      max-height: 150px;
+      overflow-y: auto;
+      padding-left: 20px;
     }
 
     .btn_holder {
       display: flex;
-      height: 43px;
-      justify-content: space-between;
-      margin-top: 30px;
+      width: 100%;
+      justify-content: center;
+      margin-top: 20px;
 
       .btn {
-        height: 100%;
+        height: 45px;
         width: 100%;
         border-radius: 8px;
         background-color: var(--NeutralBlack);
         color: var(--PrimaryBase);
         font-size: 16px;
         font-weight: 600;
-
+        
         &:hover {
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
         }
+      }
+    }
+   
+    .btn_close {
+      position: absolute;
+      top: 5%;
+      right: 10%;
+      cursor: pointer;
+      font-size: 24px;
+      color: #8d8d8d;
+    }
+  }
+  .right {
+  
+  overflow-y: auto;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.right::-webkit-scrollbar {
+  display: none;
+}
+
+  @media (max-width: 768px) {
+    .right {
+      width: 90%;
+      padding: 20px;
+      border-radius: 20px;
+
+      .title p {
+        font-size: 24px;
+      }
+
+      .input_holder .name_holder input,
+      .input_holder .name_holder select {
+        height: 40px;
+        font-size: 14px;
+      }
+
+      .btn_holder .btn {
+        height: 40px;
+        font-size: 14px;
       }
     }
   }
