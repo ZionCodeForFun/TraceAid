@@ -264,4 +264,48 @@ const Container = styled.div`
     color: #0066cc;
     text-decoration: none;
   }
+
+    @media (max-width: 480px) {
+    article {
+      padding: 1.8rem 1.2rem;
+      margin-top: 1.2rem;
+      background: #fafafa;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      margin-top: 1.2rem;
+      line-height: 1.35;
+    }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: #444;
+    }
+
+    ul {
+      margin-left: 1.1rem;
+      margin-top: 0.4rem;
+
+      li {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 0.3rem;
+      }
+    }
+
+    a {
+      font-size: 0.9rem;
+      color: #0073e6;
+    }
+  }
 `;
