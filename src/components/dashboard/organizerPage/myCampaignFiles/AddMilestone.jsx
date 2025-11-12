@@ -6,7 +6,12 @@ import { toast } from "react-toastify";
 import ReactDOM from "react-dom";
 import { IoCloseSharp } from "react-icons/io5";
 
-const AddMilestone = ({ onClose, existingMilestone = null }) => {
+const AddMilestone = ({
+  onClose,
+  existingMilestone = null,
+  milestones,
+  campaignAmount,
+}) => {
   const [milestone, setMilestone] = useState({
     title: "",
     amount: "",
@@ -20,18 +25,29 @@ const AddMilestone = ({ onClose, existingMilestone = null }) => {
   useEffect(() => {
     if (existingMilestone) {
       setMilestone(existingMilestone);
+    } else {
+      const total = parseFloat(campaignAmount);
+      if (!isNaN(total)) {
+        if (milestones.length === 0) {
+          const first = (total * 0.3).toFixed(2);
+          setMilestone((p) => ({ ...p, amount: first }));
+        } else if (milestones.length === 1) {
+          const firstAmount = parseFloat(milestones[0].amount);
+          const remaining = (total - firstAmount).toFixed(2);
+          setMilestone((p) => ({ ...p, amount: remaining }));
+        }
+      }
     }
- 
-  }, [existingMilestone]);
+  }, [existingMilestone, campaignAmount, milestones]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setMilestone((prev) => ({ ...prev, [name]: value }));
     setError(false);
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const { title, amount, duration, description } = milestone;
 
     if (
@@ -44,6 +60,32 @@ const AddMilestone = ({ onClose, existingMilestone = null }) => {
       toast.error("All fields are required");
       return;
     }
+    const numericAmount = parseFloat(amount);
+    const totalCampaignAmount = parseFloat(campaignAmount);
+    const isFirstMilestone = milestones.length === 0;
+    const isSecondMilestone = milestones.length === 1;
+
+    if (isFirstMilestone && numericAmount > totalCampaignAmount * 0.3) {
+      toast.error("First milestone cannot exceed 30% of the campaign amount.");
+      return;
+    }
+
+    if (isSecondMilestone) {
+      const firstMilestoneAmount = parseFloat(milestones[0].amount);
+      const remainingAllowed = totalCampaignAmount - firstMilestoneAmount;
+
+      if (numericAmount !== remainingAllowed) {
+        toast.error(
+          `Second milestone must equal the remaining ${remainingAllowed.toLocaleString()} of the campaign amount.`
+        );
+        return;
+      }
+    }
+
+    const payload = {
+      ...milestone,
+      id: isEdit ? milestone.id : `ms_${Date.now()}`,
+    };
 
     if (isEdit) {
       toast.success("Milestone updated successfully");
@@ -54,7 +96,7 @@ const AddMilestone = ({ onClose, existingMilestone = null }) => {
     setShowSuccess(true);
 
     setTimeout(() => {
-      onClose(true, milestone, isEdit);
+      onClose(true, payload, isEdit);
     }, 1000);
   };
 
@@ -88,13 +130,25 @@ const AddMilestone = ({ onClose, existingMilestone = null }) => {
             <div className="name_holder">
               <label>Amount</label>
               <InputField
-                type="number"
+             
                 name="amount"
-                placeholder="Enter target amount"
                 value={milestone.amount}
                 onChange={handleChange}
-                min="1"
+                readOnly={
+                  !isEdit &&
+                  (milestones.length === 0 || milestones.length === 1)
+                }
               />
+              {!isEdit && milestones.length === 0 && (
+                <p style={{ fontSize: 12, color: "#555" }}>
+                  30% of campaign amount
+                </p>
+              )}
+              {!isEdit && milestones.length === 1 && (
+                <p style={{ fontSize: 12, color: "#555" }}>
+                  Remaining 70% of campaign amount
+                </p>
+              )}
             </div>
 
             <div className="name_holder">
@@ -165,17 +219,14 @@ const AddMilestone = ({ onClose, existingMilestone = null }) => {
 export default AddMilestone;
 
 const Container = styled.div`
-
   display: flex;
   justify-content: center;
   align-items: center;
- 
 
-  
   .right {
     position: fixed;
     top: 5%;
-     
+
     width: 550px;
     height: 80%;
     padding: 20px 20px;
@@ -265,7 +316,7 @@ const Container = styled.div`
 
       .reciept_holder {
         width: 450px;
-       
+
         padding: 30px;
         background-color: #fff;
         border-radius: 12px;

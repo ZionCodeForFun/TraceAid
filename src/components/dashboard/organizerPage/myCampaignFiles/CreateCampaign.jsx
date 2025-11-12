@@ -464,17 +464,49 @@ const CreateCampaign = ({ onClose }) => {
         {showaddmilestone && (
           <div className="modal_overlay">
             <AddMilestone
-              onClose={(saved, data) => {
-                setState((prev) => ({
-                  ...prev,
-                  showaddmilestone: false,
-                  ...(saved && data
-                    ? {
-                        milestones: [...prev.milestones, data],
-                        show: true,
-                      }
-                    : {}),
-                }));
+              existingMilestone={
+                state.editingMilestoneIndex !== null
+                  ? state.milestones[state.editingMilestoneIndex]
+                  : null
+              }
+              campaignAmount={formData.goalAmount}
+              milestones={state.milestones} 
+              onClose={(saved, data, isEdit) => {
+                setState((prev) => {
+                  if (!saved) {
+                    return {
+                      ...prev,
+                      showaddmilestone: false,
+                      editingMilestoneIndex: null,
+                    };
+                  }
+                  if (!isEdit && prev.milestones.length >= 2) {
+                    toast.error(
+                      "A campaign can only have a maximum of 2 milestones."
+                    );
+                    return {
+                      ...prev,
+                      showaddmilestone: false,
+                      editingMilestoneIndex: null,
+                    };
+                  }
+                  let updatedMilestones;
+
+                  if (isEdit && prev.editingMilestoneIndex !== null) {
+                    updatedMilestones = [...prev.milestones];
+                    updatedMilestones[prev.editingMilestoneIndex] = data;
+                  } else {
+                    updatedMilestones = [...prev.milestones, data];
+                  }
+
+                  return {
+                    ...prev,
+                    showaddmilestone: false,
+                    editingMilestoneIndex: null,
+                    milestones: updatedMilestones,
+                    show: true,
+                  };
+                });
               }}
             />
           </div>
@@ -507,7 +539,6 @@ const CreateCampaign = ({ onClose }) => {
 };
 
 export default CreateCampaign;
-
 
 export const Container = styled.div`
   display: flex;
@@ -575,7 +606,7 @@ export const Container = styled.div`
       display: flex;
       flex-direction: column;
       gap: 19px;
-      
+
       .name_holder {
         display: flex;
         flex-direction: column;
@@ -750,8 +781,7 @@ export const Container = styled.div`
         }
       }
     }
-   .sec_add{
-    
+    .sec_add {
       .add {
         font-size: 16px;
         font-weight: 600;
@@ -759,7 +789,7 @@ export const Container = styled.div`
         border-bottom: 1px solid #333333;
         width: fit-content;
       }
-   }
+    }
     .check {
       display: flex;
       align-items: center;
@@ -904,16 +934,14 @@ export const Container = styled.div`
     }
   }
   .modal_overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
- 
-}
-
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
