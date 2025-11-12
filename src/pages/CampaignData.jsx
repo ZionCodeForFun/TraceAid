@@ -202,7 +202,7 @@ const CampaignData = () => {
 
                 return (
                   <CampaignCard key={item._id} $mode={isExplorePage ? "grid" : "scroll"}>
-                    <CampaignImage>
+                    <CampaignImage onClick={() => nav(`/card_campaign_details/${item._id}`)}>
                       <img
                         src={item.campaignCoverImageOrVideo?.imageUrl}
                         alt={item.campaignTitle}

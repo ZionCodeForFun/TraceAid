@@ -224,7 +224,8 @@ const MyDonations = () => {
   }, [token]);
 
   const formattedDonations = donations.map((item) => ({
-    id: item._id,
+    donationId: item._id,
+    id: item?.campaign?._id,
     campaignTitle: item?.campaign?.campaignTitle || "Unknown Campaign",
     amount: Number(item?.amount || 0),
     formattedAmount: `₦${Number(item?.amount || 0).toLocaleString()}`,
@@ -253,21 +254,22 @@ const MyDonations = () => {
   const supportedCampaigns = new Set(donations.map((d) => d.campaign?._id))
     .size;
 
-  const handleMenuToggle = (id) => {
+  const handleMenuToggle = ( id) => {
+    console.log("clicked", id)
     setOpenMenuId(openMenuId === id ? null : id);
   };
 
   const handleOptionClick = (action, campaignId) => {
     if (action === "view") {
-      nav(`/campaign_details/${campaignId}`);
+      nav(`/card_campaign_details/${campaignId}`);
     } else if (action === "share") {
       navigator.share
         ? navigator.share({
             title: "TraceAid Campaign",
             text: "Check out this campaign I supported!",
-            url: window.location.origin + `/campaign-details/${campaignId}`,
+            // url: window.location.origin + `/campaign-details/${campaignId}`,
           })
-        : alert("Sharing not supported on this browser.");
+        : toast("Sharing not supported on this browser.");
     } else if (action === "close") {
       toast.success("Campaign closed successfully");
     }
@@ -333,16 +335,16 @@ const MyDonations = () => {
           ) : filteredDonations.length === 0 ? (
             <p>No donations found</p>
           ) : (
-            filteredDonations.map((item) => (
-              <TableRow key={item.id}>
+            filteredDonations.map((item, index) => (
+               <TableRow key={item.donationId}>
                 <span>{item.campaignTitle}</span>
                 <span>{item.formattedAmount}</span>
                 <span>{item.date}</span>
                 <StatusPill $status={item.status}>{item.status}</StatusPill>
 
-                <MenuDots onClick={() => handleMenuToggle(item.id)}>
+                <MenuDots onClick={() => handleMenuToggle(item.donationId)}>
                   <HiOutlineDotsVertical size={20} />
-                  {openMenuId === item.id && (
+                  {openMenuId === item.donationId && (
                     <DropdownMenu>
                       <p onClick={() => handleOptionClick("view", item.id)}>
                         View Details
