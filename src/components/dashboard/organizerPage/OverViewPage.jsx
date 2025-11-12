@@ -183,7 +183,7 @@ const OverViewPage = () => {
                 {filteredTransactions?.length > 0 ? (
                   filteredTransactions.map((item, index) => (
                     <tr key={index}>
-                      <td>{item.donorName}</td>
+                      <td>{item.donorName || "Anonymous"}</td>
                       <td>{item.campaignTitle}</td>
                       <td>{item.date}</td>
                       <td>₦{item.amount?.toLocaleString()}</td>
