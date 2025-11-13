@@ -102,7 +102,7 @@ export const Container = styled.div`
     }
     .dropdown_menu1 {
       height: 168px;
-      width: 525px;
+      width: max-content;
       background-color: white;
       position: absolute;
       top: 60%;

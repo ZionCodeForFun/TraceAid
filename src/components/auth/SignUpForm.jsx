@@ -155,7 +155,7 @@ const SignUpForm = () => {
       nav(`/verify/${res?.data?.data?.user?.email || res?.data?.data?.email}`);
     } catch (err) {
       console.error(err);
-      toast.error(err?.response?.data?.data?.message || "Registration failed");
+      toast.error(err?.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
