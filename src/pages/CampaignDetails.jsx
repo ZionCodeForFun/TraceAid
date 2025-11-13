@@ -65,10 +65,9 @@ const CampaignDetails = () => {
       if (res?.data?.statusCode) {
         const data = Array.isArray(res.data.data) ? res.data.data : [];
 
-        // ✅ Sort by amount (highest donation first)
+      
         const sorted = data.sort((a, b) => b.amount - a.amount);
 
-        // ✅ Take top 3 single donations
         const topThree = sorted.slice(0, 3);
 
         setTopDonors(topThree);
