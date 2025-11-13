@@ -6,6 +6,7 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { data } from "react-router-dom";
 
 const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
   if (!campaign) return null;
@@ -28,6 +29,7 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success(`Campaign ${action} successfully`);
+   
       onClose();
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to update campaign");
