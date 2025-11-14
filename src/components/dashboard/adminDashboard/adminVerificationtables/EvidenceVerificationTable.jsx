@@ -27,14 +27,12 @@ const EvidenceVerificationTable = () => {
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_BaseUrl_AdminKycV}/milestone-evidence/pending`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setEvidences(res.data?.data || []);
     } catch (error) {
-      console.error("Error fetching evidences:", error.response?.data || error);
-      toast.error(error.response?.data?.message || "Failed to fetch evidences");
+      console.error(error);
+      toast.error("Failed to fetch evidences");
     } finally {
       setLoading(false);
     }
@@ -49,44 +47,30 @@ const EvidenceVerificationTable = () => {
     setSelectedEvidence(null);
   };
 
-  // Single action handler for approve/reject
   const handleAction = async (evidence, action, note = "") => {
     try {
-      // Local state update
+      await axios.post(
+        `${import.meta.env.VITE_BaseUrl_AdminKycV}/review-milestone-evidence/${evidence._id}`,
+        { action, note },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
       setEvidences((prev) =>
         prev.map((e) =>
           e._id === evidence._id
-            ? { ...e, status: action === "approve" ? "approved" : "rejected", rejectionReason: note }
+            ? {
+                ...e,
+                status: action === "approve" ? "approved" : "rejected",
+              }
             : e
         )
       );
-
-      toast.success(
-        `Evidence for "${evidence.campaign?.campaignTitle}" ${
-          action === "approve" ? "approved" : "rejected"
-        }${note ? `: ${note}` : ""}`
-      );
-
-      // Backend call (when endpoint ready)
-      /*
-      await axios.post(
-        `${import.meta.env.VITE_BaseUrl_AdminKycV}/payout-action`,
-        {
-          fundraiserId: evidence.fundraiser._id,
-          campaignId: evidence.campaign._id,
-          payoutId: evidence._id,
-          milestoneId: evidence.milestone._id,
-          note,
-          action, // "approve" or "reject"
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      */
-
+      console.log("data", action )
+      toast.success(`Evidence ${action === "approve" ? "approved" : "rejected"}`);
       handleCloseModal();
     } catch (error) {
       console.error(error);
-      toast.error("Failed to process action");
+      toast.error(error.response?.data?.message);
     }
   };
 
