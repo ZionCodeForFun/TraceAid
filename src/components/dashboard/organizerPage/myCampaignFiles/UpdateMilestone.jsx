@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import InputField from "../../../common/InputField";
 import Button from "../../../common/Button";
@@ -11,7 +10,9 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const UpdateMilestone = ({ onClose, campaign }) => {
+
   const { token } = useSelector((state) => state.auth);
+  // console.log("yes token", token)
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,18 +23,28 @@ const UpdateMilestone = ({ onClose, campaign }) => {
     const fetchMilestones = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_BaseUrl_UploadMiles}/campaigns/milestones/${
-            campaign._id
-          }`,
+          `${import.meta.env.VITE_campaignBaseUrl}/get-all-campaigns`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log(" zion testing", res.data.data);
-        if (res.data.statusCode && Array.isArray(res.data.data)) {
-          setMilestones(res.data.data);
+
+        // console.log("zion testing", res.data.data);
+
+        if (res.data.statusCode && res.data.data?.all) {
+          const allCampaigns = res.data.data.all;
+
+          const currentCampaign = allCampaigns.find(
+            (c) => c._id === campaign._id
+          );
+
+          if (currentCampaign?.milestones?.length) {
+            setMilestones(currentCampaign.milestones);
+          } else {
+            toast.error("No milestones found for this campaign.");
+          }
         } else {
           toast.error("Failed to load milestones.");
         }
@@ -59,52 +70,64 @@ const UpdateMilestone = ({ onClose, campaign }) => {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleUpload = async () => {
-    if (!selectedMilestone) {
-      toast.error("Please select a milestone.");
-      return;
-    }
-    if (!description) {
-      toast.error("Please enter a description for the milestone evidence.");
-      return;
-    }
-    if (files.length < 5) {
-      toast.error("You must select at least 5 files.");
-      return;
-    }
+const handleUpload = async () => {
 
-    try {
-      setLoading(true);
-      const formData = new FormData();
-      formData.append("description", description);
-      files.forEach((file) => formData.append("files", file));
+  if (!selectedMilestone) {
+    toast.error("Please select a milestone.");
+    return;
+  }
 
-      const res = await axios.post(
-        `${
-          import.meta.env.VITE_BaseUrl_UploadMiles
-        }/milestones/evidence/${selectedMilestone}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      toast.success("Milestone evidence uploaded successfully!");
-      setFiles([]);
-      setDescription("");
-      setSelectedMilestone("");
-      onClose(true);
-    } catch (err) {
-      console.error(err.response?.data);
-      toast.error(
-        err.response?.data?.message || "Failed to upload milestone evidence."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (!description.trim()) {
+    toast.error("Please enter a description for the milestone evidence.");
+    return;
+  }
+
+  if (files.length < 5) {
+    toast.error("You must upload at least 5 files.");
+    return;
+  }
+
+  if (files.length > 10) {
+    toast.error("You can upload a maximum of 10 files.");
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+  
+    const formData = new FormData();
+    formData.append("fundraiserId", campaign.fundraiser._id); 
+    formData.append("description", description);
+    files.forEach((file) => formData.append("files", file));
+
+    const res = await axios.post(
+      `${import.meta.env.VITE_BaseUrl_UploadMiles}/milestones/evidence/${selectedMilestone}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    toast.success("Milestone evidence uploaded successfully!");
+    setFiles([]);
+    setDescription("");
+    setSelectedMilestone("");
+    onClose(true);
+  } catch (err) {
+    console.error("Upload error:", err.response?.data || err);
+    const message =
+      err.response?.data?.message ||
+      "Failed to upload milestone evidence. Check authentication or file sizes.";
+    toast.error(message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <Container>
@@ -114,7 +137,6 @@ const UpdateMilestone = ({ onClose, campaign }) => {
         </div>
 
         <div className="input_holder">
-
           <div className="name_holder">
             <label>Select Milestone</label>
             <select
@@ -124,7 +146,7 @@ const UpdateMilestone = ({ onClose, campaign }) => {
               <option value="">-- Choose a milestone --</option>
               {milestones.map((m) => (
                 <option key={m._id} value={m._id}>
-                  {m.milestoneTitle} ({m.status})
+                  {m.milestoneTitle}
                 </option>
               ))}
             </select>
@@ -199,9 +221,9 @@ const UpdateMilestone = ({ onClose, campaign }) => {
             />
           </div>
         </div>
-          <i className="btn_close" onClick={() => onClose()}>
-            <IoCloseSharp />
-          </i>
+        <i className="btn_close" onClick={() => onClose()}>
+          <IoCloseSharp />
+        </i>
       </div>
     </Container>
   );
@@ -310,9 +332,8 @@ const Container = styled.div`
           }
         }
       }
-
     }
-    
+
     ul {
       max-height: 150px;
       overflow-y: auto;
@@ -333,14 +354,14 @@ const Container = styled.div`
         color: var(--PrimaryBase);
         font-size: 16px;
         font-weight: 600;
-        
+
         &:hover {
           background-color: var(--PrimaryBase);
           color: var(--NeutralBlack);
         }
       }
     }
-   
+
     .btn_close {
       position: absolute;
       top: 5%;
@@ -351,16 +372,15 @@ const Container = styled.div`
     }
   }
   .right {
-  
-  overflow-y: auto;
+    overflow-y: auto;
 
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
 
-.right::-webkit-scrollbar {
-  display: none;
-}
+  .right::-webkit-scrollbar {
+    display: none;
+  }
 
   @media (max-width: 768px) {
     .right {
