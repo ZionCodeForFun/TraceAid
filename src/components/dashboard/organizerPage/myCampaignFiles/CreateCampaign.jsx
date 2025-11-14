@@ -480,9 +480,9 @@ const CreateCampaign = ({ onClose }) => {
                       editingMilestoneIndex: null,
                     };
                   }
-                  if (!isEdit && prev.milestones.length >= 2) {
+                  if (!isEdit && prev.milestones.length >= 3) {
                     toast.error(
-                      "A campaign can only have a maximum of 2 milestones."
+                      "A campaign can only have a maximum of 3 milestones."
                     );
                     return {
                       ...prev,

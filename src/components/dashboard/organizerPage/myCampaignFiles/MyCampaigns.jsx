@@ -74,6 +74,7 @@ const MyCampaigns = () => {
       dispatch(setLoading(true));
       const response = await GetAllCampaignsAPI(token);
       dispatch(setCampaigns(response.data.data));
+      console.log("camp here", response.data.data )
     } catch (err) {
       dispatch(
         setError(err?.response?.data?.message || "Failed to fetch campaigns")
