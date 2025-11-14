@@ -101,7 +101,7 @@ const handleChange = (e) => {
       });
 
       setLoading(false);
-      toast.success("KYC submitted successfully!");
+      // toast.success("KYC submitted successfully!");
       setShowReceipt(true);
 
       localStorage.removeItem("kycStep2FormData");
@@ -479,6 +479,23 @@ const Container = styled.div`
         }
       }
     }
+
+    @media (max-width: 480px) {
+  .holder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .holder .reciept_holder {
+    width: 90%;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+  }
+}
   }
 
   .goback {

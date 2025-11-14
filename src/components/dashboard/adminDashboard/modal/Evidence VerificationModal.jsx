@@ -457,7 +457,7 @@ const RejectionInfo = styled.div`
   h4 {
     font-size: 14px;
     font-weight: 600;
-    color: #d93025; /* red tone */
+    color: #d93025; 
     margin-bottom: 8px;
   }
 
