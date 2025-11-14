@@ -9,9 +9,8 @@ import {
   Status,
   Actions,
 } from "../../../../style/AdminVerificationStyle";
-import CampaignDetailsAprovedModal from "../modal/CampaignDetailsAprovedModal";
-import CampaignDetailsPendingModal from "../modal/CampaignDetailsPendingModal";
-import CampaignCompleted from "../modal/CampaignCompleted";
+
+import CampaignDetailsModal from "../modal/CampaignDetailsModal";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -35,7 +34,6 @@ const Campaign = () => {
           },
         }
       );
-      console.log(res.data?.data);
       const campaigns = Array.isArray(res.data)
         ? res.data
         : res.data?.data || [];
@@ -54,7 +52,7 @@ const Campaign = () => {
             createdAt: c.createdAt,
             totalCampaignGoalAmount:
               c.targetAmount || c.totalCampaignGoalAmount || "—",
-            status: c.isActive ? "Approved" : "Pending",
+            status: c.isActive ? "approved" : "pending",
             isCompleted: c.isActive && allMilestonesCompleted,
             milestones: c.milestones || [],
             raw: c,
@@ -116,8 +114,8 @@ const Campaign = () => {
                   ? `₦${item.totalCampaignGoalAmount}`
                   : "—"}
               </Cell>
-              <Status active={item.status === "Approved"}>
-                {item.status || "Pending"}
+              <Status active={item.status === "approved"}>
+                {item.status || "pending"}
               </Status>
               <Actions
                 onClick={() => handleView(item)}
@@ -140,23 +138,10 @@ const Campaign = () => {
         )}
       </TableContainer>
 
-      {selectedCampaign && selectedCampaign.isCompleted && (
-        <CampaignCompleted campaign={selectedCampaign} onClose={handleClose} />
-      )}
-
-      {selectedCampaign &&
-        !selectedCampaign.isCompleted &&
-        selectedCampaign.isActive && (
-          <CampaignDetailsAprovedModal
-            campaign={selectedCampaign}
-            onClose={handleClose}
-          />
-        )}
-
       {selectedCampaign &&
         !selectedCampaign.isCompleted &&
         !selectedCampaign.isActive && (
-          <CampaignDetailsPendingModal
+          <CampaignDetailsModal
             campaign={selectedCampaign}
             onClose={handleClose}
           />

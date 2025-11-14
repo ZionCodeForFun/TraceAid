@@ -210,6 +210,7 @@ export const CampaignHeader = styled.div`
   border-bottom: 1px solid #e5e5e5;
   padding: 12px 20px;
   margin-left: 8px;
+  
   `;
 
 export const HeaderItem = styled.span`

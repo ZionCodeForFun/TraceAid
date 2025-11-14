@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { IoClose } from "react-icons/io5";
 import { PiCameraFill } from "react-icons/pi";
 
-const FundDisbursementRejected = ({
+const EvidenceVerificationModal = ({
   onClose,
   evidence = null,
   onAccept,
@@ -163,7 +163,7 @@ const FundDisbursementRejected = ({
   );
 };
 
-export default FundDisbursementRejected;
+export default EvidenceVerificationModal;
 
 // Small internal component for action controls (Approve / Reject with reason)
 function ActionButtons({ onClose, onAccept, onReject }) {

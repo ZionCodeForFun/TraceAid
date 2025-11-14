@@ -13,7 +13,7 @@ import {
 } from "../../../../style/AdminVerificationStyle";
 import FundsDisbursementModalApproved from "../modal/FundDisbursmentApproved";
 import FundsDisbursementModalPending from "../modal/FundDisbursementPending";
-import FundsDisbursementModalRejected from "../modal/FundDisbursementRejected";
+import FundsDisbursementModalRejected from "../modal/Evidence VerificationModal";
 
 const FundsDisbursement = () => {
   const [selectedFund, setSelectedFund] = useState(null);
@@ -94,13 +94,13 @@ const FundsDisbursement = () => {
       {selectedFund?.MilestoneFundsStatus === "approved" && (
         <FundsDisbursementModalApproved onClose={handleCloseModal} />
       )}
-     {selectedFund?.MilestoneFundsStatus === "pending" && (
+      {selectedFund?.MilestoneFundsStatus === "pending" && (
         <FundsDisbursementModalPending onClose={handleCloseModal} />
       )}
 
-       {selectedFund?.MilestoneFundsStatus === "rejected" && (
-         <FundsDisbursementModalRejected onClose={handleCloseModal} />
-       )} 
+      {selectedFund?.MilestoneFundsStatus === "rejected" && (
+        <FundsDisbursementModalRejected onClose={handleCloseModal} />
+      )}
     </>
   );
 };

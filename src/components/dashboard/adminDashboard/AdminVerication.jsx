@@ -16,6 +16,9 @@ import { LuWallet } from "react-icons/lu";
 import Campaign from "./adminVerificationtables/CampaignVerification.jsx";
 import Milestone from "./adminVerificationtables/MilestoneVerification.jsx";
 import FundsDisbursement from "./adminVerificationtables/FundsDisbursement.jsx";
+import PayoutVerificationTable from "./adminVerificationtables/PayoutVerificationTable.jsx";
+import EvidenceVerificationTable from "./adminVerificationtables/EvidenceVerificationTable.jsx";
+// import PayoutVerificationTable from "./adminVerificationtables/PayoutVerificationTable.jsx";
 
 const AdminVerification = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,8 +33,17 @@ const AdminVerification = () => {
       name: "Milestone Verification",
       icon: <FiTarget size={18} />,
     },
+
     {
       name: "Funds Disbursement",
+      icon: <LuWallet size={18} />,
+    },
+    {
+      name: "Payout  VerificationTable",
+      icon: <LuWallet size={18} />,
+    },
+    {
+      name: "Evidence VerificationTable",
       icon: <LuWallet size={18} />,
     },
   ];
@@ -46,8 +58,13 @@ const AdminVerification = () => {
         return <Campaign searchTerm={searchTerm} />;
       case "Milestone Verification":
         return <Milestone searchTerm={searchTerm} />;
+ 
       case "Funds Disbursement":
         return <FundsDisbursement searchTerm={searchTerm} />;
+      case "Payout  VerificationTable":
+        return <PayoutVerificationTable searchTerm={searchTerm} />;
+      case "Evidence VerificationTable":
+        return <EvidenceVerificationTable searchTerm={searchTerm} />;
       default:
         return null;
     }
