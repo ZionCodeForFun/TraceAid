@@ -12,36 +12,35 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import PaymentModal from "../modal/PaymentModal"; 
 
 const PayoutVerificationTable = () => {
   const [payouts, setPayouts] = useState([]);
   const [loading, setLoading] = useState(false);
   const { token } = useSelector((state) => state.adminAuth);
 
-  // ✅ Fetch payouts from live endpoint
+  const [showModal, setShowModal] = useState(false);
+  const [selectedPayout, setSelectedPayout] = useState(null);
+
   const fetchPayouts = async () => {
     setLoading(true);
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_BaseUrl_AdminKycV}/get-all-payout`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       const data = Array.isArray(res.data)
         ? res.data
         : res.data?.data || [];
-    
+
       setPayouts(data);
-      toast.success("Payouts retrieved successfully");
+      console.log("first zionn", data)
     } catch (error) {
-      console.error("Error fetching payouts:", error.response?.data || error);
-      toast.error(
-        error.response?.data?.message || "Failed to fetch payouts"
-      );
+      console.error("Error fetching payouts:", error);
+      toast.error("Failed to fetch payouts");
     } finally {
       setLoading(false);
     }
@@ -52,7 +51,8 @@ const PayoutVerificationTable = () => {
   }, [token]);
 
   const handleView = (payout) => {
-    console.log("View payout:", payout);
+    setSelectedPayout(payout);
+    setShowModal(true);
   };
 
   return (
@@ -80,19 +80,12 @@ const PayoutVerificationTable = () => {
               <Cell>{item.campaign?._id || "—"}</Cell>
               <Cell>{item.milestone || "—"}</Cell>
               <Cell>₦{item.amount?.toLocaleString() || 0}</Cell>
+
               <Status active={item.status === "approved"}>
                 {item.status || "pending"}
               </Status>
-              <Actions
-                onClick={() => handleView(item)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "7px",
-                  cursor: "pointer",
-                }}
-              >
+
+              <Actions onClick={() => handleView(item)}>
                 <MdOutlineRemoveRedEye /> View
               </Actions>
             </CampaignRow>
@@ -103,6 +96,14 @@ const PayoutVerificationTable = () => {
           </CampaignRow>
         )}
       </TableContainer>
+
+      {/* SHOW MODAL */}
+      {showModal && (
+        <PaymentModal
+          data={selectedPayout}
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </>
   );
 };

@@ -113,7 +113,7 @@ const DashboardManagement = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("All donations:", res.data);
+      console.log("All donations:", res.data.data);
 
       const donations = res.data.data?.donations || [];
       const total = donations.reduce((sum, donation) => sum + donation.amount, 0);

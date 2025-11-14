@@ -82,7 +82,15 @@ const Campaign = () => {
   const handleClose = () => {
     setSelectedCampaign(null);
   };
-
+  const updateCampaignStatus = (id, newStatus) => {
+    setCampaigns((prev) =>
+      prev.map((c) =>
+        c.id === id
+          ? { ...c, status: newStatus, isActive: newStatus === "approved" }
+          : c
+      )
+    );
+  };
   return (
     <>
       <TableContainer>
@@ -102,8 +110,8 @@ const Campaign = () => {
         ) : campaigns.length > 0 ? (
           campaigns.map((item, index) => (
             <CampaignRow key={index} columns={6}>
-              <Cell>{item.campaignCategory || "Unnamed Campaign"}</Cell>
-              <Cell>{item.fundraiser || "Unknown"}</Cell>
+              <Cell>{item.campaignCategory}</Cell>
+              <Cell>{item.fundraiser}</Cell>
               <Cell>
                 {item.createdAt
                   ? new Date(item.createdAt).toLocaleDateString()
@@ -144,6 +152,7 @@ const Campaign = () => {
           <CampaignDetailsModal
             campaign={selectedCampaign}
             onClose={handleClose}
+            onStatusUpdate={updateCampaignStatus}
           />
         )}
     </>

@@ -9,9 +9,9 @@ import {
   MilestoneFundsStatus,
   Actions,
 } from "../../../../style/AdminVerificationStyle";
-import MilestoneVpending from "../modal/MilestoneVpeding";
-import MilestoneVrejected from "../modal/MilestoneVrejected";
-import MilestoneVaproved from "../modal/MilestoneVaproved";
+// import MilestoneVpending from "../modal/PaymentModal";
+// import MilestoneVrejected from "../modal/MilestoneVrejected";
+// import MilestoneVaproved from "../modal/MilestoneVaproved";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -27,14 +27,16 @@ const Milestone = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_BaseUrl_AdminGetCampagn}/get-all-campaign-and-milestones`,
+        `${
+          import.meta.env.VITE_BaseUrl_AdminGetCampagn
+        }/get-all-campaign-and-milestones`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-          const campaigns = Array.isArray(res.data?.data)
+      const campaigns = Array.isArray(res.data?.data)
         ? res.data.data
         : Array.isArray(res.data)
         ? res.data
@@ -43,9 +45,9 @@ const Milestone = () => {
       if (campaigns.length > 0) {
         const allMilestones = campaigns.flatMap((c) =>
           (c.milestones || []).map((m) => ({
-            milestone: m.milestoneTitle ,
+            milestone: m.milestoneTitle,
             campaign: c.campaignTitle,
-            ngo: c.fundraiser ,
+            ngo: c.fundraiser,
             amount: m.targetAmount ? `₦${m.targetAmount}` : "₦0",
             submitted: m.createdAt
               ? new Date(m.createdAt).toLocaleDateString()
@@ -60,7 +62,10 @@ const Milestone = () => {
         toast.warn("No milestones found");
       }
     } catch (error) {
-      console.error("Error fetching milestones:", error.response?.data || error);
+      console.error(
+        "Error fetching milestones:",
+        error.response?.data || error
+      );
       toast.error("Failed to fetch milestones");
     } finally {
       setLoading(false);
@@ -102,7 +107,13 @@ const Milestone = () => {
           milestones.map((item, index) => (
             <Row key={index} columns={7}>
               <Cell>
-                <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "4px",
+                  }}
+                >
                   <span style={{ fontWeight: "600", color: "#333" }}>
                     {item.milestone}
                   </span>
@@ -113,7 +124,13 @@ const Milestone = () => {
               </Cell>
 
               <Cell>
-                <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "4px",
+                  }}
+                >
                   <span style={{ fontWeight: "600", color: "#333" }}>
                     {item.campaign}
                   </span>
@@ -151,18 +168,6 @@ const Milestone = () => {
           </Row>
         )}
       </TableContainer>
-
-      {modalType === "pending" && selectedMilestone && (
-        <MilestoneVpending onClose={handleCloseModal} data={selectedMilestone} />
-      )}
-
-      {modalType === "rejected" && selectedMilestone && (
-        <MilestoneVrejected onClose={handleCloseModal} data={selectedMilestone} />
-      )}
-
-      {modalType === "approved" && selectedMilestone && (
-        <MilestoneVaproved onClose={handleCloseModal} data={selectedMilestone} />
-      )}
     </>
   );
 };

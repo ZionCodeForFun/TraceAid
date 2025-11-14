@@ -11,9 +11,7 @@ import {
   MilestoneFundsStatus,
   Actions,
 } from "../../../../style/AdminVerificationStyle";
-import FundsDisbursementModalApproved from "../modal/FundDisbursmentApproved";
-import FundsDisbursementModalPending from "../modal/FundDisbursementPending";
-import FundsDisbursementModalRejected from "../modal/Evidence VerificationModal";
+
 
 const FundsDisbursement = () => {
   const [selectedFund, setSelectedFund] = useState(null);
@@ -91,16 +89,7 @@ const FundsDisbursement = () => {
         ))}
       </TableContainer>
 
-      {selectedFund?.MilestoneFundsStatus === "approved" && (
-        <FundsDisbursementModalApproved onClose={handleCloseModal} />
-      )}
-      {selectedFund?.MilestoneFundsStatus === "pending" && (
-        <FundsDisbursementModalPending onClose={handleCloseModal} />
-      )}
-
-      {selectedFund?.MilestoneFundsStatus === "rejected" && (
-        <FundsDisbursementModalRejected onClose={handleCloseModal} />
-      )}
+     
     </>
   );
 };
