@@ -1,15 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { X, FileText, Image as ImageIcon } from "lucide-react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
-const MilestoneVpending = ({ onClose, data }) => {
+const PaymentModal = ({ onClose, data }) => {
+  const { token } = useSelector((state) => state.adminAuth);
+  const [loading, setLoading] = useState(false);
+  const [note, setNote] = useState("");
+
+  const handlePay = async () => {
+    try {
+      setLoading(true);
+      const body = {
+        fundraiserId: data?.fundraiser?._id || data?.fundraiser,
+        campaignId: data?.campaign?._id || data?.campaign,
+        payoutId: data?._id,
+        milestoneId: data?.milestone?._id || data?.milestone,
+        note: note || "",
+      };
+
+      console.log("REQUEST BODY:", body);
+
+      const res = await axios.post(
+        `${import.meta.env.VITE_CraetePayout_BaseUrl}/create-payout`,
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success(res.data?.data?.message);
+      console.log("PAYOUT RESPONSE:", res.data);
+      onClose();
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "Failed to process payout");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Container>
       <Holder>
         <Wrapper>
           <Header>
-            <Title>Milestone Verification Details</Title>
-            <Subtitle>Review milestone completion and supporting documents</Subtitle>
+            <Title>Milestone Payout Details</Title>
+            <Subtitle>Review payout information before proceeding</Subtitle>
             <CloseBtn onClick={onClose}>
               <X size={18} />
             </CloseBtn>
@@ -18,81 +59,57 @@ const MilestoneVpending = ({ onClose, data }) => {
           <Content>
             <Row>
               <div>
-                <Label>Campaign Name</Label>
-                <Value>{data.campaign}</Value>
+                <Label>CampaignId</Label>
+                <Value>{data?.campaign._id}</Value>
               </div>
+
               <div>
                 <Label>NGO</Label>
-                <Value>{data.ngo}</Value>
+                <Value>{data?.fundraiser._id}</Value>
               </div>
             </Row>
-
-            <SmallText>{data.subCampaign}</SmallText>
 
             <Row>
               <div>
-                <Label>Milestone Phase</Label>
-                <Value>{data.milestone}</Value>
+                <Label>Milestone ID</Label>
+                <Value>{data?.milestone}</Value>
               </div>
+
               <div>
                 <Label>Submitted Date</Label>
-                <Value>{data.submitted}</Value>
+                <Value>
+                  {data?.createdAt
+                    ? new Date(data.createdAt).toLocaleDateString()
+                    : "—"}
+                </Value>
               </div>
             </Row>
 
-            <PhaseText>{data.subMilestone}</PhaseText>
-
-            <SectionTitle>Milestone Amount</SectionTitle>
+            <SectionTitle>Payout Amount</SectionTitle>
 
             <AmountBoxWrapper>
               <AmountBox>
-                <Currency>{data.amount}</Currency>
-                <BoxLabel>Target Amount</BoxLabel>
+                <Currency>₦{data?.amount?.toLocaleString() || "0"}</Currency>
+                <BoxLabel>Amount Requested</BoxLabel>
               </AmountBox>
+
               <AmountBox>
-                <Currency>{data.amount}</Currency>
-                <BoxLabel>Amount Raised</BoxLabel>
+                <Currency>₦{data?.amount?.toLocaleString() || "0"}</Currency>
+                <BoxLabel>Amount Approved</BoxLabel>
               </AmountBox>
             </AmountBoxWrapper>
 
-            <ProgressBarWrapper>
-              <ProgressBar />
-            </ProgressBarWrapper>
-
-            <ProgressText>100% Complete</ProgressText>
-
-            <SectionTitle>Milestone Description</SectionTitle>
-            <DescriptionText>
-              Successfully constructed 5 water wells in rural areas and all have been tested and
-              are operational.
-            </DescriptionText>
-
-            <SectionTitle>Proof of Completion</SectionTitle>
-
-            <ProofList>
-              <ProofItem>
-                <FileText size={18} color="#e74c3c" />
-                <FileName>Construction_Report.pdf</FileName>
-              </ProofItem>
-
-              <ProofItem>
-                <ImageIcon size={18} color="#3498db" />
-                <FileName>Well_Photos.jpg</FileName>
-              </ProofItem>
-
-              <ProofItem>
-                <FileText size={18} color="#e74c3c" />
-                <FileName>Water_Quality_Test.pdf</FileName>
-              </ProofItem>
-            </ProofList>
-
-            <SectionTitle>Review Notes (Optional)</SectionTitle>
-            <Textarea placeholder="Add any notes about this decision..." />
+            <SectionTitle>Notes (Optional)</SectionTitle>
+            <Textarea
+              placeholder="Add any notes about this payout..."
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            />
           </Content>
 
           <Footer>
-            <RejectBtn>Reject</RejectBtn>
-            <ApproveBtn>Approve</ApproveBtn>
+            <CancelBtn onClick={onClose}>Cancel</CancelBtn>
+            <PayBtn onClick={handlePay}>{loading ? "Paying" : "Pay"}</PayBtn>
           </Footer>
         </Wrapper>
       </Holder>
@@ -100,7 +117,7 @@ const MilestoneVpending = ({ onClose, data }) => {
   );
 };
 
-export default MilestoneVpending;
+export default PaymentModal;
 
 const Container = styled.div`
   width: 100%;
@@ -108,7 +125,7 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.35);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -116,11 +133,11 @@ const Container = styled.div`
 `;
 
 const Holder = styled.article`
-  width: 512px;
-  height: 527px;
+  width: 520px;
+  height: 540px;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 `;
@@ -132,7 +149,7 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
-  padding: 20px 24px 10px;
+  padding: 20px 24px;
   position: relative;
   border-bottom: 1px solid #e5e5e5;
 `;
@@ -147,15 +164,15 @@ const Title = styled.h2`
 const Subtitle = styled.p`
   font-size: 13px;
   color: #6b6b6b;
-  margin: 6px 0 0;
+  margin-top: 4px;
 `;
 
 const CloseBtn = styled.button`
   position: absolute;
   top: 20px;
   right: 20px;
-  border: none;
   background: transparent;
+  border: none;
   cursor: pointer;
   color: #666;
 `;
@@ -167,14 +184,12 @@ const Content = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 `;
 
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 `;
 
 const Label = styled.p`
@@ -189,30 +204,16 @@ const Value = styled.p`
   color: #1e1e1e;
 `;
 
-const SmallText = styled.p`
-  font-size: 12px;
-  color: #8a8a8a;
-  margin-bottom: 16px;
-`;
-
-const PhaseText = styled.p`
-  font-size: 12px;
-  color: #999;
-  margin-top: -4px;
-  margin-bottom: 16px;
-`;
-
 const SectionTitle = styled.h3`
   font-size: 14px;
   font-weight: 600;
   color: #1e1e1e;
-  margin: 16px 0 10px;
+  margin: 18px 0 10px;
 `;
 
 const AmountBoxWrapper = styled.div`
   display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 12px;
 `;
 
 const AmountBox = styled.div`
@@ -225,42 +226,14 @@ const AmountBox = styled.div`
 
 const Currency = styled.h4`
   font-size: 18px;
-  font-weight: 600;
-  color: #1e1e1e;
+  font-weight: 700;
   margin: 0;
 `;
 
 const BoxLabel = styled.p`
   font-size: 12px;
   color: #6b6b6b;
-  margin: 4px 0 0;
-`;
-
-const ProgressBarWrapper = styled.div`
-  width: 100%;
-  height: 5px;
-  background: #eee;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-top: 10px;
-`;
-
-const ProgressBar = styled.div`
-  width: 100%;
-  height: 100%;
-  background: #6cc04a;
-`;
-
-const ProgressText = styled.p`
-  font-size: 12px;
-  color: #6cc04a;
-  margin-top: 4px;
-`;
-
-const DescriptionText = styled.p`
-  font-size: 13px;
-  color: #444;
-  line-height: 1.5;
+  margin-top: 5px;
 `;
 
 const ProofList = styled.div`
@@ -273,15 +246,20 @@ const ProofItem = styled.div`
   display: flex;
   align-items: center;
   border: 1px solid #e5e5e5;
+  background: #fafafa;
   border-radius: 8px;
   padding: 10px 14px;
   gap: 10px;
-  background: #fafafa;
 `;
 
 const FileName = styled.span`
   font-size: 13px;
   color: #1e1e1e;
+`;
+
+const SmallText = styled.p`
+  font-size: 12px;
+  color: #888;
 `;
 
 const Textarea = styled.textarea`
@@ -291,9 +269,8 @@ const Textarea = styled.textarea`
   border-radius: 8px;
   padding: 10px;
   font-size: 13px;
-  color: #333;
-  resize: none;
   outline: none;
+  resize: none;
   &::placeholder {
     color: #999;
   }
@@ -304,28 +281,27 @@ const Footer = styled.div`
   border-top: 1px solid #e5e5e5;
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  background: #fff;
+  gap: 12px;
 `;
 
-const RejectBtn = styled.button`
-  border: 1px solid #ccc;
+const CancelBtn = styled.button`
   background: transparent;
+  border: 1px solid #ccc;
   color: #333;
   padding: 8px 20px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
   &:hover {
-    background: #f2f2f2;
+    background: #f5f5f5;
   }
 `;
 
-const ApproveBtn = styled.button`
-  background: #000;
-  color: #fff;
+const PayBtn = styled.button`
+  background: #1a1a1a;
+  color: white;
   border: none;
-  padding: 8px 20px;
+  padding: 8px 22px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;

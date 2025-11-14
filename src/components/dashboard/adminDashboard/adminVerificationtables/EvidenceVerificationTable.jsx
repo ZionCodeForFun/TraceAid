@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { FaImage, FaVideo } from "react-icons/fa";
+import { FaImage } from "react-icons/fa";
 import {
   TableContainer,
   CampaignHeader,
@@ -13,7 +13,7 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import EvidenceVerificationModal from "../modal/Evidence VerificationModal";
+import EvidenceVerificationModal from "../modal/EvidenceVerificationModal";
 
 const EvidenceVerificationTable = () => {
   const [evidences, setEvidences] = useState([]);
@@ -22,57 +22,16 @@ const EvidenceVerificationTable = () => {
   const [selectedEvidence, setSelectedEvidence] = useState(null);
   const { token } = useSelector((state) => state.adminAuth);
 
-  // Dummy data to use while API returns empty — useful for integrating the modal/UI ahead of real data
-  const DUMMY_EVIDENCES = [
-    {
-      id: "d1",
-      campaign: { campaignTitle: "Clean Water Project" },
-      milestone: { milestoneTitle: "Phase 1 - Wells" },
-      fundraiser: { firstName: "Ada", lastName: "Lagos" },
-      imageUrl: "https://via.placeholder.com/150",
-      videoUrl: null,
-      description:
-        "Installed two wells and tested water purity for the surrounding villages.",
-      status: "pending",
-    },
-    {
-      id: "d2",
-      campaign: { campaignTitle: "School Supplies" },
-      milestone: { milestoneTitle: "Buy Books" },
-      fundraiser: { firstName: "John", lastName: "Doe" },
-      imageUrl: null,
-      videoUrl:
-        "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
-      description:
-        "Delivered books to two schools and received acknowledgement from headmasters.",
-      status: "pending",
-    },
-  ];
-
   const fetchEvidences = async () => {
     setLoading(true);
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_BaseUrl_AdminKycV}/milestone-evidence/pending`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
-
-      const data = Array.isArray(res.data) ? res.data : res.data?.data || [];
-
-      // If backend returns no data (empty array), fall back to dummy data so UI/modal can be integrated and tested
-      const finalData = data && data.length > 0 ? data : DUMMY_EVIDENCES;
-
-      setEvidences(finalData);
-      console.log("firstcom", finalData);
-      toast.success(
-        data && data.length > 0
-          ? "Pending milestone evidences fetched successfully"
-          : "No pending evidences from API — using dummy data for UI integration"
-      );
+      setEvidences(res.data?.data || []);
     } catch (error) {
       console.error("Error fetching evidences:", error.response?.data || error);
       toast.error(error.response?.data?.message || "Failed to fetch evidences");
@@ -85,48 +44,55 @@ const EvidenceVerificationTable = () => {
     fetchEvidences();
   }, [token]);
 
-  const handleView = (evidence) => {
-    setSelectedEvidence(evidence);
-    setShowModal(true);
-  };
-
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedEvidence(null);
   };
 
-  const handleAccept = async (evidence) => {
-    // Placeholder: here you would call your accept API endpoint.
-    console.log("Accepting evidence:", evidence);
-    toast.success(
-      `Evidence for ${evidence.campaign?.campaignTitle || "item"} accepted`
-    );
+  // Single action handler for approve/reject
+  const handleAction = async (evidence, action, note = "") => {
+    try {
+      // Local state update
+      setEvidences((prev) =>
+        prev.map((e) =>
+          e._id === evidence._id
+            ? { ...e, status: action === "approve" ? "approved" : "rejected", rejectionReason: note }
+            : e
+        )
+      );
 
-    // Update local state to reflect approval so UI shows change immediately
-    setEvidences((prev) =>
-      prev.map((e) => (e.id === evidence.id ? { ...e, status: "approved" } : e))
-    );
-    handleCloseModal();
+      toast.success(
+        `Evidence for "${evidence.campaign?.campaignTitle}" ${
+          action === "approve" ? "approved" : "rejected"
+        }${note ? `: ${note}` : ""}`
+      );
+
+      // Backend call (when endpoint ready)
+      /*
+      await axios.post(
+        `${import.meta.env.VITE_BaseUrl_AdminKycV}/payout-action`,
+        {
+          fundraiserId: evidence.fundraiser._id,
+          campaignId: evidence.campaign._id,
+          payoutId: evidence._id,
+          milestoneId: evidence.milestone._id,
+          note,
+          action, // "approve" or "reject"
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      */
+
+      handleCloseModal();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to process action");
+    }
   };
 
-  const handleReject = async (evidence, reason) => {
-    // Placeholder: here you would call your reject API endpoint with a reason.
-    console.log("Rejecting evidence:", evidence, "reason:", reason);
-    toast.error(
-      `Evidence for ${evidence.campaign?.campaignTitle || "item"} rejected${
-        reason ? `: ${reason}` : ""
-      }`
-    );
-
-    // Update local state to reflect rejection and store reason
-    setEvidences((prev) =>
-      prev.map((e) =>
-        e.id === evidence.id
-          ? { ...e, status: "rejected", rejectionReason: reason }
-          : e
-      )
-    );
-    handleCloseModal();
+  const handleView = (evidence) => {
+    setSelectedEvidence(evidence);
+    setShowModal(true);
   };
 
   return (
@@ -136,8 +102,7 @@ const EvidenceVerificationTable = () => {
           <HeaderItem>Campaign</HeaderItem>
           <HeaderItem>Milestone</HeaderItem>
           <HeaderItem>Fundraiser</HeaderItem>
-          <HeaderItem>Images</HeaderItem>
-          <HeaderItem>Videos</HeaderItem>
+          <HeaderItem>Uploads</HeaderItem>
           <HeaderItem>Description</HeaderItem>
           <HeaderItem>Status</HeaderItem>
           <HeaderItem>Actions</HeaderItem>
@@ -148,26 +113,14 @@ const EvidenceVerificationTable = () => {
             <Cell colSpan={8}>Loading evidences...</Cell>
           </CampaignRow>
         ) : evidences.length > 0 ? (
-          evidences.map((item, index) => (
-            <CampaignRow key={index} columns={8}>
+          evidences.map((item) => (
+            <CampaignRow key={item._id} columns={8}>
               <Cell>{item.campaign?.campaignTitle || "—"}</Cell>
               <Cell>{item.milestone?.milestoneTitle || "—"}</Cell>
-              <Cell>
-                {item.fundraiser
-                  ? `${item.fundraiser.firstName} ${item.fundraiser.lastName}`
-                  : "—"}
-              </Cell>
-              <Cell
-                style={{ display: "flex", alignItems: "center", gap: "6px" }}
-              >
+              <Cell>{item.fundraiser?._id || "—"}</Cell>
+              <Cell style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                 <FaImage size={16} />
-                <span>{item.imageUrl ? 1 : 0}</span>
-              </Cell>
-              <Cell
-                style={{ display: "flex", alignItems: "center", gap: "6px" }}
-              >
-                <FaVideo size={16} />
-                <span>{item.videoUrl ? 1 : 0}</span>
+                <span>{item.uploads?.length || 0}</span>
               </Cell>
               <Cell>
                 {item.description?.length > 25
@@ -198,13 +151,11 @@ const EvidenceVerificationTable = () => {
         )}
       </TableContainer>
 
-      {/* Use project modal component for reviewing evidence */}
-      {showModal && (
+      {showModal && selectedEvidence && (
         <EvidenceVerificationModal
           evidence={selectedEvidence}
           onClose={handleCloseModal}
-          onAccept={handleAccept}
-          onReject={handleReject}
+          onAction={handleAction}
         />
       )}
     </>

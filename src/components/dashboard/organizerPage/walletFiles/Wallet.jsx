@@ -43,7 +43,7 @@ const Wallet = () => {
       );
 
       const data = res.data?.data;
-    
+       console.log("first", data)
       setWalletSummary({
         availableBalance: data?.availableBalance || 0,
         totalWithdrawn: data?.totalWithdrawn || 0,

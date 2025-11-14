@@ -6,14 +6,12 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { data } from "react-router-dom";
 
-const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
+const CampaignDetailsPendingModal = ({ campaign, onClose, onStatusUpdate }) => {
   if (!campaign) return null;
 
   const { token } = useSelector((state) => state.adminAuth);
   const [loading, setLoading] = useState(false);
-
 
   const isApproved = campaign.isActive === true;
   const isPending =
@@ -29,7 +27,15 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
         { action },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
       toast.success(`Campaign ${action} successfully`);
+
+      if (onStatusUpdate) {
+        const updatedStatus = action === "approve" ? "approved" : "rejected";
+        onStatusUpdate(campaign._id, updatedStatus);
+      }
+      campaign.isActive = action === "approve";
+      campaign.status = action === "approve" ? "approved" : "rejected";
 
       onClose();
     } catch (err) {
@@ -59,6 +65,7 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
               <Label>Campaign Name</Label>
               <Value>{campaign.campaignTitle}</Value>
             </Detail>
+
             <Detail>
               <Label>Goal Amount</Label>
               <Value>
@@ -67,6 +74,7 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
                   : "—"}
               </Value>
             </Detail>
+
             <Detail>
               <Label>Created Date</Label>
               <Value>
@@ -75,6 +83,7 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
                   : "—"}
               </Value>
             </Detail>
+
             <Detail>
               <Label>Status</Label>
               <Value>
@@ -87,6 +96,7 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
             <SectionTitle>NGO Information</SectionTitle>
             <NGOInfo>
               <NGOName>{campaign.fundraiser || "Unknown"}</NGOName>
+
               <Badge
                 className={
                   isPending
@@ -134,6 +144,10 @@ const CampaignDetailsPendingModal = ({ campaign, onClose }) => {
 };
 
 export default CampaignDetailsPendingModal;
+
+// ------------------------------------------------------------
+// STYLES (unchanged)
+// ------------------------------------------------------------
 
 const Overlay = styled.div`
   position: fixed;
@@ -305,11 +319,6 @@ const RejectBtn = styled(BaseButton)`
   color: #374151;
   border: 1px solid #d1d5db;
   background-color: white;
-
-  .icon {
-    color: black;
-    transform: rotate(45deg);
-  }
 
   &:hover:enabled {
     background-color: #f3f4f6;
