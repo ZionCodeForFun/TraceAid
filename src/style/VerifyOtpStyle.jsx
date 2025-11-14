@@ -180,6 +180,26 @@ export const Container = styled.div`
         }
       }
     }
+    @media (max-width: 480px) {
+  .holder {
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .holder .reciept_holder {
+    width: 90%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+  }
+
+  .holder .reciept_holder .content-holder {
+    width: 100%;
+  }
+}
   }
 
   @media (max-width: 768px) {

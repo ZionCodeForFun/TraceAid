@@ -9,9 +9,9 @@ const TermsAndConditions = () => {
       <article>
         <h2>Terms & Conditions</h2>
         <p>
-          Welcome to TracaAid — a platform that connects donors, NGOs, and
+          Welcome to TraceAid — a platform that connects donors, NGOs, and
           organizations to fund transparent, impactful causes. <br />
-          By using TracaAid, you agree to these Terms and Conditions (“Terms”).
+          By using TraceAid, you agree to these Terms and Conditions (“Terms”).
           Please read them carefully before accessing or using our services.
         </p>
 
@@ -26,16 +26,16 @@ const TermsAndConditions = () => {
                 agreements.
               </li>
               <li>
-                Have read, agree with these Terms, and do not use TracaAid
+                Have read, agree with these Terms, and do not use TraceAid
                 unlawfully.
               </li>
             </ul>
           </li>
         </ul>
 
-        <h3>2. About TracaAid</h3>
+        <h3>2. About TraceAid</h3>
         <p>
-          TracaAid is a decentralized crowdfunding and accountability platform
+          TraceAid is a decentralized crowdfunding and accountability platform
           that enables:
         </p>
         <ul>
@@ -45,7 +45,7 @@ const TermsAndConditions = () => {
           </li>
           <li>
             Donors to track and verify the use of their funds through visual
-            execution — ensuring the digital infrastructure by TracaAid
+            execution — ensuring the digital infrastructure by TraceAid
             functioning and accountability.
           </li>
         </ul>
@@ -74,11 +74,11 @@ const TermsAndConditions = () => {
               <li>Keeping your credentials secure.</li>
               <li>Not sharing your account credentials.</li>
               <li>
-                Informing TracaAid immediately in case of unauthorized access or
+                Informing TraceAid immediately in case of unauthorized access or
                 security breach.
               </li>
               <li>
-                TracaAid is not liable for any unauthorized transactions or
+                TraceAid is not liable for any unauthorized transactions or
                 fund’s misusing policies.
               </li>
             </ul>
@@ -88,15 +88,15 @@ const TermsAndConditions = () => {
         <h3>5. Donations and Payments</h3>
         <ul>
           <li>
-            Donations made through TracaAid are secure and specific cause of
+            Donations made through TraceAid are secure and specific cause of
             proven fund or campaign cancellation before disbursement.
           </li>
           <li>
-            TracaAid does not refund donations unless the fundraiser violates
+            TraceAid does not refund donations unless the fundraiser violates
             fraud or misrepresentation.
           </li>
           <li>
-            TracaAid takes no fee from users but instead charges verified
+            TraceAid takes no fee from users but instead charges verified
             organizations from funds provided on the platform.
           </li>
           <li>
@@ -126,7 +126,7 @@ const TermsAndConditions = () => {
         <h3>7. Milestone and Accountability Tracking</h3>
         <ul>
           <li>
-            TracaAid enables verified fundraisers to:
+            TraceAid enables verified fundraisers to:
             <ul>
               <li>
                 Create milestones that display ongoing phases, needs, or
@@ -154,14 +154,14 @@ const TermsAndConditions = () => {
 
         <h3>9. Service Fees</h3>
         <ul>
-          <li>TracaAid charges no service fee on users and organizations.</li>
+          <li>TraceAid charges no service fee on users and organizations.</li>
           <li>
             Verified NGOs may pay applicable deductions on approved system
             improvements.
           </li>
           <li>
             The donor pays directly before completing a transaction, and
-            TracaAid will always pass the net amount reaching the fundraiser
+            TraceAid will always pass the net amount reaching the fundraiser
             after fees are applied.
           </li>
         </ul>
@@ -169,8 +169,8 @@ const TermsAndConditions = () => {
         <h3>10. Intellectual Property</h3>
         <ul>
           <li>
-            All logos, trademarks, and technology used in TracaAid is the
-            property of TracaAid.
+            All logos, trademarks, and technology used in TraceAid is the
+            property of TraceAid.
           </li>
           <li>Unauthorized copying or redistribution is prohibited.</li>
         </ul>
@@ -178,7 +178,7 @@ const TermsAndConditions = () => {
         <h3>11. Limitation of Liability</h3>
         <ul>
           <li>
-            TracaAid is not responsible for:
+            TraceAid is not responsible for:
             <ul>
               <li>
                 Any user or NGO misconduct, misuse, or data loss for any cause.
@@ -187,21 +187,21 @@ const TermsAndConditions = () => {
             </ul>
           </li>
           <li>
-            By using TracaAid, you agree that the platform is used at your own
+            By using TraceAid, you agree that the platform is used at your own
             risk.
           </li>
         </ul>
 
         <h3>12. Privacy Policy</h3>
         <p>
-          TracaAid respects your data. Please review our Privacy Policy to
+          TraceAid respects your data. Please review our Privacy Policy to
           understand how we collect, use, and protect your personal information.
         </p>
 
         <h3>13. Changes to Terms</h3>
         <ul>
           <li>
-            TracaAid reserves the right to modify these Terms from time to time.
+            TraceAid reserves the right to modify these Terms from time to time.
           </li>
           <li>
             Users will be notified of significant changes via email or in-app
@@ -216,8 +216,8 @@ const TermsAndConditions = () => {
         <p>
           For any inquiries, feedback, or complaints, please contact us at:{" "}
           <br />
-          <a href="mailto:info@tracaaid.org">info@tracaaid.org</a> <br />
-          🌍 <a href="https://www.tracaaid.org">www.tracaaid.org</a>
+          <a href="traceaidinfo25@gmail.com">info@tracaaid.org</a> <br />
+          🌍 <a href="https://trace-aid.vercel.app/">www.traceAid.org</a>
         </p>
       </article>
       <Footer />
