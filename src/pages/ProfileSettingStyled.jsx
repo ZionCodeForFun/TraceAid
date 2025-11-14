@@ -63,9 +63,6 @@ font-family: Inter;
 font-weight: 700;
 font-style: Bold;
 font-size: 2rem;
-/* line-height: 100%;
-letter-spacing: 0%; */
-
 `;
 
 export const FormRow = styled.div`
