@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { X } from "lucide-react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { RiRadioButtonLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -13,11 +14,13 @@ const CampaignDetailsPendingModal = ({ campaign, onClose, onStatusUpdate }) => {
   const { token } = useSelector((state) => state.adminAuth);
   const [loading, setLoading] = useState(false);
 
-  const isApproved = campaign.isActive === true;
   const isPending =
-    campaign.isActive === false && campaign.status !== "rejected";
+    campaign.status !== "rejected" && campaign.status !== "approved";
   const isRejected = campaign.status === "rejected";
+  const canActivate = campaign.status === "approved" && !campaign.isActive;
+  const isLive = campaign.status === "approved" && campaign.isActive;
 
+  // Approve / Reject
   const handleDecision = async (action) => {
     try {
       setLoading(true);
@@ -34,12 +37,44 @@ const CampaignDetailsPendingModal = ({ campaign, onClose, onStatusUpdate }) => {
         const updatedStatus = action === "approve" ? "approved" : "rejected";
         onStatusUpdate(campaign._id, updatedStatus);
       }
-      campaign.isActive = action === "approve";
+
       campaign.status = action === "approve" ? "approved" : "rejected";
+      campaign.isActive = action === "approve" ? false : false; // Initially false when approved
 
       onClose();
     } catch (err) {
-      toast.error(err.response?.data?.message);
+      toast.error(err.response?.data?.message || "Failed to process campaign");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleActivate = async () => {
+    try {
+      setLoading(true);
+
+      await axios.patch(
+        `${import.meta.env.VITE_BaseUrl_AdminVCampaign}/activate/${
+          campaign._id
+        }`,
+        {
+          action: "activate",
+          remarks: "Campaign activated for fundraising visibility.",
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      toast.success("Campaign is now live!");
+
+      if (onStatusUpdate) {
+        onStatusUpdate(campaign._id, "approved");
+      }
+
+      campaign.isActive = true;
+      onClose();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to activate campaign");
       console.error(err);
     } finally {
       setLoading(false);
@@ -87,7 +122,13 @@ const CampaignDetailsPendingModal = ({ campaign, onClose, onStatusUpdate }) => {
             <Detail>
               <Label>Status</Label>
               <Value>
-                {isApproved ? "Approved" : isPending ? "Pending" : "Rejected"}
+                {isLive
+                  ? "Live & Approved"
+                  : canActivate
+                  ? "Approved but Not Live"
+                  : isPending
+                  ? "Pending"
+                  : "Rejected"}
               </Value>
             </Detail>
           </Grid>
@@ -96,17 +137,24 @@ const CampaignDetailsPendingModal = ({ campaign, onClose, onStatusUpdate }) => {
             <SectionTitle>NGO Information</SectionTitle>
             <NGOInfo>
               <NGOName>{campaign.fundraiser || "Unknown"}</NGOName>
-
               <Badge
                 className={
                   isPending
                     ? "status-pending"
-                    : isApproved
+                    : isLive
                     ? "status-approved"
-                    : "status-rejected"
+                    : isRejected
+                    ? "status-rejected"
+                    : "status-approved"
                 }
               >
-                {isApproved ? "Approved" : isPending ? "Pending" : "Rejected"}
+                {isLive
+                  ? "Live"
+                  : isPending
+                  ? "Pending"
+                  : isRejected
+                  ? "Rejected"
+                  : "Approved"}
               </Badge>
             </NGOInfo>
           </NGOSection>
@@ -131,12 +179,26 @@ const CampaignDetailsPendingModal = ({ campaign, onClose, onStatusUpdate }) => {
                 {loading ? "Processing..." : "Approve"}
               </ApproveBtn>
             </>
-          ) : (
-            <StatusMessage approved={isApproved}>
-              This campaign has already been{" "}
-              {isApproved ? "Approved" : "Rejected"}.
+          ) : canActivate ? (
+            <>
+              <ActivateBtn onClick={handleActivate} disabled={loading}>
+                <RiRadioButtonLine size={16} className="icon" />
+                {loading ? "Activating..." : "Make Campaign Live"}
+              </ActivateBtn>
+
+              <StatusMessage approved>
+                This campaign is Approved but not Live.
+              </StatusMessage>
+            </>
+          ) : isLive ? (
+            <StatusMessage approved>
+              This campaign is Live and Approved!
             </StatusMessage>
-          )}
+          ) : isRejected ? (
+            <StatusMessage approved={false}>
+              This campaign has already been Rejected.
+            </StatusMessage>
+          ) : null}
         </Footer>
       </Container>
     </Overlay>
@@ -145,9 +207,7 @@ const CampaignDetailsPendingModal = ({ campaign, onClose, onStatusUpdate }) => {
 
 export default CampaignDetailsPendingModal;
 
-// ------------------------------------------------------------
-// STYLES (unchanged)
-// ------------------------------------------------------------
+/* Styled Components */
 
 const Overlay = styled.div`
   position: fixed;
@@ -333,6 +393,17 @@ const ApproveBtn = styled(BaseButton)`
   &:hover:enabled {
     background-color: #059669;
     border-color: #059669;
+  }
+`;
+
+const ActivateBtn = styled(BaseButton)`
+  color: white;
+  background-color: #0284c7;
+  border: 1px solid #0284c7;
+
+  &:hover:enabled {
+    background-color: #0369a1;
+    border-color: #0369a1;
   }
 `;
 
