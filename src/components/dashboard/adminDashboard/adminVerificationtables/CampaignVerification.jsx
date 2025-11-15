@@ -37,7 +37,7 @@ const Campaign = () => {
       const campaigns = Array.isArray(res.data)
         ? res.data
         : res.data?.data || [];
-
+      console.log("first zz", campaigns);
       if (campaigns.length > 0) {
         const normalized = campaigns.map((c) => {
           const allMilestonesCompleted =
@@ -108,8 +108,8 @@ const Campaign = () => {
             <Cell colSpan={6}>Loading campaigns...</Cell>
           </CampaignRow>
         ) : campaigns.length > 0 ? (
-          campaigns.map((item, index) => (
-            <CampaignRow key={index} columns={6}>
+          campaigns.map((item) => (
+            <CampaignRow key={item._id} columns={6}>
               <Cell>{item.campaignCategory}</Cell>
               <Cell>{item.fundraiser}</Cell>
               <Cell>
@@ -122,9 +122,7 @@ const Campaign = () => {
                   ? `₦${item.totalCampaignGoalAmount}`
                   : "—"}
               </Cell>
-              <Status active={item.status === "approved"}>
-                {item.status || "pending"}
-              </Status>
+              <Status active={item.status === "approved"}>{item.status}</Status>
               <Actions
                 onClick={() => handleView(item)}
                 style={{
@@ -146,15 +144,13 @@ const Campaign = () => {
         )}
       </TableContainer>
 
-      {selectedCampaign &&
-        !selectedCampaign.isCompleted &&
-        !selectedCampaign.isActive && (
-          <CampaignDetailsModal
-            campaign={selectedCampaign}
-            onClose={handleClose}
-            onStatusUpdate={updateCampaignStatus}
-          />
-        )}
+      {selectedCampaign && !selectedCampaign.isCompleted && (
+        <CampaignDetailsModal
+          campaign={selectedCampaign}
+          onClose={handleClose}
+          onStatusUpdate={updateCampaignStatus}
+        />
+      )}
     </>
   );
 };

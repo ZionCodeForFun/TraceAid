@@ -26,7 +26,10 @@ const Spinner = styled.div`
   animation: ${spin} 1s linear infinite;
   margin: auto;
   position: absolute;
-  top: 0; bottom: 0; left: 0; right: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 `;
 
 const CampaignDetails4org_ongoing = () => {
@@ -131,7 +134,28 @@ const CampaignDetails4org_ongoing = () => {
     };
     fetchAllDonors();
   }, [id, campaignFromState, token, VITE_Payemt_BaseUrl]);
+  const handleShare = async () => {
+    if (!campaignInfo?._id) return;
 
+    try {
+      const res = await axios.patch(
+        `https://traceaid.onrender.com/engagement/api/v1/recordShare/${campaignInfo._id}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+       console.log("first ccc", res.data?.data)
+      if (res?.data?.statusCode) {
+        toast.success("Campaign share recorded successfully!");
+      } else {
+        toast.error(res?.data?.message || "Failed to record share");
+      }
+    } catch (err) {
+      console.error("Share error:", err.response?.data || err);
+      toast.error("Failed to record share");
+    }
+  };
   if (loading) return <Spinner />;
   if (!campaignData) return <p>Failed to load campaign details.</p>;
 
@@ -200,7 +224,7 @@ const CampaignDetails4org_ongoing = () => {
               <MilestoneTimeline milestones={milestones} />
             )}
 
-            <Button text="Share" className="share_btn" />
+            <Button text="Share" className="share_btn" onClick={handleShare} />
           </div>
         </div>
 

@@ -53,9 +53,10 @@ const TimelineContainer = styled.div`
   padding: 2rem;
   position: relative;
   position: absolute;
-  background-color: white;
+  background-color: #ffffff;
   top: 120%;
   left: 24%;
+  height: max-content;
 `;
 
 const TimelineItem = styled.div`
@@ -96,7 +97,7 @@ const Card = styled.div`
   border-radius: 10px;
   padding: 1.2rem 1.5rem;
   width: 411px;
-  height: 259px;
+  height: max-content;
 
   h3 {
     font-size: 18px;

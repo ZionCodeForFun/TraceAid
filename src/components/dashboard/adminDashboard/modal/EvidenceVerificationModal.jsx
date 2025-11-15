@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { IoClose } from "react-icons/io5";
-import { PiCameraFill } from "react-icons/pi";
 
 const EvidenceVerificationModal = ({ evidence, onClose, onAction }) => {
   const [isRejecting, setIsRejecting] = useState(false);
@@ -16,7 +15,7 @@ const EvidenceVerificationModal = ({ evidence, onClose, onAction }) => {
     <Overlay>
       <ModalContainer>
         <Header>
-          <h2>Funds Disbursement Request</h2>
+          <h2>Milestone evidence review</h2>
           <IoClose className="close-icon" onClick={onClose} />
           <p>Review evidence and choose an action for this disbursement</p>
         </Header>

@@ -191,7 +191,7 @@ const CampaignDetails4org_pending = () => {
               <PendingMilestone milestones={milestones} />
             )}
 
-            <Button text="Share" className="share_btn" />
+         
           </div>
         </div>
 
