@@ -35,7 +35,7 @@ const Footer = () => {
                    <li>For Individuals</li>
                    <li>For Organizations</li>
                    <li>Pricing</li>
-                   <li>Explore Campaigns</li>
+                   <li onClick={()=> nav("/campaign_data")}>Explore Campaigns</li>
                  </ul>
                </FooterColumn>
                <FooterColumn>

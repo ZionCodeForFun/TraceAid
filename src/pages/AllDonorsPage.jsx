@@ -18,7 +18,7 @@ const AllDonorsPage = () => {
   const formatAmount = (num) => "₦" + Number(num || 0).toLocaleString();
 
   const getInitials = (first, last) => {
-    if (!first && !last) return "AN";
+    if (!first && !last) return "AN"; 
     if (!last) return first?.charAt(0).toUpperCase();
     return (first?.charAt(0) + last?.charAt(0)).toUpperCase();
   };
@@ -39,8 +39,10 @@ const AllDonorsPage = () => {
       setLoading(true);
 
       const res = await axios.get(
-        `${VITE_Payemt_BaseUrl}/campaign/${id}/donations`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        `${VITE_Payemt_BaseUrl}/campaign/${id}/donations/all`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
 
       if (res?.data?.statusCode) {
@@ -80,14 +82,13 @@ const AllDonorsPage = () => {
 
             const firstName = donor?.firstName || "";
             const lastName = donor?.lastName || "";
-            const hasName = firstName || lastName;
 
-        
             const initials = getInitials(firstName, lastName);
 
-            const displayName = hasName
-              ? `${firstName} ${lastName}`.trim()
-              : initials;
+            const displayName =
+              d?.isAnonymous && donor?.firstName === "Anonymous"
+                ? "Anonymous"
+                : `${firstName} ${lastName}`.trim();
 
             const amount = d?.amount || 0;
             const message = d?.message || "";
@@ -97,6 +98,7 @@ const AllDonorsPage = () => {
               <Card key={i}>
                 <div className="top">
                   <div className="avatar-circle">{initials}</div>
+
                   <div className="meta">
                     <h4>{displayName}</h4>
                     {when && <small>{formatDate(when)}</small>}
@@ -107,7 +109,7 @@ const AllDonorsPage = () => {
                   <div className="amount">{formatAmount(amount)}</div>
                 </div>
 
-                {message && <p className="msg">{message}!!</p>}
+                {message && <p className="msg">{message}</p>}
               </Card>
             );
           })}
@@ -241,6 +243,10 @@ const Empty = styled.div`
   padding: 2rem;
   text-align: center;
 `;
+
+
+
+
 
 // import React, { useEffect, useState } from "react";
 // import styled from "styled-components";

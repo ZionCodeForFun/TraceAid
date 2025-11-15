@@ -171,7 +171,10 @@ const SignUpForm = () => {
         requiredMark={false}
         layout="vertical"
       >
-        <div className="img_holder">
+        <div className="img_holder"
+        onClick={() => nav("/")}
+        style={{ cursor: "pointer" }}
+        >
           <img src={logo2} alt="logo" />
         </div>
 

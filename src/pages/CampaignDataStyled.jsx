@@ -266,6 +266,11 @@ export const CampaignContent = styled.div`
       font-size: 0.9rem;
       color: #555;
       margin-bottom: 1rem;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     }
   }
 
@@ -282,7 +287,7 @@ export const ProgressWrapper = styled.div`
   align-items: center;
   font-size: 0.85rem;
   color: #333;
-  margin-top: 0.6rem;
+  margin-top: 1rem;
   background-color: #f9fdf2;
 
   .money {

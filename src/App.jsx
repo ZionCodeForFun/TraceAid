@@ -124,8 +124,13 @@ const App = () => {
         <Route path="/profile_settings" element={<ProfileSettings />} />
         <Route path="/contact_us" element={<ContactUsPage />} />
         <Route path="/payment_success" element={<PaymentSuccessPage />} />
-        <Route path="/campaign/:id/donors" element={<AllDonorsPage />} />
-        <Route path="/card_campaign_details/:id" element={<CardCampaignDetails />} />
+        <Route
+          path="/campaign/:id/donors" element={<AllDonorsPage />}
+        />
+        <Route
+          path="/card_campaign_details/:id"
+          element={<CardCampaignDetails />}
+        />
 
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
