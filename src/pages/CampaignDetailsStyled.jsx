@@ -68,6 +68,45 @@ export const CampaignLeft = styled.div`
     max-height: 520px;
   }
 
+   .share-btn {
+  width: 100%;
+  padding: 12px 0;
+  margin-top: 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #1a1a1a;
+  color: #c1e86e;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.share-btn:hover {
+  background-color: #c1e86e;
+  color: #1a1a1a;
+}
+
+.evidence-btn {
+  width: 100%;
+  margin-top: 1.9rem;
+  padding: 12px;
+  background: #1a1a1a;
+  color: #c1e86e;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.evidence-btn:hover {
+  background: #c1e86e;
+  color: #1a1a1a;
+}
+
+
   @media (max-width: 480px) {
     h2 {
       font-size: 1.35rem;

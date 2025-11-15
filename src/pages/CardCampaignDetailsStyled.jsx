@@ -54,6 +54,26 @@ export const CardLeft = styled.div`
     object-fit: cover;
     max-height: 420px;
   }
+
+  .share-btn {
+  width: 100%;
+  padding: 12px 0;
+  margin-top: 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #1a1a1a;
+  color: #c1e86e;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.share-btn:hover {
+  background-color: #c1e86e;
+  color: #1a1a1a;
+}
+
 `;
 
 export const CardRight = styled.div`

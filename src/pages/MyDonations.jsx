@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import HeaderNav from "./HeaderNav";
+import ShareModal from "./ShareModal"; 
 
 const Container = styled.div`
   width: 100%;
@@ -206,6 +207,9 @@ const MyDonations = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
 
+  const [isShareOpen, setIsShareOpen] = useState(false);
+  const [selectedCampaignId, setSelectedCampaignId] = useState(null);
+
   const fetchDonations = async () => {
     try {
       const res = await axios.get(`${VITE_Payemt_BaseUrl}/my-donations`, {
@@ -251,28 +255,43 @@ const MyDonations = () => {
     (sum, d) => sum + Number(d.amount || 0),
     0
   );
+
   const supportedCampaigns = new Set(donations.map((d) => d.campaign?._id))
     .size;
 
-  const handleMenuToggle = ( id) => {
-    console.log("clicked", id)
+  const handleMenuToggle = (id) => {
     setOpenMenuId(openMenuId === id ? null : id);
+  };
+
+  const handleRecordShare = async (channel) => {
+    if (!selectedCampaignId) return;
+
+    try {
+      await axios.patch(
+        `https://traceaid.onrender.com/engagement/api/v1/recordShare/${selectedCampaignId}`,
+        {
+          channel,
+          userCaption: `Shared this campaign on ${channel}`,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      toast.success("Share recorded!");
+    } catch (error) {
+      console.log("Record share error:", error);
+    }
   };
 
   const handleOptionClick = (action, campaignId) => {
     if (action === "view") {
       nav(`/card_campaign_details/${campaignId}`);
     } else if (action === "share") {
-      navigator.share
-        ? navigator.share({
-            title: "TraceAid Campaign",
-            text: "Check out this campaign I supported!",
-            // url: window.location.origin + `/campaign-details/${campaignId}`,
-          })
-        : toast("Sharing not supported on this browser.");
+      setSelectedCampaignId(campaignId); 
+      setIsShareOpen(true);
     } else if (action === "close") {
       toast.success("Campaign closed successfully");
     }
+
     setOpenMenuId(null);
   };
 
@@ -335,8 +354,8 @@ const MyDonations = () => {
           ) : filteredDonations.length === 0 ? (
             <p>No donations found</p>
           ) : (
-            filteredDonations.map((item, index) => (
-               <TableRow key={item.donationId}>
+            filteredDonations.map((item) => (
+              <TableRow key={item.donationId}>
                 <span>{item.campaignTitle}</span>
                 <span>{item.formattedAmount}</span>
                 <span>{item.date}</span>
@@ -344,14 +363,22 @@ const MyDonations = () => {
 
                 <MenuDots onClick={() => handleMenuToggle(item.donationId)}>
                   <HiOutlineDotsVertical size={20} />
+
                   {openMenuId === item.donationId && (
                     <DropdownMenu>
                       <p onClick={() => handleOptionClick("view", item.id)}>
                         View Details
                       </p>
-                      <p onClick={() => handleOptionClick("share", item.id)}>
+
+                      <p
+                        onClick={() => {
+                          setSelectedCampaignId(item.id);
+                          handleOptionClick("share", item.id);
+                        }}
+                      >
                         Share Campaign
                       </p>
+
                       <p onClick={() => handleOptionClick("close", item.id)}>
                         Close Campaign
                       </p>
@@ -363,6 +390,13 @@ const MyDonations = () => {
           )}
         </HistoryContainer>
       </Container>
+
+      <ShareModal
+        open={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        onRecordShare={handleRecordShare}
+        campaignId={selectedCampaignId}
+      />
     </>
   );
 };
