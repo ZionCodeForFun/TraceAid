@@ -10,7 +10,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
-
+import ShareModal from "../../../../pages/ShareModal";
 // Spinner animation
 const spin = keyframes`
   0% { transform: rotate(0deg); }
@@ -40,6 +40,7 @@ const CampaignDetails4org_ongoing = () => {
   const [loadingTopDonors, setLoadingTopDonors] = useState(true);
   const [allDonors, setAllDonors] = useState([]);
   const [loadingAllDonors, setLoadingAllDonors] = useState(true);
+  const [isShareOpen, setIsShareOpen] = useState(false);
 
   const { id } = useParams();
   const nav = useNavigate();
@@ -49,7 +50,6 @@ const CampaignDetails4org_ongoing = () => {
   const token = useSelector((state) => state.auth.token);
   const VITE_Payemt_BaseUrl = import.meta.env.VITE_Payemt_BaseUrl;
 
-  // Fetch campaign + milestones
   useEffect(() => {
     const fetchCampaignData = async () => {
       if (!id && !campaignFromState?._id) return;
@@ -67,7 +67,6 @@ const CampaignDetails4org_ongoing = () => {
     fetchCampaignData();
   }, [id, campaignFromState]);
 
-  // Fetch top donors
   useEffect(() => {
     const fetchTopDonors = async () => {
       if (!id && !campaignFromState?._id) return;
@@ -100,7 +99,6 @@ const CampaignDetails4org_ongoing = () => {
     fetchTopDonors();
   }, [id, campaignFromState, token, VITE_Payemt_BaseUrl]);
 
-  // Fetch all donors
   useEffect(() => {
     const fetchAllDonors = async () => {
       if (!id && !campaignFromState?._id) return;
@@ -134,28 +132,24 @@ const CampaignDetails4org_ongoing = () => {
     };
     fetchAllDonors();
   }, [id, campaignFromState, token, VITE_Payemt_BaseUrl]);
-  const handleShare = async () => {
-    if (!campaignInfo?._id) return;
 
+  const handleRecordShare = async (channel) => {
     try {
       const res = await axios.patch(
         `https://traceaid.onrender.com/engagement/api/v1/recordShare/${campaignInfo._id}`,
-        {},
         {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+          channel,
+          userCaption: "Shared this campaign on " + channel,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-       console.log("first ccc", res.data?.data)
-      if (res?.data?.statusCode) {
-        toast.success("Campaign share recorded successfully!");
-      } else {
-        toast.error(res?.data?.message || "Failed to record share");
-      }
-    } catch (err) {
-      console.error("Share error:", err.response?.data || err);
-      toast.error("Failed to record share");
+
+      console.log("Share Recorded:", res.data);
+    } catch (error) {
+      console.log("Share error:", error?.response?.data || error);
     }
   };
+
   if (loading) return <Spinner />;
   if (!campaignData) return <p>Failed to load campaign details.</p>;
 
@@ -224,9 +218,19 @@ const CampaignDetails4org_ongoing = () => {
               <MilestoneTimeline milestones={milestones} />
             )}
 
-            <Button text="Share" className="share_btn" onClick={handleShare} />
+            <Button
+              text="Share"
+              className="share_btn"
+              onClick={() => setIsShareOpen(true)}
+            />
           </div>
         </div>
+        <ShareModal
+          open={isShareOpen}
+          onClose={() => setIsShareOpen(false)}
+          campaign={campaignInfo}
+          onRecordShare={handleRecordShare}
+        />
 
         <div className="right">
           <p className="p_top">Top Donors</p>

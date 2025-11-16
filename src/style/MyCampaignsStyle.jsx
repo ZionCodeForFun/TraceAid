@@ -206,7 +206,7 @@ export const Container = styled.div`
     }
     .details_pop {
       width: 187px;
-      height: 144px;
+      height: max-content;
       background-color: #0a0a0a;
       position: absolute;
       top: 12%;

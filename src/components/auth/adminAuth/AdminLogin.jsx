@@ -26,7 +26,6 @@ const AdminLogin = () => {
         formData
       );
       const data = res.data?.data;
-      console.log(data);
       toast.success(res.data?.message);
       dispatch(
         setAdmin({
@@ -70,6 +69,10 @@ const AdminLogin = () => {
             {loading ? "Logging in..." : "Login"}
           </Button>
         </form>
+        <SignupText>
+          Don’t have an account?{" "}
+          <span onClick={() => navigate("/admin_register")}>Sign up</span>
+        </SignupText>
       </FormWrapper>
     </Container>
   );
@@ -144,5 +147,21 @@ const Button = styled.button`
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
+  }
+`;
+
+const SignupText = styled.p`
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #555;
+
+  span {
+    color: var(--PrimaryBase);
+    cursor: pointer;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;

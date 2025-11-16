@@ -8,9 +8,7 @@ import { FiFlag } from "react-icons/fi";
 import Button from "../../../common/Button";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import UpdateMilestone from "./UpdateMilestone";
-import { FaFacebookF, FaLink } from "react-icons/fa";
-import { TbBrandInstagramFilled } from "react-icons/tb";
-import { FaXTwitter } from "react-icons/fa6";
+
 import { LuCopy, LuUpload } from "react-icons/lu";
 import { toast } from "react-toastify";
 import { IoCloseSharp } from "react-icons/io5";
@@ -74,7 +72,7 @@ const MyCampaigns = () => {
       dispatch(setLoading(true));
       const response = await GetAllCampaignsAPI(token);
       dispatch(setCampaigns(response.data.data));
-      console.log("camp here", response.data.data )
+      console.log("camp here", response.data.data);
     } catch (err) {
       dispatch(
         setError(err?.response?.data?.message || "Failed to fetch campaigns")
@@ -99,31 +97,6 @@ const MyCampaigns = () => {
     }
   }, [searchQuery, all]);
 
-  const VITE_campaignBaseUrl = `https://traceaid.com/campaign/${selectedCampaign?._id}`;
-
-  const handleShare = (platform) => {
-    const text = encodeURIComponent(
-      "I just supported this cause! You can too. Every little bit counts "
-    );
-    const url = encodeURIComponent(VITE_campaignBaseUrl);
-    let shareUrl = "";
-    switch (platform) {
-      case "facebook":
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-        break;
-      case "twitter":
-        shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
-        break;
-      case "instagram":
-        toast.success(
-          "Instagram doesn’t support direct web sharing — copy the link instead "
-        );
-        return;
-      default:
-        return;
-    }
-    window.open(shareUrl, "_blank");
-  };
   const handleViewDetails = () => {
     if (!selectedCampaign) return;
 
@@ -300,9 +273,7 @@ const MyCampaigns = () => {
                                 ...prev,
                                 selectedCampaign: item,
                                 showMilestone: true,
-                              
                               }));
-                          
                             } else {
                               toast.info(
                                 "Milestones can only be updated for completed campaigns"
@@ -310,7 +281,7 @@ const MyCampaigns = () => {
                             }
                           }}
                         >
-                          upload <LuUpload style={{ cursor: "pointer",  }} />
+                          upload <LuUpload style={{ cursor: "pointer" }} />
                         </td>
                         <td>{item.durationDays} days</td>
                         <td
@@ -356,13 +327,7 @@ const MyCampaigns = () => {
                 }}
               >
                 <p onClick={handleViewDetails}>View Details</p>
-                <p
-                  onClick={() =>
-                    setState((prev) => ({ ...prev, showShare: true }))
-                  }
-                >
-                  Share Campaign
-                </p>
+
                 <p
                   onClick={() =>
                     setState((prev) => ({ ...prev, showDelete: true }))
@@ -406,46 +371,6 @@ const MyCampaigns = () => {
                   className="close_btn1"
                 />
                 <Button text="Delete Campaign" className="close_btn2" />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {showShare && (
-          <div className="holder">
-            <div className="reciept_holder" style={{ height: 360 }}>
-              <div className="content-holder">
-                <i className="share_icon">
-                  <FaLink />
-                </i>
-                <p className="bigtext">Share with friends</p>
-                <p className="smalltext">
-                  I just supported this cause! You can too. <br /> Every little
-                  bit counts
-                </p>
-                <InputField
-                  type="text"
-                  placeholder="https://traceaid.com/stationery-4-kids"
-                  className="input"
-                />
-                <IoCloseSharp
-                  onClick={() =>
-                    setState((prev) => ({ ...prev, showShare: false }))
-                  }
-                  className="close_bt"
-                />
-                <LuCopy className="copy" />
-              </div>
-              <div className="btn_holder">
-                <i onClick={() => handleShare("facebook")}>
-                  <FaFacebookF />
-                </i>
-                <i onClick={() => handleShare("instagram")}>
-                  <TbBrandInstagramFilled />
-                </i>
-                <i onClick={() => handleShare("twitter")}>
-                  <FaXTwitter />
-                </i>
               </div>
             </div>
           </div>
