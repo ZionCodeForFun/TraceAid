@@ -64,36 +64,54 @@ const CampaignDetails = () => {
     return parts[0][0].toUpperCase();
   };
 
-  const fetchEvidence = async () => {
-    try {
-      const res = await axios.get(
-        `https://traceaid.onrender.com/admin/api/v1/campaigns-with-milestones-and-evidence/${id}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+ const fetchEvidence = async () => {
+  try {
+    const res = await axios.get(
+      `https://traceaid.onrender.com/admin/api/v1/campaigns-with-milestones-and-evidence/${id}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-      if (res?.data?.statusCode) {
-        const payload = res.data?.data;
+    const record = res.data?.data;
 
-        const milestones = payload?.milestones || [];
-
-        const ev = milestones.flatMap((m) =>
-          (m.evidences || []).map((e) => ({
-            url: e.imageUrl,
-            status: e.status,
-            uploadedAt: e.uploadedAt,
-            milestoneTitle: m.milestoneTitle,
-            milestoneDescription: m.milestoneDescription,
-          }))
-        );
-
-        setEvidenceFiles(ev);
-
-        return ev;
-      }
-    } catch (err) {
-      console.log("Evidence fetch error:", err?.response?.data || err);
+    if (!record || !Array.isArray(record.milestones)) {
+      setEvidenceFiles([]);
+      return;
     }
-  };
+
+    const grouped = record.milestones.map((milestone) => {
+      const uploads = [];
+
+      if (Array.isArray(milestone.evidences)) {
+        milestone.evidences.forEach((ev) => {
+          if (Array.isArray(ev.uploads)) {
+            ev.uploads.forEach((upload) => {
+              uploads.push({
+                url: upload.imageUrl,
+                uploadedAt: upload.uploadedAt,
+                status: ev.status
+              });
+            });
+          }
+        });
+      }
+
+      return {
+        milestoneTitle: milestone.milestoneTitle,
+        milestoneDescription: milestone.milestoneDescription,
+        evidenceStatus: milestone.evidenceApprovalStatus,
+        targetAmount: milestone.targetAmount,
+        releasedAmount: milestone.releasedAmount,
+        milestoneStatus: milestone.status,
+
+        uploads
+      };
+    });
+
+    setEvidenceFiles(grouped);
+  } catch (err) {
+    console.log("Evidence fetch error:", err?.response?.data || err);
+  }
+};
 
   const handleOpenEvidence = async () => {
   setEvidenceLoading(true);
