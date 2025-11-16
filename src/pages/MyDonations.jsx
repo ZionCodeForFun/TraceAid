@@ -124,6 +124,14 @@ const TableHeader = styled.div`
   color: #2f3a38;
   margin-bottom: 1.2rem;
   font-size: 0.95rem;
+
+    @media (max-width: 480px) {
+    margin-bottom: 2rem;
+  }
+
+    @media (max-width: 430px) {
+    margin-bottom: 2.4rem;
+  }
 `;
 
 const TableRow = styled.div`
@@ -135,6 +143,14 @@ const TableRow = styled.div`
   align-items: center;
   color: #222;
   position: relative;
+
+   @media (max-width: 480px) {
+    padding: 1.4rem 0;
+  }
+
+   @media (max-width: 430px) {
+    padding: 1.6rem 0;
+  }
 `;
 
 const StatusPill = styled.span`
@@ -153,7 +169,18 @@ const StatusPill = styled.span`
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
   font-size: 0.85rem;
+
+  @media (max-width: 480px) {
+    margin-top: 0.8rem;    
+    margin-bottom: 0.8rem;  
+  }
+
+   @media (max-width: 430px) {
+    margin-top: 1rem;
+    margin-bottom: 1rem; 
+  }
 `;
+
 
 const MenuDots = styled.span`
   position: relative;

@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
   background: #ffffff;
 `;
 
-export const UploadLabel = styled.label`
+export const UploadLabel = styled.div`
 margin-top: 4.5rem;
   align-self: center;
   position: relative;

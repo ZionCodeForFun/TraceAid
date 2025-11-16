@@ -52,7 +52,7 @@ const ProfileSettings = () => {
     const file = e.target.files[0];
     if (file) {
       setFormData({ ...formData, profilePicture: file });
-      setPreviewImg(URL.createObjectURL(file)); 
+      setPreviewImg(URL.createObjectURL(file));
     }
   };
 
@@ -132,11 +132,17 @@ const ProfileSettings = () => {
             }
             alt="profile"
           />
-          <input type="file" accept="image/*" onChange={handleImageChange}  id="file upload"/>
 
-           <label htmlFor="profile-upload" className="edit-icon">
-    <FiEdit2 />
-  </label>
+          <input
+            type="file"
+            accept="image/*"
+            id="profile-upload"
+            onChange={handleImageChange}
+          />
+
+          <label htmlFor="profile-upload" className="edit-icon">
+            <FiEdit2 />
+          </label>
         </UploadLabel>
 
         <SectionTitle>Basic Information</SectionTitle>
@@ -199,5 +205,3 @@ const ProfileSettings = () => {
 };
 
 export default ProfileSettings;
-
-

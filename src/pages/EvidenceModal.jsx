@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { IoClose } from "react-icons/io5";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Overlay = styled.div`
   position: fixed;
@@ -90,7 +92,7 @@ const EvidenceInfo = styled.div`
   }
 `;
 
-const EvidenceModal = ({ open, onClose, evidence }) => {
+const EvidenceModal = ({ open, onClose, evidence, loading}) => {
   if (!open) return null;
 
   return (
@@ -101,7 +103,27 @@ const EvidenceModal = ({ open, onClose, evidence }) => {
           <CloseIcon onClick={onClose} />
         </Header>
 
-        {!evidence || evidence.length === 0 ? (
+        {loading ? (
+          <EvidenceGrid>
+            {[1, 2, 3, 4].map((i) => (
+              <EvidenceItem key={i}>
+                <Skeleton height={160} />
+
+                <EvidenceInfo>
+                  <Skeleton width={`80%`} height={12} />
+                  <Skeleton width={`60%`} height={10} />
+                  <Skeleton width={`50%`} height={10} />
+
+                  <Skeleton
+                    width={`90%`}
+                    height={12}
+                    style={{ marginTop: "6px" }}
+                  />
+                </EvidenceInfo>
+              </EvidenceItem>
+            ))}
+          </EvidenceGrid>
+        ) : !evidence || evidence.length === 0 ? (
           <EmptyText>No evidence uploaded yet.</EmptyText>
         ) : (
           <EvidenceGrid>
@@ -115,7 +137,13 @@ const EvidenceModal = ({ open, onClose, evidence }) => {
                   <span>{new Date(ev.uploadedAt).toLocaleString()}</span>
 
                   {ev.milestoneDescription && (
-                    <p style={{ marginTop: "6px", fontSize: "0.75rem", color: "#666" }}>
+                    <p
+                      style={{
+                        marginTop: "6px",
+                        fontSize: "0.75rem",
+                        color: "#666",
+                      }}
+                    >
                       {ev.milestoneDescription}
                     </p>
                   )}
