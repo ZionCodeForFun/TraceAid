@@ -434,8 +434,11 @@ const CreateCampaign = ({ onClose }) => {
                 }))
               }
             />
-            <label onClick={() => nav("/termsandcon")} htmlFor="terms">
-              I agree to the Terms and Conditions
+            <label >
+              I agree to the{" "}
+              <span onClick={() => nav("/termsandcon")}>
+                Terms and Conditions
+              </span>
             </label>
             {error && (
               <p
@@ -470,7 +473,7 @@ const CreateCampaign = ({ onClose }) => {
                   : null
               }
               campaignAmount={formData.goalAmount}
-              milestones={state.milestones} 
+              milestones={state.milestones}
               onClose={(saved, data, isEdit) => {
                 setState((prev) => {
                   if (!saved) {
@@ -828,6 +831,14 @@ export const Container = styled.div`
       label {
         cursor: pointer;
         user-select: none;
+        span {
+          color: #7baf55;
+          font-weight: 700;
+          text-decoration: underline;
+          &:hover{
+            color: #3d3dda;
+          }
+        }
       }
     }
 
@@ -934,19 +945,18 @@ export const Container = styled.div`
     }
   }
   .modal_overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
- 
-}
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-@media (max-width: 480px) {
+  @media (max-width: 480px) {
     .goback {
       width: 100%;
       padding-top: 40px;
