@@ -1,40 +1,96 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { RiBookmarkFill } from "react-icons/ri";
+import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SavedMappedCampaign = () => {
   const [savedCampaigns, setSavedCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [savedState, setSavedState] = useState({});
 
   const token = useSelector((state) => state.auth.token);
 
+  const nav = useNavigate();
+
   const savedCampaignBaseUrl = import.meta.env.VITE_SavedCampaignBaseUrl;
+  const engagementBaseUrl = import.meta.env.VITE_EngagementBaseUrl;
 
-  useEffect(() => {
-    const fetchSavedCampaigns = async () => {
-      try {
-        const res = await axios.get(
-          `${savedCampaignBaseUrl}/all-saved-campaign`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setSavedCampaigns(res.data.data);
-      } catch (err) {
-        console.error("Error fetching saved campaigns:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const toggleEngagement = async (campaignId, actionType, token) => {
+    try {
+      const res = await axios.patch(
+        `${engagementBaseUrl}/${campaignId}/${actionType}`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+       console.log("TOGGLE ENGAGEMENT RESPONSE:", res.data);
+      return res?.data;
+    } catch (error) {
+      throw error.response?.data || "Something went wrong";
+    }
+  };
 
-    fetchSavedCampaigns();
-  }, [token]);
+  const handleSave = async (id) => {
+  if (!token) return toast("You must be logged in to save a campaign.");
+
+  setSavedState((prev) => ({ ...prev, [id]: !prev[id] }));
+
+  try {
+    const res = await toggleEngagement(id, "save", token);
+    const isSaved = res.isEngaged;
+
+    setSavedState((prev) => ({ ...prev, [id]: isSaved }));
+
+    if (!isSaved) {
+      setSavedCampaigns((prev) => prev.filter((item) => item._id !== id));
+      toast.success("Campaign removed from saved.");
+    } else {
+      toast.success("Campaign saved.");
+    }
+
+  } catch (err) {
+    setSavedState((prev) => ({ ...prev, [id]: !prev[id] }));
+    toast.error("Could not save/unsave campaign.");
+  }
+};
+
+
+ useEffect(() => {
+  const fetchSavedCampaigns = async () => {
+    try {
+      const res = await axios.get(
+        `${savedCampaignBaseUrl}/all-saved-campaign`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const campaignsArray = res.data?.data || [];
+
+      setSavedCampaigns(campaignsArray);
+
+      const initialSaved = {};
+      campaignsArray.forEach((item) => {
+        initialSaved[item._id] = true;
+      });
+      setSavedState(initialSaved);
+
+    } catch (err) {
+      console.error("Error fetching saved campaigns:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchSavedCampaigns();
+}, [token]);
+
 
   return (
     <SavedMappedSection>
@@ -58,27 +114,37 @@ const SavedMappedCampaign = () => {
           </p>
         ) : (
           savedCampaigns.map((card) => {
-           const goal = Number(card.totalCampaignGoalAmount) || 0;
-                const raised = Number(card.amountRaised) || 0;
-                const progress =
-                  goal > 0
-                    ? Math.min(Math.round((raised / goal) * 100), 100)
-                    : 0;
+            const goal = Number(card.totalCampaignGoalAmount) || 0;
+            const raised = Number(card.amountRaised) || 0;
+            const progress =
+              goal > 0 ? Math.min(Math.round((raised / goal) * 100), 100) : 0;
 
-                let progressColor = "#ff4d4f"; 
+            let progressColor = "#ff4d4f";
 
-                if (progress >= 40 && progress < 100) progressColor = "#f8d34a";
-                if (progress === 100) progressColor = "#4CAF50";
+            if (progress >= 40 && progress < 100) progressColor = "#f8d34a";
+            if (progress === 100) progressColor = "#4CAF50";
 
             return (
               <CampaignCard key={card._id}>
-                <CampaignImage>
+                <CampaignImage
+                  onClick={() => nav(`/card_campaign_details/${card._id}`)}
+                >
                   <img
                     src={card.campaignCoverImageOrVideo?.imageUrl}
                     alt={card.title}
                   />
-                  <div className="bookmark">
-                    <RiBookmarkFill />
+                  <div
+                    className="bookmark"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSave(card._id);
+                    }}
+                  >
+                    {savedState[card._id] ? (
+                      <RiBookmarkFill style={{ color: "#1a1a1a" }} />
+                    ) : (
+                      <RiBookmarkLine style={{ color: "#999" }} />
+                    )}
                   </div>
                 </CampaignImage>
 
@@ -109,13 +175,15 @@ const SavedMappedCampaign = () => {
 
                   <ProgressRow>
                     <ProgressBar $progress={progress} $color={progressColor} />
-                    <ProgressPercent>
-                      {progress}%
-                    </ProgressPercent>
+                    <ProgressPercent>{progress}%</ProgressPercent>
                   </ProgressRow>
                 </CampaignContent>
 
-                <DonateButton>Donate Now</DonateButton>
+                <DonateButton
+                  onClick={() => nav(`/campaign_details/${card._id}`)}
+                >
+                  Donate Now
+                </DonateButton>
               </CampaignCard>
             );
           })
@@ -241,11 +309,11 @@ export const ProgressWrapper = styled.div`
   background-color: #f9fdf2;
 
   .money {
-  margin-top: 4px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: #222;
-}
+    margin-top: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #222;
+  }
 `;
 
 export const ProgressBar = styled.div`

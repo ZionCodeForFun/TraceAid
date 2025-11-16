@@ -31,7 +31,6 @@ import {
 
 import { PaginationWrapper, PageButton, ArrowButton } from "./PaginationStyled";
 
-
 const CampaignData = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -52,7 +51,9 @@ const CampaignData = () => {
 
   const getCampaigns = async () => {
     try {
-      const res = await axios.get(`${VITE_campaignBaseUrl}/get-all-active-campaign`);
+      const res = await axios.get(
+        `${VITE_campaignBaseUrl}/get-all-active-campaign`
+      );
       setCampaigns(res.data.data.active);
     } catch {
       setError("Failed to load campaigns");
@@ -108,7 +109,6 @@ const CampaignData = () => {
     return data;
   }, [campaigns, search, category]);
 
-  
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 6;
 
@@ -121,7 +121,8 @@ const CampaignData = () => {
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
   const handlePrev = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-  const handleNext = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  const handleNext = () =>
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   return (
     <>
@@ -182,9 +183,17 @@ const CampaignData = () => {
                   <Skeleton height={200} />
                   <div style={{ padding: "18px 20px" }}>
                     <Skeleton height={20} width="60%" />
-                    <Skeleton height={15} width="90%" style={{ marginTop: 10 }} />
+                    <Skeleton
+                      height={15}
+                      width="90%"
+                      style={{ marginTop: 10 }}
+                    />
                     <Skeleton height={15} width="80%" />
-                    <Skeleton height={30} width="100%" style={{ marginTop: 15 }} />
+                    <Skeleton
+                      height={30}
+                      width="100%"
+                      style={{ marginTop: 15 }}
+                    />
                   </div>
                 </CampaignCard>
               ))
@@ -201,14 +210,25 @@ const CampaignData = () => {
                 if (progress === 100) progressColor = "#4CAF50";
 
                 return (
-                  <CampaignCard key={item._id} $mode={isExplorePage ? "grid" : "scroll"}>
-                    <CampaignImage onClick={() => nav(`/card_campaign_details/${item._id}`)}>
+                  <CampaignCard
+                    key={item._id}
+                    $mode={isExplorePage ? "grid" : "scroll"}
+                  >
+                    <CampaignImage
+                      onClick={() => nav(`/card_campaign_details/${item._id}`)}
+                    >
                       <img
                         src={item.campaignCoverImageOrVideo?.imageUrl}
                         alt={item.campaignTitle}
                       />
 
-                      <div className="bookmark" onClick={() => handleSave(item._id)}>
+                      <div
+                        className="bookmark"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSave(item._id);
+                        }}
+                      >
                         {savedCampaigns[item._id] ? (
                           <RiBookmarkFill style={{ color: "#8133f1" }} />
                         ) : (
@@ -220,13 +240,15 @@ const CampaignData = () => {
                     <CampaignContent>
                       <div className="topRow">
                         <h4>{item.campaignCategory}</h4>
-                        <p className="daysLeft">{item.durationDays} days left</p>
+                        <p className="daysLeft">
+                          {item.durationDays} days left
+                        </p>
                       </div>
 
-                     <div className="text_holder">
-                         <h3>{item.campaignTitle}</h3>
-                      <p>{item.campaignDescription}</p>
-                     </div>
+                      <div className="text_holder">
+                        <h3>{item.campaignTitle}</h3>
+                        <p>{item.campaignDescription}</p>
+                      </div>
 
                       <ProgressWrapper>
                         <span>
@@ -240,12 +262,17 @@ const CampaignData = () => {
                       </ProgressWrapper>
 
                       <ProgressRow>
-                        <ProgressBar $progress={progress} $color={progressColor} />
+                        <ProgressBar
+                          $progress={progress}
+                          $color={progressColor}
+                        />
                         <ProgressPercent>{progress}%</ProgressPercent>
                       </ProgressRow>
                     </CampaignContent>
 
-                    <DonateButton onClick={() => nav(`/campaign_details/${item._id}`)}>
+                    <DonateButton
+                      onClick={() => nav(`/campaign_details/${item._id}`)}
+                    >
                       Donate Now
                     </DonateButton>
                   </CampaignCard>
@@ -254,27 +281,29 @@ const CampaignData = () => {
         </CampaignGrid>
 
         {isExplorePage && totalPages > 1 && (
-  <PaginationWrapper>
-    <ArrowButton onClick={handlePrev} disabled={currentPage === 1}>
-      ‹
-    </ArrowButton>
+          <PaginationWrapper>
+            <ArrowButton onClick={handlePrev} disabled={currentPage === 1}>
+              ‹
+            </ArrowButton>
 
-    {[...Array(totalPages)].map((_, index) => (
-      <PageButton
-        key={index}
-        $active={currentPage === index + 1}
-        onClick={() => handlePageChange(index + 1)}
-      >
-        {index + 1}
-      </PageButton>
-    ))}
+            {[...Array(totalPages)].map((_, index) => (
+              <PageButton
+                key={index}
+                $active={currentPage === index + 1}
+                onClick={() => handlePageChange(index + 1)}
+              >
+                {index + 1}
+              </PageButton>
+            ))}
 
-    <ArrowButton onClick={handleNext} disabled={currentPage === totalPages}>
-      ›
-    </ArrowButton>
-  </PaginationWrapper>
-)}
-
+            <ArrowButton
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+            >
+              ›
+            </ArrowButton>
+          </PaginationWrapper>
+        )}
       </Container>
 
       {isExplorePage && <Footer />}
@@ -283,4 +312,3 @@ const CampaignData = () => {
 };
 
 export default CampaignData;
-
