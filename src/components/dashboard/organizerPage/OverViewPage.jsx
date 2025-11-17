@@ -62,6 +62,7 @@ const OverViewPage = () => {
         );
         const data = response.data?.data;
         setDashboardData(data);
+        console.log("hi", data);
         setFilteredTransactions(data?.recentTransactions || []);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
@@ -133,7 +134,7 @@ const OverViewPage = () => {
               {loading ? (
                 <SkeletonLoader />
               ) : (
-                <p>{dashboardData?.milestones || 0}</p>
+                <p>{dashboardData?.milestoneAchieved}</p>
               )}
             </div>
           </div>
