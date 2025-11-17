@@ -122,46 +122,60 @@ const CardCampaignDetails = () => {
     }
   };
 
-  const fetchEvidence = async () => {
-    try {
-      const res = await axios.get(
-        `https://traceaid.onrender.com/admin/api/v1/campaigns-with-milestones-and-evidence/${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+ const fetchEvidence = async () => {
+  try {
+    const res = await axios.get(
+      `https://traceaid.onrender.com/admin/api/v1/campaigns-with-milestones-and-evidence/${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
-      const record = res.data?.data;
+    const record = res.data?.data;
 
-      if (!record || !Array.isArray(record.milestones)) {
-        setEvidenceList([]);
-        setIsEvidenceOpen(true);
-        return;
+    if (!record || !Array.isArray(record.milestones)) {
+      setEvidenceList([]);
+      setIsEvidenceOpen(true);
+      return;
+    }
+
+    const grouped = record.milestones.map((milestone) => {
+      const uploads = [];
+
+      if (Array.isArray(milestone.evidences)) {
+        milestone.evidences.forEach((ev) => {
+          if (Array.isArray(ev.uploads)) {
+            ev.uploads.forEach((upload) => {
+              uploads.push({
+                url: upload.imageUrl,
+                uploadedAt: upload.uploadedAt,
+                status: ev.status,
+              });
+            });
+          }
+        });
       }
 
-      const flattened = [];
+      return {
+        milestoneTitle: milestone.milestoneTitle,
+        milestoneDescription: milestone.milestoneDescription,
+        evidenceStatus: milestone.evidenceApprovalStatus,
+        targetAmount: milestone.targetAmount,
+        releasedAmount: milestone.releasedAmount,
+        milestoneStatus: milestone.status, 
 
-      record.milestones.forEach((milestone) => {
-        if (Array.isArray(milestone.evidences)) {
-          milestone.evidences.forEach((ev) => {
-            flattened.push({
-              url: ev.imageUrl,
-              milestoneTitle: milestone.milestoneTitle,
-              status: ev.status,
-              uploadedAt: ev.uploadedAt,
-              milestoneDescription: m.milestoneDescription,
-            });
-          });
-        }
-      });
+        uploads,
+      };
+    });
 
-      setEvidenceList(flattened);
-      setIsEvidenceOpen(true);
-    } catch (error) {
-      console.log("Evidence fetch error:", error.response?.data || error);
-      toast.error("Failed to load campaign evidence");
-    }
-  };
+    setEvidenceList(grouped);
+    setIsEvidenceOpen(true);
+
+  } catch (error) {
+    console.log("Evidence fetch error:", error.response?.data || error);
+    toast.error("Failed to load campaign evidence");
+  }
+};
 
   const handleOpenEvidence = async () => {
     setEvidenceLoading(true);
