@@ -88,6 +88,8 @@ const HeaderNav = () => {
     closeMobile();
   };
 
+  console.log("userData", userData);
+
   return (
     <>
       <NavBar>
@@ -102,7 +104,11 @@ const HeaderNav = () => {
             <li onClick={() => nav("/how_it_works")}>How it Works</li>
 
             {isLoggedIn && isFundraiser && (
-              <li onClick={() => nav("/createcampaign")}>Start a Campaign</li>
+              <li
+                onClick={() => nav("/organization/myCampaigns/createcampaign")}
+              >
+                Start a Campaign
+              </li>
             )}
 
             {!isLoggedIn && (
