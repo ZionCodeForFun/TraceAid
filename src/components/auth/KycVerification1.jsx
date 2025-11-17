@@ -23,44 +23,43 @@ const KycVerification1 = () => {
     organizationAddress: "",
   };
 
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem("kycFormData");
+    if (saved) {
+      return {
+        ...initialFormData,
+        ...JSON.parse(saved),
+      };
+    }
+    return initialFormData;
+  });
 
-const [formData, setFormData] = useState(() => {
-  const saved = localStorage.getItem("kycFormData");
-  if (saved) {
-    return {
-      ...initialFormData,      
-      ...JSON.parse(saved)      
+  useEffect(() => {
+    const textFields = {
+      organizationName: formData.organizationName,
+      organizationType: formData.organizationType,
+      registrationNumber: formData.registrationNumber,
+      authorizedRepresentativeFullName:
+        formData.authorizedRepresentativeFullName,
+      organizationAddress: formData.organizationAddress,
     };
-  }
-  return initialFormData;
-});
-
-useEffect(() => {
-  const textFields = {
-    organizationName: formData.organizationName,
-    organizationType: formData.organizationType,
-    registrationNumber: formData.registrationNumber,
-    authorizedRepresentativeFullName: formData.authorizedRepresentativeFullName,
-    organizationAddress: formData.organizationAddress,
-  };
-  localStorage.setItem("kycFormData", JSON.stringify(textFields));
-}, [
-  formData.organizationName,
-  formData.organizationType,
-  formData.registrationNumber,
-  formData.authorizedRepresentativeFullName,
-  formData.organizationAddress
-]);
-
+    localStorage.setItem("kycFormData", JSON.stringify(textFields));
+  }, [
+    formData.organizationName,
+    formData.organizationType,
+    formData.registrationNumber,
+    formData.authorizedRepresentativeFullName,
+    formData.organizationAddress,
+  ]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
-    setFormData(prev => ({ ...prev, [field]: file }));
+    setFormData((prev) => ({ ...prev, [field]: file }));
   };
 
   const handleSubmit = (e) => {
@@ -77,13 +76,13 @@ useEffect(() => {
 
     dispatch(saveKycStep1(formData));
     localStorage.removeItem("kycFormData");
-    nav("/verify_kyc2");
+    nav("verify_kyc2");
   };
 
   return (
     <Container>
       <div className="goback">
-        <div className="icon_holder" onClick={() => nav("/signup")}>
+        <div className="icon_holder" onClick={() => nav("/organization")}>
           <IoArrowBackOutline className="iconn" />
           <p>Go back</p>
         </div>
@@ -160,7 +159,9 @@ useEffect(() => {
               }
               readOnly
             />
-            <i><GoPaperclip /></i>
+            <i>
+              <GoPaperclip />
+            </i>
             <p
               className="choose_file"
               onClick={() => document.getElementById("file-upload-1").click()}
@@ -186,7 +187,9 @@ useEffect(() => {
               type="file"
               id="file-upload-2"
               accept="image/*,video/*"
-              onChange={(e) => handleFileChange(e, "authorizedRepresentativeId")}
+              onChange={(e) =>
+                handleFileChange(e, "authorizedRepresentativeId")
+              }
               style={{ display: "none" }}
             />
             <InputField
@@ -197,7 +200,9 @@ useEffect(() => {
               }
               readOnly
             />
-            <i><GoPaperclip /></i>
+            <i>
+              <GoPaperclip />
+            </i>
             <p
               className="choose_file"
               onClick={() => document.getElementById("file-upload-2").click()}
@@ -227,10 +232,6 @@ useEffect(() => {
 };
 
 export default KycVerification1;
-
-
-
-
 
 const Container = styled.div`
   display: flex;
@@ -355,7 +356,7 @@ const Container = styled.div`
           font-size: 16px;
           cursor: pointer;
         }
-         .select_input {
+        .select_input {
           width: 100%;
           padding: 10px 35px;
           border-radius: 12px;
@@ -365,7 +366,7 @@ const Container = styled.div`
           height: 48px;
           font-size: 16px;
           cursor: pointer;
-         }
+        }
       }
 
       .btn_holder {
@@ -486,7 +487,7 @@ const Container = styled.div`
     }
   }
 
- @media (max-width: 480px) {
+  @media (max-width: 480px) {
     .goback {
       width: 100%;
       padding-top: 30px;
@@ -585,4 +586,3 @@ const Container = styled.div`
     }
   }
 `;
-

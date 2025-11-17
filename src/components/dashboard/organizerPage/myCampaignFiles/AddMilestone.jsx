@@ -4,7 +4,7 @@ import Button from "../../../common/Button";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import ReactDOM from "react-dom";
-import { IoCloseSharp } from "react-icons/io5";
+import { IoArrowBackOutline, IoCloseSharp } from "react-icons/io5";
 
 const AddMilestone = ({
   onClose,
@@ -166,18 +166,6 @@ const AddMilestone = ({
             </div>
 
             <div className="name_holder">
-              <label>Duration (days)</label>
-              <InputField
-                type="number"
-                name="duration"
-                placeholder="Enter milestone duration"
-                value={milestone.duration}
-                onChange={handleChange}
-                min="1"
-              />
-            </div>
-
-            <div className="name_holder">
               <label>Description</label>
               <InputField
                 type="text"
@@ -239,10 +227,10 @@ const Container = styled.div`
 
   .right {
     position: fixed;
-    top: 5%;
+    top: 20%;
 
     width: 550px;
-    height: 80%;
+    height: 70%;
     padding: 20px 20px;
     display: flex;
     flex-direction: column;

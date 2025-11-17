@@ -63,11 +63,14 @@ const App = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/termsandcon" element={<TermsAndConditions />} />
-        <Route path="/createcampaign" element={<CreateCampaign />} />
+       
 
         <Route path="/organization" element={<OrganizerDashboard />}>
           <Route index element={<OverViewPage />} />
+          <Route path="verify_kyc1" element={<KycVerification1 />} />
+          <Route path="verify_kyc2" element={<KycVerification2 />} />
           <Route path="myCampaigns" element={<MyCampaigns />}>
+          <Route path="createcampaign" element={<CreateCampaign />} />
             <Route
               path="ongoing/:id"
               element={<CampaignDetails4org_ongoing />}
@@ -108,8 +111,6 @@ const App = () => {
         />
 
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/verify_kyc1" element={<KycVerification1 />} />
-        <Route path="/verify_kyc2" element={<KycVerification2 />} />
         <Route path="/verify/:email" element={<VerifyOtp />} />
         <Route path="/signup" element={<SignUpForm />} />
 
@@ -124,9 +125,7 @@ const App = () => {
         <Route path="/profile_settings" element={<ProfileSettings />} />
         <Route path="/contact_us" element={<ContactUsPage />} />
         <Route path="/payment_success" element={<PaymentSuccessPage />} />
-        <Route
-          path="/campaign/:id/donors" element={<AllDonorsPage />}
-        />
+        <Route path="/campaign/:id/donors" element={<AllDonorsPage />} />
         <Route
           path="/card_campaign_details/:id"
           element={<CardCampaignDetails />}

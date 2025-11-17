@@ -134,7 +134,7 @@ const MyCampaigns = () => {
           <>
             <div className="btn_holder">
               <Button
-                onClick={() => nav("/createcampaign")}
+                onClick={() => nav("createcampaign")}
                 text="Create Campaign"
                 className="btn"
               />
