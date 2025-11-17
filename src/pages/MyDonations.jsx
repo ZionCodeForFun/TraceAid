@@ -278,10 +278,9 @@ const MyDonations = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const totalDonated = donations.reduce(
-    (sum, d) => sum + Number(d.amount || 0),
-    0
-  );
+ const totalDonated = donations
+  .filter((d) => d.paymentStatus === "successful")
+  .reduce((sum, d) => sum + Number(d.amount || 0), 0);
 
   const supportedCampaigns = new Set(donations.map((d) => d.campaign?._id))
     .size;
