@@ -70,15 +70,18 @@ const VerifyOtp = () => {
 
       console.log("VERIFY OTP RESPONSE:", response.data);
 
-      // dispatch(setUser(data));
 
       if (response.data?.statusCode === true) {
         toast.success(response.data.message || "Email verification successful");
-        dispatch(setUser(response?.data?.data.user));
+        dispatch(
+          setUser(response?.data?.data.user || response?.data?.data._user)
+        );
         dispatch(setToken(response?.data.data.token));
+        console.log("sign in as fundraiser", response);
 
-    if (role === "fundraiser") {
-          setShowSuccessOrg(true);
+        if (role === "fundraiser") {
+          // setShowSuccessOrg(true);
+          nav("/");
         } else {
           setShowSuccessIndi(true);
           setTimeout(() => {

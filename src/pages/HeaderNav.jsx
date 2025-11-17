@@ -88,6 +88,8 @@ const HeaderNav = () => {
     closeMobile();
   };
 
+  console.log("userData", userData);
+
   return (
     <>
       <NavBar>
