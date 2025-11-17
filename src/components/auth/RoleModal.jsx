@@ -19,7 +19,11 @@ const RoleModal = ({ onClose }) => {
   return (
     <Container onClick={onClose}>
       <article className="wrapper" onClick={(e) => e.stopPropagation()}>
-        <div className="logo_holder">
+        <div
+          className="logo_holder"
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
+        >
           <img src={logo} alt="logo" />
         </div>
 
@@ -30,7 +34,6 @@ const RoleModal = ({ onClose }) => {
 
         <section className="select_wrapper">
           <section className="select_holder">
-           
             <div
               className={`select1 ${
                 activeRole === "individual" ? "active" : ""
@@ -38,10 +41,11 @@ const RoleModal = ({ onClose }) => {
               onClick={() => handleSelect("individual")}
             >
               <p className="individual">Individual</p>
-              <p className="text">Select this if you’re a person looking to volunteer, donate.</p>
+              <p className="text">
+                Select this if you’re a person looking to volunteer, donate.
+              </p>
             </div>
 
-           
             <div
               className={`select2 ${
                 activeRole === "organization" ? "active" : ""
@@ -50,14 +54,15 @@ const RoleModal = ({ onClose }) => {
             >
               <p className="organization">Organization</p>
               <p className="text">
-               Select this if you’re an NGO looking to create campaigns and raise funds
+                Select this if you’re an NGO looking to create campaigns and
+                raise funds
               </p>
             </div>
           </section>
 
           <footer className="already">
             <p>Already have an account?</p>
-             <span  onClick={()=>navigate("/login")}>Log In</span>
+            <span onClick={() => navigate("/login")}>Log In</span>
           </footer>
         </section>
       </article>
@@ -149,7 +154,6 @@ const Container = styled.div`
       .select1 {
         background-color: #f7f6f6;
         color: var(--NeutralGrey4-Text);
-
       }
       .select2 {
         background-color: #f7f6f6;
@@ -197,7 +201,7 @@ const Container = styled.div`
     }
   }
 
-    @media (max-width: 480px) {
+  @media (max-width: 480px) {
     .wrapper {
       width: 100%;
       height: auto;
@@ -232,13 +236,13 @@ const Container = styled.div`
       font-size: 18px;
     }
 
-   .text {
-    width: 85%;
-    max-width: 260px;
-    font-size: 13px;
-    line-height: 1.35;
-    text-align: left;
-  }
+    .text {
+      width: 85%;
+      max-width: 260px;
+      font-size: 13px;
+      line-height: 1.35;
+      text-align: left;
+    }
 
     .select_wrapper .already p,
     .select_wrapper .already span {

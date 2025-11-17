@@ -3,17 +3,15 @@ import styled from "styled-components";
 export const PaginationWrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;  
+  justify-content: center;
   align-items: center;
-  gap: 1.2rem;
-  margin-top: 3rem;
+  gap: 2rem; 
+  margin-top: 2.2rem;
   flex-wrap: wrap;
 
   @media (max-width: 480px) {
-    gap: 0.85rem;
-    margin-top: 2rem;
-    width: 100%;
-    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
   }
 `;
 

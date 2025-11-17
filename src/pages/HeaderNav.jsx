@@ -101,10 +101,6 @@ const HeaderNav = () => {
             <li onClick={() => nav("/campaign_data")}>Explore Campaigns</li>
             <li onClick={() => nav("/how_it_works")}>How it Works</li>
 
-            {isLoggedIn && isFundraiser && (
-              <li onClick={() => nav("/createcampaign")}>Start a Campaign</li>
-            )}
-
             {!isLoggedIn && (
               <li onClick={() => nav("/role_modal")}>Start a Campaign</li>
             )}
@@ -197,10 +193,6 @@ const HeaderNav = () => {
           <ul className="links">
             <li onClick={() => go("/campaign_data")}>Explore Campaigns</li>
             <li onClick={() => go("/how_it_works")}>How it Works</li>
-
-            {isLoggedIn && isFundraiser && (
-              <li onClick={() => go("/createcampaign")}>Start a Campaign</li>
-            )}
 
             {!isLoggedIn && (
               <li onClick={() => go("/role_modal")}>Start a Campaign</li>

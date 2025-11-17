@@ -44,7 +44,6 @@ export const ExploreHeader = styled.div`
     }
   }
 `;
-
 export const ExploreTopBar = styled.div`
   width: 90%;
   margin: 2.5rem auto 0;
@@ -52,7 +51,6 @@ export const ExploreTopBar = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 1.2rem;
-  margin-top: 5rem;
   flex-wrap: wrap;
 
   @media (max-width: 480px) {
