@@ -47,6 +47,7 @@ const KycReview = () => {
       });
 
       const data = response?.data?.data;
+      console.log("yes", data)
       if (Array.isArray(data)) {
         setKycList(data);
       } else {

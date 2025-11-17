@@ -104,8 +104,20 @@ const KycPending = ({ kycData, onClose }) => {
               <InfoValue>{user?.email || "N/A"}</InfoValue>
             </InfoItem>
             <InfoItem>
+              <InfoLabel>Registration Number</InfoLabel>
+              <InfoValue>{kycData.registrationNumber}</InfoValue>
+            </InfoItem>
+            <InfoItem>
               <InfoLabel>Registered Date</InfoLabel>
               <InfoValue>{new Date(createdAt).toLocaleDateString()}</InfoValue>
+            </InfoItem>
+            <InfoItem>
+              <InfoLabel>organization Address</InfoLabel>
+              <InfoValue>{kycData.organizationAddress}</InfoValue>
+            </InfoItem>
+            <InfoItem>
+              <InfoLabel>organization Type</InfoLabel>
+              <InfoValue>{kycData.organizationType}</InfoValue>
             </InfoItem>
           </InfoGrid>
 
