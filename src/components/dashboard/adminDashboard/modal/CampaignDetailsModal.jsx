@@ -20,7 +20,6 @@ const CampaignDetailsPendingModal = ({ campaign, onClose, onStatusUpdate }) => {
   const canActivate = campaign.status === "approved" && !campaign.isActive;
   const isLive = campaign.status === "approved" && campaign.isActive;
 
-  // Approve / Reject
   const handleDecision = async (action) => {
     try {
       setLoading(true);
@@ -39,7 +38,7 @@ const CampaignDetailsPendingModal = ({ campaign, onClose, onStatusUpdate }) => {
       }
 
       campaign.status = action === "approve" ? "approved" : "rejected";
-      campaign.isActive = action === "approve" ? false : false; // Initially false when approved
+      campaign.isActive = action === "approve" ? false : false;
 
       onClose();
     } catch (err) {
@@ -119,24 +118,31 @@ const CampaignDetailsPendingModal = ({ campaign, onClose, onStatusUpdate }) => {
               </Value>
             </Detail>
 
-            <Detail>
+            <Detail >
+              {" "}
+              <Label>campaign Description</Label>
+              <Detail style={{ overflowY: "scroll", height: 200 }}>
+                <Value>{campaign.campaignDescription}</Value>
+              </Detail>
               <Label>Status</Label>
-              <Value>
+              <Value >
                 {isLive
                   ? "Live & Approved"
                   : canActivate
                   ? "Approved but Not Live"
                   : isPending
-                  ? "Pending"
+                  ? "pending"
                   : "Rejected"}
               </Value>
             </Detail>
+            {/* <Detail style={{background:"blue"}}>
+            </Detail> */}
           </Grid>
 
           <NGOSection>
             <SectionTitle>NGO Information</SectionTitle>
             <NGOInfo>
-              <NGOName>{campaign.fundraiser || "Unknown"}</NGOName>
+              <NGOName>{campaign.fundraiser}</NGOName>
               <Badge
                 className={
                   isPending
