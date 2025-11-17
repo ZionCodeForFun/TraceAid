@@ -38,6 +38,7 @@ const PayoutVerificationTable = () => {
 
       setPayouts(data);
       console.log("first zionn", data)
+      toast.success(data?.message)
     } catch (error) {
       console.error("Error fetching payouts:", error);
       toast.error("Failed to fetch payouts");
