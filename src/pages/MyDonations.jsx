@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import HeaderNav from "./HeaderNav";
-import ShareModal from "./ShareModal"; 
+import ShareModal from "./ShareModal";
 
 const Container = styled.div`
   width: 100%;
@@ -125,11 +125,11 @@ const TableHeader = styled.div`
   margin-bottom: 1.2rem;
   font-size: 0.95rem;
 
-    @media (max-width: 480px) {
+  @media (max-width: 480px) {
     margin-bottom: 2rem;
   }
 
-    @media (max-width: 430px) {
+  @media (max-width: 430px) {
     margin-bottom: 2.4rem;
   }
 `;
@@ -144,11 +144,11 @@ const TableRow = styled.div`
   color: #222;
   position: relative;
 
-   @media (max-width: 480px) {
+  @media (max-width: 480px) {
     padding: 1.4rem 0;
   }
 
-   @media (max-width: 430px) {
+  @media (max-width: 430px) {
     padding: 1.6rem 0;
   }
 `;
@@ -171,16 +171,15 @@ const StatusPill = styled.span`
   font-size: 0.85rem;
 
   @media (max-width: 480px) {
-    margin-top: 0.8rem;    
-    margin-bottom: 0.8rem;  
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
   }
 
-   @media (max-width: 430px) {
+  @media (max-width: 430px) {
     margin-top: 1rem;
-    margin-bottom: 1rem; 
+    margin-bottom: 1rem;
   }
 `;
-
 
 const MenuDots = styled.span`
   position: relative;
@@ -313,7 +312,7 @@ const MyDonations = () => {
     if (action === "view") {
       nav(`/card_campaign_details/${campaignId}`);
     } else if (action === "share") {
-      setSelectedCampaignId(campaignId); 
+      setSelectedCampaignId(campaignId);
       setIsShareOpen(true);
     } else if (action === "close") {
       toast.success("Campaign closed successfully");
