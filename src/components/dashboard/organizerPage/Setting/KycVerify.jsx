@@ -71,7 +71,7 @@ const KycVerify = () => {
     };
 
     fetchKycStatus();
-  }, [token, user._id]);
+  }, [token, user?._id]);
 
   return (
     <Container>
