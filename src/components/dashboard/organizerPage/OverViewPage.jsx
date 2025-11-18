@@ -50,7 +50,8 @@ const OverViewPage = () => {
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const token = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
+  console.log(token);
   const nav = useNavigate();
   const [loadingKyc, setLoadingKyc] = useState(true);
   const [isVerified, setIsVerified] = useState(false);
@@ -66,7 +67,6 @@ const OverViewPage = () => {
         );
         const data = response.data?.data;
         setDashboardData(data);
-        console.log("hi", data);
         setFilteredTransactions(data?.recentTransactions || []);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
@@ -86,9 +86,11 @@ const OverViewPage = () => {
         });
 
         const data = res.data?.data;
+        console.log("first res", data);
         if (data?.verificationStatus === "verified") {
           setIsVerified(true);
-        } else if (data?.verificationStatus === "pending") {
+        }
+        if (data?.verificationStatus === "pending") {
           setCheckKYC(true);
         }
       } catch (err) {
@@ -98,8 +100,8 @@ const OverViewPage = () => {
       }
     };
 
-    if (token) fetchKycStatus();
-  }, [token]);
+    fetchKycStatus();
+  }, [token, user._id]);
   useEffect(() => {
     if (dashboardData?.recentTransactions) {
       const filtered = dashboardData.recentTransactions.filter((item) => {
@@ -119,19 +121,31 @@ const OverViewPage = () => {
     <Container>
       <article className="wrapper">
         {!loadingKyc && !isVerified && (
-          <div className="banner">
-            <h2>Complete your (KYC) details first</h2>
-            <p>
-              To create and publish a campaign on our platform, you must first
-              complete the Know Your Customer (KYC) verification process. This
-              protects donors, speeds up payouts, and gives you full access to
-              campaign features.
-            </p>
-            <button onClick={() => nav("verify_kyc1")}>
-              {checkKYC ? "Verify Now" : "Under Review"}
-            </button>
-          </div>
+          <>
+            {!checkKYC ? (
+              <div className="banner">
+                <h2>Complete your (KYC) details first</h2>
+                <p>
+                  To create and publish a campaign on our platform, you must
+                  first complete the Know Your Customer (KYC) verification
+                  process. This protects donors, speeds up payouts, and gives
+                  you full access to campaign features.
+                </p>
+                <button onClick={() => nav("verify_kyc1")}>Verify Now</button>
+              </div>
+            ) : (
+              <div className="banner review">
+                <h2>Your KYC is Under Review</h2>
+                <p>
+                  Thank you for submitting your KYC details. Our team is
+                  reviewing your information. You’ll be notified once the
+                  verification is complete.
+                </p>
+              </div>
+            )}
+          </>
         )}
+
         <div className="card_holder">
           <div className="card">
             <div className="top">

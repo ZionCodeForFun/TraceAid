@@ -7,7 +7,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
-// Skeleton animation
 const shimmer = keyframes`
   0% {
     background-position: -200% 0;

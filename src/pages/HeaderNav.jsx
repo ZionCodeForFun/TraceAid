@@ -46,7 +46,7 @@ const HeaderNav = () => {
     const getUserData = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_BaseUrl}/user/${auth.user._id}`,
+          `${import.meta.env.VITE_BaseUrl}/user/${auth.user._id || auth._user._id}`,
           {
             headers: { Authorization: `Bearer ${storedToken}` },
           }
@@ -58,7 +58,7 @@ const HeaderNav = () => {
     };
 
     getUserData();
-  }, [auth?.user?._id, auth?.token]);
+  }, [auth?.user?._id, auth?.token, auth?._user]);
 
   const getInitials = (value) => {
     if (!value) return "";
