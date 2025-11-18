@@ -143,7 +143,7 @@ const LoginForm = () => {
             </Button>
           </Form.Item>
 
-          {!isOrganization && (
+          {/* {!isOrganization && (
             <footer className="footer">
               <div className="line-text" plain>
                 or
@@ -156,7 +156,7 @@ const LoginForm = () => {
                 </Button>
               </div>
             </footer>
-          )}
+          )} */}
 
           <div className="already">
             <p>Don’t have an account?</p>{" "}
