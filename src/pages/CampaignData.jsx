@@ -119,10 +119,33 @@ const CampaignData = () => {
     ? filteredCampaigns.slice(indexOfFirstCard, indexOfLastCard)
     : filteredCampaigns;
 
-  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-  const handlePrev = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-  const handleNext = () =>
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setTimeout(() => {
+      scrollToTop();
+    }, 50);
+  };
+
+  const handlePrev = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    setTimeout(() => {
+      scrollToTop();
+    }, 50);
+  };
+
+  const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    setTimeout(() => {
+      scrollToTop();
+    }, 50);
+  };
 
   return (
     <>
