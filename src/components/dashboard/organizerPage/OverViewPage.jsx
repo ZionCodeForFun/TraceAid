@@ -6,10 +6,17 @@ import { FiFlag } from "react-icons/fi";
 import { CiCircleAlert } from "react-icons/ci";
 import InputField from "../../common/InputField";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const Spinner = () => (
-  <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80px" }}>
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "80px",
+    }}
+  >
     <div
       className="spinner"
       style={{
@@ -30,7 +37,8 @@ const SkeletonLoader = () => (
       width: "60px",
       height: "20px",
       borderRadius: "4px",
-      background: "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+      background:
+        "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
       backgroundSize: "200% 100%",
       animation: "loading 1.2s ease-in-out infinite",
     }}
@@ -41,31 +49,34 @@ const OverViewPage = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [loadingDashboard, setLoadingDashboard] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const token = useSelector((state) => state.auth);
+  const nav = useNavigate();
   const [loadingKyc, setLoadingKyc] = useState(true);
   const [isVerified, setIsVerified] = useState(false);
-
-  const token = useSelector((state) => state.auth.user?.token);
-  const nav = useNavigate();
-
+  const [checkKYC, setCheckKYC] = useState(false);
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BaseUrl2}/fundraiser-dashboard`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_BaseUrl2}/fundraiser-dashboard`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         const data = response.data?.data;
         setDashboardData(data);
+        console.log("hi", data);
         setFilteredTransactions(data?.recentTransactions || []);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
-        setLoadingDashboard(false);
+        setLoading(false);
       }
     };
 
     if (token) fetchDashboard();
-  }, [token]);
+  }, [token, location.key]);
   const baseUrl = import.meta.env.VITE_BaseUrl_Kyc_Auto;
   useEffect(() => {
     const fetchKycStatus = async () => {
@@ -77,6 +88,8 @@ const OverViewPage = () => {
         const data = res.data?.data;
         if (data?.verificationStatus === "verified") {
           setIsVerified(true);
+        } else if (data?.verificationStatus === "pending") {
+          setCheckKYC(true);
         }
       } catch (err) {
         console.error("Error fetching KYC:", err);
@@ -87,7 +100,6 @@ const OverViewPage = () => {
 
     if (token) fetchKycStatus();
   }, [token]);
-
   useEffect(() => {
     if (dashboardData?.recentTransactions) {
       const filtered = dashboardData.recentTransactions.filter((item) => {
@@ -110,14 +122,16 @@ const OverViewPage = () => {
           <div className="banner">
             <h2>Complete your (KYC) details first</h2>
             <p>
-              To create and publish a campaign on our platform, you must first complete the Know Your
-              Customer (KYC) verification process. This protects donors, speeds up payouts, and gives
-              you full access to campaign features.
+              To create and publish a campaign on our platform, you must first
+              complete the Know Your Customer (KYC) verification process. This
+              protects donors, speeds up payouts, and gives you full access to
+              campaign features.
             </p>
-            <button onClick={() => nav("verify_kyc1")}>Verify Now</button>
+            <button onClick={() => nav("verify_kyc1")}>
+              {checkKYC ? "Verify Now" : "Under Review"}
+            </button>
           </div>
         )}
-
         <div className="card_holder">
           <div className="card">
             <div className="top">
@@ -125,7 +139,7 @@ const OverViewPage = () => {
               <span style={{ background: "#DBEAFE", color: "#8402E3" }}>₦</span>
             </div>
             <div className="down">
-              {loadingDashboard ? (
+              {loading ? (
                 <SkeletonLoader />
               ) : (
                 <p>₦{dashboardData?.totalDonations?.toLocaleString() || 0}</p>
@@ -141,7 +155,7 @@ const OverViewPage = () => {
               </span>
             </div>
             <div className="down">
-              {loadingDashboard ? (
+              {loading ? (
                 <SkeletonLoader />
               ) : (
                 <p>{dashboardData?.activeCampaigns || 0}</p>
@@ -157,10 +171,10 @@ const OverViewPage = () => {
               </span>
             </div>
             <div className="down">
-              {loadingDashboard ? (
+              {loading ? (
                 <SkeletonLoader />
               ) : (
-                <p>{dashboardData?.milestoneAchieved}</p>
+                <p>{dashboardData?.milestoneAchieved || 0}</p>
               )}
             </div>
           </div>
@@ -173,7 +187,7 @@ const OverViewPage = () => {
               </span>
             </div>
             <div className="down">
-              {loadingDashboard ? (
+              {loading ? (
                 <SkeletonLoader />
               ) : (
                 <p>{dashboardData?.pendingVerifications || 0}</p>
@@ -194,7 +208,7 @@ const OverViewPage = () => {
         </div>
 
         <div className="table-container">
-          {loadingDashboard ? (
+          {loading ? (
             <Spinner />
           ) : (
             <table className="custom-table">
@@ -229,16 +243,20 @@ const OverViewPage = () => {
 
       <style>
         {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
+           @keyframes spin {
+             0% { transform: rotate(0deg); }
+             100% { transform: rotate(360deg); }
+           }
 
-          @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-          }
-        `}
+           @keyframes loading {
+             0% {
+               background-position: 200% 0;
+             }
+             100% {
+               background-position: -200% 0;
+             }
+           }
+         `}
       </style>
     </Container>
   );

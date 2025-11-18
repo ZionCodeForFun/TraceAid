@@ -11,7 +11,6 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState(Array(6).fill(""));
-  const [showSuccessOrg, setShowSuccessOrg] = useState(false);
   const [showSuccessIndi, setShowSuccessIndi] = useState(false);
 
   const inputsRef = useRef([]);
@@ -70,9 +69,8 @@ const VerifyOtp = () => {
 
       console.log("VERIFY OTP RESPONSE:", response.data);
 
-
       if (response.data?.statusCode === true) {
-        toast.success(response.data.message || "Email verification successful");
+        toast.success(response.data.message);
         dispatch(
           setUser(response?.data?.data.user || response?.data?.data._user)
         );
@@ -80,7 +78,6 @@ const VerifyOtp = () => {
         console.log("sign in as fundraiser", response);
 
         if (role === "fundraiser") {
-          // setShowSuccessOrg(true);
           nav("/");
         } else {
           setShowSuccessIndi(true);
@@ -198,26 +195,6 @@ const VerifyOtp = () => {
         <p className="goBack" onClick={() => nav("/signup")}>
           Go back
         </p>
-
-        {showSuccessOrg && (
-          <div className="holder">
-            <div className="reciept_holder">
-              <div className="content-holder">
-                <i>
-                  <IoMdCheckmarkCircleOutline />
-                </i>
-                <p className="bigtext">Verification successful</p>
-                <p className="smalltext">
-                  Your email has been verified and your organization account
-                  created successfully.
-                </p>
-              </div>
-              <Button onClick={() => nav("/verify_kyc1")} className="close_btn">
-                Proceed to KYC
-              </Button>
-            </div>
-          </div>
-        )}
 
         {showSuccessIndi && (
           <div className="holder">

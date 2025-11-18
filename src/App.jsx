@@ -54,6 +54,7 @@ import ScrollToTop from "./components/common/ScrollToTop";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import AllDonorsPage from "./pages/AllDonorsPage";
 import CardCampaignDetails from "./pages/CardCampaignDetails";
+import KycRoute from "./components/auth/KycRoute";
 
 const App = () => {
   useAutoLogout();
@@ -63,14 +64,15 @@ const App = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/termsandcon" element={<TermsAndConditions />} />
-       
 
         <Route path="/organization" element={<OrganizerDashboard />}>
           <Route index element={<OverViewPage />} />
-          <Route path="verify_kyc1" element={<KycVerification1 />} />
-          <Route path="verify_kyc2" element={<KycVerification2 />} />
+          <Route path="verify_kyc1" element={<KycRoute />}>
+            <Route path="" element={<KycVerification1 />} />
+            <Route path="verify_kyc2" element={<KycVerification2 />} />
+          </Route>
           <Route path="myCampaigns" element={<MyCampaigns />}>
-          <Route path="createcampaign" element={<CreateCampaign />} />
+            <Route path="createcampaign" element={<CreateCampaign />} />
             <Route
               path="ongoing/:id"
               element={<CampaignDetails4org_ongoing />}

@@ -28,9 +28,14 @@ const SignUpForm = () => {
         organizationName: Joi.string()
           .min(3)
           .max(100)
- .regex(/^[A-Za-z\s]+$/)           .required(),
-        email: Joi.string().email({ tlds: { allow: false } }).required(),
-        phoneNumber: Joi.string().regex(/^[0-9]{11}$/).required(),
+          .regex(/^[A-Za-z\s]+$/)
+          .required(),
+        email: Joi.string()
+          .email({ tlds: { allow: false } })
+          .required(),
+        phoneNumber: Joi.string()
+          .regex(/^[0-9]{11}$/)
+          .required(),
         password: Joi.string()
           .regex(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&-])[A-Za-z\d@$!%*#?&-]{8,}$/
@@ -49,8 +54,12 @@ const SignUpForm = () => {
           .min(2)
           .regex(/^[A-Za-z\s]+$/)
           .required(),
-        email: Joi.string().email({ tlds: { allow: false } }).required(),
-        phoneNumber: Joi.string().regex(/^[0-9]{11}$/).required(),
+        email: Joi.string()
+          .email({ tlds: { allow: false } })
+          .required(),
+        phoneNumber: Joi.string()
+          .regex(/^[0-9]{11}$/)
+          .required(),
         password: Joi.string()
           .regex(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&-])[A-Za-z\d@$!%*#?&-]{8,}$/
@@ -150,7 +159,7 @@ const SignUpForm = () => {
       form.resetFields();
       setPasswordValid(false);
       setConfirmPasswordValid(false);
-      dispatch(setUser(res?.data?.data?.user));
+      dispatch(setUser(res?.data?.data?.user || res?.data?.data?._user));
       dispatch(setRole(res?.data?.data?.user?.role || res?.data?.data?.role));
       nav(`/verify/${res?.data?.data?.user?.email || res?.data?.data?.email}`);
     } catch (err) {
@@ -171,9 +180,10 @@ const SignUpForm = () => {
         requiredMark={false}
         layout="vertical"
       >
-        <div className="img_holder"
-        onClick={() => nav("/")}
-        style={{ cursor: "pointer" }}
+        <div
+          className="img_holder"
+          onClick={() => nav("/")}
+          style={{ cursor: "pointer" }}
         >
           <img src={logo2} alt="logo" />
         </div>

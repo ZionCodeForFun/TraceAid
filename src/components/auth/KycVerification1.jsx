@@ -12,7 +12,7 @@ import { saveKycStep1 } from "../../global/kycSlice";
 const KycVerification1 = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
-
+  const [show, setShow] = useState(false);
   const initialFormData = {
     organizationName: "",
     organizationType: "",
@@ -106,7 +106,7 @@ const KycVerification1 = () => {
           <p className="big">Fill your KYC details</p>
 
           <div className="name_holder">
-            <label>Organization’s Name</label>
+            <label>Organization’s Name  (must be at least 5 letters long)</label>
             <InputField
               type="text"
               name="organizationName"
@@ -212,7 +212,9 @@ const KycVerification1 = () => {
           </div>
 
           <div className="name_holder">
-            <label>Organization Address</label>
+            <label>
+              Organization Address (must be at least 10 characters long)
+            </label>
             <InputField
               type="text"
               name="organizationAddress"
