@@ -163,7 +163,6 @@ const CreateCampaign = ({ onClose }) => {
         setLoading(false);
         return;
       }
-      console.log("Campaign milesss zion:", result);
 
       toast.success("Campaign created successfully!");
       setLoading(false);
@@ -183,6 +182,7 @@ const CreateCampaign = ({ onClose }) => {
   const toggle = (key) => {
     setState((prev) => ({ ...prev, [key]: !prev[key] }));
   };
+  const canAddMoreMilestones = state.milestones.length < 3;
 
   const {
     fileName,
@@ -213,7 +213,7 @@ const CreateCampaign = ({ onClose }) => {
         </div>
         <form className="input_holder" onSubmit={handleSubmit}>
           <div className="name_holder">
-            <label>Campaign Title (must be at least  5 letters long)</label>
+            <label>Campaign Title (must be at least 5 letters long)</label>
             <InputField
               name="title"
               type="text"
@@ -326,13 +326,20 @@ const CreateCampaign = ({ onClose }) => {
           {milestones.length === 0 && (
             <div className="alrt_holder">
               <p
-                onClick={() =>
-                  setState((p) => ({ ...p, showaddmilestone: true }))
-                }
-                className="add"
+                onClick={() => {
+                  if (canAddMoreMilestones) {
+                    setState((p) => ({ ...p, showaddmilestone: true }));
+                  }
+                }}
+                className={`add ${!canAddMoreMilestones ? "disabled" : ""}`}
+                style={{
+                  cursor: canAddMoreMilestones ? "pointer" : "not-allowed",
+                  opacity: canAddMoreMilestones ? 1 : 0.5,
+                }}
               >
                 + Add Milestone
               </p>
+
               <div className="alrt">
                 <CiCircleAlert className="alrt_icon" />
                 <p className="define">Define your project milestones here.</p>
@@ -425,10 +432,16 @@ const CreateCampaign = ({ onClose }) => {
           {show && (
             <div className="sec_add">
               <p
-                onClick={() =>
-                  setState((p) => ({ ...p, showaddmilestone: true }))
-                }
-                className="add"
+                onClick={() => {
+                  if (canAddMoreMilestones) {
+                    setState((p) => ({ ...p, showaddmilestone: true }));
+                  }
+                }}
+                className={`add ${!canAddMoreMilestones ? "disabled" : ""}`}
+                style={{
+                  cursor: canAddMoreMilestones ? "pointer" : "not-allowed",
+                  opacity: canAddMoreMilestones ? 1 : 0.5,
+                }}
               >
                 + Add Another Milestone
               </p>
@@ -805,6 +818,10 @@ export const Container = styled.div`
         cursor: pointer;
         border-bottom: 1px solid #333333;
         width: fit-content;
+        .disabled {
+          pointer-events: none;
+          opacity: 0.5;
+        }
       }
     }
     .check {
