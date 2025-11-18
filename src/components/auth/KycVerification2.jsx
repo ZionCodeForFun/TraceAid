@@ -27,7 +27,7 @@ const KycVerification2 = () => {
   };
 
   const [formData, setFormData] = useState(() => {
-    const saved = localStorage.getItem("kycStep2FormData");
+    const saved = localStorage.getItem("kyc877y9tStep2FormData");
     return saved
       ? { ...initialFormData, ...JSON.parse(saved) }
       : initialFormData;

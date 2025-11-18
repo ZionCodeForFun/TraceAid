@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateOrganization } from "../../../../api/updateorgProfile";
 import { toast } from "react-toastify";
 import { setUser } from "../../../../global/authSlice";
-import { Loader2 } from "lucide-react"; // spinner icon
+import { Loader2 } from "lucide-react";
 
 const PersonalInfo = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const PersonalInfo = () => {
     phoneNumber: userData?.phoneNumber || "",
   });
 
-  const [loading, setLoading] = useState(false); // 👈 NEW STATE
+  const [loading, setLoading] = useState(false); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +30,7 @@ const PersonalInfo = () => {
   };
 
   const handleSave = async () => {
-    setLoading(true); // 👈 Start loading
+    setLoading(true); 
     try {
       const response = await updateOrganization(userId, formData, token);
       const updatedData = response?.data?.data?.update;
@@ -41,7 +41,7 @@ const PersonalInfo = () => {
       console.error(error);
       toast.error("Failed to update profile information.");
     } finally {
-      setLoading(false); // 👈 Stop loading
+      setLoading(false);
     }
   };
 
@@ -74,6 +74,7 @@ const PersonalInfo = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="example@gmail.com"
+            
             />
             <i>
               <MdOutlineMailOutline />
