@@ -53,14 +53,9 @@ const AddMilestone = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { title, amount, duration, description } = milestone;
+    const { title, amount, description } = milestone;
 
-    if (
-      !title.trim() ||
-      !amount.trim() ||
-      !duration.trim() ||
-      !description.trim()
-    ) {
+    if (!title.trim() || !amount.trim() || !description.trim()) {
       setError(true);
       toast.error("All fields are required");
       return;

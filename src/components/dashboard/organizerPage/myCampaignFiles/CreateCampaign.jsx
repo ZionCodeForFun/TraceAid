@@ -159,7 +159,7 @@ const CreateCampaign = ({ onClose }) => {
 
       if (!res.ok) {
         console.error(result);
-        toast.error(result.data?.message || "Failed to create campaign.");
+        toast.error(result?.message || "Failed to create campaign.");
         setLoading(false);
         return;
       }
@@ -213,7 +213,7 @@ const CreateCampaign = ({ onClose }) => {
         </div>
         <form className="input_holder" onSubmit={handleSubmit}>
           <div className="name_holder">
-            <label>Campaign Title</label>
+            <label>Campaign Title (must be at least  5 letters long)</label>
             <InputField
               name="title"
               type="text"
@@ -298,7 +298,7 @@ const CreateCampaign = ({ onClose }) => {
             </p>
 
             <div className="name_holder" style={{ marginBottom: "15px" }}>
-              <label>Campaign Duration</label>
+              <label>Campaign Duration (Number of Days only)</label>
               <InputField
                 name="duration"
                 type="text"
@@ -308,7 +308,21 @@ const CreateCampaign = ({ onClose }) => {
               />
             </div>
           </div>
-
+          <div
+            className="milestone_notice"
+            style={{
+              marginBottom: "15px",
+              background: "#FFF4E5",
+              padding: "10px",
+              borderRadius: "6px",
+              border: "1px solid #FFA726",
+            }}
+          >
+            <p style={{ color: "#E65100", fontSize: "14px", fontWeight: 500 }}>
+              Note: You must add exactly 3 milestones before submitting your
+              campaign.
+            </p>
+          </div>
           {milestones.length === 0 && (
             <div className="alrt_holder">
               <p
@@ -434,7 +448,7 @@ const CreateCampaign = ({ onClose }) => {
                 }))
               }
             />
-            <label >
+            <label>
               I agree to the{" "}
               <span onClick={() => nav("/termsandcon")}>
                 Terms and Conditions
@@ -835,7 +849,7 @@ export const Container = styled.div`
           color: #7baf55;
           font-weight: 700;
           text-decoration: underline;
-          &:hover{
+          &:hover {
             color: #3d3dda;
           }
         }
