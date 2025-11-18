@@ -46,7 +46,7 @@ const HeaderNav = () => {
     const getUserData = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_BaseUrl}/user/${auth.user._id || auth._user._id}`,
+          `${import.meta.env.VITE_BaseUrl}/user/${auth.user._id}`,
           {
             headers: { Authorization: `Bearer ${storedToken}` },
           }
@@ -87,8 +87,6 @@ const HeaderNav = () => {
     nav(path);
     closeMobile();
   };
-
-  console.log("userData", userData);
 
   return (
     <>

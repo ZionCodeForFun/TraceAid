@@ -75,7 +75,6 @@ const VerifyOtp = () => {
           setUser(response?.data?.data.user || response?.data?.data._user)
         );
         dispatch(setToken(response?.data.data.token));
-        console.log("sign in as fundraiser", response);
 
         if (role === "fundraiser") {
           nav("/");
