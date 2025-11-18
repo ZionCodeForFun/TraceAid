@@ -28,7 +28,6 @@ const LoginForm = () => {
       const response = await axios.post(`${baseUrl}/login`, values);
       const data = response?.data?.data?.login;
 
-      console.log("my login data:", data);
 
       if (!data) {
         toast.error("Invalid response from server.");
