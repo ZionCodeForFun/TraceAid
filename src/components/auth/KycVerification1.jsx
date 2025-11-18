@@ -106,7 +106,7 @@ const KycVerification1 = () => {
           <p className="big">Fill your KYC details</p>
 
           <div className="name_holder">
-            <label>Organization’s Name  (must be at least 5 letters long)</label>
+            <label>Organization’s Name  (must be at least 5 letters long and 150 max)</label>
             <InputField
               type="text"
               name="organizationName"
@@ -171,7 +171,7 @@ const KycVerification1 = () => {
           </div>
 
           <div className="name_holder">
-            <label>Authorized Representative’s Full Name</label>
+            <label>Authorized Representative’s Full Name  (must be at least 5 letters long)</label>
             <InputField
               type="text"
               name="authorizedRepresentativeFullName"
