@@ -114,10 +114,7 @@ const KycVerification2 = () => {
     }
   };
 
-  const handleStartCampaign = () => {
-    dispatch(clearKyc());
-    nav("/createcampaign");
-  };
+
 
   return (
     <Container>
@@ -162,7 +159,7 @@ const KycVerification2 = () => {
           </div>
 
           <div className="name_holder">
-            <label>Bank Account Number</label>
+            <label>Bank Account Number    (must be 10 numbers long)</label>
             <InputField
               type="text"
               name="bankAccountNumber"

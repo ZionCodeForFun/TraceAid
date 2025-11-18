@@ -20,12 +20,7 @@ const Skeleton = styled.div`
   width: ${({ width }) => width || "100%"};
   height: ${({ height }) => height || "20px"};
   border-radius: 6px;
-  background: linear-gradient(
-    90deg,
-    #f0f0f0 25%,
-    #e0e0e0 50%,
-    #f0f0f0 75%
-  );
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
   animation: ${shimmer} 1.2s ease-in-out infinite;
   margin-bottom: 12px;
@@ -34,12 +29,14 @@ const Skeleton = styled.div`
 const KycVerify = () => {
   const { user, token } = useSelector((state) => state.auth);
   const [isVerified, setIsVerified] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     registrationNumber: "",
     address: "",
     certificate: null,
   });
+
   const nav = useNavigate();
   const baseUrl = import.meta.env.VITE_BaseUrl_Kyc_Auto;
 
@@ -60,6 +57,8 @@ const KycVerify = () => {
             certificate: data.registrationCertificate?.imageUrl || null,
             organizationName: data.organizationName || "",
           });
+        } else if (data?.verificationStatus === "pending") {
+          setIsPending(true);
         } else {
           setIsVerified(false);
         }
@@ -114,22 +113,29 @@ const KycVerify = () => {
             </div>
 
             <p
-              style={{
-                fontWeight: "bold",
-                color: "green",
-                marginTop: "20px",
-              }}
+              style={{ fontWeight: "bold", color: "green", marginTop: "20px" }}
             >
               ✅ KYC Verified
             </p>
           </form>
+        ) : isPending ? (
+          <div style={{ textAlign: "center", marginTop: "40px" }}>
+            <p
+              style={{ fontWeight: "bold", color: "orange", fontSize: "18px" }}
+            >
+              Your KYC is under review.
+            </p>
+            <p style={{ fontSize: "14px", marginTop: "10px" }}>
+              Please wait for an admin to verify your KYC submission.
+            </p>
+          </div>
         ) : (
           <div style={{ textAlign: "center", marginTop: "40px" }}>
             <p style={{ fontWeight: "bold", color: "red", fontSize: "18px" }}>
               Your KYC is not verified yet.
             </p>
             <button
-              onClick={() => nav("/verify_kyc1")}
+              onClick={() => nav("/organization/verify_kyc1")}
               style={{
                 fontWeight: "bold",
                 color: "white",
