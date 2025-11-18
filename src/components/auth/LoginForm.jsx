@@ -38,6 +38,7 @@ const LoginForm = () => {
       if (token) {
         dispatch(setToken(token));
       }
+      console.log("UserData:", response);
 
       dispatch(setUser(data));
 
