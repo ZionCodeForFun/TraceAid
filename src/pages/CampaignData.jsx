@@ -112,7 +112,7 @@ const CampaignData = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 6;
 
-  const totalPages = Math.ceil(filteredCampaigns.length / cardsPerPage);
+  const totalPages = Math.ceil(filteredCampaigns?.length / cardsPerPage);
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = isExplorePage
