@@ -154,7 +154,7 @@ const VerifyOtp = () => {
         <img src={logo2} alt="logo" />
         <div className="title">
           <p className="sign">Verify Account</p>
-          <p className="text">Enter your verification code</p>
+          <p className="text">Enter the verification code sent to your email</p>
         </div>
 
         <div className="otp_inputs">

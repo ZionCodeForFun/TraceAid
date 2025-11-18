@@ -64,7 +64,7 @@ const KycVerify = () => {
         }
       } catch (err) {
         console.error("Error fetching KYC:", err);
-        toast.error("Failed to fetch KYC details.");
+        // toast.error("Failed to fetch KYC details.");
       } finally {
         setLoading(false);
       }
