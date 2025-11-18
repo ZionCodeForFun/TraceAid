@@ -20,33 +20,35 @@ const KycVerification2 = () => {
   const [loading, setLoading] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
 
- const initialFormData = {
-  bankAccountName: "",
-  bankAccountNumber: "",
-  bankName: "",
-};
-
-const [formData, setFormData] = useState(() => {
-  const saved = localStorage.getItem("kycStep2FormData");
-  return saved ? { ...initialFormData, ...JSON.parse(saved) } : initialFormData;
-});
-
-useEffect(() => {
-  const textFields = {
-    bankAccountName: formData.bankAccountName,
-    bankAccountNumber: formData.bankAccountNumber,
-    bankName: formData.bankName,
+  const initialFormData = {
+    bankAccountName: "",
+    bankAccountNumber: "",
+    bankName: "",
   };
-  localStorage.setItem("kycStep2FormData", JSON.stringify(textFields));
-}, [formData.bankAccountName, formData.bankAccountNumber, formData.bankName]);
 
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  const newValue =
-    name === "bankAccountNumber" ? value.replace(/\D/g, "") : value;
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem("kycStep2FormData");
+    return saved
+      ? { ...initialFormData, ...JSON.parse(saved) }
+      : initialFormData;
+  });
 
-  setFormData((prev) => ({ ...prev, [name]: newValue }));
-};
+  useEffect(() => {
+    const textFields = {
+      bankAccountName: formData.bankAccountName,
+      bankAccountNumber: formData.bankAccountNumber,
+      bankName: formData.bankName,
+    };
+    localStorage.setItem("kycStep2FormData", JSON.stringify(textFields));
+  }, [formData.bankAccountName, formData.bankAccountNumber, formData.bankName]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const newValue =
+      name === "bankAccountNumber" ? value.replace(/\D/g, "") : value;
+
+    setFormData((prev) => ({ ...prev, [name]: newValue }));
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -101,13 +103,12 @@ const handleChange = (e) => {
       });
 
       setLoading(false);
-      // toast.success("KYC submitted successfully!");
       setShowReceipt(true);
 
       localStorage.removeItem("kycStep2FormData");
     } catch (err) {
       setLoading(false);
-      const msg = err?.response?.data?.message || "Failed to submit KYC.";
+      const msg = err?.response?.data?.message ;
       toast.error(msg);
       console.error("KYC Submit Error:", err?.response || err);
     }
@@ -121,7 +122,10 @@ const handleChange = (e) => {
   return (
     <Container>
       <div className="goback">
-        <div className="icon_holder" onClick={() => nav("/verify_kyc1")}>
+        <div
+          className="icon_holder"
+          onClick={() => nav("/organization/verify_kyc1")}
+        >
           <IoArrowBackOutline className="iconn" />
           <p>Go back</p>
         </div>
@@ -185,7 +189,7 @@ const handleChange = (e) => {
               text="Back"
               type="button"
               className="btn1"
-              onClick={() => nav("/verify_kyc1")}
+              onClick={() => nav("/organization/verify_kyc1")}
             />
             <Button
               text={loading ? "Submitting..." : "Submit"}
@@ -203,17 +207,21 @@ const handleChange = (e) => {
                 <i>
                   <IoMdCheckmarkCircleOutline />
                 </i>
-                <p className="bigtext">Fundraiser account created</p>
+                <p className="bigtext">
+                  Your KYC has been submitted successfully
+                </p>
                 <p className="smalltext">
-                  Your fundraiser account has been created successfully
+                  Your KYC has been submitted. Please wait for admin approval
+                  before creating a campaign. An email notification will be sent
+                  to you once the review is complete.
                 </p>
               </div>
               <Button
-                onClick={handleStartCampaign}
+               onClick={() => nav("/organization")}
                 className="close_btn"
-                text="Start a Campaign"
+                text="Go To Dashboard"
               />
-              <p className="home" onClick={() => nav("/organization")}>
+              <p className="home" onClick={() => nav("/")}>
                 Go Home
               </p>
             </div>
@@ -225,7 +233,6 @@ const handleChange = (e) => {
 };
 
 export default KycVerification2;
-
 
 const Container = styled.div`
   display: flex;
@@ -420,8 +427,8 @@ const Container = styled.div`
         background-color: white;
         align-items: center;
         padding: 40px;
-        top: 12%;
-        left: 30%;
+        top: 20%;
+        left: 43%;
         z-index: 9999;
         position: absolute;
         border-radius: 8px;
@@ -481,21 +488,21 @@ const Container = styled.div`
     }
 
     @media (max-width: 480px) {
-  .holder {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+      .holder {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-  .holder .reciept_holder {
-    width: 90%;
-    height: auto;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-  }
-}
+      .holder .reciept_holder {
+        width: 90%;
+        height: auto;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+      }
+    }
   }
 
   .goback {
