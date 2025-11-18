@@ -299,7 +299,7 @@ const SignUpForm = () => {
             </Button>
           </Form.Item>
 
-          {accountType !== "organization" && (
+          {/* {accountType !== "organization" && (
             <div className="google_holder">
               <div className="line-text" plain>
                 or
@@ -309,7 +309,7 @@ const SignUpForm = () => {
                 <FcGoogle style={{ fontSize: "20px" }} /> Google
               </Button>
             </div>
-          )}
+          )} */}
 
           <div className="already">
             <p>Already have an account?</p>

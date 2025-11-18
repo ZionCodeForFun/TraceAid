@@ -260,16 +260,21 @@ export const DonationBox = styled.div`
 export const ProgressBar = styled.div`
   width: 100%;
   height: 10px;
-  background: #e9ece7;
   border-radius: 999px;
+  background: #e9ece7;
   overflow: hidden;
   margin: 1rem 0 0.5rem;
+  position: relative;
 
-  .progress {
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
     height: 100%;
-    background: linear-gradient(90deg, #5d7a52, #4c6644);
-    border-radius: 999px;
-    transition: width 0.35s ease;
+    width: ${({ $progress }) => $progress || 0}%;
+    background-color: ${({ $color }) => $color || "#ff4d4f"};
+    transition: width 0.4s ease;
   }
 
   @media (max-width: 480px) {
@@ -277,6 +282,7 @@ export const ProgressBar = styled.div`
     margin: 0.8rem 0;
   }
 `;
+
 
 export const AmountButtons = styled.div`
   width: 100%;

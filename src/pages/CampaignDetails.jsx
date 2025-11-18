@@ -64,63 +64,63 @@ const CampaignDetails = () => {
     return parts[0][0].toUpperCase();
   };
 
- const fetchEvidence = async () => {
-  try {
-    const res = await axios.get(
-      `https://traceaid.onrender.com/admin/api/v1/campaigns-with-milestones-and-evidence/${id}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+  const fetchEvidence = async () => {
+    try {
+      const res = await axios.get(
+        `https://traceaid.onrender.com/admin/api/v1/campaigns-with-milestones-and-evidence/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    const record = res.data?.data;
+      const record = res.data?.data;
 
-    if (!record || !Array.isArray(record.milestones)) {
-      setEvidenceFiles([]);
-      return;
-    }
-
-    const grouped = record.milestones.map((milestone) => {
-      const uploads = [];
-
-      if (Array.isArray(milestone.evidences)) {
-        milestone.evidences.forEach((ev) => {
-          if (Array.isArray(ev.uploads)) {
-            ev.uploads.forEach((upload) => {
-              uploads.push({
-                url: upload.imageUrl,
-                uploadedAt: upload.uploadedAt,
-                status: ev.status
-              });
-            });
-          }
-        });
+      if (!record || !Array.isArray(record.milestones)) {
+        setEvidenceFiles([]);
+        return;
       }
 
-      return {
-        milestoneTitle: milestone.milestoneTitle,
-        milestoneDescription: milestone.milestoneDescription,
-        evidenceStatus: milestone.evidenceApprovalStatus,
-        targetAmount: milestone.targetAmount,
-        releasedAmount: milestone.releasedAmount,
-        milestoneStatus: milestone.status,
+      const grouped = record.milestones.map((milestone) => {
+        const uploads = [];
 
-        uploads
-      };
-    });
+        if (Array.isArray(milestone.evidences)) {
+          milestone.evidences.forEach((ev) => {
+            if (Array.isArray(ev.uploads)) {
+              ev.uploads.forEach((upload) => {
+                uploads.push({
+                  url: upload.imageUrl,
+                  uploadedAt: upload.uploadedAt,
+                  status: ev.status,
+                });
+              });
+            }
+          });
+        }
 
-    setEvidenceFiles(grouped);
-  } catch (err) {
-    console.log("Evidence fetch error:", err?.response?.data || err);
-  }
-};
+        return {
+          milestoneTitle: milestone.milestoneTitle,
+          milestoneDescription: milestone.milestoneDescription,
+          evidenceStatus: milestone.evidenceApprovalStatus,
+          targetAmount: milestone.targetAmount,
+          releasedAmount: milestone.releasedAmount,
+          milestoneStatus: milestone.status,
+
+          uploads,
+        };
+      });
+
+      setEvidenceFiles(grouped);
+    } catch (err) {
+      console.log("Evidence fetch error:", err?.response?.data || err);
+    }
+  };
 
   const handleOpenEvidence = async () => {
-  setEvidenceLoading(true);
-  setIsEvidenceOpen(true);   
+    setEvidenceLoading(true);
+    setIsEvidenceOpen(true);
 
-  await fetchEvidence();    
+    await fetchEvidence();
 
-  setEvidenceLoading(false); 
-};
+    setEvidenceLoading(false);
+  };
 
   const fetchCampaignDetails = async () => {
     try {
@@ -300,7 +300,12 @@ const CampaignDetails = () => {
   const goal = campaign.totalCampaignGoalAmount || 0;
   const raised = campaign.amountRaised || 0;
   const donors = campaign.donorCount || 0;
-  const progress = campaign.progressPercentage || 0;
+  const progress =
+    goal > 0 ? Math.min(Math.round((raised / goal) * 100), 100) : 0;
+
+  let progressColor = "#ff4d4f";
+  if (progress >= 40 && progress < 100) progressColor = "#f8d34a";
+  if (progress === 100) progressColor = "#4CAF50";
 
   return (
     <CampaignDetailSection>
@@ -409,11 +414,11 @@ const CampaignDetails = () => {
                 </p>
               </div>
 
-              <ProgressBar>
-                <div className="progress" style={{ width: `${progress}%` }} />
-              </ProgressBar>
+              <ProgressBar $progress={progress} $color={progressColor} />
 
-              <small>{donors.toLocaleString()} Donors</small>
+              <small>
+                {donors.toLocaleString()} {donors > 1 ? "Donors" : "Donor"}
+              </small>
             </div>
 
             <div className="donation-actions">
