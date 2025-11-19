@@ -1047,6 +1047,7 @@ export const Container = styled.div`
 
         .name_holder {
           width: 100%;
+          gap: 3px;
 
           label {
             font-size: 12px;
@@ -1057,6 +1058,29 @@ export const Container = styled.div`
             height: 42px;
             font-size: 14px;
             padding: 8px 28px;
+          }
+
+          .custom_select {
+            position: relative;
+            width: 100%;
+            margin-top: 2px; 
+
+            select {
+              height: 38px;
+              font-size: 12.5px; 
+              padding: 6px 26px; 
+              border-radius: 10px; 
+            }
+
+            .menu_i {
+              position: absolute;
+              top: 50%;
+              right: 10px;
+              transform: translateY(-50%);
+              font-size: 16px;
+              color: #8d8d8d;
+              pointer-events: none;
+            }
           }
 
           .choose_file {
