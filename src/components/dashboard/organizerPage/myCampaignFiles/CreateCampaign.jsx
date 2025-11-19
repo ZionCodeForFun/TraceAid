@@ -904,9 +904,7 @@ export const Container = styled.div`
       height: 100vh;
       background-color: rgba(192, 192, 192, 0.3);
       z-index: 9999;
-      /* display: flex;
-      justify-content: center;
-      align-items: center; */
+    
       
 
       .reciept_holder {
