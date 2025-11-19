@@ -180,7 +180,7 @@ const CampaignDetails = () => {
       setTopDonors(topThree);
     } catch (err) {
       console.error("Top donors error:", err?.response?.data || err);
-      toast.error("Unable to fetch top donors");
+      // toast.error("Unable to fetch top donors");
     } finally {
       setLoadingDonors(false);
     }
@@ -508,7 +508,7 @@ const CampaignDetails = () => {
                     </DonorItem>
                   ))}
                 </>
-              ) : topDonors.length > 0 ? (
+              ) : topDonors.length >= 1 ? (
                 topDonors.map((item, i) => {
                   const displayName = item.isAnonymous
                     ? "Anonymous"
