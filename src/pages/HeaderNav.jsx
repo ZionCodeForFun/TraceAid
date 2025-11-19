@@ -51,6 +51,7 @@ const HeaderNav = () => {
             headers: { Authorization: `Bearer ${storedToken}` },
           }
         );
+        console.log("User Data:", res);
         dispatch(setUser(res.data.data));
       } catch (error) {
         console.error("Error fetching user data:", error);

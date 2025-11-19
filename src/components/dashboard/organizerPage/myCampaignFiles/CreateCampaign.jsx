@@ -989,74 +989,92 @@ export const Container = styled.div`
   }
 
   @media (max-width: 480px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2.5rem;
+    /* padding: 20px; */
+    min-height: 100vh;
+
     .goback {
       width: 100%;
-      padding-top: 40px;
+      padding-top: 10px;
 
       .icon_holder {
-        margin-left: 20px;
-        gap: 8px;
+        margin-left: 10px;
+        gap: 6px;
 
         .iconn {
-          font-size: 18px;
+          font-size: 16px;
         }
 
         p {
-          font-size: 14px;
+          font-size: 13px;
         }
       }
     }
 
     .right {
-      width: 95%;
+      width: 100%;
+      max-width: 360px;
       height: auto;
-      padding: 20px;
-      margin-bottom: 40px;
-      border-radius: 20px;
-      gap: 16px;
+      padding: 22px 18px;
+      margin: 0 auto;
+      border-radius: 18px;
+      gap: 18px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
       .title {
+        text-align: center;
+
         .bigtext {
-          font-size: 28px;
-          padding-top: 20px;
+          font-size: 26px;
+          padding-top: 10px;
         }
 
         .smalltext {
-          font-size: 14px;
+          font-size: 13px;
         }
       }
 
       .input_holder {
         width: 100%;
-        gap: 15px;
+        gap: 14px;
 
         .name_holder {
+          width: 100%;
+
           label {
-            font-size: 13px;
+            font-size: 12px;
           }
 
           input,
           select {
-            height: 45px;
+            height: 42px;
             font-size: 14px;
-            padding: 8px 30px;
+            padding: 8px 28px;
           }
 
           .choose_file {
-            right: 6%;
-            font-size: 14px;
+            right: 5%;
+            font-size: 13px;
           }
         }
       }
 
       .btn_holder {
         flex-direction: column;
-        height: auto;
-        gap: 12px;
+        width: 100%;
+        gap: 10px;
 
         .btn {
-          height: 45px;
-          font-size: 15px;
+          height: 44px;
+          font-size: 25px;
+          border-radius: 8px;
         }
       }
 
@@ -1067,38 +1085,40 @@ export const Container = styled.div`
         }
 
         .milestone_content p {
-          font-size: 14px;
+          font-size: 13px;
         }
       }
 
       .alrt_holder .add,
       .sec_add .add {
-        font-size: 14px;
+        font-size: 13px;
       }
 
       .check {
-        font-size: 13px;
+        font-size: 12px;
 
         input[type="checkbox"] {
-          width: 16px;
-          height: 16px;
+          width: 15px;
+          height: 15px;
         }
       }
 
       .holder .reciept_holder {
-        width: 90%;
+        width: 92%;
         height: auto;
         padding: 25px;
 
         .content-holder {
+          gap: 16px;
+
           i {
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
+            width: 46px;
+            height: 46px;
+            font-size: 22px;
           }
 
           .bigtext {
-            font-size: 16px;
+            font-size: 15px;
           }
 
           .smalltext {
@@ -1109,7 +1129,7 @@ export const Container = styled.div`
         .close_btn {
           width: 100%;
           height: 40px;
-          font-size: 15px;
+          font-size: 14px;
         }
       }
     }

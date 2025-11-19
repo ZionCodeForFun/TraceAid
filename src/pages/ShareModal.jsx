@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 const ShareModal = ({ open, onClose, campaign, onRecordShare, }) => {
   if (!open) return null;
 
-  const shareLink = `https://traceaid.com/campaign/${campaign?._id}`;
+  const shareLink = `https://trace-aid.vercel.app/#/campaign_details/${campaign?._id}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(shareLink);

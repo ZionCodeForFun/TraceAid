@@ -12,6 +12,7 @@ import {
   Button,
 } from "./ContactUsStyled";
 import FAQSection from "./FaqSection";
+import { toast } from "react-toastify";
 
 const ContactUsPage = () => {
   const [formData, setFormData] = useState({
@@ -29,59 +30,73 @@ const ContactUsPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    alert("Message sent!");
+    toast.success("Message sent!");
+
+    setFormData({
+      fullName: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
   };
 
   return (
     <>
-    <HeaderNav />
+      <HeaderNav />
 
-    <ContactContainer>
-      <ContactWrapper onSubmit={handleSubmit}>
-        <Title>How can we help?</Title>
-        <Subtitle>Fill out the form below and our team will reach out to you.</Subtitle>
+      <ContactContainer>
+        <ContactWrapper onSubmit={handleSubmit}>
+          <Title>How can we help?</Title>
+          <Subtitle>
+            Fill out the form below and our team will reach out to you.
+          </Subtitle>
 
-        <Input
-          type="text"
-          name="fullName"
-          placeholder="Full Name"
-          value={formData.fullName}
-          onChange={handleChange}
-          required
-        />
+          <Input
+            type="text"
+            name="fullName"
+            placeholder="Full Name"
+            value={formData.fullName}
+            onChange={handleChange}
+            required
+          />
 
-        <Input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+          <Input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
 
-        <Select name="subject" value={formData.subject} onChange={handleChange} required>
-          <option value="">Subject</option>
-          <option value="Support">Support</option>
-          <option value="General Inquiry">General Inquiry</option>
-          <option value="Complaint">Complaint</option>
-          <option value="Partnership">Partnership</option>
-        </Select>
+          <Select
+            name="subject"
+            value={formData.subject}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Subject</option>
+            <option value="Support">Support</option>
+            <option value="General Inquiry">General Inquiry</option>
+            <option value="Complaint">Complaint</option>
+            <option value="Partnership">Partnership</option>
+          </Select>
 
-        <TextArea
-          name="message"
-          placeholder="Type your message here"
-          value={formData.message}
-          onChange={handleChange}
-          required
-        ></TextArea>
+          <TextArea
+            name="message"
+            placeholder="Type your message here"
+            value={formData.message}
+            onChange={handleChange}
+            required
+          ></TextArea>
 
-        <Button type="submit">Submit</Button>
-      </ContactWrapper>
-    </ContactContainer>
+          <Button type="submit">Submit</Button>
+        </ContactWrapper>
+      </ContactContainer>
 
-    <FAQSection />
-    
-    <Footer />
+      <FAQSection />
+
+      <Footer />
     </>
   );
 };
