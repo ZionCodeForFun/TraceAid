@@ -900,13 +900,12 @@ export const Container = styled.div`
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 90vh;
+      width:100%;
+      height: 100vh;
       background-color: rgba(192, 192, 192, 0.3);
       z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    
+      
 
       .reciept_holder {
         width: 448px;
@@ -918,7 +917,9 @@ export const Container = styled.div`
         flex-direction: column;
         align-items: center;
         gap: 20px;
-        position: relative;
+        position: absolute;
+        top: 20%;
+       left: 40%;
 
         .content-holder {
           display: flex;
