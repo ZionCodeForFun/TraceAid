@@ -12,7 +12,7 @@ const TermsAndConditions = () => {
       <HeaderNav />
       <article>
         <div className="goback">
-          <div className="icon" onClick={() => nav("/createcampaign")}>
+          <div className="icon" onClick={() => nav(-1)}>
             <IoArrowBackOutline className="i" />
             <p>Go back</p>
           </div>
@@ -145,12 +145,21 @@ const TermsAndConditions = () => {
         </ul>
         <ul>
           <li>
-            ✅ A minimum of five (5) live image evidence submissions is required
-            for each milestone update.
+            <strong>
+              <em>
+                A minimum of five (5) live image evidence submissions is
+                required for each milestone update.
+              </em>
+            </strong>
           </li>
+
           <li>
-            ✅ Only images taken using the approved GPS Camera App are accepted
-            for milestone verification.
+            <strong>
+              <em>
+                Only images taken using the approved GPS Camera App are accepted
+                for milestone verification.
+              </em>
+            </strong>
           </li>
         </ul>
         <h3>Download the approved app here:</h3>
