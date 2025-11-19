@@ -49,11 +49,26 @@ const CampaignData = () => {
   const VITE_campaignBaseUrl = import.meta.env.VITE_campaignBaseUrl;
   const VITE_EngagementBaseUrl = import.meta.env.VITE_EngagementBaseUrl;
 
+  const getDaysLeft = (endDate) => {
+    if (!endDate) return 0;
+
+    const end = new Date(endDate);
+    const today = new Date();
+
+    if (today > end) return 0;
+
+    const diffTime = end - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays;
+  };
+
   const getCampaigns = async () => {
     try {
       const res = await axios.get(
         `${VITE_campaignBaseUrl}/get-all-active-campaign`
       );
+      console.log("object", res);
       setCampaigns(res.data.data.active);
     } catch {
       setError("Failed to load campaigns");
@@ -190,6 +205,14 @@ const CampaignData = () => {
                 <option value="Community Development">
                   Community Development
                 </option>
+                <option value="Environmental Causes">
+                  Environmental Causes
+                </option>
+                <option value="Animal Welfare">Animal Welfare</option>
+                <option value="Arts & Culture">Arts & Culture</option>
+                <option value="Other/General Support">
+                  Other/General Support
+                </option>
               </CategorySelect>
             </ExploreTopBar>
 
@@ -264,7 +287,7 @@ const CampaignData = () => {
                       <div className="topRow">
                         <h4>{item.campaignCategory}</h4>
                         <p className="daysLeft">
-                          {item.durationDays} days left
+                          {getDaysLeft(item.endDate)} days left
                         </p>
                       </div>
 

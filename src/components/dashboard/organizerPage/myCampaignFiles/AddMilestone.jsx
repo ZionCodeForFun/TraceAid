@@ -216,24 +216,31 @@ const AddMilestone = ({
 export default AddMilestone;
 
 const Container = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: transparent;
+  position: relative;
 
   .right {
-    position: fixed;
-    top: 20%;
-
     width: 550px;
     height: 70%;
-    padding: 20px 20px;
+    padding: 20px;
+    background: var(--Neutral_Offwhite);
+    border-radius: 40px;
+    border: 1px solid var(--Neutral_Grey1);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    border-radius: 40px;
-    border: 1px solid var(--Neutral_Grey1);
-    background-color: var(--Neutral_Offwhite);
+
+    position: fixed;
+    top: 18%;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
 
     .title {
       display: flex;
@@ -242,14 +249,14 @@ const Container = styled.div`
       padding-bottom: 20px;
 
       .bigtext {
-        color: var(--NeutralGrey4-Text);
         font-size: 36px;
         font-weight: 700;
-      }
-      .smalltext {
         color: var(--NeutralGrey4-Text);
+      }
+
+      .smalltext {
         font-size: 14px;
-        font-weight: 400;
+        color: var(--NeutralGrey4-Text);
       }
     }
 
@@ -271,56 +278,64 @@ const Container = styled.div`
 
         input {
           width: 100%;
-          padding: 10px 15px;
+          height: 38px;
+          padding: 10px 12px;
+          font-size: 14px;
           border-radius: 8px;
           border: 1px solid var(--Neutral_Grey1);
-          outline: none;
-          height: 35px;
-          font-size: 14px;
-          color: #333;
+          background: #fff;
         }
       }
 
       .btn_holder {
-        margin-top: 15px;
+        margin-top: 12px;
 
         .btn {
           width: 100%;
-          height: 35px;
+          height: 38px;
           border-radius: 8px;
-          background-color: var(--NeutralBlack);
+          background: var(--NeutralBlack);
           color: var(--PrimaryBase);
           font-weight: 600;
+          transition: 0.3s;
 
           &:hover {
-            background-color: var(--PrimaryBase);
+            background: var(--PrimaryBase);
             color: var(--NeutralBlack);
           }
         }
       }
     }
 
+    .exit {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      font-size: 26px;
+      color: #333;
+      cursor: pointer;
+    }
+
     .holder {
-      height: 100%;
-      width: 100%;
       position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.45);
       top: 0;
       left: 0;
-      background-color: rgba(192, 192, 192, 0.3);
       display: flex;
       justify-content: center;
       align-items: center;
 
       .reciept_holder {
         width: 450px;
-
         padding: 30px;
-        background-color: #fff;
+        background: white;
         border-radius: 12px;
         display: flex;
         flex-direction: column;
+        gap: 18px;
         align-items: center;
-        gap: 20px;
 
         .content-holder {
           text-align: center;
@@ -332,175 +347,107 @@ const Container = styled.div`
 
           .smalltext {
             font-size: 14px;
+            opacity: 0.8;
           }
         }
 
         .close_btn {
           width: 100%;
-          padding: 10px;
-          border-radius: 8px;
-          background-color: var(--NeutralBlack);
+          height: 40px;
+          background: var(--NeutralBlack);
           color: var(--PrimaryBase);
+          border-radius: 8px;
+          font-size: 15px;
           font-weight: 600;
         }
       }
     }
-
-    .exit {
-      position: absolute;
-      top: 20px;
-      right: 40px;
-      cursor: pointer;
-      font-size: 24px;
-      color: #333333;
-    }
   }
 
   @media (max-width: 480px) {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 16px;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.02);
+    justify-content: center;
+    align-items: center;
 
     .right {
+      width: 85%;
+      max-width: 330px;
+      padding: 16px 14px;
+      border-radius: 18px;
+      margin-top: 2rem;
+
       position: fixed;
-      top: 5%;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 400px;
-      height: auto;
-      padding: 22px 18px;
-      border-radius: 20px;
-      border: 1px solid #e5e7eb;
-      background-color: var(--Neutral_Offwhite);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-      gap: 16px;
+      transform: translate(-50%, -50%);
+
+      margin-left: 36px;
+
+      background: var(--Neutral_Offwhite);
+      border: 1px solid var(--Neutral_Grey1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
       overflow-y: auto;
-      z-index: 9998;
+      max-height: 70vh;
+      gap: 16px;
+      z-index: 9999;
 
       .title {
-        padding-bottom: 10px;
+        padding-bottom: 6px;
 
         .bigtext {
-          font-size: 20px;
-          font-weight: 700;
+          font-size: 22px !important;
           text-align: center;
-          color: #111827;
         }
-
         .smalltext {
-          font-size: 14px;
+          font-size: 13px !important;
           text-align: center;
-          color: #4b5563;
         }
       }
 
       .input_holder {
         width: 100%;
-        gap: 10px;
+        gap: 12px;
 
-        .name_holder {
-          gap: 4px;
-
-          label {
-            font-size: 13px;
-            color: #374151;
-          }
-
-          input {
-            width: 100%;
-            height: 42px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 1px solid #d1d5db;
-            background-color: #fff;
-            font-size: 14px;
-            color: #111827;
-
-            &::placeholder {
-              color: #9ca3af;
-            }
-          }
+        .name_holder label {
+          font-size: 12px !important;
         }
 
-        .btn_holder {
-          margin-top: 12px;
+        .name_holder input {
+          height: 42px !important;
+          font-size: 14px !important;
+        }
 
-          .btn {
-            width: 100%;
-            height: 44px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            background-color: var(--NeutralBlack);
-            color: var(--PrimaryBase);
-            transition: all 0.3s ease;
-
-            &:hover {
-              background-color: var(--PrimaryBase);
-              color: var(--NeutralBlack);
-            }
-          }
+        .btn_holder .btn {
+          height: 44px !important;
+          font-size: 15px !important;
         }
       }
 
       .exit {
-        top: 14px;
-        right: 16px;
+        top: 12px;
+        right: 12px;
         font-size: 22px;
-        color: #374151;
-        position: absolute;
-        z-index: 9999;
       }
 
       .holder {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
         background-color: rgba(0, 0, 0, 0.55);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10000;
 
         .reciept_holder {
-          width: 90%;
+          width: 92%;
           max-width: 360px;
-          padding: 24px;
-          border-radius: 12px;
-          background-color: #fff;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 16px;
+          padding: 22px;
+          border-radius: 14px;
 
-          .content-holder {
-            text-align: center;
-
-            .bigtext {
-              font-size: 16px;
-              font-weight: 700;
-              color: #111827;
-            }
-
-            .smalltext {
-              font-size: 13px;
-              color: #6b7280;
-            }
+          .content-holder .bigtext {
+            font-size: 16px;
+          }
+          .content-holder .smalltext {
+            font-size: 13px;
           }
 
           .close_btn {
-            width: 100%;
             height: 40px;
-            border-radius: 8px;
-            background-color: var(--NeutralBlack);
-            color: var(--PrimaryBase);
-            font-weight: 600;
             font-size: 14px;
           }
         }
