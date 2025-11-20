@@ -51,7 +51,7 @@ const OverViewPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const { user, token } = useSelector((state) => state.auth);
-  console.log(token);
+
   const nav = useNavigate();
   const [loadingKyc, setLoadingKyc] = useState(true);
   const [isVerified, setIsVerified] = useState(false);

@@ -14,8 +14,8 @@ import { FiTarget } from "react-icons/fi";
 import { LuWallet } from "react-icons/lu";
 
 import Campaign from "./adminVerificationtables/CampaignVerification.jsx";
-import Milestone from "./adminVerificationtables/MilestoneVerification.jsx";
-import FundsDisbursement from "./adminVerificationtables/FundsDisbursement.jsx";
+// import Milestone from "./adminVerificationtables/MilestoneVerification.jsx";
+// import FundsDisbursement from "./adminVerificationtables/FundsDisbursement.jsx";
 import PayoutVerificationTable from "./adminVerificationtables/PayoutVerificationTable.jsx";
 import EvidenceVerificationTable from "./adminVerificationtables/EvidenceVerificationTable.jsx";
 // import PayoutVerificationTable from "./adminVerificationtables/PayoutVerificationTable.jsx";
@@ -29,15 +29,15 @@ const AdminVerification = () => {
       name: "Campaign Verification",
       icon: <TbFileCheck size={18} />,
     },
-    {
-      name: "Milestone Verification",
-      icon: <FiTarget size={18} />,
-    },
+    // {
+    //   name: "Milestone Verification",
+    //   icon: <FiTarget size={18} />,
+    // },
 
-    {
-      name: "Funds Disbursement",
-      icon: <LuWallet size={18} />,
-    },
+    // {
+    //   name: "Funds Disbursement",
+    //   icon: <LuWallet size={18} />,
+    // },
     {
       name: "Payout  VerificationTable",
       icon: <LuWallet size={18} />,
@@ -56,11 +56,11 @@ const AdminVerification = () => {
     switch (activeSection) {
       case "Campaign Verification":
         return <Campaign searchTerm={searchTerm} />;
-      case "Milestone Verification":
-        return <Milestone searchTerm={searchTerm} />;
- 
-      case "Funds Disbursement":
-        return <FundsDisbursement searchTerm={searchTerm} />;
+      // case "Milestone Verification":
+      //   return <Milestone searchTerm={searchTerm} />;
+
+      // case "Funds Disbursement":
+      //   return <FundsDisbursement searchTerm={searchTerm} />;
       case "Payout  VerificationTable":
         return <PayoutVerificationTable searchTerm={searchTerm} />;
       case "Evidence VerificationTable":
@@ -69,30 +69,58 @@ const AdminVerification = () => {
         return null;
     }
   };
+  const isMobile = window.innerWidth <= 768;
 
   return (
     <AdminVerificationContainer>
       <AdminVerificationTitle>
-        {sections.map(({ name, icon }) => (
-          <button
-            key={name}
-            onClick={() => handleSectionClick(name)}
-            className={activeSection === name ? "active" : ""}
+        {isMobile ? (
+          <div
             style={{
+              width: "100%",
               display: "flex",
+              justifyContent: "center",
               alignItems: "center",
-              gap: "0.4rem",
-              padding: "0.4rem 0.5rem",
-              borderRadius: "30px",
-              border: "none",
-              cursor: "pointer",
-              fontWeight: activeSection === name ? "600" : "500",
             }}
           >
-            {icon}
-            {name}
-          </button>
-        ))}
+            <select
+              value={activeSection}
+              onChange={(e) => setActiveSection(e.target.value)}
+              style={{
+                padding: "10px",
+                borderRadius: "12px",
+                width: "80%",
+              }}
+            >
+              {sections.map((s) => (
+                <option key={s.name} value={s.name}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : (
+          sections.map(({ name, icon }) => (
+            <button
+              key={name}
+              onClick={() => handleSectionClick(name)}
+              className={activeSection === name ? "active" : ""}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.4rem",
+                padding: "0.4rem 0.5rem",
+                borderRadius: "30px",
+                border: "none",
+                cursor: "pointer",
+                fontWeight: activeSection === name ? "600" : "500",
+              }}
+            >
+              {icon}
+              {name}
+            </button>
+          ))
+        )}
       </AdminVerificationTitle>
 
       <AdminVerificationContent>
