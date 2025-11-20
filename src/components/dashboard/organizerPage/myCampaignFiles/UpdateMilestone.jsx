@@ -192,7 +192,7 @@ const handleUpload = async () => {
 
             <div className="alrt">
               <CiCircleAlert className="alrt_icon" />
-              <p>Upload at least 5 pictures (Max 10)</p>
+              <p>Upload at least 5 files (Max 10)</p>
             </div>
           </div>
 
