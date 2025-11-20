@@ -12,7 +12,6 @@ import styled from "styled-components";
 const UpdateMilestone = ({ onClose, campaign }) => {
 
   const { token } = useSelector((state) => state.auth);
-  // console.log("yes token", token)
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -193,7 +192,7 @@ const handleUpload = async () => {
 
             <div className="alrt">
               <CiCircleAlert className="alrt_icon" />
-              <p>Upload at least 5 documents (Max 10)</p>
+              <p>Upload at least 5 pictures (Max 10)</p>
             </div>
           </div>
 
